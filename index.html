@@ -1,11 +1,15 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-2h7NaZfxxNluqVU6F+bJMAMzZ3/faGhkGBuWDFYkWPU=' 'sha256-gjQ3/SNTWquYJ4/uW5vI3T6F+qziRcGlSqpNdZqltG4='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-fptT1jkSOeH4+WMuNMCsrECXGBUm/cudySYtkBK5yfM=' 'sha256-gjQ3/SNTWquYJ4/uW5vI3T6F+qziRcGlSqpNdZqltG4='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 111 commandes — documentation complète et interactive.">
 <meta name="theme-color" content="#5865F2">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://saliox.github.io/hasu-protect-docs/">
+<link rel="alternate" hreflang="fr" href="https://saliox.github.io/hasu-protect-docs/?lang=fr">
+<link rel="alternate" hreflang="en" href="https://saliox.github.io/hasu-protect-docs/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://saliox.github.io/hasu-protect-docs/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="[+] Hasu Protect">
 <meta property="og:title" content="[+] Hasu Protect — Documentation">
@@ -183,14 +187,14 @@ section{animation:fadeIn .5s ease backwards}
 <div class="layout">
   <aside class="side"><div class="gpanel" id="gpanel">
   <h2>🧠 Guardian AI</h2>
-  <div class="gsub">Apprentissage autonome · cycle #57 · maj 26/06 19:21</div>
+  <div class="gsub">Apprentissage autonome · cycle #57 · maj 26/06 19:22</div>
   <div class="gbig"><div class="n">90%</div><div class="l">maîtrise globale</div></div>
   <div class="gstat"><span class="k">Reconnaît une menace</span><span class="v">98%</span></div>
   <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">99%</span></div>
   <div class="gstat"><span class="k">Exemples appris</span><span class="v">30977</span></div>
   <div class="gstat"><span class="k">Solutions mémorisées</span><span class="v">572</span></div>
-  <div class="gstat"><span class="k">Erreurs apprises (ce cycle)</span><span class="v">0</span></div>
-  <div class="gstat"><span class="k">Règles re-vérifiées</span><span class="v">263/263</span></div>
+  
+  
   <div class="gstat"><span class="k">🔥 Difficulté d'entraînement</span><span class="v">niveau 12</span></div>
   <div class="gsec">Validation hors-ligne (cas jamais vus)</div><div class="gstat"><span class="k">✅ Précision prouvée</span><span class="v">100%</span></div><div class="gstat"><span class="k">Fausses alertes</span><span class="v">0</span></div><div class="gstat"><span class="k">Menaces ratées</span><span class="v">11</span></div>
   <div class="gsec">Sur quoi l'IA travaille pour améliorer la sécurité</div><div class="gprot">🎯 Reconnaître les vraies menaces (permissions sensibles)</div><div class="gprot">🎯 Vérifier l'authenticité des bots (nom + ID officiel)</div><div class="gprot">🎯 Anticiper les failles &amp; abus Discord connus (phishing, vol de token, faux staff)</div><div class="gprot">🎯 Utilisation de l'API VirusTotal (vérif des liens &amp; fichiers)</div><div class="gprot">🎯 Repérer les raiders connus dès l'arrivée</div><div class="gprot">🎯 Distinguer un admin légitime d'un compte compromis</div><div class="gprot">🎯 Réduire les fausses alertes (anti faux-positif)</div><div class="gprot">🎯 Apprendre de ses erreurs à chaque cycle</div>
@@ -787,7 +791,7 @@ var sb=document.getElementById('search');if(sb)sb.addEventListener('input',funct
 var dt=document.getElementById('dt');if(dt)dt.textContent=new Date().toLocaleString('fr-FR');
 var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent=tr('hidehist');}else{mb.textContent=mb.dataset.label;}});
 var __lb=document.getElementById('lang');if(__lb)__lb.addEventListener('click',function(){setLang(curLang()==='fr'?'en':'fr');});
-var tt=document.getElementById('toTop');if(tt){window.addEventListener('scroll',function(){tt.classList.toggle('show',window.scrollY>400);});tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+var tt=document.getElementById('toTop');if(tt){window.addEventListener('scroll',function(){tt.classList.toggle('show',window.scrollY>400);});tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:__rm?'auto':'smooth'});});}
 // Auto-actualisation du panneau Guardian : re-fetch stats.json et re-rend le panneau SANS recharger la page.
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery==null)return;
@@ -821,12 +825,20 @@ var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offlin
  empty:{fr:'Aucune commande ne correspond. 🤷',en:'No matching command. 🤷'},simhint:{fr:'👆 Clique pour voir une simulation',en:'👆 Tap to see a simulation'},
  refresh:{fr:'🔄 Actualisation auto dans',en:'🔄 Auto-refresh in'},seehist:{fr:"▼ Voir tout l'historique",en:'▼ See full history'},hidehist:{fr:"▲ Masquer l'historique",en:'▲ Hide history'},
  copy:{fr:'⧉ Copier',en:'⧉ Copy'},copied:{fr:'✓ Copié',en:'✓ Copied'},results:{fr:'résultat(s)',en:'result(s)'}};
-// État de langue ROBUSTE : variable en mémoire = source de vérité, localStorage = persistance best-effort.
-// Si localStorage est bloqué (navigation privée/stricte, webview in-app, cookies désactivés), le bouton
-// fonctionne quand même pour la session — avant, le toggle était silencieusement mort dans ces contextes.
+// État de langue ROBUSTE : mémoire = source de vérité. Priorité au 1er chargement : ?lang= (URL partagée)
+// > choix sauvegardé (localStorage) > langue du navigateur (non-francophone → EN) > FR par défaut.
+// localStorage = persistance best-effort : si bloqué (navigation privée, webview Discord, cookies coupés),
+// le bouton fonctionne quand même pour la session.
 var __lang;
-function curLang(){if(__lang)return __lang;try{__lang=localStorage.getItem('lang')||'fr';}catch(e){__lang='fr';}return __lang;}
-function setLang(L){__lang=L;try{localStorage.setItem('lang',L);}catch(e){}applyLang();}
+function pickLang(){
+ try{var u=new URLSearchParams(location.search).get('lang');if(u==='en'||u==='fr')return u;}catch(e){}
+ try{var s=localStorage.getItem('lang');if(s==='en'||s==='fr')return s;}catch(e){}
+ try{var n=(navigator.language||navigator.userLanguage||'').toLowerCase();if(n)return n.indexOf('fr')===0?'fr':'en';}catch(e){}
+ return 'fr';}
+function curLang(){if(!__lang)__lang=pickLang();return __lang;}
+function setLang(L){__lang=L;try{localStorage.setItem('lang',L);}catch(e){}
+ try{var u=new URL(location.href);u.searchParams.set('lang',L);history.replaceState(null,'',u);}catch(e){} // l'URL reflète la langue → liens partagés OK
+ applyLang();}
 function tr(k){var e=I18N[k];return e?(e[curLang()]||e.fr):k;}
 function applyLang(){var L=curLang();document.documentElement.lang=L;
  document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(I18N[k])el.textContent=tr(k);});
@@ -852,9 +864,11 @@ function setStatus(){var el=document.getElementById('botstatus');if(!el)return;v
 // Badges de l'en-tête (commandes / catégories / membres protégés) → rafraîchis en direct depuis le heartbeat
 // (toutes les ~2 min, sans recharger ni reconstruire le site) et, en repli, depuis stats.json.
 // Animation « count-up » : le badge défile de l'ancienne valeur vers la nouvelle (easeOutCubic) au lieu de sauter.
+// __rm = l'utilisateur a demandé « moins d'animations » (prefers-reduced-motion) → valeur directe, pas de tween ni scroll animé.
+var __rm=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 function animTo(el,target){if(!el)return;target=Number(target);if(!isFinite(target))return;
  var cur=parseInt(String(el.textContent).replace(/[^0-9]/g,''),10);
- if(!isFinite(cur)||cur===target){el.textContent=target.toLocaleString('fr-FR');return;}
+ if(!isFinite(cur)||cur===target||__rm){el.textContent=target.toLocaleString('fr-FR');return;}
  el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash'); // bref flash doré au changement
  if(el.__raf)cancelAnimationFrame(el.__raf);if(el.__to)clearTimeout(el.__to);var t0=null,dur=700;
  function step(ts){if(t0===null)t0=ts;var p=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-p,3),v=Math.round(cur+(target-cur)*e);el.textContent=v.toLocaleString('fr-FR');if(p<1)el.__raf=requestAnimationFrame(step);else{el.__raf=0;el.textContent=target.toLocaleString('fr-FR');}}
