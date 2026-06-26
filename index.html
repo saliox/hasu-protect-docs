@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-Oulc37i0Y8AIEtvGVm6LD6HpbnZu4L2DnuEWL1wYrN8='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-br336XElH9KhRTFGXHyI6+QXR4cxJJ7ZhV/fBNwlt6A='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
@@ -159,11 +159,11 @@ section{animation:fadeIn .5s ease backwards}
 <div class="layout">
   <aside class="side"><div class="gpanel" id="gpanel">
   <h2>🧠 Guardian AI</h2>
-  <div class="gsub">Apprentissage autonome · cycle #51 · maj 26/06 18:40</div>
+  <div class="gsub">Apprentissage autonome · cycle #52 · maj 26/06 18:41</div>
   <div class="gbig"><div class="n">90%</div><div class="l">maîtrise globale</div></div>
   <div class="gstat"><span class="k">Reconnaît une menace</span><span class="v">97%</span></div>
   <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">99%</span></div>
-  <div class="gstat"><span class="k">Exemples appris</span><span class="v">28744</span></div>
+  <div class="gstat"><span class="k">Exemples appris</span><span class="v">29116</span></div>
   <div class="gstat"><span class="k">Solutions mémorisées</span><span class="v">571</span></div>
   <div class="gstat"><span class="k">Erreurs apprises (ce cycle)</span><span class="v">0</span></div>
   <div class="gstat"><span class="k">Règles re-vérifiées</span><span class="v">263/263</span></div>
@@ -797,9 +797,10 @@ function animTo(el,target){if(!el)return;target=Number(target);if(!isFinite(targ
  var cur=parseInt(String(el.textContent).replace(/[^0-9]/g,''),10);
  if(!isFinite(cur)||cur===target){el.textContent=target.toLocaleString('fr-FR');return;}
  el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash'); // bref flash doré au changement
- if(el.__raf)cancelAnimationFrame(el.__raf);var t0=null,dur=700;
+ if(el.__raf)cancelAnimationFrame(el.__raf);if(el.__to)clearTimeout(el.__to);var t0=null,dur=700;
  function step(ts){if(t0===null)t0=ts;var p=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-p,3),v=Math.round(cur+(target-cur)*e);el.textContent=v.toLocaleString('fr-FR');if(p<1)el.__raf=requestAnimationFrame(step);else{el.__raf=0;el.textContent=target.toLocaleString('fr-FR');}}
- el.__raf=requestAnimationFrame(step);}
+ el.__raf=requestAnimationFrame(step);
+ el.__to=setTimeout(function(){el.textContent=target.toLocaleString('fr-FR');},dur+80);} // filet : valeur finale garantie même si rAF est gelé (onglet en arrière-plan)
 function setBadges(d){if(!d)return;
  animTo(document.getElementById('bMembers'),d.members);
  animTo(document.getElementById('bServers'),d.servers);
