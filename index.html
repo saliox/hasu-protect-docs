@@ -116,7 +116,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
   <div class="bstat on" id="botstatus"><span class="bdot"></span><span id="bstxt">En ligne</span></div>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p>Documentation des commandes — bot de modération &amp; sécurité Discord</p>
-  <div class="badges"><span class="badge"><b>110</b> commandes</span><span class="badge"><b>9</b> catégories</span><span class="badge">👥 <b>4 292</b> membres protégés</span></div>
+  <div class="badges"><span class="badge"><b>108</b> commandes</span><span class="badge"><b>9</b> catégories</span><span class="badge">👥 <b>4 292</b> membres protégés</span></div>
   <div><a class="cta" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot</a></div>
 </header>
 <div class="layout">
@@ -328,7 +328,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="desc">Variables personnalisées du serveur, réutilisables via {var:nom}</div>
       <div class="usage">+var set &lt;nom&gt; &lt;valeur&gt; | !var del &lt;nom&gt; | !var list</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div></div></section><section id="c2" style="--cc:#2ECC71"><h2 class="cat">Owner du bot <span style="color:var(--mut);font-size:.8rem">(11)</span></h2>
+    </div></div></section><section id="c2" style="--cc:#2ECC71"><h2 class="cat">Owner du bot <span style="color:var(--mut);font-size:.8rem">(10)</span></h2>
     <div class="grid"><div class="cmd" data-s="owner gère les owners du bot (toutes les permissions sur le bot) " data-n="owner" data-d="Gère les owners du bot (toutes les permissions sur le bot)" data-u="+owner @membre (= ajoute) | !owner remove @membre | !owner list" data-c="#2ECC71">
       <div class="name">+owner</div>
       <div class="desc">Gère les owners du bot (toutes les permissions sur le bot)</div>
@@ -358,11 +358,6 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="name">+nukeadd</div>
       <div class="desc">Autorise un membre à utiliser la commande nuke (ou le retire)</div>
       <div class="usage">+nukeadd @membre/ID | !nukeadd del @membre/ID | !nukeadd list</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="indice fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global) " data-n="indice" data-d="Fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global)" data-u="+indice @membre/ID" data-c="#2ECC71">
-      <div class="name">+indice</div>
-      <div class="desc">Fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global)</div>
-      <div class="usage">+indice @membre/ID</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
     </div><div class="cmd" data-s="statut change le statut du bot (présence + activité), ou le réinitialise " data-n="statut" data-d="Change le statut du bot (présence + activité), ou le réinitialise" data-u="+statut &lt;online|dnd|idle|invisible&gt; &lt;play|watch|listen|compete|custom&gt; &lt;texte&gt; | !statut reset" data-c="#2ECC71">
       <div class="name">+statut</div>
@@ -460,10 +455,10 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="desc">Ferme le ticket courant et archive le transcript dans les logs</div>
       <div class="usage">+close [raison]</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="userinfo fiche d'identité complète d'un membre (modération + sécurité + indice) " data-n="userinfo" data-d="Fiche d'identité complète d'un membre (modération + sécurité + indice)" data-u="+userinfo [@membre/ID]" data-c="#E91E63">
-      <div class="name">+userinfo</div>
-      <div class="desc">Fiche d'identité complète d'un membre (modération + sécurité + indice)</div>
-      <div class="usage">+userinfo [@membre/ID]</div>
+    </div><div class="cmd" data-s="indice fiche d'identité complète d'un membre (modération + sécurité + indice de dangerosité local &amp; durable) userinfo" data-n="indice" data-d="Fiche d'identité complète d'un membre (modération + sécurité + indice de dangerosité local &amp; durable)" data-u="+indice [@membre/ID]" data-c="#E91E63">
+      <div class="name">+indice<span class="al">alias: +userinfo</span></div>
+      <div class="desc">Fiche d'identité complète d'un membre (modération + sécurité + indice de dangerosité local &amp; durable)</div>
+      <div class="usage">+indice [@membre/ID]</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
     </div><div class="cmd" data-s="moveall déplace tous les membres en vocal — ou un membre précis (mention/id) — vers un salon vocal moov" data-n="moveall" data-d="Déplace tous les membres en vocal — ou un membre précis (mention/ID) — vers un salon vocal" data-u="+moveall [@membre/ID] &lt;#salon vocal | ID | nom&gt; (ou sois connecté au salon cible)" data-c="#E91E63">
       <div class="name">+moveall<span class="al">alias: +moov</span></div>
@@ -511,7 +506,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="desc">Whitelist de domaines pour l'antilink (liens autorisés malgré l'antilink)</div>
       <div class="usage">+linkwl add &lt;domaine&gt; | !linkwl del &lt;domaine&gt; | !linkwl list</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div></div></section><section id="c5" style="--cc:#1ABC9C"><h2 class="cat">Général <span style="color:var(--mut);font-size:.8rem">(11)</span></h2>
+    </div></div></section><section id="c5" style="--cc:#1ABC9C"><h2 class="cat">Général <span style="color:var(--mut);font-size:.8rem">(10)</span></h2>
     <div class="grid"><div class="cmd" data-s="help affiche le menu d'aide paginé, ou le détail d'une commande " data-n="help" data-d="Affiche le menu d'aide paginé, ou le détail d'une commande" data-u="+help [commande]" data-c="#1ABC9C">
       <div class="name">+help</div>
       <div class="desc">Affiche le menu d'aide paginé, ou le détail d'une commande</div>
@@ -522,15 +517,10 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="desc">Tableau de bord complet du bot (connexion, sécurité, surveillance, activité, code, système)</div>
       <div class="usage">+bot</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="infos affiche les informations détaillées du serveur " data-n="infos" data-d="Affiche les informations détaillées du serveur" data-u="+infos" data-c="#1ABC9C">
-      <div class="name">+infos</div>
-      <div class="desc">Affiche les informations détaillées du serveur</div>
+    </div><div class="cmd" data-s="infos informations et statistiques détaillées du serveur stats" data-n="infos" data-d="Informations et statistiques détaillées du serveur" data-u="+infos" data-c="#1ABC9C">
+      <div class="name">+infos<span class="al">alias: +stats</span></div>
+      <div class="desc">Informations et statistiques détaillées du serveur</div>
       <div class="usage">+infos</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="stats affiche les statistiques du serveur " data-n="stats" data-d="Affiche les statistiques du serveur" data-u="+stats" data-c="#1ABC9C">
-      <div class="name">+stats</div>
-      <div class="desc">Affiche les statistiques du serveur</div>
-      <div class="usage">+stats</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
     </div><div class="cmd" data-s="ping affiche la latence du bot " data-n="ping" data-d="Affiche la latence du bot" data-u="+ping" data-c="#1ABC9C">
       <div class="name">+ping</div>
