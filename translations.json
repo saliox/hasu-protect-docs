@@ -88,6 +88,7 @@
     "rolemenu": "Creates a button role menu (members assign roles themselves)",
     "rps": "Rock-paper-scissors against the bot",
     "sanctions": "Shows or manages a member's warnings (mention or ID)",
+    "safe": "Checks whether a link or message is a scam / phishing (analysis + VirusTotal)",
     "say": "Makes the bot speak in the channel (supports {var:name})",
     "scan": "Scans the server, flags dangerous configurations and offers to fix them",
     "setgoodbye": "Configures the goodbye message",
