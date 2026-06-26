@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-NZSUZL6IWKva4AoDDrPp2vpv/4jJlLa90kAA3wZ6yso='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-R8T2TBPe8z78m23gzQ2qaGisZ4WP5aXEj7bDWE5BjJg='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
@@ -733,7 +733,7 @@ function setStatus(){var el=document.getElementById('botstatus');if(!el)return;v
 var __hbURL='https://api.github.com/repos/saliox/hasu-protect-docs/contents/heartbeat.json?ref=status';
 function pollHB(){fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content)return;var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){return;}if(j.at){__hbApi=j.at;if(j.status)__bs=j.status;setStatus();}}).catch(function(){});}
 // Compteur ALIGNÉ SUR L'HORLOGE (fenêtres glissantes de 120 s) → reste cohérent après un refresh de la
-// page (avant : __next repartait de 120 à chaque chargement). nextIn = secondes avant la prochaine frontière.
+// page (avant : le compteur repartait de 120 à chaque chargement). nextIn = secondes avant la prochaine frontière.
 function nextIn(){return 120-(Math.floor(Date.now()/1000)%120);}
 var __win=Math.floor(Date.now()/1000/120);
 function tickNext(){var e=document.getElementById('gnext');if(e)e.textContent='🔄 Actualisation auto dans '+nextIn()+' s';var w=Math.floor(Date.now()/1000/120);if(w!==__win){__win=w;pollG();}}
