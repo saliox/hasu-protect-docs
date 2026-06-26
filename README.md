@@ -25,5 +25,7 @@ Dépose tes captures dans **`docs/assets/`** avec EXACTEMENT ces noms (la galeri
 | `capture-config-3.png` | Menu config — starboard, suggestions, stats, apparence, vérif |
 | `capture-securite.png` | Menu sécurité — rôle d'alerte, scan, membres à risque, backup, logs |
 
-## Héberger en ligne (optionnel)
-Le dossier `docs/` est prêt pour **GitHub Pages** : pousse le repo, active Pages sur `/docs`, et la doc est en ligne.
+## Hébergé en ligne
+**Site en ligne : https://saliox.github.io/hasu-protect-docs/**
+
+Ce dossier `docs/` EST le dépôt GitHub `saliox/hasu-protect-docs`. GitHub Pages sert la branche **`main`**, dossier **`/ (root)`** — surtout PAS `/docs` (le site est déjà à la racine de ce dépôt, sinon le build échoue). À chaque changelog, le bot régénère `index.html` puis `git push` → le site se met à jour tout seul.
