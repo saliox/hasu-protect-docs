@@ -1,9 +1,13 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-0BS7zuP0GMSCpjqhLIKncra+pD0xWQr9YUnqAOyr/1E='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
 <title>[+] Hasu Protect — Documentation</title>
 <style>
 :root{--bg:#0b0b12;--card:#15151f;--card2:#1c1c2a;--gold:#F1C40F;--purple:#5865F2;--txt:#e7e7ee;--mut:#9a9ab0;--line:#262635}
-*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;overflow-wrap:break-word}
 a{color:var(--gold);text-decoration:none}
 header{padding:42px 22px 26px;text-align:center;background:radial-gradient(900px 320px at 50% -60px,rgba(88,101,242,.22),transparent),var(--bg);border-bottom:1px solid var(--line)}
 header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
@@ -12,21 +16,21 @@ header p{color:var(--mut);margin:.5rem 0 0}
 .badge{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:.85rem;color:var(--mut)}
 .badge b{color:var(--gold)}
 .wrap{max-width:1000px;margin:0 auto;padding:24px 18px 70px}
-#search{width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:1rem;margin:8px 0 22px}
+#search{width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:16px;margin:8px 0 22px}
 #search:focus{outline:none;border-color:var(--purple)}
 .nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
 .nav a{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:.9rem;color:var(--txt)}
 .nav a:hover{border-color:var(--gold)}
 section{margin-bottom:34px}
 h2.cat{font-size:1.3rem;border-left:4px solid var(--gold);padding-left:11px;margin:0 0 14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
 .cmd{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;transition:.15s}
 .cmd:hover{border-color:var(--purple);transform:translateY(-2px)}
 .cmd .name{font-family:'Consolas',monospace;font-size:1.05rem;color:var(--gold);font-weight:700}
 .cmd .al{font-size:.78rem;color:var(--mut);margin-left:6px}
 .cmd .desc{color:#cfcfe0;margin:7px 0 9px;font-size:.93rem}
 .cmd .usage{font-family:'Consolas',monospace;font-size:.83rem;background:#0e0e18;border:1px solid var(--line);border-radius:7px;padding:6px 9px;color:#aab;word-break:break-word}
-.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .shot{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .shot img{width:100%;display:block;background:#0e0e18;min-height:120px}
 .shot .ph{padding:40px 14px;text-align:center;color:var(--mut);font-size:.85rem;background:#0e0e18}
@@ -41,16 +45,25 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 .changelog .ver{color:var(--mut);font-size:.8rem;margin-bottom:10px}
 .changelog ul{margin:0;padding-left:20px}.changelog li{margin:6px 0;color:#dcdce8}
 .changelog code,.cmd code{background:#0e0e18;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-family:'Consolas',monospace;font-size:.85em;color:var(--gold)}
+@media(max-width:640px){
+  header{padding:30px 15px 20px}header h1{font-size:1.55rem}header p{font-size:.92rem}
+  .wrap{padding:18px 13px 50px}
+  .grid,.shots{grid-template-columns:1fr;gap:11px}
+  h2.cat{font-size:1.12rem}
+  .cta{display:block;width:100%;max-width:340px;margin:16px auto 0;text-align:center}
+  .changelog{padding:15px 15px}.changelog h2{font-size:1.05rem}
+  .badge{font-size:.8rem;padding:4px 11px}
+}
 </style></head><body>
 <header>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p>Documentation des commandes — bot de modération &amp; sécurité Discord</p>
   <div class="badges"><span class="badge"><b>108</b> commandes</span><span class="badge"><b>9</b> catégories</span><span class="badge">Préfixe <b>+</b></span></div>
-  <div><a class="cta" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&permissions=8&scope=bot%20applications.commands" target="_blank" rel="noopener">➕ Ajouter le bot à mon serveur</a></div>
+  <div><a class="cta" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot à mon serveur</a></div>
 </header>
 <div class="wrap">
   <div class="changelog"><h2>📰 Dernière mise à jour — Nouvelles commandes fun</h2><div class="ver">version 2026-06-26-c · publié le 26 juin 2026 à 09:24</div><ul><li>🤔 <code>+tuprefere</code> : lance un « Tu préfères… ? » avec <strong>votes en direct</strong> 🅰️/🅱️ et barres de résultats (public).</li><li>🗿 <code>+mog [@membre]</code> : mogue quelqu'un façon <strong>chad bipolaire</strong> 💅 — ça swingue entre énergie alpha et tendresse flamboyante (public, fun).</li><li>🐛 Correctif <code>+level</code> : le <strong>rang</strong> plantait pour les membres ayant de l'XP (bug de requête de classement) — c'est réparé.</li></ul></div>
-  <input id="search" type="text" placeholder="🔍 Rechercher une commande (nom ou description)…" oninput="filt(this.value)">
+  <input id="search" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="🔍 Rechercher une commande (nom ou description)…">
   <div class="nav"><a href="#c0">Sécurité &amp; Antiraid</a><a href="#c1">Automod</a><a href="#c2">Modération</a><a href="#c3">Configuration</a><a href="#c4">Owner du bot</a><a href="#c5">Général</a><a href="#c6">Niveaux</a><a href="#c7">Communauté</a><a href="#c8">Fun</a><a href="#shots">📸 Aperçu</a></div>
   <section id="c0"><h2 class="cat">Sécurité &amp; Antiraid <span style="color:var(--mut);font-size:.8rem">(17)</span></h2>
     <div class="grid"><div class="cmd" data-s="antiraid configure les modules antiraid du serveur ">
@@ -191,9 +204,9 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="name">+reason</div>
       <div class="desc">Corrige la raison d'un dossier de modération existant</div>
       <div class="usage">+reason &lt;numéro&gt; &lt;nouvelle raison&gt;</div>
-    </div><div class="cmd" data-s="purge supprime les messages récents d'un membre précis (ce salon, ou tous avec "all") ">
+    </div><div class="cmd" data-s="purge supprime les messages récents d'un membre précis (ce salon, ou tous avec &quot;all&quot;) ">
       <div class="name">+purge</div>
-      <div class="desc">Supprime les messages récents d'un membre précis (ce salon, ou tous avec "all")</div>
+      <div class="desc">Supprime les messages récents d'un membre précis (ce salon, ou tous avec &quot;all&quot;)</div>
       <div class="usage">+purge @membre [nombre|all]</div>
     </div><div class="cmd" data-s="close ferme le ticket courant et archive le transcript dans les logs ">
       <div class="name">+close</div>
@@ -284,9 +297,9 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="name">+rolemenu</div>
       <div class="desc">Crée un menu de rôles à boutons (les membres s'attribuent les rôles eux-mêmes)</div>
       <div class="usage">+rolemenu @role1 @role2 ... (jusqu'à 25)</div>
-    </div><div class="cmd" data-s="joincreate salon vocal "hub" : le rejoindre crée un vocal temporaire perso (join-to-create) ">
+    </div><div class="cmd" data-s="joincreate salon vocal &quot;hub&quot; : le rejoindre crée un vocal temporaire perso (join-to-create) ">
       <div class="name">+joincreate</div>
-      <div class="desc">Salon vocal "hub" : le rejoindre crée un vocal temporaire perso (Join-to-Create)</div>
+      <div class="desc">Salon vocal &quot;hub&quot; : le rejoindre crée un vocal temporaire perso (Join-to-Create)</div>
       <div class="usage">+joincreate &lt;#vocal ou ID&gt; | !joincreate off</div>
     </div><div class="cmd" data-s="custom crée et configure des commandes personnalisées ">
       <div class="name">+custom</div>
@@ -428,9 +441,9 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="name">+invites</div>
       <div class="desc">Affiche les invitations d'un membre (ou le classement)</div>
       <div class="usage">+invites [@membre] | !invites top</div>
-    </div><div class="cmd" data-s="starboard salon "best-of" : les messages avec assez de ⭐ y sont épinglés ">
+    </div><div class="cmd" data-s="starboard salon &quot;best-of&quot; : les messages avec assez de ⭐ y sont épinglés ">
       <div class="name">+starboard</div>
-      <div class="desc">Salon "best-of" : les messages avec assez de ⭐ y sont épinglés</div>
+      <div class="desc">Salon &quot;best-of&quot; : les messages avec assez de ⭐ y sont épinglés</div>
       <div class="usage">+starboard #salon [min] | !starboard off</div>
     </div><div class="cmd" data-s="announce programme une annonce dans le salon après un délai ">
       <div class="name">+announce</div>
@@ -497,23 +510,23 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
   <div class="empty" id="empty">Aucune commande ne correspond. 🤷</div>
   <section id="shots"><h2 class="cat">📸 Aperçu du bot en action</h2>
     <div class="shots"><div class="shot">
-      <img src="assets/capture-menu.png" alt="Menu d'aide (+help) — catégories" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-menu.png</b> dans docs/assets/</div>'">
+      <img src="assets/capture-menu.png" alt="Menu d'aide (+help) — catégories" loading="lazy" data-f="capture-menu.png">
       <div class="cap">Menu d'aide (+help) — catégories</div></div><div class="shot">
-      <img src="assets/capture-config-1.png" alt="Configuration — préfixe, auto-rôle, bienvenue, niveaux" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-config-1.png</b> dans docs/assets/</div>'">
+      <img src="assets/capture-config-1.png" alt="Configuration — préfixe, auto-rôle, bienvenue, niveaux" loading="lazy" data-f="capture-config-1.png">
       <div class="cap">Configuration — préfixe, auto-rôle, bienvenue, niveaux</div></div><div class="shot">
-      <img src="assets/capture-config-2.png" alt="Configuration — changelog, modules, mots interdits, custom" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-config-2.png</b> dans docs/assets/</div>'">
+      <img src="assets/capture-config-2.png" alt="Configuration — changelog, modules, mots interdits, custom" loading="lazy" data-f="capture-config-2.png">
       <div class="cap">Configuration — changelog, modules, mots interdits, custom</div></div><div class="shot">
-      <img src="assets/capture-config-3.png" alt="Configuration — starboard, suggestions, stats, apparence, vérif" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-config-3.png</b> dans docs/assets/</div>'">
+      <img src="assets/capture-config-3.png" alt="Configuration — starboard, suggestions, stats, apparence, vérif" loading="lazy" data-f="capture-config-3.png">
       <div class="cap">Configuration — starboard, suggestions, stats, apparence, vérif</div></div><div class="shot">
-      <img src="assets/capture-securite.png" alt="Sécurité — rôle d'alerte, scan, membres à risque, backup, logs" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-securite.png</b> dans docs/assets/</div>'">
+      <img src="assets/capture-securite.png" alt="Sécurité — rôle d'alerte, scan, membres à risque, backup, logs" loading="lazy" data-f="capture-securite.png">
       <div class="cap">Sécurité — rôle d'alerte, scan, membres à risque, backup, logs</div></div></div></section>
 </div>
 <footer>Généré automatiquement depuis le code · [+] Hasu Protect 🛡️ · <span id="dt"></span></footer>
-<script>
-function filt(q){q=q.trim().toLowerCase();let any=false;
- document.querySelectorAll('.cmd').forEach(c=>{const ok=!q||c.dataset.s.includes(q);c.style.display=ok?'':'none';if(ok)any=true;});
- document.querySelectorAll('section').forEach(s=>{if(s.id==='shots')return;const vis=[...s.querySelectorAll('.cmd')].some(c=>c.style.display!=='none');s.style.display=vis?'':'none';});
- document.getElementById('empty').style.display=any?'none':'block';}
-document.getElementById('dt').textContent=new Date().toLocaleString('fr-FR');
-</script>
+<script>function filt(q){q=q.trim().toLowerCase();var any=false;
+document.querySelectorAll('.cmd').forEach(function(c){var ok=!q||c.dataset.s.includes(q);c.style.display=ok?'':'none';if(ok)any=true;});
+document.querySelectorAll('section').forEach(function(s){if(s.id==='shots')return;var vis=Array.prototype.slice.call(s.querySelectorAll('.cmd')).some(function(c){return c.style.display!=='none';});s.style.display=vis?'':'none';});
+document.getElementById('empty').style.display=any?'none':'block';}
+var sb=document.getElementById('search');if(sb)sb.addEventListener('input',function(e){filt(e.target.value);});
+document.querySelectorAll('.shot img').forEach(function(img){img.addEventListener('error',function(){var d=document.createElement('div');d.className='ph';d.textContent='📷 capture '+img.dataset.f+' manquante (dépose-la dans docs/assets/)';img.replaceWith(d);});});
+var dt=document.getElementById('dt');if(dt)dt.textContent=new Date().toLocaleString('fr-FR');</script>
 </body></html>
