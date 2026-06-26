@@ -1,0 +1,519 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[+] Hasu Protect — Documentation</title>
+<style>
+:root{--bg:#0b0b12;--card:#15151f;--card2:#1c1c2a;--gold:#F1C40F;--purple:#5865F2;--txt:#e7e7ee;--mut:#9a9ab0;--line:#262635}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5}
+a{color:var(--gold);text-decoration:none}
+header{padding:42px 22px 26px;text-align:center;background:radial-gradient(900px 320px at 50% -60px,rgba(88,101,242,.22),transparent),var(--bg);border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
+header p{color:var(--mut);margin:.5rem 0 0}
+.badges{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.badge{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:.85rem;color:var(--mut)}
+.badge b{color:var(--gold)}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 18px 70px}
+#search{width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:1rem;margin:8px 0 22px}
+#search:focus{outline:none;border-color:var(--purple)}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.nav a{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:.9rem;color:var(--txt)}
+.nav a:hover{border-color:var(--gold)}
+section{margin-bottom:34px}
+h2.cat{font-size:1.3rem;border-left:4px solid var(--gold);padding-left:11px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:13px}
+.cmd{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;transition:.15s}
+.cmd:hover{border-color:var(--purple);transform:translateY(-2px)}
+.cmd .name{font-family:'Consolas',monospace;font-size:1.05rem;color:var(--gold);font-weight:700}
+.cmd .al{font-size:.78rem;color:var(--mut);margin-left:6px}
+.cmd .desc{color:#cfcfe0;margin:7px 0 9px;font-size:.93rem}
+.cmd .usage{font-family:'Consolas',monospace;font-size:.83rem;background:#0e0e18;border:1px solid var(--line);border-radius:7px;padding:6px 9px;color:#aab;word-break:break-word}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.shot{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.shot img{width:100%;display:block;background:#0e0e18;min-height:120px}
+.shot .ph{padding:40px 14px;text-align:center;color:var(--mut);font-size:.85rem;background:#0e0e18}
+.shot .cap{padding:10px 13px;font-size:.85rem;color:var(--mut)}
+footer{text-align:center;color:var(--mut);font-size:.82rem;padding:30px 16px;border-top:1px solid var(--line)}
+.empty{color:var(--mut);text-align:center;padding:30px;display:none}
+mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
+.cta{display:inline-block;margin-top:16px;background:var(--purple);color:#fff;font-weight:700;padding:11px 24px;border-radius:10px;font-size:1rem;box-shadow:0 4px 18px rgba(88,101,242,.35)}
+.cta:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.changelog{background:linear-gradient(180deg,rgba(241,196,15,.08),var(--card));border:1px solid var(--gold);border-radius:14px;padding:18px 20px;margin-bottom:26px}
+.changelog h2{margin:0 0 3px;font-size:1.15rem}
+.changelog .ver{color:var(--mut);font-size:.8rem;margin-bottom:10px}
+.changelog ul{margin:0;padding-left:20px}.changelog li{margin:6px 0;color:#dcdce8}
+.changelog code,.cmd code{background:#0e0e18;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-family:'Consolas',monospace;font-size:.85em;color:var(--gold)}
+</style></head><body>
+<header>
+  <h1><span class="b">[+]</span> Hasu Protect</h1>
+  <p>Documentation des commandes — bot de modération &amp; sécurité Discord</p>
+  <div class="badges"><span class="badge"><b>108</b> commandes</span><span class="badge"><b>9</b> catégories</span><span class="badge">Préfixe <b>+</b></span></div>
+  <div><a class="cta" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&permissions=8&scope=bot%20applications.commands" target="_blank" rel="noopener">➕ Ajouter le bot à mon serveur</a></div>
+</header>
+<div class="wrap">
+  <div class="changelog"><h2>📰 Dernière mise à jour — Nouvelles commandes fun</h2><div class="ver">version 2026-06-26-c</div><ul><li>🤔 <code>+tuprefere</code> : lance un « Tu préfères… ? » avec <strong>votes en direct</strong> 🅰️/🅱️ et barres de résultats (public).</li><li>🗿 <code>+mog [@membre]</code> : mogue quelqu'un façon <strong>chad bipolaire</strong> 💅 — ça swingue entre énergie alpha et tendresse flamboyante (public, fun).</li><li>🐛 Correctif <code>+level</code> : le <strong>rang</strong> plantait pour les membres ayant de l'XP (bug de requête de classement) — c'est réparé.</li></ul></div>
+  <input id="search" type="text" placeholder="🔍 Rechercher une commande (nom ou description)…" oninput="filt(this.value)">
+  <div class="nav"><a href="#c0">Sécurité &amp; Antiraid</a><a href="#c1">Automod</a><a href="#c2">Modération</a><a href="#c3">Configuration</a><a href="#c4">Owner du bot</a><a href="#c5">Général</a><a href="#c6">Niveaux</a><a href="#c7">Communauté</a><a href="#c8">Fun</a><a href="#shots">📸 Aperçu</a></div>
+  <section id="c0"><h2 class="cat">Sécurité &amp; Antiraid <span style="color:var(--mut);font-size:.8rem">(17)</span></h2>
+    <div class="grid"><div class="cmd" data-s="antiraid configure les modules antiraid du serveur ">
+      <div class="name">+antiraid</div>
+      <div class="desc">Configure les modules antiraid du serveur</div>
+      <div class="usage">+antiraid | !antiraid &lt;module&gt; &lt;on/off/valeur&gt; | !antiraid whitelist add/remove/list @membre</div>
+    </div><div class="cmd" data-s="base panneau des sécurités activées, à jour en direct. `+base salon` crée un salon dédié permanent (owner) ">
+      <div class="name">+base</div>
+      <div class="desc">Panneau des sécurités activées, à jour en direct. `+base salon` crée un salon dédié permanent (owner)</div>
+      <div class="usage">+base [salon]</div>
+    </div><div class="cmd" data-s="alertesnipe centre d'alertes de sécurité en direct (historique, salon, rôle, délai de relance) — s'actualise tout seul (owner) ">
+      <div class="name">+alertesnipe</div>
+      <div class="desc">Centre d'alertes de sécurité en direct (historique, salon, rôle, délai de relance) — s'actualise tout seul (owner)</div>
+      <div class="usage">+alertesnipe</div>
+    </div><div class="cmd" data-s="scan scanne le serveur, signale les configurations dangereuses et propose de corriger ">
+      <div class="name">+scan</div>
+      <div class="desc">Scanne le serveur, signale les configurations dangereuses et propose de corriger</div>
+      <div class="usage">+scan</div>
+    </div><div class="cmd" data-s="lockdown mode panique : verrouille ou déverrouille tous les salons écrits ">
+      <div class="name">+lockdown</div>
+      <div class="desc">Mode panique : verrouille ou déverrouille tous les salons écrits</div>
+      <div class="usage">+lockdown on|off</div>
+    </div><div class="cmd" data-s="punish configure les sanctions automatiques selon le nombre d'infractions (strikes) ">
+      <div class="name">+punish</div>
+      <div class="desc">Configure les sanctions automatiques selon le nombre d'infractions (strikes)</div>
+      <div class="usage">+punish add &lt;strikes&gt; &lt;temps&gt; &lt;sanction&gt; [durée] | !punish del &lt;numéro&gt; | !punish list</div>
+    </div><div class="cmd" data-s="backup sauvegarde le serveur (rôles, salons, réglages) ou seulement les rôles + salons, et restaure après un nuke ">
+      <div class="name">+backup</div>
+      <div class="desc">Sauvegarde le serveur (rôles, salons, réglages) ou seulement les rôles + salons, et restaure après un nuke</div>
+      <div class="usage">+backup [roles] | !backup [roles] info | list | restore confirm [n°]</div>
+    </div><div class="cmd" data-s="offbackup envoie une sauvegarde chiffrée en dm (off-serveur), ou gère l'envoi auto hebdomadaire ">
+      <div class="name">+offbackup</div>
+      <div class="desc">Envoie une sauvegarde chiffrée en DM (off-serveur), ou gère l'envoi auto hebdomadaire</div>
+      <div class="usage">+offbackup | !offbackup auto on/off</div>
+    </div><div class="cmd" data-s="quarantine liste les membres en quarantaine et permet de les libérer ou bannir ">
+      <div class="name">+quarantine</div>
+      <div class="desc">Liste les membres en quarantaine et permet de les libérer ou bannir</div>
+      <div class="usage">+quarantine</div>
+    </div><div class="cmd" data-s="wl whitelist : protège un membre de confiance (jamais sanctionné par l'antiraid) ">
+      <div class="name">+wl</div>
+      <div class="desc">Whitelist : protège un membre de confiance (jamais sanctionné par l'antiraid)</div>
+      <div class="usage">+wl (liste) | !wl @membre/ID (ajoute)</div>
+    </div><div class="cmd" data-s="unwl retire un membre de la whitelist antiraid ">
+      <div class="name">+unwl</div>
+      <div class="desc">Retire un membre de la whitelist antiraid</div>
+      <div class="usage">+unwl @membre/ID</div>
+    </div><div class="cmd" data-s="bl blacklist : empêche un membre de recevoir le moindre rôle, et le bannit s'il (re)joint ">
+      <div class="name">+bl</div>
+      <div class="desc">Blacklist : empêche un membre de recevoir le moindre rôle, et le bannit s'il (re)joint</div>
+      <div class="usage">+bl (liste) | !bl @membre/ID</div>
+    </div><div class="cmd" data-s="unbl retire un membre de la blacklist rank ">
+      <div class="name">+unbl</div>
+      <div class="desc">Retire un membre de la blacklist rank</div>
+      <div class="usage">+unbl @membre/ID</div>
+    </div><div class="cmd" data-s="nuke vide un salon en le supprimant puis en le recréant à l'identique. `+nuke lock` protège un salon renew">
+      <div class="name">+nuke<span class="al">alias: +renew</span></div>
+      <div class="desc">Vide un salon en le supprimant puis en le recréant à l'identique. `+nuke lock` protège un salon</div>
+      <div class="usage">+nuke | !nuke lock | !nuke unlock</div>
+    </div><div class="cmd" data-s="addrole donne un rôle à un membre, par mention ou id (réservé comme nuke : owners + autorisés via +nukeadd) ">
+      <div class="name">+addrole</div>
+      <div class="desc">Donne un rôle à un membre, par mention ou ID (réservé comme nuke : owners + autorisés via +nukeadd)</div>
+      <div class="usage">+addrole @membre/ID @role/ID</div>
+    </div><div class="cmd" data-s="delrole retire un rôle à un membre, par mention ou id (réservé comme addrole : owners + autorisés via +nukeadd) ">
+      <div class="name">+delrole</div>
+      <div class="desc">Retire un rôle à un membre, par mention ou ID (réservé comme addrole : owners + autorisés via +nukeadd)</div>
+      <div class="usage">+delrole @membre/ID @role/ID</div>
+    </div><div class="cmd" data-s="massrole ajoute (ou retire) un rôle à tous les membres humains du serveur ">
+      <div class="name">+massrole</div>
+      <div class="desc">Ajoute (ou retire) un rôle à tous les membres humains du serveur</div>
+      <div class="usage">+massrole @role | !massrole remove @role</div>
+    </div></div></section><section id="c1"><h2 class="cat">Automod <span style="color:var(--mut);font-size:.8rem">(4)</span></h2>
+    <div class="grid"><div class="cmd" data-s="automod configure les protections automatiques du serveur ">
+      <div class="name">+automod</div>
+      <div class="desc">Configure les protections automatiques du serveur</div>
+      <div class="usage">+automod &lt;antispam|antilink|antibadword|antimassmention&gt; &lt;on|off&gt;</div>
+    </div><div class="cmd" data-s="badword gère la liste des mots interdits ">
+      <div class="name">+badword</div>
+      <div class="desc">Gère la liste des mots interdits</div>
+      <div class="usage">+badword add &lt;mot&gt; | !badword remove &lt;mot&gt; | !badword list</div>
+    </div><div class="cmd" data-s="autoslowmode active le mode lent automatiquement pendant un pic de messages (retiré au calme) ">
+      <div class="name">+autoslowmode</div>
+      <div class="desc">Active le mode lent automatiquement pendant un pic de messages (retiré au calme)</div>
+      <div class="usage">+autoslowmode on/off | !autoslowmode set &lt;msgs&gt; &lt;fenêtre_s&gt; &lt;lenteur_s&gt;</div>
+    </div><div class="cmd" data-s="linkwl whitelist de domaines pour l'antilink (liens autorisés malgré l'antilink) ">
+      <div class="name">+linkwl</div>
+      <div class="desc">Whitelist de domaines pour l'antilink (liens autorisés malgré l'antilink)</div>
+      <div class="usage">+linkwl add &lt;domaine&gt; | !linkwl del &lt;domaine&gt; | !linkwl list</div>
+    </div></div></section><section id="c2"><h2 class="cat">Modération <span style="color:var(--mut);font-size:.8rem">(20)</span></h2>
+    <div class="grid"><div class="cmd" data-s="ban bannit un membre du serveur (mention ou id, même hors-serveur) ">
+      <div class="name">+ban</div>
+      <div class="desc">Bannit un membre du serveur (mention ou ID, même hors-serveur)</div>
+      <div class="usage">+ban @membre/ID [raison]</div>
+    </div><div class="cmd" data-s="tempban bannit un membre temporairement (déban automatique à l'expiration) ">
+      <div class="name">+tempban</div>
+      <div class="desc">Bannit un membre temporairement (déban automatique à l'expiration)</div>
+      <div class="usage">+tempban @membre/ID &lt;durée: 1h/1j/7j&gt; [raison]</div>
+    </div><div class="cmd" data-s="kick expulse un membre du serveur ">
+      <div class="name">+kick</div>
+      <div class="desc">Expulse un membre du serveur</div>
+      <div class="usage">+kick @membre/ID [raison]</div>
+    </div><div class="cmd" data-s="tempsmute réduit un membre au silence (écrit + vocal) pour une durée donnée ">
+      <div class="name">+tempsmute</div>
+      <div class="desc">Réduit un membre au silence (écrit + vocal) pour une durée donnée</div>
+      <div class="usage">+tempsmute @membre/ID [durée: 30s/10m/1h/1j] [raison]</div>
+    </div><div class="cmd" data-s="unmute rend la parole à un membre (retire le mute écrit et vocal) ">
+      <div class="name">+unmute</div>
+      <div class="desc">Rend la parole à un membre (retire le mute écrit et vocal)</div>
+      <div class="usage">+unmute @membre/ID</div>
+    </div><div class="cmd" data-s="warn donne un avertissement à un membre (sanction automatique selon les paliers) ">
+      <div class="name">+warn</div>
+      <div class="desc">Donne un avertissement à un membre (sanction automatique selon les paliers)</div>
+      <div class="usage">+warn @membre [raison]</div>
+    </div><div class="cmd" data-s="warnexpiry définit l'expiration automatique des avertissements (en jours) ">
+      <div class="name">+warnexpiry</div>
+      <div class="desc">Définit l'expiration automatique des avertissements (en jours)</div>
+      <div class="usage">+warnexpiry &lt;jours&gt; | !warnexpiry off</div>
+    </div><div class="cmd" data-s="note notes de modération privées sur un membre (staff uniquement) ">
+      <div class="name">+note</div>
+      <div class="desc">Notes de modération privées sur un membre (staff uniquement)</div>
+      <div class="usage">+note add @membre &lt;texte&gt; | !note list @membre | !note del @membre &lt;n°&gt;</div>
+    </div><div class="cmd" data-s="clear supprime des messages en masse ">
+      <div class="name">+clear</div>
+      <div class="desc">Supprime des messages en masse</div>
+      <div class="usage">+clear [nombre (1-100)]</div>
+    </div><div class="cmd" data-s="sanctions affiche ou gère les avertissements (warns) d'un membre (mention ou id) ">
+      <div class="name">+sanctions</div>
+      <div class="desc">Affiche ou gère les avertissements (warns) d'un membre (mention ou ID)</div>
+      <div class="usage">+sanctions @membre/ID | !sanctions del &lt;id&gt; | !sanctions clear @membre/ID</div>
+    </div><div class="cmd" data-s="history affiche le casier (historique des sanctions) d'un membre ">
+      <div class="name">+history</div>
+      <div class="desc">Affiche le casier (historique des sanctions) d'un membre</div>
+      <div class="usage">+history @membre/ID</div>
+    </div><div class="cmd" data-s="case affiche le détail d'un dossier de modération par son numéro ">
+      <div class="name">+case</div>
+      <div class="desc">Affiche le détail d'un dossier de modération par son numéro</div>
+      <div class="usage">+case &lt;numéro&gt;</div>
+    </div><div class="cmd" data-s="reason corrige la raison d'un dossier de modération existant ">
+      <div class="name">+reason</div>
+      <div class="desc">Corrige la raison d'un dossier de modération existant</div>
+      <div class="usage">+reason &lt;numéro&gt; &lt;nouvelle raison&gt;</div>
+    </div><div class="cmd" data-s="purge supprime les messages récents d'un membre précis (ce salon, ou tous avec "all") ">
+      <div class="name">+purge</div>
+      <div class="desc">Supprime les messages récents d'un membre précis (ce salon, ou tous avec "all")</div>
+      <div class="usage">+purge @membre [nombre|all]</div>
+    </div><div class="cmd" data-s="close ferme le ticket courant et archive le transcript dans les logs ">
+      <div class="name">+close</div>
+      <div class="desc">Ferme le ticket courant et archive le transcript dans les logs</div>
+      <div class="usage">+close [raison]</div>
+    </div><div class="cmd" data-s="userinfo fiche d'identité complète d'un membre (modération + sécurité + indice) ">
+      <div class="name">+userinfo</div>
+      <div class="desc">Fiche d'identité complète d'un membre (modération + sécurité + indice)</div>
+      <div class="usage">+userinfo [@membre/ID]</div>
+    </div><div class="cmd" data-s="moveall déplace tous les membres en vocal — ou un membre précis (mention/id) — vers un salon vocal moov">
+      <div class="name">+moveall<span class="al">alias: +moov</span></div>
+      <div class="desc">Déplace tous les membres en vocal — ou un membre précis (mention/ID) — vers un salon vocal</div>
+      <div class="usage">+moveall [@membre/ID] &lt;#salon vocal | ID | nom&gt; (ou sois connecté au salon cible)</div>
+    </div><div class="cmd" data-s="dm envoie un message privé à un membre (mention ou id) ">
+      <div class="name">+dm</div>
+      <div class="desc">Envoie un message privé à un membre (mention ou ID)</div>
+      <div class="usage">+dm @membre/ID &lt;message&gt;</div>
+    </div><div class="cmd" data-s="say fait parler le bot dans le salon (supporte {var:nom}) ">
+      <div class="name">+say</div>
+      <div class="desc">Fait parler le bot dans le salon (supporte {var:nom})</div>
+      <div class="usage">+say &lt;message&gt;</div>
+    </div><div class="cmd" data-s="embed crée un embed personnalisé (titre | description | image, supporte {var:nom}) ">
+      <div class="name">+embed</div>
+      <div class="desc">Crée un embed personnalisé (titre | description | image, supporte {var:nom})</div>
+      <div class="usage">+embed &lt;titre&gt; | &lt;description&gt; | [url image]</div>
+    </div></div></section><section id="c3"><h2 class="cat">Configuration <span style="color:var(--mut);font-size:.8rem">(19)</span></h2>
+    <div class="grid"><div class="cmd" data-s="setup ouvre le panneau de configuration du bot (préfixe, thème, logs, sécurité, scan) ">
+      <div class="name">+setup</div>
+      <div class="desc">Ouvre le panneau de configuration du bot (préfixe, thème, logs, sécurité, scan)</div>
+      <div class="usage">+setup</div>
+    </div><div class="cmd" data-s="menu ouvre le panneau de configuration du bot (alias de +setup) ">
+      <div class="name">+menu</div>
+      <div class="desc">Ouvre le panneau de configuration du bot (alias de +setup)</div>
+      <div class="usage">+menu</div>
+    </div><div class="cmd" data-s="config affiche toute la configuration actuelle du serveur ">
+      <div class="name">+config</div>
+      <div class="desc">Affiche toute la configuration actuelle du serveur</div>
+      <div class="usage">+config</div>
+    </div><div class="cmd" data-s="exportconfig affiche l'id de ce serveur pour cloner ses réglages vers un autre ">
+      <div class="name">+exportconfig</div>
+      <div class="desc">Affiche l'ID de ce serveur pour cloner ses réglages vers un autre</div>
+      <div class="usage">+exportconfig</div>
+    </div><div class="cmd" data-s="importconfig clone les réglages d'un autre serveur vers celui-ci (owner) ">
+      <div class="name">+importconfig</div>
+      <div class="desc">Clone les réglages d'un autre serveur vers celui-ci (owner)</div>
+      <div class="usage">+importconfig &lt;ID du serveur source&gt;</div>
+    </div><div class="cmd" data-s="prefix change le préfixe du bot sur ce serveur ">
+      <div class="name">+prefix</div>
+      <div class="desc">Change le préfixe du bot sur ce serveur</div>
+      <div class="usage">+prefix &lt;nouveau préfixe&gt;</div>
+    </div><div class="cmd" data-s="theme change la couleur des embeds du bot (menu help, etc.) ">
+      <div class="name">+theme</div>
+      <div class="desc">Change la couleur des embeds du bot (menu help, etc.)</div>
+      <div class="usage">+theme &lt;couleur|#hex&gt; — ex: !theme jaune ou !theme #FFAA00</div>
+    </div><div class="cmd" data-s="perm paliers de permission : assigne un rôle à un niveau d'accès (modo/admin/owner) ">
+      <div class="name">+perm</div>
+      <div class="desc">Paliers de permission : assigne un rôle à un niveau d'accès (modo/admin/owner)</div>
+      <div class="usage">+perm | !perm &lt;modo|admin|owner&gt; add @role | !perm del @role</div>
+    </div><div class="cmd" data-s="setlogs définit (ou retire) le salon des logs du serveur ">
+      <div class="name">+setlogs</div>
+      <div class="desc">Définit (ou retire) le salon des logs du serveur</div>
+      <div class="usage">+setlogs [#salon] | !setlogs off</div>
+    </div><div class="cmd" data-s="setwelcome configure le message de bienvenue ">
+      <div class="name">+setwelcome</div>
+      <div class="desc">Configure le message de bienvenue</div>
+      <div class="usage">+setwelcome [#salon] | !setwelcome message &lt;texte&gt;</div>
+    </div><div class="cmd" data-s="setgoodbye configure le message d'au revoir ">
+      <div class="name">+setgoodbye</div>
+      <div class="desc">Configure le message d'au revoir</div>
+      <div class="usage">+setgoodbye [#salon] | !setgoodbye message &lt;texte&gt;</div>
+    </div><div class="cmd" data-s="setverify configure la vérification à l'entrée (bouton → rôle vérifié) ">
+      <div class="name">+setverify</div>
+      <div class="desc">Configure la vérification à l'entrée (bouton → rôle vérifié)</div>
+      <div class="usage">+setverify #salon @role | !setverify off</div>
+    </div><div class="cmd" data-s="setsuggest définit (ou retire) le salon des suggestions ">
+      <div class="name">+setsuggest</div>
+      <div class="desc">Définit (ou retire) le salon des suggestions</div>
+      <div class="usage">+setsuggest [#salon] | !setsuggest off</div>
+    </div><div class="cmd" data-s="setstats crée des salons compteurs configurables (membres, humains, bots, boosts, rôles, salons) ">
+      <div class="name">+setstats</div>
+      <div class="desc">Crée des salons compteurs configurables (membres, humains, bots, boosts, rôles, salons)</div>
+      <div class="usage">+setstats [types...] | !setstats off  — ex: +setstats members bots boosts</div>
+    </div><div class="cmd" data-s="autorole donne automatiquement un rôle aux nouveaux membres ">
+      <div class="name">+autorole</div>
+      <div class="desc">Donne automatiquement un rôle aux nouveaux membres</div>
+      <div class="usage">+autorole @role | !autorole off</div>
+    </div><div class="cmd" data-s="rolemenu crée un menu de rôles à boutons (les membres s'attribuent les rôles eux-mêmes) ">
+      <div class="name">+rolemenu</div>
+      <div class="desc">Crée un menu de rôles à boutons (les membres s'attribuent les rôles eux-mêmes)</div>
+      <div class="usage">+rolemenu @role1 @role2 ... (jusqu'à 25)</div>
+    </div><div class="cmd" data-s="joincreate salon vocal "hub" : le rejoindre crée un vocal temporaire perso (join-to-create) ">
+      <div class="name">+joincreate</div>
+      <div class="desc">Salon vocal "hub" : le rejoindre crée un vocal temporaire perso (Join-to-Create)</div>
+      <div class="usage">+joincreate &lt;#vocal ou ID&gt; | !joincreate off</div>
+    </div><div class="cmd" data-s="custom crée et configure des commandes personnalisées ">
+      <div class="name">+custom</div>
+      <div class="desc">Crée et configure des commandes personnalisées</div>
+      <div class="usage">+custom add/del/list/info/set — ex: !custom add salut Coucou {user} !</div>
+    </div><div class="cmd" data-s="var variables personnalisées du serveur, réutilisables via {var:nom} ">
+      <div class="name">+var</div>
+      <div class="desc">Variables personnalisées du serveur, réutilisables via {var:nom}</div>
+      <div class="usage">+var set &lt;nom&gt; &lt;valeur&gt; | !var del &lt;nom&gt; | !var list</div>
+    </div></div></section><section id="c4"><h2 class="cat">Owner du bot <span style="color:var(--mut);font-size:.8rem">(11)</span></h2>
+    <div class="grid"><div class="cmd" data-s="owner gère les owners du bot (toutes les permissions sur le bot) ">
+      <div class="name">+owner</div>
+      <div class="desc">Gère les owners du bot (toutes les permissions sur le bot)</div>
+      <div class="usage">+owner @membre (= ajoute) | !owner remove @membre | !owner list</div>
+    </div><div class="cmd" data-s="unowner retire un owner du bot (mention ou id) ">
+      <div class="name">+unowner</div>
+      <div class="desc">Retire un owner du bot (mention ou ID)</div>
+      <div class="usage">+unowner @membre/ID</div>
+    </div><div class="cmd" data-s="customperm règle le palier requis d'une commande (ou via +setup → permissions par commande) ">
+      <div class="name">+customperm</div>
+      <div class="desc">Règle le palier requis d'une commande (ou via +setup → Permissions par commande)</div>
+      <div class="usage">+customperm &lt;commande&gt; &lt;modo|admin|owner|reset&gt;</div>
+    </div><div class="cmd" data-s="changelogdm active ou désactive la réception du changelog du bot en message privé ">
+      <div class="name">+changelogdm</div>
+      <div class="desc">Active ou désactive la réception du changelog du bot en message privé</div>
+      <div class="usage">+changelogdm [on|off]</div>
+    </div><div class="cmd" data-s="errorlog définit le salon où sont postées les erreurs du bot (owner) ">
+      <div class="name">+errorlog</div>
+      <div class="desc">Définit le salon où sont postées les erreurs du bot (owner)</div>
+      <div class="usage">+errorlog #salon | !errorlog off | !errorlog test</div>
+    </div><div class="cmd" data-s="nukeadd autorise un membre à utiliser la commande nuke (ou le retire) ">
+      <div class="name">+nukeadd</div>
+      <div class="desc">Autorise un membre à utiliser la commande nuke (ou le retire)</div>
+      <div class="usage">+nukeadd @membre/ID | !nukeadd del @membre/ID | !nukeadd list</div>
+    </div><div class="cmd" data-s="indice fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global) ">
+      <div class="name">+indice</div>
+      <div class="desc">Fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global)</div>
+      <div class="usage">+indice @membre/ID</div>
+    </div><div class="cmd" data-s="statut change le statut du bot (présence + activité), ou le réinitialise ">
+      <div class="name">+statut</div>
+      <div class="desc">Change le statut du bot (présence + activité), ou le réinitialise</div>
+      <div class="usage">+statut &lt;online|dnd|idle|invisible&gt; &lt;play|watch|listen|compete|custom&gt; &lt;texte&gt; | !statut reset</div>
+    </div><div class="cmd" data-s="reset réinitialise toute la configuration du bot sur ce serveur (double confirmation owner) ">
+      <div class="name">+reset</div>
+      <div class="desc">Réinitialise toute la configuration du bot sur ce serveur (double confirmation owner)</div>
+      <div class="usage">+reset</div>
+    </div><div class="cmd" data-s="update cherche les mises à jour des dépendances, les applique (npm install) et redémarre le bot (owner) ">
+      <div class="name">+update</div>
+      <div class="desc">Cherche les mises à jour des dépendances, les APPLIQUE (npm install) et redémarre le bot (owner)</div>
+      <div class="usage">+update</div>
+    </div><div class="cmd" data-s="restart redémarre le bot ">
+      <div class="name">+restart</div>
+      <div class="desc">Redémarre le bot</div>
+      <div class="usage">+restart</div>
+    </div></div></section><section id="c5"><h2 class="cat">Général <span style="color:var(--mut);font-size:.8rem">(11)</span></h2>
+    <div class="grid"><div class="cmd" data-s="help affiche le menu d'aide paginé, ou le détail d'une commande ">
+      <div class="name">+help</div>
+      <div class="desc">Affiche le menu d'aide paginé, ou le détail d'une commande</div>
+      <div class="usage">+help [commande]</div>
+    </div><div class="cmd" data-s="bot tableau de bord complet du bot (connexion, sécurité, surveillance, activité, code, système) ">
+      <div class="name">+bot</div>
+      <div class="desc">Tableau de bord complet du bot (connexion, sécurité, surveillance, activité, code, système)</div>
+      <div class="usage">+bot</div>
+    </div><div class="cmd" data-s="infos affiche les informations détaillées du serveur ">
+      <div class="name">+infos</div>
+      <div class="desc">Affiche les informations détaillées du serveur</div>
+      <div class="usage">+infos</div>
+    </div><div class="cmd" data-s="stats affiche les statistiques du serveur ">
+      <div class="name">+stats</div>
+      <div class="desc">Affiche les statistiques du serveur</div>
+      <div class="usage">+stats</div>
+    </div><div class="cmd" data-s="ping affiche la latence du bot ">
+      <div class="name">+ping</div>
+      <div class="desc">Affiche la latence du bot</div>
+      <div class="usage">+ping</div>
+    </div><div class="cmd" data-s="avatar affiche l'avatar d'un membre (mention ou id) ">
+      <div class="name">+avatar</div>
+      <div class="desc">Affiche l'avatar d'un membre (mention ou ID)</div>
+      <div class="usage">+avatar [@membre | ID]</div>
+    </div><div class="cmd" data-s="vc affiche les salons vocaux actifs et leur nombre de membres ">
+      <div class="name">+vc</div>
+      <div class="desc">Affiche les salons vocaux actifs et leur nombre de membres</div>
+      <div class="usage">+vc</div>
+    </div><div class="cmd" data-s="remind programme un rappel (mp/salon) après un délai ">
+      <div class="name">+remind</div>
+      <div class="desc">Programme un rappel (MP/salon) après un délai</div>
+      <div class="usage">+remind &lt;durée: 10m/1h/1j&gt; &lt;texte&gt;</div>
+    </div><div class="cmd" data-s="afk marque ton absence (afk) — retiré automatiquement à ton retour ">
+      <div class="name">+afk</div>
+      <div class="desc">Marque ton absence (AFK) — retiré automatiquement à ton retour</div>
+      <div class="usage">+afk [raison]</div>
+    </div><div class="cmd" data-s="snipe affiche le dernier message supprimé du salon, avec navigation (◀ ▶) et bascule supprimés/édités ">
+      <div class="name">+snipe</div>
+      <div class="desc">Affiche le dernier message supprimé du salon, avec navigation (◀ ▶) et bascule supprimés/édités</div>
+      <div class="usage">+snipe [N|edit [N]]</div>
+    </div><div class="cmd" data-s="invite affiche le lien pour ajouter le bot à un serveur (embed + bouton) ">
+      <div class="name">+invite</div>
+      <div class="desc">Affiche le lien pour ajouter le bot à un serveur (embed + bouton)</div>
+      <div class="usage">+invite</div>
+    </div></div></section><section id="c6"><h2 class="cat">Niveaux <span style="color:var(--mut);font-size:.8rem">(5)</span></h2>
+    <div class="grid"><div class="cmd" data-s="level affiche ton niveau et ton xp (ou ceux d'un membre) ">
+      <div class="name">+level</div>
+      <div class="desc">Affiche ton niveau et ton XP (ou ceux d'un membre)</div>
+      <div class="usage">+level [@membre]</div>
+    </div><div class="cmd" data-s="leaderboard classement des membres par niveau ">
+      <div class="name">+leaderboard</div>
+      <div class="desc">Classement des membres par niveau</div>
+      <div class="usage">+leaderboard</div>
+    </div><div class="cmd" data-s="daily récompense quotidienne d'xp (bonus croissant si jours consécutifs) ">
+      <div class="name">+daily</div>
+      <div class="desc">Récompense quotidienne d'XP (bonus croissant si jours consécutifs)</div>
+      <div class="usage">+daily</div>
+    </div><div class="cmd" data-s="levelrole récompenses de niveau : attribue un rôle automatiquement à un palier ">
+      <div class="name">+levelrole</div>
+      <div class="desc">Récompenses de niveau : attribue un rôle automatiquement à un palier</div>
+      <div class="usage">+levelrole add &lt;niveau&gt; @role | !levelrole del &lt;niveau&gt; | !levelrole list</div>
+    </div><div class="cmd" data-s="voicexp active/désactive le gain d'xp en vocal (5–9 xp/min, anti-farm intégré) ">
+      <div class="name">+voicexp</div>
+      <div class="desc">Active/désactive le gain d'XP en vocal (5–9 XP/min, anti-farm intégré)</div>
+      <div class="usage">+voicexp on/off</div>
+    </div></div></section><section id="c7"><h2 class="cat">Communauté <span style="color:var(--mut);font-size:.8rem">(8)</span></h2>
+    <div class="grid"><div class="cmd" data-s="suggest propose une suggestion (vote 👍 / 👎) ">
+      <div class="name">+suggest</div>
+      <div class="desc">Propose une suggestion (vote 👍 / 👎)</div>
+      <div class="usage">+suggest &lt;ta suggestion&gt;</div>
+    </div><div class="cmd" data-s="bug signaler un bug au staff (panneau avec catégories + rapport libre) ">
+      <div class="name">+bug</div>
+      <div class="desc">Signaler un bug au staff (panneau avec catégories + rapport libre)</div>
+      <div class="usage">+bug</div>
+    </div><div class="cmd" data-s="poll crée un sondage (réactions) ">
+      <div class="name">+poll</div>
+      <div class="desc">Crée un sondage (réactions)</div>
+      <div class="usage">+poll &lt;question&gt; | &lt;option1&gt; | &lt;option2&gt; ...</div>
+    </div><div class="cmd" data-s="giveaway lance un tirage au sort (conditions possibles : rôle, niveau) ">
+      <div class="name">+giveaway</div>
+      <div class="desc">Lance un tirage au sort (conditions possibles : rôle, niveau)</div>
+      <div class="usage">+giveaway &lt;durée: 30m/1h/1j&gt; &lt;nb gagnants&gt; &lt;prix&gt; [@rôle] [niveau:N]</div>
+    </div><div class="cmd" data-s="invites affiche les invitations d'un membre (ou le classement) ">
+      <div class="name">+invites</div>
+      <div class="desc">Affiche les invitations d'un membre (ou le classement)</div>
+      <div class="usage">+invites [@membre] | !invites top</div>
+    </div><div class="cmd" data-s="starboard salon "best-of" : les messages avec assez de ⭐ y sont épinglés ">
+      <div class="name">+starboard</div>
+      <div class="desc">Salon "best-of" : les messages avec assez de ⭐ y sont épinglés</div>
+      <div class="usage">+starboard #salon [min] | !starboard off</div>
+    </div><div class="cmd" data-s="announce programme une annonce dans le salon après un délai ">
+      <div class="name">+announce</div>
+      <div class="desc">Programme une annonce dans le salon après un délai</div>
+      <div class="usage">+announce &lt;délai: 30m/2h/1j&gt; &lt;message&gt;</div>
+    </div><div class="cmd" data-s="sticky épingle un message « flottant » qui se re-poste en bas du salon ">
+      <div class="name">+sticky</div>
+      <div class="desc">Épingle un message « flottant » qui se re-poste en bas du salon</div>
+      <div class="usage">+sticky &lt;message&gt; | !sticky off</div>
+    </div></div></section><section id="c8"><h2 class="cat">Fun <span style="color:var(--mut);font-size:.8rem">(13)</span></h2>
+    <div class="grid"><div class="cmd" data-s="ship calcule le taux de compatibilité amoureuse entre deux membres ">
+      <div class="name">+ship</div>
+      <div class="desc">Calcule le taux de compatibilité amoureuse entre deux membres</div>
+      <div class="usage">+ship @membre1 [@membre2]</div>
+    </div><div class="cmd" data-s="gay le gaymètre : mesure le taux de gaytitude d'un membre (pour rire) ">
+      <div class="name">+gay</div>
+      <div class="desc">Le gaymètre : mesure le taux de gaytitude d'un membre (pour rire)</div>
+      <div class="usage">+gay [@membre]</div>
+    </div><div class="cmd" data-s="rps chifoumi (pierre-feuille-ciseaux) contre le bot ">
+      <div class="name">+rps</div>
+      <div class="desc">Chifoumi (pierre-feuille-ciseaux) contre le bot</div>
+      <div class="usage">+rps &lt;pierre|feuille|ciseaux&gt;</div>
+    </div><div class="cmd" data-s="devine devine le nombre mystère (le bot te dit plus haut / plus bas) ">
+      <div class="name">+devine</div>
+      <div class="desc">Devine le nombre mystère (le bot te dit plus haut / plus bas)</div>
+      <div class="usage">+devine [max]</div>
+    </div><div class="cmd" data-s="meme affiche un meme aléatoire (depuis reddit) ">
+      <div class="name">+meme</div>
+      <div class="desc">Affiche un meme aléatoire (depuis Reddit)</div>
+      <div class="usage">+meme [subreddit]</div>
+    </div><div class="cmd" data-s="quizz quiz multijoueur : 10 questions, le plus de bonnes réponses gagne un boost d'xp (thème tournant) ">
+      <div class="name">+quizz</div>
+      <div class="desc">Quiz multijoueur : 10 questions, le plus de bonnes réponses gagne un boost d'XP (thème tournant)</div>
+      <div class="usage">+quizz</div>
+    </div><div class="cmd" data-s="sondagefun jeu de sondage : votez un thème, puis 5 manches « vote comme la majorité » avec classement ">
+      <div class="name">+sondagefun</div>
+      <div class="desc">Jeu de sondage : votez un thème, puis 5 manches « vote comme la majorité » avec classement</div>
+      <div class="usage">+sondagefun</div>
+    </div><div class="cmd" data-s="loto loto : prends un ticket, le plus proche du tirage gagne un gros boost d'xp ! ">
+      <div class="name">+loto</div>
+      <div class="desc">Loto : prends un ticket, le plus proche du tirage gagne un gros boost d'XP !</div>
+      <div class="usage">+loto</div>
+    </div><div class="cmd" data-s="gameleaderboard classement des victoires aux jeux (quizz, loto, devine, sondage fun) ">
+      <div class="name">+gameleaderboard</div>
+      <div class="desc">Classement des victoires aux jeux (quizz, loto, devine, sondage fun)</div>
+      <div class="usage">+gameleaderboard</div>
+    </div><div class="cmd" data-s="tuprefere lance un « tu préfères… ? » avec votes en direct 🅰️/🅱️ ">
+      <div class="name">+tuprefere</div>
+      <div class="desc">Lance un « Tu préfères… ? » avec votes en direct 🅰️/🅱️</div>
+      <div class="usage">+tuprefere</div>
+    </div><div class="cmd" data-s="mog mog quelqu'un, façon chad bipolaire 🗿💅 (fun) ">
+      <div class="name">+mog</div>
+      <div class="desc">Mog quelqu'un, façon chad bipolaire 🗿💅 (fun)</div>
+      <div class="usage">+mog [@membre]</div>
+    </div><div class="cmd" data-s="vcgift cadeau vocal : tirage au sort parmi les membres en vocal (immédiat, chronométré ou auto) ">
+      <div class="name">+vcgift</div>
+      <div class="desc">Cadeau vocal : tirage au sort parmi les membres en vocal (immédiat, chronométré ou auto)</div>
+      <div class="usage">+vcgift | !vcgift &lt;durée: 30s/10m/1h&gt; | !vcgift on/off | !vcgift channel #salon | !vcgift reward &lt;texte&gt;</div>
+    </div><div class="cmd" data-s="raid gag : fausse barre de chargement de « raid » suivie d'un gif surprise ">
+      <div class="name">+raid</div>
+      <div class="desc">Gag : fausse barre de chargement de « raid » suivie d'un gif surprise</div>
+      <div class="usage">+raid</div>
+    </div></div></section>
+  <div class="empty" id="empty">Aucune commande ne correspond. 🤷</div>
+  <section id="shots"><h2 class="cat">📸 Aperçu du bot en action</h2>
+    <div class="shots"><div class="shot">
+      <img src="assets/capture-menu.png" alt="Menu d'aide (+help) — catégories" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-menu.png</b> dans docs/assets/</div>'">
+      <div class="cap">Menu d'aide (+help) — catégories</div></div><div class="shot">
+      <img src="assets/capture-config-1.png" alt="Configuration — préfixe, auto-rôle, bienvenue, niveaux" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-config-1.png</b> dans docs/assets/</div>'">
+      <div class="cap">Configuration — préfixe, auto-rôle, bienvenue, niveaux</div></div><div class="shot">
+      <img src="assets/capture-config-2.png" alt="Configuration — changelog, modules, mots interdits, custom" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-config-2.png</b> dans docs/assets/</div>'">
+      <div class="cap">Configuration — changelog, modules, mots interdits, custom</div></div><div class="shot">
+      <img src="assets/capture-config-3.png" alt="Configuration — starboard, suggestions, stats, apparence, vérif" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-config-3.png</b> dans docs/assets/</div>'">
+      <div class="cap">Configuration — starboard, suggestions, stats, apparence, vérif</div></div><div class="shot">
+      <img src="assets/capture-securite.png" alt="Sécurité — rôle d'alerte, scan, membres à risque, backup, logs" onerror="this.outerHTML='<div class=ph>📷 Dépose <b>capture-securite.png</b> dans docs/assets/</div>'">
+      <div class="cap">Sécurité — rôle d'alerte, scan, membres à risque, backup, logs</div></div></div></section>
+</div>
+<footer>Généré automatiquement depuis le code · [+] Hasu Protect 🛡️ · <span id="dt"></span></footer>
+<script>
+function filt(q){q=q.trim().toLowerCase();let any=false;
+ document.querySelectorAll('.cmd').forEach(c=>{const ok=!q||c.dataset.s.includes(q);c.style.display=ok?'':'none';if(ok)any=true;});
+ document.querySelectorAll('section').forEach(s=>{if(s.id==='shots')return;const vis=[...s.querySelectorAll('.cmd')].some(c=>c.style.display!=='none');s.style.display=vis?'':'none';});
+ document.getElementById('empty').style.display=any?'none':'block';}
+document.getElementById('dt').textContent=new Date().toLocaleString('fr-FR');
+</script>
+</body></html>
