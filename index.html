@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-MeRj+HeWz3n66/4xdktB09NqGLLj8AwONP7d4GHQM+E='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-qZWRHHektgd4PqX60JXKWauuqukSJsmDqON4GWbbzgE='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
@@ -31,11 +31,6 @@ h2.cat{font-size:1.3rem;border-left:4px solid var(--cc,var(--gold));padding-left
 .cmd .desc{color:#cfcfe0;margin:7px 0 9px;font-size:.93rem}
 .cmd .usage{font-family:'Consolas',monospace;font-size:.83rem;background:#0e0e18;border:1px solid var(--line);border-radius:7px;padding:6px 9px;color:#aab;word-break:break-word}
 .cmd .tap{font-size:.74rem;color:var(--mut);margin-top:8px;opacity:.85}
-.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.shot{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.shot img{width:100%;display:block;background:#0e0e18;min-height:120px}
-.shot .ph{padding:40px 14px;text-align:center;color:var(--mut);font-size:.85rem;background:#0e0e18}
-.shot .cap{padding:10px 13px;font-size:.85rem;color:var(--mut)}
 footer{text-align:center;color:var(--mut);font-size:.82rem;padding:30px 16px;border-top:1px solid var(--line)}
 .empty{color:var(--mut);text-align:center;padding:30px;display:none}
 mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
@@ -46,6 +41,13 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 .changelog .ver{color:var(--mut);font-size:.8rem;margin-bottom:10px}
 .changelog ul{margin:0;padding-left:20px}.changelog li{margin:6px 0;color:#dcdce8}
 .changelog code,.cmd code{background:#0e0e18;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-family:'Consolas',monospace;font-size:.85em;color:var(--gold)}
+.more{margin-top:12px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.88rem}
+.more:hover{border-color:var(--gold)}
+.hist{display:none;margin-top:8px;border-top:1px solid var(--line);padding-top:4px}
+.hist.open{display:block}
+.hentry{margin-top:14px}
+.hentry h3{font-size:1rem;margin:0 0 5px;color:var(--gold)}
+.hentry h3 span{color:var(--mut);font-size:.76rem;font-weight:400;margin-left:8px}
 .ov{position:fixed;inset:0;background:rgba(5,5,10,.78);display:none;align-items:flex-start;justify-content:center;padding:28px 14px;overflow:auto;z-index:60}
 .ov.open{display:flex}
 .modal{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cc,var(--purple));border-radius:16px;max-width:580px;width:100%;padding:20px 20px 22px;box-shadow:0 18px 60px rgba(0,0,0,.6)}
@@ -77,7 +79,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 @media(max-width:640px){
   header{padding:30px 15px 20px}header h1{font-size:1.55rem}header p{font-size:.92rem}
   .wrap{padding:18px 13px 50px}
-  .grid,.shots{grid-template-columns:1fr;gap:11px}
+  .grid{grid-template-columns:1fr;gap:11px}
   h2.cat{font-size:1.12rem}
   .cta{display:block;width:100%;max-width:340px;margin:16px auto 0;text-align:center}
   .changelog{padding:15px 15px}.changelog h2{font-size:1.05rem}
@@ -92,9 +94,11 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
   <div><a class="cta" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot à mon serveur</a></div>
 </header>
 <div class="wrap">
-  <div class="changelog"><h2>📰 Dernière mise à jour — Nouvelles commandes fun</h2><div class="ver">version 2026-06-26-c · publié le 26 juin 2026 à 09:24</div><ul><li>🤔 <code>+tuprefere</code> : lance un « Tu préfères… ? » avec <strong>votes en direct</strong> 🅰️/🅱️ et barres de résultats (public).</li><li>🗿 <code>+mog [@membre]</code> : mogue quelqu'un façon <strong>chad bipolaire</strong> 💅 — ça swingue entre énergie alpha et tendresse flamboyante (public, fun).</li><li>🐛 Correctif <code>+level</code> : le <strong>rang</strong> plantait pour les membres ayant de l'XP (bug de requête de classement) — c'est réparé.</li></ul></div>
+  <div class="changelog"><h2>📰 Dernière mise à jour — Nouvelles commandes fun</h2><div class="ver">Publié le 26 juin 2026 à 11:03</div><ul><li>🤔 <code>+tupref</code> : lance un « Tu préfères… ? » avec <strong>votes en direct</strong> 🅰️/🅱️ et barres de résultats (public).</li><li>🗿 <code>+mog [@membre]</code> : mogue quelqu'un façon <strong>chad bipolaire</strong> 💅 — ça swingue entre énergie alpha et tendresse flamboyante (public, fun).</li><li>🐛 Correctif <code>+level</code> : le <strong>rang</strong> plantait pour les membres ayant de l'XP (bug de requête de classement) — c'est réparé.</li></ul>
+    <button id="moreBtn" class="more" data-label="▼ Voir tout l'historique (2)">▼ Voir tout l'historique (2)</button>
+    <div id="hist" class="hist"><div class="hentry"><h3>Sécurité &amp; commandes par identifiant<span>26 juin 2026</span></h3><ul><li>🔒 <code>+addrole</code> / <code>+delrole</code> acceptent désormais un rôle par <strong>mention OU identifiant</strong>.</li><li>🆕 <code>+invite</code> : un lien tout prêt pour ajouter le bot à un autre serveur (embed public).</li><li>🛡️ Renforcement des protections sur les commandes sensibles (réservées aux owners).</li></ul></div><div class="hentry"><h3>Guardian renforcé &amp; entraînement de l'IA<span>26 juin 2026</span></h3><ul><li>🛡️ Guardian renforcé : l'IA est <strong>pré-entraînée contre des scripts malveillants</strong>.</li><li>🧠 Entraînement autonome continu de l'IA, avec un <strong>pourcentage d'apprentissage</strong> affiché à chaque cycle.</li><li>💾 L'IA <strong>garde en mémoire les solutions</strong> des situations imprévues pour ne plus refaire les mêmes erreurs.</li></ul></div></div></div>
   <input id="search" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="🔍 Rechercher une commande (nom ou description)…">
-  <div class="nav"><a href="#c0" style="--cc:#F1C40F">Sécurité &amp; Antiraid</a><a href="#c1" style="--cc:#5865F2">Automod</a><a href="#c2" style="--cc:#2ECC71">Modération</a><a href="#c3" style="--cc:#E91E63">Configuration</a><a href="#c4" style="--cc:#E67E22">Owner du bot</a><a href="#c5" style="--cc:#1ABC9C">Général</a><a href="#c6" style="--cc:#9B59B6">Niveaux</a><a href="#c7" style="--cc:#3498DB">Communauté</a><a href="#c8" style="--cc:#E74C3C">Fun</a><a href="#shots">📸 Aperçu</a></div>
+  <div class="nav"><a href="#c0" style="--cc:#F1C40F">Sécurité &amp; Antiraid</a><a href="#c1" style="--cc:#5865F2">Automod</a><a href="#c2" style="--cc:#2ECC71">Modération</a><a href="#c3" style="--cc:#E91E63">Configuration</a><a href="#c4" style="--cc:#E67E22">Owner du bot</a><a href="#c5" style="--cc:#1ABC9C">Général</a><a href="#c6" style="--cc:#9B59B6">Niveaux</a><a href="#c7" style="--cc:#3498DB">Communauté</a><a href="#c8" style="--cc:#E74C3C">Fun</a></div>
   <section id="c0" style="--cc:#F1C40F"><h2 class="cat">Sécurité &amp; Antiraid <span style="color:var(--mut);font-size:.8rem">(17)</span></h2>
     <div class="grid"><div class="cmd" data-s="antiraid configure les modules antiraid du serveur " data-n="antiraid" data-d="Configure les modules antiraid du serveur" data-u="+antiraid | !antiraid &lt;module&gt; &lt;on/off/valeur&gt; | !antiraid whitelist add/remove/list @membre" data-c="#F1C40F">
       <div class="name">+antiraid</div>
@@ -624,10 +628,10 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="desc">Classement des victoires aux jeux (quizz, loto, devine, sondage fun)</div>
       <div class="usage">+gameleaderboard</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="tuprefere lance un « tu préfères… ? » avec votes en direct 🅰️/🅱️ " data-n="tuprefere" data-d="Lance un « Tu préfères… ? » avec votes en direct 🅰️/🅱️" data-u="+tuprefere" data-c="#E74C3C">
-      <div class="name">+tuprefere</div>
+    </div><div class="cmd" data-s="tupref lance un « tu préfères… ? » avec votes en direct 🅰️/🅱️ tuprefere" data-n="tupref" data-d="Lance un « Tu préfères… ? » avec votes en direct 🅰️/🅱️" data-u="+tupref" data-c="#E74C3C">
+      <div class="name">+tupref<span class="al">alias: +tuprefere</span></div>
       <div class="desc">Lance un « Tu préfères… ? » avec votes en direct 🅰️/🅱️</div>
-      <div class="usage">+tuprefere</div>
+      <div class="usage">+tupref</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
     </div><div class="cmd" data-s="mog mog quelqu'un, façon chad bipolaire 🗿💅 (fun) " data-n="mog" data-d="Mog quelqu'un, façon chad bipolaire 🗿💅 (fun)" data-u="+mog [@membre]" data-c="#E74C3C">
       <div class="name">+mog</div>
@@ -646,28 +650,16 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="tap">👆 Clique pour voir une simulation</div>
     </div></div></section>
   <div class="empty" id="empty">Aucune commande ne correspond. 🤷</div>
-  <section id="shots"><h2 class="cat">📸 Aperçu du bot en action</h2>
-    <div class="shots"><div class="shot">
-      <img src="assets/capture-menu.png" alt="Menu d'aide (+help) — catégories" loading="lazy" data-f="capture-menu.png">
-      <div class="cap">Menu d'aide (+help) — catégories</div></div><div class="shot">
-      <img src="assets/capture-config-1.png" alt="Configuration — préfixe, auto-rôle, bienvenue, niveaux" loading="lazy" data-f="capture-config-1.png">
-      <div class="cap">Configuration — préfixe, auto-rôle, bienvenue, niveaux</div></div><div class="shot">
-      <img src="assets/capture-config-2.png" alt="Configuration — changelog, modules, mots interdits, custom" loading="lazy" data-f="capture-config-2.png">
-      <div class="cap">Configuration — changelog, modules, mots interdits, custom</div></div><div class="shot">
-      <img src="assets/capture-config-3.png" alt="Configuration — starboard, suggestions, stats, apparence, vérif" loading="lazy" data-f="capture-config-3.png">
-      <div class="cap">Configuration — starboard, suggestions, stats, apparence, vérif</div></div><div class="shot">
-      <img src="assets/capture-securite.png" alt="Sécurité — rôle d'alerte, scan, membres à risque, backup, logs" loading="lazy" data-f="capture-securite.png">
-      <div class="cap">Sécurité — rôle d'alerte, scan, membres à risque, backup, logs</div></div></div></section>
 </div>
 <div class="ov" id="ov"><div class="modal" id="mc"></div></div>
 <footer>Généré automatiquement depuis le code · [+] Hasu Protect 🛡️ · <span id="dt"></span></footer>
 <script>function filt(q){q=q.trim().toLowerCase();var any=false;
 document.querySelectorAll('.cmd').forEach(function(c){var ok=!q||c.dataset.s.includes(q);c.style.display=ok?'':'none';if(ok)any=true;});
-document.querySelectorAll('section').forEach(function(s){if(s.id==='shots')return;var vis=Array.prototype.slice.call(s.querySelectorAll('.cmd')).some(function(c){return c.style.display!=='none';});s.style.display=vis?'':'none';});
+document.querySelectorAll('section').forEach(function(s){var vis=Array.prototype.slice.call(s.querySelectorAll('.cmd')).some(function(c){return c.style.display!=='none';});s.style.display=vis?'':'none';});
 document.getElementById('empty').style.display=any?'none':'block';}
 var sb=document.getElementById('search');if(sb)sb.addEventListener('input',function(e){filt(e.target.value);});
-document.querySelectorAll('.shot img').forEach(function(img){img.addEventListener('error',function(){var d=document.createElement('div');d.className='ph';d.textContent='📷 capture '+img.dataset.f+' manquante (dépose-la dans docs/assets/)';img.replaceWith(d);});});
 var dt=document.getElementById('dt');if(dt)dt.textContent=new Date().toLocaleString('fr-FR');
+var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent='▲ Masquer l\'historique';}else{mb.textContent=mb.dataset.label;}});
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e;}
 function exFor(tok){var t=tok.toLowerCase();
  if(/membre|user|utilisateur|pseudo|cible|@/.test(t))return '@Jean';
@@ -717,7 +709,7 @@ function botReply(name,desc,params){var n=name.toLowerCase();
  if(/backup|sauvegarde/.test(n))return ['💾','Sauvegarde','Sauvegarde du serveur effectuée avec succès (rôles, salons, paramètres).'];
  if(/avatar|pdp/.test(n))return ['🖼️','Avatar','Voici l’avatar de '+who+'.'];
  if(/say|annonce|embed/.test(n))return ['📢','Message envoyé','« '+(get(/message|texte|contenu|annonce/)||'Bonjour à tous !')+' »'];
- if(/poll|sondage|tuprefere/.test(n))return ['🗳️','Sondage','🅰️ Option A — 🅱️ Option B\nVotez en réagissant !'];
+ if(/poll|sondage|tupref/.test(n))return ['🗳️','Sondage','🅰️ Option A — 🅱️ Option B\nVotez en réagissant !'];
  if(/stats|info/.test(n))return ['📊','Informations','Membres : 1 240 · En ligne : 312 · Salons : 28'];
  return ['✅','Commande exécutée',desc+(params.length?('\n\nParamètres reçus : '+params.map(function(p){return p.ex;}).join(', ')):'')];}
 function openSim(card){var name=card.dataset.n,desc=card.dataset.d||'',usage=card.dataset.u||('+'+name),cc=card.dataset.c||'#5865F2';
