@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-uF/690XQKhiOPNqJhm09RDk8v+kgE3y9BPW7hzRosW0='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-sWlvcgtgsTrgl7+EQ7NqUiac2in2jqVXMMz6j08RGsU='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
@@ -48,7 +48,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 .hentry{margin-top:14px}
 .hentry h3{font-size:1rem;margin:0 0 5px;color:var(--gold)}
 .hentry h3 span{color:var(--mut);font-size:.76rem;font-weight:400;margin-left:8px}
-.totop{position:fixed;right:18px;bottom:18px;width:46px;height:46px;border-radius:50%;background:var(--purple);color:#fff;border:none;font-size:1.45rem;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.45);z-index:55}
+.totop{position:fixed;right:18px;bottom:18px;width:40px;height:40px;border-radius:50%;background:var(--purple);color:#fff;border:none;font-size:.95rem;line-height:40px;padding:0;text-align:center;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.45);z-index:55}
 .totop.show{display:flex}.totop:hover{filter:brightness(1.12);transform:translateY(-2px)}
 .ov{position:fixed;inset:0;background:rgba(5,5,10,.78);display:none;align-items:flex-start;justify-content:center;padding:28px 14px;overflow:auto;z-index:60}
 .ov.open{display:flex}
@@ -723,7 +723,17 @@ function botReply(name,desc,params){var n=name.toLowerCase();
  if(/say|annonce|embed/.test(n))return ['📢','Message envoyé','« '+(get(/message|texte|contenu|annonce/)||'Bonjour à tous !')+' »'];
  if(/poll|sondage|tupref/.test(n))return ['🗳️','Sondage','🅰️ Option A — 🅱️ Option B\nVotez en réagissant !'];
  if(/stats|info/.test(n))return ['📊','Informations','Membres : 1 240 · En ligne : 312 · Salons : 28'];
- return ['✅','Commande exécutée',desc+(params.length?('\n\nParamètres reçus : '+params.map(function(p){return p.ex;}).join(', ')):'')];}
+ if(/scan|audit|posture/.test(n))return ['🔍','Analyse de sécurité','**Note : B** — 3 point(s) à surveiller :\n• @everyone peut **mentionner tout le monde**\n• 2 rôles ont la permission **Administrateur**\n• Vérification du serveur : **basse**\n*Un bouton « Corriger » est proposé pour régler ça.*'];
+ if(/antiraid/.test(n))return ['🛡️','Antiraid','Protection antiraid réglée sur **activée** : joins suspects, anti-nuke et anti-spam surveillés en continu.'];
+ if(/quarant/.test(n))return ['🚷','Quarantaine',who+' est placé en **quarantaine** : tous ses rôles sont retirés en attendant vérification.'];
+ if(/^bl$|blacklist/.test(n))return ['🚫','Blacklist',who+' est **blacklisté** : plus aucun rôle possible, et banni automatiquement s’il (re)joint.'];
+ if(/^wl$|whitelist/.test(n))return ['✅','Whitelist',who+' est **ajouté à la liste de confiance** (épargné par les protections).'];
+ if(/automod/.test(n))return ['🤖','Automod','Modération automatique **activée** : anti-spam, liens, majuscules et mentions filtrés.'];
+ if(/badword/.test(n))return ['🚯','Mots interdits','Le mot **arnaque** a été ajouté : tout message le contenant sera supprimé automatiquement.'];
+ if(/setup|config|menu/.test(n))return ['⚙️','Configuration','Ouvre le **menu de configuration** : préfixe, sécurité, logs, bienvenue, niveaux, apparence…'];
+ if(/^base$/.test(n))return ['🛡️','Centre de sécurité','Tableau de bord affiché : posture, modules actifs, membres à risque et sauvegardes.'];
+ if(/punish/.test(n))return ['⚖️','Sanction',who+' a été sanctionné selon la configuration (avertissement, mute ou ban).'];
+ return ['✅','Action effectuée','La commande **+'+name+'** a bien été exécutée.'+(params.length?'\nParamètres : '+params.map(function(p){return p.ex;}).join(', '):'')];}
 function openSim(card){var name=card.dataset.n,desc=card.dataset.d||'',usage=card.dataset.u||('+'+name),cc=card.dataset.c||'#5865F2';
  var params=parseParams(usage),mc=document.getElementById('mc');mc.innerHTML='';mc.style.setProperty('--cc',cc);
  var cmdLine='+'+name+(params.length?' '+params.map(function(p){return p.ex;}).join(' '):'');
