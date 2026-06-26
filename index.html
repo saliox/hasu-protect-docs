@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-hgG4cY4r2mKtVJ8thtyq50I1H2t06SIxs8ntn9foXNA=' 'sha256-gjQ3/SNTWquYJ4/uW5vI3T6F+qziRcGlSqpNdZqltG4='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-SwQFT8qMx2a+eAxnMUn57q6gLmVPW1rZPLdMaHrOt9g=' 'sha256-gjQ3/SNTWquYJ4/uW5vI3T6F+qziRcGlSqpNdZqltG4='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 111 commandes — documentation complète et interactive.">
@@ -187,11 +187,11 @@ section{animation:fadeIn .5s ease backwards}
 <div class="layout">
   <aside class="side"><div class="gpanel" id="gpanel">
   <h2>🧠 Guardian AI</h2>
-  <div class="gsub">Apprentissage autonome · cycle #58 · maj 26/06 19:23</div>
+  <div class="gsub">Apprentissage autonome · cycle #59 · maj 26/06 19:37</div>
   <div class="gbig"><div class="n">90%</div><div class="l">maîtrise globale</div></div>
   <div class="gstat"><span class="k">Reconnaît une menace</span><span class="v">99%</span></div>
   <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">99%</span></div>
-  <div class="gstat"><span class="k">Exemples appris</span><span class="v">31349</span></div>
+  <div class="gstat"><span class="k">Exemples appris</span><span class="v">31721</span></div>
   <div class="gstat"><span class="k">Solutions mémorisées</span><span class="v">572</span></div>
   <div class="gstat"><span class="k">Erreurs apprises (ce cycle)</span><span class="v">0</span></div>
   <div class="gstat"><span class="k">Règles re-vérifiées</span><span class="v">263/263</span></div>
@@ -810,6 +810,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  if(d.errorsThisCycle!=null)h+=st('Erreurs apprises (ce cycle)',d.errorsThisCycle);
  if(d.rules)h+=st('Règles re-vérifiées',d.rules.ok+'/'+d.rules.total);
  if(d.difficultyLevel!=null)h+=st('🔥 Difficulté d\'entraînement','niveau '+d.difficultyLevel);
+ if(d.redteam)h+=st('🎭 Surprises évitées (jeu adverse)',d.redteam.avoided+'%');
  if(d.offline){h+=sec('Validation hors-ligne (cas jamais vus)');h+=st('✅ Précision prouvée',d.offline.accuracy+'%');h+=st('Fausses alertes',d.offline.fp);h+=st('Menaces ratées',d.offline.fn);}
  if(d.protections&&d.protections.length){h+=sec('Sur quoi l\'IA travaille pour améliorer la sécurité')+d.protections.map(function(p){return '<div class="gprot">🎯 '+escH(p)+'</div>';}).join('');}
  if(d.errorTypes&&d.errorTypes.length){var mx=Math.max.apply(null,d.errorTypes.map(function(x){return x.count;}))||1;h+=sec('Types d\'erreurs apprises')+d.errorTypes.map(function(x){return '<div class="gtype"><div class="row"><span>'+escH(x.label)+'</span><span>'+x.count+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
