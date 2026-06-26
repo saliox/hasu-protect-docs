@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-QL53WWlU1wdt5yViwHwcUBUI1G7wc138pK9C8ovsOMQ='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-J++sfJjCdd11SHg9JjDymt2ClKpo3f7OAG3wItQFe2M='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
@@ -9,7 +9,10 @@
 :root{--bg:#0b0b12;--card:#15151f;--card2:#1c1c2a;--gold:#F1C40F;--purple:#5865F2;--txt:#e7e7ee;--mut:#9a9ab0;--line:#262635}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;overflow-wrap:break-word}
 a{color:var(--gold);text-decoration:none}
-header{padding:42px 22px 26px;text-align:center;background:radial-gradient(900px 320px at 50% -60px,rgba(88,101,242,.22),transparent),var(--bg);border-bottom:1px solid var(--line)}
+header{position:relative;padding:42px 22px 26px;text-align:center;background:radial-gradient(900px 320px at 50% -60px,rgba(88,101,242,.22),transparent),var(--bg);border-bottom:1px solid var(--line)}
+.bstat{position:absolute;top:14px;right:14px;font-size:.76rem;font-weight:700;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card2);display:inline-flex;align-items:center;gap:5px}
+.bstat.on{color:#57F287;border-color:#2f6b46}.bstat.off{color:#ED4245;border-color:#7a2e2e}.bstat.upd{color:#E67E22;border-color:#7a5326}
+@media(max-width:640px){.bstat{position:static;display:inline-flex;margin-bottom:10px}}
 header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
 header p{color:var(--mut);margin:.5rem 0 0}
 .badges{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
@@ -106,6 +109,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 }
 </style></head><body>
 <header>
+  <div class="bstat on" id="botstatus">🟢 En ligne</div>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p>Documentation des commandes — bot de modération &amp; sécurité Discord</p>
   <div class="badges"><span class="badge"><b>110</b> commandes</span><span class="badge"><b>9</b> catégories</span><span class="badge">👥 <b>4 291</b> membres protégés</span></div>
@@ -725,9 +729,14 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  if(d.errorTypes&&d.errorTypes.length){var mx=Math.max.apply(null,d.errorTypes.map(function(x){return x.count;}))||1;h+='<div class="gsec">Types d\'erreurs apprises</div>'+d.errorTypes.map(function(x){return '<div class="gtype"><div class="row"><span>'+escH(x.label)+'</span><span>'+x.count+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
  if(d.examplesLearned&&d.examplesLearned.length){h+='<div class="gsec">Dernières erreurs apprises</div>'+d.examplesLearned.map(function(e){return '<div class="gex"><span class="t">'+escH(e.type)+'</span>'+escH(e.detail)+'</div>';}).join('');}
  p.innerHTML=h;}
-var __gAt=0;
-function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(d&&d.at&&d.at!==__gAt){__gAt=d.at;renderG(d);}}).catch(function(){});}
-setInterval(pollG,120000);setTimeout(pollG,5000);
+var __gAt=0,__hb=Date.now(),__bs='online';
+function setStatus(){var el=document.getElementById('botstatus');if(!el)return;var t,c;
+ if(__bs==='updating'){t='🟠 En mise à jour';c='upd';}
+ else if(Date.now()-__hb<2700000){t='🟢 En ligne';c='on';}
+ else{t='🔴 Hors ligne';c='off';}
+ el.textContent=t;el.className='bstat '+c;}
+function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hb=d.heartbeat;if(d.botStatus)__bs=d.botStatus;setStatus();if(d.at&&d.at!==__gAt){__gAt=d.at;renderG(d);}}).catch(function(){});}
+setInterval(pollG,120000);setTimeout(pollG,3000);setInterval(setStatus,60000);
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e;}
 function md(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<u>$1</u>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');}
 function elH(t,c,html){var e=document.createElement(t);if(c)e.className=c;e.innerHTML=html;return e;}
