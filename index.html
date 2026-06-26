@@ -10,9 +10,11 @@
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;overflow-wrap:break-word}
 a{color:var(--gold);text-decoration:none}
 header{position:relative;padding:42px 22px 26px;text-align:center;background:radial-gradient(900px 320px at 50% -60px,rgba(88,101,242,.22),transparent),var(--bg);border-bottom:1px solid var(--line)}
-.bstat{position:absolute;top:14px;right:14px;font-size:.76rem;font-weight:700;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--card2);display:inline-flex;align-items:center;gap:5px}
-.bstat.on{color:#57F287;border-color:#2f6b46}.bstat.off{color:#ED4245;border-color:#7a2e2e}.bstat.upd{color:#E67E22;border-color:#7a5326}
-@media(max-width:640px){.bstat{position:static;display:inline-flex;margin-bottom:10px}}
+.bstat{position:absolute;top:22px;right:22px;font-size:.95rem;font-weight:700;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(180deg,var(--card2),var(--card));box-shadow:0 5px 18px rgba(0,0,0,.35);display:inline-flex;align-items:center;gap:8px;letter-spacing:.02em}
+.bstat.on{color:#57F287;border-color:#2f6b46;box-shadow:0 0 0 1px #2f6b46,0 5px 20px rgba(87,242,135,.22)}
+.bstat.off{color:#ED4245;border-color:#7a2e2e;box-shadow:0 0 0 1px #7a2e2e,0 5px 20px rgba(237,66,69,.22)}
+.bstat.upd{color:#E67E22;border-color:#7a5326;box-shadow:0 0 0 1px #7a5326,0 5px 20px rgba(230,126,34,.22)}
+@media(max-width:640px){.bstat{position:static;margin:0 auto 12px;font-size:.88rem}}
 header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
 header p{color:var(--mut);margin:.5rem 0 0}
 .badges{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
@@ -118,15 +120,15 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 <div class="layout">
   <aside class="side"><div class="gpanel" id="gpanel">
   <h2>🧠 Guardian AI</h2>
-  <div class="gsub">Apprentissage autonome · cycle #17 · maj 26/06 14:12</div>
+  <div class="gsub">Apprentissage autonome · cycle #17 · maj 26/06 14:16</div>
   <div class="gbig"><div class="n">93%</div><div class="l">maîtrise globale</div></div>
   <div class="gstat"><span class="k">Généralisation (inconnu)</span><span class="v">96%</span></div>
   <div class="gstat"><span class="k">Reconnaît une menace</span><span class="v">94%</span></div>
   <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">97%</span></div>
   <div class="gstat"><span class="k">Exemples appris</span><span class="v">16934</span></div>
   <div class="gstat"><span class="k">Solutions mémorisées</span><span class="v">547</span></div>
-  <div class="gstat"><span class="k">Erreurs apprises (ce cycle)</span><span class="v">24</span></div>
-  <div class="gstat"><span class="k">Règles re-vérifiées</span><span class="v">261/261</span></div>
+  
+  
   <div class="gsec">Sur quoi l'IA travaille pour améliorer la sécurité</div><div class="gprot">🎯 Reconnaître les vraies menaces (permissions sensibles)</div><div class="gprot">🎯 Vérifier l'authenticité des bots (nom + ID officiel)</div><div class="gprot">🎯 Anticiper les failles &amp; abus Discord connus (phishing, vol de token, faux staff)</div><div class="gprot">🎯 Repérer les raiders connus dès l'arrivée</div><div class="gprot">🎯 Distinguer un admin légitime d'un compte compromis</div><div class="gprot">🎯 Réduire les fausses alertes (anti faux-positif)</div><div class="gprot">🎯 Apprendre de ses erreurs à chaque cycle</div>
   <div class="gsec">Types d'erreurs apprises</div><div class="gtype"><div class="row"><span>Bot non vérifié (anti-bot)</span><span>143</span></div><div class="gbar"><i style="width:100%"></i></div></div><div class="gtype"><div class="row"><span>Admin légitime (anti faux-positif)</span><span>136</span></div><div class="gbar"><i style="width:95%"></i></div></div><div class="gtype"><div class="row"><span>Raider connu (réputation)</span><span>134</span></div><div class="gbar"><i style="width:94%"></i></div></div><div class="gtype"><div class="row"><span>Raider très signalé</span><span>74</span></div><div class="gbar"><i style="width:52%"></i></div></div><div class="gtype"><div class="row"><span>Compte récent + Admin</span><span>33</span></div><div class="gbar"><i style="width:23%"></i></div></div><div class="gtype"><div class="row"><span>Accumulation de permissions</span><span>27</span></div><div class="gbar"><i style="width:19%"></i></div></div>
   <div class="gsec">Dernières erreurs apprises</div><div class="gex"><span class="t">Bot non vérifié (anti-bot)</span>compte 2j · arrivé il y a 4j · 2 perm. sensibles · réputation 52 · bot NON vérifié → 🟢 sain</div><div class="gex"><span class="t">Admin légitime (anti faux-positif)</span>compte 33 mois · Administrateur · réputation 49 · bot vérifié → 🟢 sain</div><div class="gex"><span class="t">Raider connu (réputation)</span>compte 9j · arrivé il y a 6h · 2 perm. sensibles · réputation 57 · bot vérifié · sans avatar → 🟢 sain</div><div class="gex"><span class="t">Raider très signalé</span>compte 7 mois · 3 perm. sensibles · réputation 103 → 🔴 menace</div><div class="gex"><span class="t">Compte récent + Admin</span>compte 2j · Administrateur · bot vérifié → 🔴 menace</div><div class="gex"><span class="t">Accumulation de permissions</span>compte 6j · arrivé il y a 7j · 4 perm. sensibles · réputation 21 → 🔴 menace</div><div class="gex"><span class="t">Bot non vérifié (anti-bot)</span>compte 6 mois · 3 perm. sensibles · réputation 95 · bot NON vérifié → 🟢 sain</div><div class="gex"><span class="t">Admin légitime (anti faux-positif)</span>compte 14 mois · Administrateur · 4 perm. sensibles · réputation 24 → 🟢 sain</div><div class="gex"><span class="t">Raider connu (réputation)</span>compte 8j · 4 perm. sensibles · réputation 54 · sans avatar → 🟢 sain</div><div class="gex"><span class="t">Raider très signalé</span>compte 6 mois · 2 perm. sensibles · réputation 101 · bot vérifié → 🔴 menace</div>
