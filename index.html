@@ -16,6 +16,19 @@ header p{color:var(--mut);margin:.5rem 0 0}
 .badge{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:.85rem;color:var(--mut)}
 .badge b{color:var(--gold)}
 .wrap{max-width:1000px;margin:0 auto;padding:24px 18px 70px}
+.layout{display:flex;gap:22px;max-width:1180px;margin:0 auto;padding:24px 18px 70px;align-items:flex-start}
+.side{flex:0 0 290px;width:290px;position:sticky;top:16px}
+.main{flex:1;min-width:0}
+.gpanel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.gpanel h2{font-size:1.05rem;margin:0}
+.gsub{color:var(--mut);font-size:.74rem;margin:3px 0 10px}
+.gbig{text-align:center;margin:4px 0 12px}.gbig .n{font-size:2.1rem;font-weight:800;color:#2ECC71;line-height:1}.gbig .l{color:var(--mut);font-size:.76rem}
+.gstat{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px solid var(--line)}
+.gstat .k{color:var(--mut);font-size:.82rem}.gstat .v{font-weight:700;color:var(--gold);font-size:.9rem;white-space:nowrap}
+.gsec{margin:14px 0 7px;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+.gtype{margin:7px 0}.gtype .row{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:3px}
+.gbar{height:6px;background:#0e0e18;border-radius:4px;overflow:hidden}.gbar>i{display:block;height:100%;background:var(--purple)}
+.gex{font-size:.8rem;color:#cfcfe0;padding:6px 0;border-bottom:1px solid var(--line)}.gex .t{color:var(--gold);font-size:.71rem;display:block;margin-bottom:1px}
 #search{width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:16px;margin:8px 0 22px}
 #search:focus{outline:none;border-color:var(--purple)}
 .nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
@@ -81,6 +94,8 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 @media(max-width:640px){
   header{padding:30px 15px 20px}header h1{font-size:1.55rem}header p{font-size:.92rem}
   .wrap{padding:18px 13px 50px}
+  .layout{flex-direction:column;padding:18px 13px 50px;gap:16px}
+  .side{position:static;width:auto;flex:none}
   .grid{grid-template-columns:1fr;gap:11px}
   h2.cat{font-size:1.12rem}
   .cta{display:block;width:100%;max-width:340px;margin:16px auto 0;text-align:center}
@@ -95,7 +110,22 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
   <div class="badges"><span class="badge"><b>108</b> commandes</span><span class="badge"><b>9</b> catégories</span><span class="badge">👥 <b>4 296</b> membres protégés</span></div>
   <div><a class="cta" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot</a></div>
 </header>
-<div class="wrap">
+<div class="layout">
+  <aside class="side"><div class="gpanel">
+  <h2>🧠 Guardian AI</h2>
+  <div class="gsub">Apprentissage autonome · cycle #1 · maj 26/06 11:37</div>
+  <div class="gbig"><div class="n">70%</div><div class="l">maîtrise globale</div></div>
+  <div class="gstat"><span class="k">Généralisation (inconnu)</span><span class="v">96%</span></div>
+  <div class="gstat"><span class="k">Reconnaît une menace</span><span class="v">42%</span></div>
+  <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">96%</span></div>
+  <div class="gstat"><span class="k">Exemples appris</span><span class="v">9336</span></div>
+  <div class="gstat"><span class="k">Solutions mémorisées</span><span class="v">440</span></div>
+  <div class="gstat"><span class="k">Erreurs apprises (ce cycle)</span><span class="v">15</span></div>
+  <div class="gstat"><span class="k">Règles re-vérifiées</span><span class="v">261/261</span></div>
+  <div class="gsec">Types d'erreurs apprises</div><div class="gtype"><div class="row"><span>Raider connu (réputation)</span><span>114</span></div><div class="gbar"><i style="width:100%"></i></div></div><div class="gtype"><div class="row"><span>Bot non vérifié (anti-bot)</span><span>112</span></div><div class="gbar"><i style="width:98%"></i></div></div><div class="gtype"><div class="row"><span>Admin légitime (anti faux-positif)</span><span>97</span></div><div class="gbar"><i style="width:85%"></i></div></div><div class="gtype"><div class="row"><span>Raider très signalé</span><span>59</span></div><div class="gbar"><i style="width:52%"></i></div></div><div class="gtype"><div class="row"><span>Compte récent + Admin</span><span>32</span></div><div class="gbar"><i style="width:28%"></i></div></div><div class="gtype"><div class="row"><span>Accumulation de permissions</span><span>26</span></div><div class="gbar"><i style="width:23%"></i></div></div>
+  <div class="gsec">Dernières erreurs apprises</div><div class="gex"><span class="t">Accumulation de permissions</span>compte 6j + 4 perm + sans avatar → menace</div><div class="gex"><span class="t">Raider connu (réputation)</span>compte 1000j + Admin + réputation 51 + bot vérifié → menace</div><div class="gex"><span class="t">Compte récent + Admin</span>compte 2j + Admin + bot vérifié → menace</div><div class="gex"><span class="t">Bot non vérifié (anti-bot)</span>compte 761j + Admin + 4 perm + réputation 4 + bot non vérifié + sans avatar → menace</div><div class="gex"><span class="t">Raider connu (réputation)</span>compte 319j + Admin + 2 perm + réputation 50 → menace</div><div class="gex"><span class="t">Compte récent + Admin</span>compte 7j + Admin + 1 perm + réputation 3 + bot vérifié + sans avatar → menace</div>
+</div></aside>
+  <main class="main">
   <div class="changelog"><h2>📰 Dernière mise à jour — Nouvelles commandes fun</h2><div class="ver">Publié le 26 juin 2026 à 11:03</div><ul><li>🤔 <code>+tupref</code> : lance un « Tu préfères… ? » avec <strong>votes en direct</strong> 🅰️/🅱️ et barres de résultats (public).</li><li>🗿 <code>+mog [@membre]</code> : mogue quelqu'un façon <strong>chad bipolaire</strong> 💅 — ça swingue entre énergie alpha et tendresse flamboyante (public, fun).</li><li>🐛 Correctif <code>+level</code> : le <strong>rang</strong> plantait pour les membres ayant de l'XP (bug de requête de classement) — c'est réparé.</li></ul>
     <button id="moreBtn" class="more" data-label="▼ Voir tout l'historique (2)">▼ Voir tout l'historique (2)</button>
     <div id="hist" class="hist"><div class="hentry"><h3>Sécurité &amp; commandes par identifiant<span>26 juin 2026</span></h3><ul><li>🔒 <code>+addrole</code> / <code>+delrole</code> acceptent désormais un rôle par <strong>mention OU identifiant</strong>.</li><li>🆕 <code>+invite</code> : un lien tout prêt pour ajouter le bot à un autre serveur (embed public).</li><li>🛡️ Renforcement des protections sur les commandes sensibles (réservées aux owners).</li></ul></div><div class="hentry"><h3>Guardian renforcé &amp; entraînement de l'IA<span>26 juin 2026</span></h3><ul><li>🛡️ Guardian renforcé : l'IA est <strong>pré-entraînée contre des scripts malveillants</strong>.</li><li>🧠 Entraînement autonome continu de l'IA, avec un <strong>pourcentage d'apprentissage</strong> affiché à chaque cycle.</li><li>💾 L'IA <strong>garde en mémoire les solutions</strong> des situations imprévues pour ne plus refaire les mêmes erreurs.</li></ul></div></div></div>
@@ -652,6 +682,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="tap">👆 Clique pour voir une simulation</div>
     </div></div></section>
   <div class="empty" id="empty">Aucune commande ne correspond. 🤷</div>
+  </main>
 </div>
 <div class="ov" id="ov"><div class="modal" id="mc"></div></div>
 <button id="toTop" class="totop" aria-label="Remonter en haut">↑</button>
