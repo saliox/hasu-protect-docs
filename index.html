@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-J++sfJjCdd11SHg9JjDymt2ClKpo3f7OAG3wItQFe2M='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-TbmzW1UQqY6tyVY+zkJu+ZAm6zUtLm4d9cyzEBa2qJ4='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
@@ -10,10 +10,11 @@
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;overflow-wrap:break-word}
 a{color:var(--gold);text-decoration:none}
 header{position:relative;padding:42px 22px 26px;text-align:center;background:radial-gradient(900px 320px at 50% -60px,rgba(88,101,242,.22),transparent),var(--bg);border-bottom:1px solid var(--line)}
-.bstat{position:absolute;top:22px;right:22px;font-size:.95rem;font-weight:700;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(180deg,var(--card2),var(--card));box-shadow:0 5px 18px rgba(0,0,0,.35);display:inline-flex;align-items:center;gap:8px;letter-spacing:.02em}
-.bstat.on{color:#57F287;border-color:#2f6b46;box-shadow:0 0 0 1px #2f6b46,0 5px 20px rgba(87,242,135,.22)}
-.bstat.off{color:#ED4245;border-color:#7a2e2e;box-shadow:0 0 0 1px #7a2e2e,0 5px 20px rgba(237,66,69,.22)}
-.bstat.upd{color:#E67E22;border-color:#7a5326;box-shadow:0 0 0 1px #7a5326,0 5px 20px rgba(230,126,34,.22)}
+.bstat{position:absolute;top:22px;right:22px;font-size:.92rem;font-weight:700;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.18);display:inline-flex;align-items:center;gap:8px;letter-spacing:.02em}
+.bstat .bdot{width:9px;height:9px;border-radius:50%;flex:none}
+.bstat.on{color:#57F287;border-color:#57F287}.bstat.on .bdot{background:#57F287}
+.bstat.off{color:#ED4245;border-color:#ED4245}.bstat.off .bdot{background:#ED4245}
+.bstat.upd{color:#E67E22;border-color:#E67E22}.bstat.upd .bdot{background:#E67E22}
 @media(max-width:640px){.bstat{position:static;margin:0 auto 12px;font-size:.88rem}}
 header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
 header p{color:var(--mut);margin:.5rem 0 0}
@@ -111,7 +112,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 }
 </style></head><body>
 <header>
-  <div class="bstat on" id="botstatus">🟢 En ligne</div>
+  <div class="bstat on" id="botstatus"><span class="bdot"></span><span id="bstxt">En ligne</span></div>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p>Documentation des commandes — bot de modération &amp; sécurité Discord</p>
   <div class="badges"><span class="badge"><b>110</b> commandes</span><span class="badge"><b>9</b> catégories</span><span class="badge">👥 <b>4 291</b> membres protégés</span></div>
@@ -733,10 +734,10 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.innerHTML=h;}
 var __gAt=0,__hb=Date.now(),__bs='online';
 function setStatus(){var el=document.getElementById('botstatus');if(!el)return;var t,c;
- if(__bs==='updating'){t='🟠 En mise à jour';c='upd';}
- else if(Date.now()-__hb<2700000){t='🟢 En ligne';c='on';}
- else{t='🔴 Hors ligne';c='off';}
- el.textContent=t;el.className='bstat '+c;}
+ if(__bs==='updating'){t='En mise à jour';c='upd';}
+ else if(Date.now()-__hb<2700000){t='En ligne';c='on';}
+ else{t='Hors ligne';c='off';}
+ el.className='bstat '+c;var x=document.getElementById('bstxt');if(x)x.textContent=t;}
 function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hb=d.heartbeat;if(d.botStatus)__bs=d.botStatus;setStatus();if(d.at&&d.at!==__gAt){__gAt=d.at;renderG(d);}}).catch(function(){});}
 setInterval(pollG,120000);setTimeout(pollG,3000);setInterval(setStatus,60000);
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e;}
