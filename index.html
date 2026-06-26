@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-qZWRHHektgd4PqX60JXKWauuqukSJsmDqON4GWbbzgE='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-H48iUkwA4j0mMOnXjIItfO2lIyOtEtFlm/cqRgk8zi4='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
@@ -48,6 +48,8 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 .hentry{margin-top:14px}
 .hentry h3{font-size:1rem;margin:0 0 5px;color:var(--gold)}
 .hentry h3 span{color:var(--mut);font-size:.76rem;font-weight:400;margin-left:8px}
+.totop{position:fixed;right:18px;bottom:18px;width:46px;height:46px;border-radius:50%;background:var(--purple);color:#fff;border:none;font-size:1.45rem;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.45);z-index:55}
+.totop.show{display:flex}.totop:hover{filter:brightness(1.12);transform:translateY(-2px)}
 .ov{position:fixed;inset:0;background:rgba(5,5,10,.78);display:none;align-items:flex-start;justify-content:center;padding:28px 14px;overflow:auto;z-index:60}
 .ov.open{display:flex}
 .modal{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--cc,var(--purple));border-radius:16px;max-width:580px;width:100%;padding:20px 20px 22px;box-shadow:0 18px 60px rgba(0,0,0,.6)}
@@ -90,15 +92,15 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 <header>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p>Documentation des commandes — bot de modération &amp; sécurité Discord</p>
-  <div class="badges"><span class="badge"><b>108</b> commandes</span><span class="badge"><b>9</b> catégories</span><span class="badge">Préfixe <b>+</b></span></div>
-  <div><a class="cta" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot à mon serveur</a></div>
+  <div class="badges"><span class="badge"><b>108</b> commandes</span><span class="badge"><b>9</b> catégories</span><span class="badge">👥 <b>4 296</b> membres protégés</span></div>
+  <div><a class="cta" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot</a></div>
 </header>
 <div class="wrap">
   <div class="changelog"><h2>📰 Dernière mise à jour — Nouvelles commandes fun</h2><div class="ver">Publié le 26 juin 2026 à 11:03</div><ul><li>🤔 <code>+tupref</code> : lance un « Tu préfères… ? » avec <strong>votes en direct</strong> 🅰️/🅱️ et barres de résultats (public).</li><li>🗿 <code>+mog [@membre]</code> : mogue quelqu'un façon <strong>chad bipolaire</strong> 💅 — ça swingue entre énergie alpha et tendresse flamboyante (public, fun).</li><li>🐛 Correctif <code>+level</code> : le <strong>rang</strong> plantait pour les membres ayant de l'XP (bug de requête de classement) — c'est réparé.</li></ul>
     <button id="moreBtn" class="more" data-label="▼ Voir tout l'historique (2)">▼ Voir tout l'historique (2)</button>
     <div id="hist" class="hist"><div class="hentry"><h3>Sécurité &amp; commandes par identifiant<span>26 juin 2026</span></h3><ul><li>🔒 <code>+addrole</code> / <code>+delrole</code> acceptent désormais un rôle par <strong>mention OU identifiant</strong>.</li><li>🆕 <code>+invite</code> : un lien tout prêt pour ajouter le bot à un autre serveur (embed public).</li><li>🛡️ Renforcement des protections sur les commandes sensibles (réservées aux owners).</li></ul></div><div class="hentry"><h3>Guardian renforcé &amp; entraînement de l'IA<span>26 juin 2026</span></h3><ul><li>🛡️ Guardian renforcé : l'IA est <strong>pré-entraînée contre des scripts malveillants</strong>.</li><li>🧠 Entraînement autonome continu de l'IA, avec un <strong>pourcentage d'apprentissage</strong> affiché à chaque cycle.</li><li>💾 L'IA <strong>garde en mémoire les solutions</strong> des situations imprévues pour ne plus refaire les mêmes erreurs.</li></ul></div></div></div>
   <input id="search" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="🔍 Rechercher une commande (nom ou description)…">
-  <div class="nav"><a href="#c0" style="--cc:#F1C40F">Sécurité &amp; Antiraid</a><a href="#c1" style="--cc:#5865F2">Automod</a><a href="#c2" style="--cc:#2ECC71">Modération</a><a href="#c3" style="--cc:#E91E63">Configuration</a><a href="#c4" style="--cc:#E67E22">Owner du bot</a><a href="#c5" style="--cc:#1ABC9C">Général</a><a href="#c6" style="--cc:#9B59B6">Niveaux</a><a href="#c7" style="--cc:#3498DB">Communauté</a><a href="#c8" style="--cc:#E74C3C">Fun</a></div>
+  <div class="nav"><a href="#c0" style="--cc:#F1C40F">Sécurité &amp; Antiraid</a><a href="#c1" style="--cc:#5865F2">Configuration</a><a href="#c2" style="--cc:#2ECC71">Owner du bot</a><a href="#c3" style="--cc:#E91E63">Modération</a><a href="#c4" style="--cc:#E67E22">Automod</a><a href="#c5" style="--cc:#1ABC9C">Général</a><a href="#c6" style="--cc:#9B59B6">Niveaux</a><a href="#c7" style="--cc:#3498DB">Communauté</a><a href="#c8" style="--cc:#E74C3C">Fun</a></div>
   <section id="c0" style="--cc:#F1C40F"><h2 class="cat">Sécurité &amp; Antiraid <span style="color:var(--mut);font-size:.8rem">(17)</span></h2>
     <div class="grid"><div class="cmd" data-s="antiraid configure les modules antiraid du serveur " data-n="antiraid" data-d="Configure les modules antiraid du serveur" data-u="+antiraid | !antiraid &lt;module&gt; &lt;on/off/valeur&gt; | !antiraid whitelist add/remove/list @membre" data-c="#F1C40F">
       <div class="name">+antiraid</div>
@@ -185,279 +187,279 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="desc">Ajoute (ou retire) un rôle à tous les membres humains du serveur</div>
       <div class="usage">+massrole @role | !massrole remove @role</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div></div></section><section id="c1" style="--cc:#5865F2"><h2 class="cat">Automod <span style="color:var(--mut);font-size:.8rem">(4)</span></h2>
-    <div class="grid"><div class="cmd" data-s="automod configure les protections automatiques du serveur " data-n="automod" data-d="Configure les protections automatiques du serveur" data-u="+automod &lt;antispam|antilink|antibadword|antimassmention&gt; &lt;on|off&gt;" data-c="#5865F2">
-      <div class="name">+automod</div>
-      <div class="desc">Configure les protections automatiques du serveur</div>
-      <div class="usage">+automod &lt;antispam|antilink|antibadword|antimassmention&gt; &lt;on|off&gt;</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="badword gère la liste des mots interdits " data-n="badword" data-d="Gère la liste des mots interdits" data-u="+badword add &lt;mot&gt; | !badword remove &lt;mot&gt; | !badword list" data-c="#5865F2">
-      <div class="name">+badword</div>
-      <div class="desc">Gère la liste des mots interdits</div>
-      <div class="usage">+badword add &lt;mot&gt; | !badword remove &lt;mot&gt; | !badword list</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="autoslowmode active le mode lent automatiquement pendant un pic de messages (retiré au calme) " data-n="autoslowmode" data-d="Active le mode lent automatiquement pendant un pic de messages (retiré au calme)" data-u="+autoslowmode on/off | !autoslowmode set &lt;msgs&gt; &lt;fenêtre_s&gt; &lt;lenteur_s&gt;" data-c="#5865F2">
-      <div class="name">+autoslowmode</div>
-      <div class="desc">Active le mode lent automatiquement pendant un pic de messages (retiré au calme)</div>
-      <div class="usage">+autoslowmode on/off | !autoslowmode set &lt;msgs&gt; &lt;fenêtre_s&gt; &lt;lenteur_s&gt;</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="linkwl whitelist de domaines pour l'antilink (liens autorisés malgré l'antilink) " data-n="linkwl" data-d="Whitelist de domaines pour l'antilink (liens autorisés malgré l'antilink)" data-u="+linkwl add &lt;domaine&gt; | !linkwl del &lt;domaine&gt; | !linkwl list" data-c="#5865F2">
-      <div class="name">+linkwl</div>
-      <div class="desc">Whitelist de domaines pour l'antilink (liens autorisés malgré l'antilink)</div>
-      <div class="usage">+linkwl add &lt;domaine&gt; | !linkwl del &lt;domaine&gt; | !linkwl list</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div></div></section><section id="c2" style="--cc:#2ECC71"><h2 class="cat">Modération <span style="color:var(--mut);font-size:.8rem">(20)</span></h2>
-    <div class="grid"><div class="cmd" data-s="ban bannit un membre du serveur (mention ou id, même hors-serveur) " data-n="ban" data-d="Bannit un membre du serveur (mention ou ID, même hors-serveur)" data-u="+ban @membre/ID [raison]" data-c="#2ECC71">
-      <div class="name">+ban</div>
-      <div class="desc">Bannit un membre du serveur (mention ou ID, même hors-serveur)</div>
-      <div class="usage">+ban @membre/ID [raison]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="tempban bannit un membre temporairement (déban automatique à l'expiration) " data-n="tempban" data-d="Bannit un membre temporairement (déban automatique à l'expiration)" data-u="+tempban @membre/ID &lt;durée: 1h/1j/7j&gt; [raison]" data-c="#2ECC71">
-      <div class="name">+tempban</div>
-      <div class="desc">Bannit un membre temporairement (déban automatique à l'expiration)</div>
-      <div class="usage">+tempban @membre/ID &lt;durée: 1h/1j/7j&gt; [raison]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="kick expulse un membre du serveur " data-n="kick" data-d="Expulse un membre du serveur" data-u="+kick @membre/ID [raison]" data-c="#2ECC71">
-      <div class="name">+kick</div>
-      <div class="desc">Expulse un membre du serveur</div>
-      <div class="usage">+kick @membre/ID [raison]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="tempsmute réduit un membre au silence (écrit + vocal) pour une durée donnée " data-n="tempsmute" data-d="Réduit un membre au silence (écrit + vocal) pour une durée donnée" data-u="+tempsmute @membre/ID [durée: 30s/10m/1h/1j] [raison]" data-c="#2ECC71">
-      <div class="name">+tempsmute</div>
-      <div class="desc">Réduit un membre au silence (écrit + vocal) pour une durée donnée</div>
-      <div class="usage">+tempsmute @membre/ID [durée: 30s/10m/1h/1j] [raison]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="unmute rend la parole à un membre (retire le mute écrit et vocal) " data-n="unmute" data-d="Rend la parole à un membre (retire le mute écrit et vocal)" data-u="+unmute @membre/ID" data-c="#2ECC71">
-      <div class="name">+unmute</div>
-      <div class="desc">Rend la parole à un membre (retire le mute écrit et vocal)</div>
-      <div class="usage">+unmute @membre/ID</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="warn donne un avertissement à un membre (sanction automatique selon les paliers) " data-n="warn" data-d="Donne un avertissement à un membre (sanction automatique selon les paliers)" data-u="+warn @membre [raison]" data-c="#2ECC71">
-      <div class="name">+warn</div>
-      <div class="desc">Donne un avertissement à un membre (sanction automatique selon les paliers)</div>
-      <div class="usage">+warn @membre [raison]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="warnexpiry définit l'expiration automatique des avertissements (en jours) " data-n="warnexpiry" data-d="Définit l'expiration automatique des avertissements (en jours)" data-u="+warnexpiry &lt;jours&gt; | !warnexpiry off" data-c="#2ECC71">
-      <div class="name">+warnexpiry</div>
-      <div class="desc">Définit l'expiration automatique des avertissements (en jours)</div>
-      <div class="usage">+warnexpiry &lt;jours&gt; | !warnexpiry off</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="note notes de modération privées sur un membre (staff uniquement) " data-n="note" data-d="Notes de modération privées sur un membre (staff uniquement)" data-u="+note add @membre &lt;texte&gt; | !note list @membre | !note del @membre &lt;n°&gt;" data-c="#2ECC71">
-      <div class="name">+note</div>
-      <div class="desc">Notes de modération privées sur un membre (staff uniquement)</div>
-      <div class="usage">+note add @membre &lt;texte&gt; | !note list @membre | !note del @membre &lt;n°&gt;</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="clear supprime des messages en masse " data-n="clear" data-d="Supprime des messages en masse" data-u="+clear [nombre (1-100)]" data-c="#2ECC71">
-      <div class="name">+clear</div>
-      <div class="desc">Supprime des messages en masse</div>
-      <div class="usage">+clear [nombre (1-100)]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="sanctions affiche ou gère les avertissements (warns) d'un membre (mention ou id) " data-n="sanctions" data-d="Affiche ou gère les avertissements (warns) d'un membre (mention ou ID)" data-u="+sanctions @membre/ID | !sanctions del &lt;id&gt; | !sanctions clear @membre/ID" data-c="#2ECC71">
-      <div class="name">+sanctions</div>
-      <div class="desc">Affiche ou gère les avertissements (warns) d'un membre (mention ou ID)</div>
-      <div class="usage">+sanctions @membre/ID | !sanctions del &lt;id&gt; | !sanctions clear @membre/ID</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="history affiche le casier (historique des sanctions) d'un membre " data-n="history" data-d="Affiche le casier (historique des sanctions) d'un membre" data-u="+history @membre/ID" data-c="#2ECC71">
-      <div class="name">+history</div>
-      <div class="desc">Affiche le casier (historique des sanctions) d'un membre</div>
-      <div class="usage">+history @membre/ID</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="case affiche le détail d'un dossier de modération par son numéro " data-n="case" data-d="Affiche le détail d'un dossier de modération par son numéro" data-u="+case &lt;numéro&gt;" data-c="#2ECC71">
-      <div class="name">+case</div>
-      <div class="desc">Affiche le détail d'un dossier de modération par son numéro</div>
-      <div class="usage">+case &lt;numéro&gt;</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="reason corrige la raison d'un dossier de modération existant " data-n="reason" data-d="Corrige la raison d'un dossier de modération existant" data-u="+reason &lt;numéro&gt; &lt;nouvelle raison&gt;" data-c="#2ECC71">
-      <div class="name">+reason</div>
-      <div class="desc">Corrige la raison d'un dossier de modération existant</div>
-      <div class="usage">+reason &lt;numéro&gt; &lt;nouvelle raison&gt;</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="purge supprime les messages récents d'un membre précis (ce salon, ou tous avec &quot;all&quot;) " data-n="purge" data-d="Supprime les messages récents d'un membre précis (ce salon, ou tous avec &quot;all&quot;)" data-u="+purge @membre [nombre|all]" data-c="#2ECC71">
-      <div class="name">+purge</div>
-      <div class="desc">Supprime les messages récents d'un membre précis (ce salon, ou tous avec &quot;all&quot;)</div>
-      <div class="usage">+purge @membre [nombre|all]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="close ferme le ticket courant et archive le transcript dans les logs " data-n="close" data-d="Ferme le ticket courant et archive le transcript dans les logs" data-u="+close [raison]" data-c="#2ECC71">
-      <div class="name">+close</div>
-      <div class="desc">Ferme le ticket courant et archive le transcript dans les logs</div>
-      <div class="usage">+close [raison]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="userinfo fiche d'identité complète d'un membre (modération + sécurité + indice) " data-n="userinfo" data-d="Fiche d'identité complète d'un membre (modération + sécurité + indice)" data-u="+userinfo [@membre/ID]" data-c="#2ECC71">
-      <div class="name">+userinfo</div>
-      <div class="desc">Fiche d'identité complète d'un membre (modération + sécurité + indice)</div>
-      <div class="usage">+userinfo [@membre/ID]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="moveall déplace tous les membres en vocal — ou un membre précis (mention/id) — vers un salon vocal moov" data-n="moveall" data-d="Déplace tous les membres en vocal — ou un membre précis (mention/ID) — vers un salon vocal" data-u="+moveall [@membre/ID] &lt;#salon vocal | ID | nom&gt; (ou sois connecté au salon cible)" data-c="#2ECC71">
-      <div class="name">+moveall<span class="al">alias: +moov</span></div>
-      <div class="desc">Déplace tous les membres en vocal — ou un membre précis (mention/ID) — vers un salon vocal</div>
-      <div class="usage">+moveall [@membre/ID] &lt;#salon vocal | ID | nom&gt; (ou sois connecté au salon cible)</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="dm envoie un message privé à un membre (mention ou id) " data-n="dm" data-d="Envoie un message privé à un membre (mention ou ID)" data-u="+dm @membre/ID &lt;message&gt;" data-c="#2ECC71">
-      <div class="name">+dm</div>
-      <div class="desc">Envoie un message privé à un membre (mention ou ID)</div>
-      <div class="usage">+dm @membre/ID &lt;message&gt;</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="say fait parler le bot dans le salon (supporte {var:nom}) " data-n="say" data-d="Fait parler le bot dans le salon (supporte {var:nom})" data-u="+say &lt;message&gt;" data-c="#2ECC71">
-      <div class="name">+say</div>
-      <div class="desc">Fait parler le bot dans le salon (supporte {var:nom})</div>
-      <div class="usage">+say &lt;message&gt;</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="embed crée un embed personnalisé (titre | description | image, supporte {var:nom}) " data-n="embed" data-d="Crée un embed personnalisé (titre | description | image, supporte {var:nom})" data-u="+embed &lt;titre&gt; | &lt;description&gt; | [url image]" data-c="#2ECC71">
-      <div class="name">+embed</div>
-      <div class="desc">Crée un embed personnalisé (titre | description | image, supporte {var:nom})</div>
-      <div class="usage">+embed &lt;titre&gt; | &lt;description&gt; | [url image]</div>
-      <div class="tap">👆 Clique pour voir une simulation</div>
-    </div></div></section><section id="c3" style="--cc:#E91E63"><h2 class="cat">Configuration <span style="color:var(--mut);font-size:.8rem">(19)</span></h2>
-    <div class="grid"><div class="cmd" data-s="setup ouvre le panneau de configuration du bot (préfixe, thème, logs, sécurité, scan) " data-n="setup" data-d="Ouvre le panneau de configuration du bot (préfixe, thème, logs, sécurité, scan)" data-u="+setup" data-c="#E91E63">
+    </div></div></section><section id="c1" style="--cc:#5865F2"><h2 class="cat">Configuration <span style="color:var(--mut);font-size:.8rem">(19)</span></h2>
+    <div class="grid"><div class="cmd" data-s="setup ouvre le panneau de configuration du bot (préfixe, thème, logs, sécurité, scan) " data-n="setup" data-d="Ouvre le panneau de configuration du bot (préfixe, thème, logs, sécurité, scan)" data-u="+setup" data-c="#5865F2">
       <div class="name">+setup</div>
       <div class="desc">Ouvre le panneau de configuration du bot (préfixe, thème, logs, sécurité, scan)</div>
       <div class="usage">+setup</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="menu ouvre le panneau de configuration du bot (alias de +setup) " data-n="menu" data-d="Ouvre le panneau de configuration du bot (alias de +setup)" data-u="+menu" data-c="#E91E63">
+    </div><div class="cmd" data-s="menu ouvre le panneau de configuration du bot (alias de +setup) " data-n="menu" data-d="Ouvre le panneau de configuration du bot (alias de +setup)" data-u="+menu" data-c="#5865F2">
       <div class="name">+menu</div>
       <div class="desc">Ouvre le panneau de configuration du bot (alias de +setup)</div>
       <div class="usage">+menu</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="config affiche toute la configuration actuelle du serveur " data-n="config" data-d="Affiche toute la configuration actuelle du serveur" data-u="+config" data-c="#E91E63">
+    </div><div class="cmd" data-s="config affiche toute la configuration actuelle du serveur " data-n="config" data-d="Affiche toute la configuration actuelle du serveur" data-u="+config" data-c="#5865F2">
       <div class="name">+config</div>
       <div class="desc">Affiche toute la configuration actuelle du serveur</div>
       <div class="usage">+config</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="exportconfig affiche l'id de ce serveur pour cloner ses réglages vers un autre " data-n="exportconfig" data-d="Affiche l'ID de ce serveur pour cloner ses réglages vers un autre" data-u="+exportconfig" data-c="#E91E63">
+    </div><div class="cmd" data-s="exportconfig affiche l'id de ce serveur pour cloner ses réglages vers un autre " data-n="exportconfig" data-d="Affiche l'ID de ce serveur pour cloner ses réglages vers un autre" data-u="+exportconfig" data-c="#5865F2">
       <div class="name">+exportconfig</div>
       <div class="desc">Affiche l'ID de ce serveur pour cloner ses réglages vers un autre</div>
       <div class="usage">+exportconfig</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="importconfig clone les réglages d'un autre serveur vers celui-ci (owner) " data-n="importconfig" data-d="Clone les réglages d'un autre serveur vers celui-ci (owner)" data-u="+importconfig &lt;ID du serveur source&gt;" data-c="#E91E63">
+    </div><div class="cmd" data-s="importconfig clone les réglages d'un autre serveur vers celui-ci (owner) " data-n="importconfig" data-d="Clone les réglages d'un autre serveur vers celui-ci (owner)" data-u="+importconfig &lt;ID du serveur source&gt;" data-c="#5865F2">
       <div class="name">+importconfig</div>
       <div class="desc">Clone les réglages d'un autre serveur vers celui-ci (owner)</div>
       <div class="usage">+importconfig &lt;ID du serveur source&gt;</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="prefix change le préfixe du bot sur ce serveur " data-n="prefix" data-d="Change le préfixe du bot sur ce serveur" data-u="+prefix &lt;nouveau préfixe&gt;" data-c="#E91E63">
+    </div><div class="cmd" data-s="prefix change le préfixe du bot sur ce serveur " data-n="prefix" data-d="Change le préfixe du bot sur ce serveur" data-u="+prefix &lt;nouveau préfixe&gt;" data-c="#5865F2">
       <div class="name">+prefix</div>
       <div class="desc">Change le préfixe du bot sur ce serveur</div>
       <div class="usage">+prefix &lt;nouveau préfixe&gt;</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="theme change la couleur des embeds du bot (menu help, etc.) " data-n="theme" data-d="Change la couleur des embeds du bot (menu help, etc.)" data-u="+theme &lt;couleur|#hex&gt; — ex: !theme jaune ou !theme #FFAA00" data-c="#E91E63">
+    </div><div class="cmd" data-s="theme change la couleur des embeds du bot (menu help, etc.) " data-n="theme" data-d="Change la couleur des embeds du bot (menu help, etc.)" data-u="+theme &lt;couleur|#hex&gt; — ex: !theme jaune ou !theme #FFAA00" data-c="#5865F2">
       <div class="name">+theme</div>
       <div class="desc">Change la couleur des embeds du bot (menu help, etc.)</div>
       <div class="usage">+theme &lt;couleur|#hex&gt; — ex: !theme jaune ou !theme #FFAA00</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="perm paliers de permission : assigne un rôle à un niveau d'accès (modo/admin/owner) " data-n="perm" data-d="Paliers de permission : assigne un rôle à un niveau d'accès (modo/admin/owner)" data-u="+perm | !perm &lt;modo|admin|owner&gt; add @role | !perm del @role" data-c="#E91E63">
+    </div><div class="cmd" data-s="perm paliers de permission : assigne un rôle à un niveau d'accès (modo/admin/owner) " data-n="perm" data-d="Paliers de permission : assigne un rôle à un niveau d'accès (modo/admin/owner)" data-u="+perm | !perm &lt;modo|admin|owner&gt; add @role | !perm del @role" data-c="#5865F2">
       <div class="name">+perm</div>
       <div class="desc">Paliers de permission : assigne un rôle à un niveau d'accès (modo/admin/owner)</div>
       <div class="usage">+perm | !perm &lt;modo|admin|owner&gt; add @role | !perm del @role</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="setlogs définit (ou retire) le salon des logs du serveur " data-n="setlogs" data-d="Définit (ou retire) le salon des logs du serveur" data-u="+setlogs [#salon] | !setlogs off" data-c="#E91E63">
+    </div><div class="cmd" data-s="setlogs définit (ou retire) le salon des logs du serveur " data-n="setlogs" data-d="Définit (ou retire) le salon des logs du serveur" data-u="+setlogs [#salon] | !setlogs off" data-c="#5865F2">
       <div class="name">+setlogs</div>
       <div class="desc">Définit (ou retire) le salon des logs du serveur</div>
       <div class="usage">+setlogs [#salon] | !setlogs off</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="setwelcome configure le message de bienvenue " data-n="setwelcome" data-d="Configure le message de bienvenue" data-u="+setwelcome [#salon] | !setwelcome message &lt;texte&gt;" data-c="#E91E63">
+    </div><div class="cmd" data-s="setwelcome configure le message de bienvenue " data-n="setwelcome" data-d="Configure le message de bienvenue" data-u="+setwelcome [#salon] | !setwelcome message &lt;texte&gt;" data-c="#5865F2">
       <div class="name">+setwelcome</div>
       <div class="desc">Configure le message de bienvenue</div>
       <div class="usage">+setwelcome [#salon] | !setwelcome message &lt;texte&gt;</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="setgoodbye configure le message d'au revoir " data-n="setgoodbye" data-d="Configure le message d'au revoir" data-u="+setgoodbye [#salon] | !setgoodbye message &lt;texte&gt;" data-c="#E91E63">
+    </div><div class="cmd" data-s="setgoodbye configure le message d'au revoir " data-n="setgoodbye" data-d="Configure le message d'au revoir" data-u="+setgoodbye [#salon] | !setgoodbye message &lt;texte&gt;" data-c="#5865F2">
       <div class="name">+setgoodbye</div>
       <div class="desc">Configure le message d'au revoir</div>
       <div class="usage">+setgoodbye [#salon] | !setgoodbye message &lt;texte&gt;</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="setverify configure la vérification à l'entrée (bouton → rôle vérifié) " data-n="setverify" data-d="Configure la vérification à l'entrée (bouton → rôle vérifié)" data-u="+setverify #salon @role | !setverify off" data-c="#E91E63">
+    </div><div class="cmd" data-s="setverify configure la vérification à l'entrée (bouton → rôle vérifié) " data-n="setverify" data-d="Configure la vérification à l'entrée (bouton → rôle vérifié)" data-u="+setverify #salon @role | !setverify off" data-c="#5865F2">
       <div class="name">+setverify</div>
       <div class="desc">Configure la vérification à l'entrée (bouton → rôle vérifié)</div>
       <div class="usage">+setverify #salon @role | !setverify off</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="setsuggest définit (ou retire) le salon des suggestions " data-n="setsuggest" data-d="Définit (ou retire) le salon des suggestions" data-u="+setsuggest [#salon] | !setsuggest off" data-c="#E91E63">
+    </div><div class="cmd" data-s="setsuggest définit (ou retire) le salon des suggestions " data-n="setsuggest" data-d="Définit (ou retire) le salon des suggestions" data-u="+setsuggest [#salon] | !setsuggest off" data-c="#5865F2">
       <div class="name">+setsuggest</div>
       <div class="desc">Définit (ou retire) le salon des suggestions</div>
       <div class="usage">+setsuggest [#salon] | !setsuggest off</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="setstats crée des salons compteurs configurables (membres, humains, bots, boosts, rôles, salons) " data-n="setstats" data-d="Crée des salons compteurs configurables (membres, humains, bots, boosts, rôles, salons)" data-u="+setstats [types...] | !setstats off  — ex: +setstats members bots boosts" data-c="#E91E63">
+    </div><div class="cmd" data-s="setstats crée des salons compteurs configurables (membres, humains, bots, boosts, rôles, salons) " data-n="setstats" data-d="Crée des salons compteurs configurables (membres, humains, bots, boosts, rôles, salons)" data-u="+setstats [types...] | !setstats off  — ex: +setstats members bots boosts" data-c="#5865F2">
       <div class="name">+setstats</div>
       <div class="desc">Crée des salons compteurs configurables (membres, humains, bots, boosts, rôles, salons)</div>
       <div class="usage">+setstats [types...] | !setstats off  — ex: +setstats members bots boosts</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="autorole donne automatiquement un rôle aux nouveaux membres " data-n="autorole" data-d="Donne automatiquement un rôle aux nouveaux membres" data-u="+autorole @role | !autorole off" data-c="#E91E63">
+    </div><div class="cmd" data-s="autorole donne automatiquement un rôle aux nouveaux membres " data-n="autorole" data-d="Donne automatiquement un rôle aux nouveaux membres" data-u="+autorole @role | !autorole off" data-c="#5865F2">
       <div class="name">+autorole</div>
       <div class="desc">Donne automatiquement un rôle aux nouveaux membres</div>
       <div class="usage">+autorole @role | !autorole off</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="rolemenu crée un menu de rôles à boutons (les membres s'attribuent les rôles eux-mêmes) " data-n="rolemenu" data-d="Crée un menu de rôles à boutons (les membres s'attribuent les rôles eux-mêmes)" data-u="+rolemenu @role1 @role2 ... (jusqu'à 25)" data-c="#E91E63">
+    </div><div class="cmd" data-s="rolemenu crée un menu de rôles à boutons (les membres s'attribuent les rôles eux-mêmes) " data-n="rolemenu" data-d="Crée un menu de rôles à boutons (les membres s'attribuent les rôles eux-mêmes)" data-u="+rolemenu @role1 @role2 ... (jusqu'à 25)" data-c="#5865F2">
       <div class="name">+rolemenu</div>
       <div class="desc">Crée un menu de rôles à boutons (les membres s'attribuent les rôles eux-mêmes)</div>
       <div class="usage">+rolemenu @role1 @role2 ... (jusqu'à 25)</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="joincreate salon vocal &quot;hub&quot; : le rejoindre crée un vocal temporaire perso (join-to-create) " data-n="joincreate" data-d="Salon vocal &quot;hub&quot; : le rejoindre crée un vocal temporaire perso (Join-to-Create)" data-u="+joincreate &lt;#vocal ou ID&gt; | !joincreate off" data-c="#E91E63">
+    </div><div class="cmd" data-s="joincreate salon vocal &quot;hub&quot; : le rejoindre crée un vocal temporaire perso (join-to-create) " data-n="joincreate" data-d="Salon vocal &quot;hub&quot; : le rejoindre crée un vocal temporaire perso (Join-to-Create)" data-u="+joincreate &lt;#vocal ou ID&gt; | !joincreate off" data-c="#5865F2">
       <div class="name">+joincreate</div>
       <div class="desc">Salon vocal &quot;hub&quot; : le rejoindre crée un vocal temporaire perso (Join-to-Create)</div>
       <div class="usage">+joincreate &lt;#vocal ou ID&gt; | !joincreate off</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="custom crée et configure des commandes personnalisées " data-n="custom" data-d="Crée et configure des commandes personnalisées" data-u="+custom add/del/list/info/set — ex: !custom add salut Coucou {user} !" data-c="#E91E63">
+    </div><div class="cmd" data-s="custom crée et configure des commandes personnalisées " data-n="custom" data-d="Crée et configure des commandes personnalisées" data-u="+custom add/del/list/info/set — ex: !custom add salut Coucou {user} !" data-c="#5865F2">
       <div class="name">+custom</div>
       <div class="desc">Crée et configure des commandes personnalisées</div>
       <div class="usage">+custom add/del/list/info/set — ex: !custom add salut Coucou {user} !</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="var variables personnalisées du serveur, réutilisables via {var:nom} " data-n="var" data-d="Variables personnalisées du serveur, réutilisables via {var:nom}" data-u="+var set &lt;nom&gt; &lt;valeur&gt; | !var del &lt;nom&gt; | !var list" data-c="#E91E63">
+    </div><div class="cmd" data-s="var variables personnalisées du serveur, réutilisables via {var:nom} " data-n="var" data-d="Variables personnalisées du serveur, réutilisables via {var:nom}" data-u="+var set &lt;nom&gt; &lt;valeur&gt; | !var del &lt;nom&gt; | !var list" data-c="#5865F2">
       <div class="name">+var</div>
       <div class="desc">Variables personnalisées du serveur, réutilisables via {var:nom}</div>
       <div class="usage">+var set &lt;nom&gt; &lt;valeur&gt; | !var del &lt;nom&gt; | !var list</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div></div></section><section id="c4" style="--cc:#E67E22"><h2 class="cat">Owner du bot <span style="color:var(--mut);font-size:.8rem">(11)</span></h2>
-    <div class="grid"><div class="cmd" data-s="owner gère les owners du bot (toutes les permissions sur le bot) " data-n="owner" data-d="Gère les owners du bot (toutes les permissions sur le bot)" data-u="+owner @membre (= ajoute) | !owner remove @membre | !owner list" data-c="#E67E22">
+    </div></div></section><section id="c2" style="--cc:#2ECC71"><h2 class="cat">Owner du bot <span style="color:var(--mut);font-size:.8rem">(11)</span></h2>
+    <div class="grid"><div class="cmd" data-s="owner gère les owners du bot (toutes les permissions sur le bot) " data-n="owner" data-d="Gère les owners du bot (toutes les permissions sur le bot)" data-u="+owner @membre (= ajoute) | !owner remove @membre | !owner list" data-c="#2ECC71">
       <div class="name">+owner</div>
       <div class="desc">Gère les owners du bot (toutes les permissions sur le bot)</div>
       <div class="usage">+owner @membre (= ajoute) | !owner remove @membre | !owner list</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="unowner retire un owner du bot (mention ou id) " data-n="unowner" data-d="Retire un owner du bot (mention ou ID)" data-u="+unowner @membre/ID" data-c="#E67E22">
+    </div><div class="cmd" data-s="unowner retire un owner du bot (mention ou id) " data-n="unowner" data-d="Retire un owner du bot (mention ou ID)" data-u="+unowner @membre/ID" data-c="#2ECC71">
       <div class="name">+unowner</div>
       <div class="desc">Retire un owner du bot (mention ou ID)</div>
       <div class="usage">+unowner @membre/ID</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="customperm règle le palier requis d'une commande (ou via +setup → permissions par commande) " data-n="customperm" data-d="Règle le palier requis d'une commande (ou via +setup → Permissions par commande)" data-u="+customperm &lt;commande&gt; &lt;modo|admin|owner|reset&gt;" data-c="#E67E22">
+    </div><div class="cmd" data-s="customperm règle le palier requis d'une commande (ou via +setup → permissions par commande) " data-n="customperm" data-d="Règle le palier requis d'une commande (ou via +setup → Permissions par commande)" data-u="+customperm &lt;commande&gt; &lt;modo|admin|owner|reset&gt;" data-c="#2ECC71">
       <div class="name">+customperm</div>
       <div class="desc">Règle le palier requis d'une commande (ou via +setup → Permissions par commande)</div>
       <div class="usage">+customperm &lt;commande&gt; &lt;modo|admin|owner|reset&gt;</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="changelogdm active ou désactive la réception du changelog du bot en message privé " data-n="changelogdm" data-d="Active ou désactive la réception du changelog du bot en message privé" data-u="+changelogdm [on|off]" data-c="#E67E22">
+    </div><div class="cmd" data-s="changelogdm active ou désactive la réception du changelog du bot en message privé " data-n="changelogdm" data-d="Active ou désactive la réception du changelog du bot en message privé" data-u="+changelogdm [on|off]" data-c="#2ECC71">
       <div class="name">+changelogdm</div>
       <div class="desc">Active ou désactive la réception du changelog du bot en message privé</div>
       <div class="usage">+changelogdm [on|off]</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="errorlog définit le salon où sont postées les erreurs du bot (owner) " data-n="errorlog" data-d="Définit le salon où sont postées les erreurs du bot (owner)" data-u="+errorlog #salon | !errorlog off | !errorlog test" data-c="#E67E22">
+    </div><div class="cmd" data-s="errorlog définit le salon où sont postées les erreurs du bot (owner) " data-n="errorlog" data-d="Définit le salon où sont postées les erreurs du bot (owner)" data-u="+errorlog #salon | !errorlog off | !errorlog test" data-c="#2ECC71">
       <div class="name">+errorlog</div>
       <div class="desc">Définit le salon où sont postées les erreurs du bot (owner)</div>
       <div class="usage">+errorlog #salon | !errorlog off | !errorlog test</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="nukeadd autorise un membre à utiliser la commande nuke (ou le retire) " data-n="nukeadd" data-d="Autorise un membre à utiliser la commande nuke (ou le retire)" data-u="+nukeadd @membre/ID | !nukeadd del @membre/ID | !nukeadd list" data-c="#E67E22">
+    </div><div class="cmd" data-s="nukeadd autorise un membre à utiliser la commande nuke (ou le retire) " data-n="nukeadd" data-d="Autorise un membre à utiliser la commande nuke (ou le retire)" data-u="+nukeadd @membre/ID | !nukeadd del @membre/ID | !nukeadd list" data-c="#2ECC71">
       <div class="name">+nukeadd</div>
       <div class="desc">Autorise un membre à utiliser la commande nuke (ou le retire)</div>
       <div class="usage">+nukeadd @membre/ID | !nukeadd del @membre/ID | !nukeadd list</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="indice fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global) " data-n="indice" data-d="Fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global)" data-u="+indice @membre/ID" data-c="#E67E22">
+    </div><div class="cmd" data-s="indice fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global) " data-n="indice" data-d="Fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global)" data-u="+indice @membre/ID" data-c="#2ECC71">
       <div class="name">+indice</div>
       <div class="desc">Fiche complète d'un membre, centrée sécurité (indice de dangerosité local + durable global)</div>
       <div class="usage">+indice @membre/ID</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="statut change le statut du bot (présence + activité), ou le réinitialise " data-n="statut" data-d="Change le statut du bot (présence + activité), ou le réinitialise" data-u="+statut &lt;online|dnd|idle|invisible&gt; &lt;play|watch|listen|compete|custom&gt; &lt;texte&gt; | !statut reset" data-c="#E67E22">
+    </div><div class="cmd" data-s="statut change le statut du bot (présence + activité), ou le réinitialise " data-n="statut" data-d="Change le statut du bot (présence + activité), ou le réinitialise" data-u="+statut &lt;online|dnd|idle|invisible&gt; &lt;play|watch|listen|compete|custom&gt; &lt;texte&gt; | !statut reset" data-c="#2ECC71">
       <div class="name">+statut</div>
       <div class="desc">Change le statut du bot (présence + activité), ou le réinitialise</div>
       <div class="usage">+statut &lt;online|dnd|idle|invisible&gt; &lt;play|watch|listen|compete|custom&gt; &lt;texte&gt; | !statut reset</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="reset réinitialise toute la configuration du bot sur ce serveur (double confirmation owner) " data-n="reset" data-d="Réinitialise toute la configuration du bot sur ce serveur (double confirmation owner)" data-u="+reset" data-c="#E67E22">
+    </div><div class="cmd" data-s="reset réinitialise toute la configuration du bot sur ce serveur (double confirmation owner) " data-n="reset" data-d="Réinitialise toute la configuration du bot sur ce serveur (double confirmation owner)" data-u="+reset" data-c="#2ECC71">
       <div class="name">+reset</div>
       <div class="desc">Réinitialise toute la configuration du bot sur ce serveur (double confirmation owner)</div>
       <div class="usage">+reset</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="update cherche les mises à jour des dépendances, les applique (npm install) et redémarre le bot (owner) " data-n="update" data-d="Cherche les mises à jour des dépendances, les APPLIQUE (npm install) et redémarre le bot (owner)" data-u="+update" data-c="#E67E22">
+    </div><div class="cmd" data-s="update cherche les mises à jour des dépendances, les applique (npm install) et redémarre le bot (owner) " data-n="update" data-d="Cherche les mises à jour des dépendances, les APPLIQUE (npm install) et redémarre le bot (owner)" data-u="+update" data-c="#2ECC71">
       <div class="name">+update</div>
       <div class="desc">Cherche les mises à jour des dépendances, les APPLIQUE (npm install) et redémarre le bot (owner)</div>
       <div class="usage">+update</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="restart redémarre le bot " data-n="restart" data-d="Redémarre le bot" data-u="+restart" data-c="#E67E22">
+    </div><div class="cmd" data-s="restart redémarre le bot " data-n="restart" data-d="Redémarre le bot" data-u="+restart" data-c="#2ECC71">
       <div class="name">+restart</div>
       <div class="desc">Redémarre le bot</div>
       <div class="usage">+restart</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div></div></section><section id="c3" style="--cc:#E91E63"><h2 class="cat">Modération <span style="color:var(--mut);font-size:.8rem">(20)</span></h2>
+    <div class="grid"><div class="cmd" data-s="ban bannit un membre du serveur (mention ou id, même hors-serveur) " data-n="ban" data-d="Bannit un membre du serveur (mention ou ID, même hors-serveur)" data-u="+ban @membre/ID [raison]" data-c="#E91E63">
+      <div class="name">+ban</div>
+      <div class="desc">Bannit un membre du serveur (mention ou ID, même hors-serveur)</div>
+      <div class="usage">+ban @membre/ID [raison]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="tempban bannit un membre temporairement (déban automatique à l'expiration) " data-n="tempban" data-d="Bannit un membre temporairement (déban automatique à l'expiration)" data-u="+tempban @membre/ID &lt;durée: 1h/1j/7j&gt; [raison]" data-c="#E91E63">
+      <div class="name">+tempban</div>
+      <div class="desc">Bannit un membre temporairement (déban automatique à l'expiration)</div>
+      <div class="usage">+tempban @membre/ID &lt;durée: 1h/1j/7j&gt; [raison]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="kick expulse un membre du serveur " data-n="kick" data-d="Expulse un membre du serveur" data-u="+kick @membre/ID [raison]" data-c="#E91E63">
+      <div class="name">+kick</div>
+      <div class="desc">Expulse un membre du serveur</div>
+      <div class="usage">+kick @membre/ID [raison]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="tempsmute réduit un membre au silence (écrit + vocal) pour une durée donnée " data-n="tempsmute" data-d="Réduit un membre au silence (écrit + vocal) pour une durée donnée" data-u="+tempsmute @membre/ID [durée: 30s/10m/1h/1j] [raison]" data-c="#E91E63">
+      <div class="name">+tempsmute</div>
+      <div class="desc">Réduit un membre au silence (écrit + vocal) pour une durée donnée</div>
+      <div class="usage">+tempsmute @membre/ID [durée: 30s/10m/1h/1j] [raison]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="unmute rend la parole à un membre (retire le mute écrit et vocal) " data-n="unmute" data-d="Rend la parole à un membre (retire le mute écrit et vocal)" data-u="+unmute @membre/ID" data-c="#E91E63">
+      <div class="name">+unmute</div>
+      <div class="desc">Rend la parole à un membre (retire le mute écrit et vocal)</div>
+      <div class="usage">+unmute @membre/ID</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="warn donne un avertissement à un membre (sanction automatique selon les paliers) " data-n="warn" data-d="Donne un avertissement à un membre (sanction automatique selon les paliers)" data-u="+warn @membre [raison]" data-c="#E91E63">
+      <div class="name">+warn</div>
+      <div class="desc">Donne un avertissement à un membre (sanction automatique selon les paliers)</div>
+      <div class="usage">+warn @membre [raison]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="warnexpiry définit l'expiration automatique des avertissements (en jours) " data-n="warnexpiry" data-d="Définit l'expiration automatique des avertissements (en jours)" data-u="+warnexpiry &lt;jours&gt; | !warnexpiry off" data-c="#E91E63">
+      <div class="name">+warnexpiry</div>
+      <div class="desc">Définit l'expiration automatique des avertissements (en jours)</div>
+      <div class="usage">+warnexpiry &lt;jours&gt; | !warnexpiry off</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="note notes de modération privées sur un membre (staff uniquement) " data-n="note" data-d="Notes de modération privées sur un membre (staff uniquement)" data-u="+note add @membre &lt;texte&gt; | !note list @membre | !note del @membre &lt;n°&gt;" data-c="#E91E63">
+      <div class="name">+note</div>
+      <div class="desc">Notes de modération privées sur un membre (staff uniquement)</div>
+      <div class="usage">+note add @membre &lt;texte&gt; | !note list @membre | !note del @membre &lt;n°&gt;</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="clear supprime des messages en masse " data-n="clear" data-d="Supprime des messages en masse" data-u="+clear [nombre (1-100)]" data-c="#E91E63">
+      <div class="name">+clear</div>
+      <div class="desc">Supprime des messages en masse</div>
+      <div class="usage">+clear [nombre (1-100)]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="sanctions affiche ou gère les avertissements (warns) d'un membre (mention ou id) " data-n="sanctions" data-d="Affiche ou gère les avertissements (warns) d'un membre (mention ou ID)" data-u="+sanctions @membre/ID | !sanctions del &lt;id&gt; | !sanctions clear @membre/ID" data-c="#E91E63">
+      <div class="name">+sanctions</div>
+      <div class="desc">Affiche ou gère les avertissements (warns) d'un membre (mention ou ID)</div>
+      <div class="usage">+sanctions @membre/ID | !sanctions del &lt;id&gt; | !sanctions clear @membre/ID</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="history affiche le casier (historique des sanctions) d'un membre " data-n="history" data-d="Affiche le casier (historique des sanctions) d'un membre" data-u="+history @membre/ID" data-c="#E91E63">
+      <div class="name">+history</div>
+      <div class="desc">Affiche le casier (historique des sanctions) d'un membre</div>
+      <div class="usage">+history @membre/ID</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="case affiche le détail d'un dossier de modération par son numéro " data-n="case" data-d="Affiche le détail d'un dossier de modération par son numéro" data-u="+case &lt;numéro&gt;" data-c="#E91E63">
+      <div class="name">+case</div>
+      <div class="desc">Affiche le détail d'un dossier de modération par son numéro</div>
+      <div class="usage">+case &lt;numéro&gt;</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="reason corrige la raison d'un dossier de modération existant " data-n="reason" data-d="Corrige la raison d'un dossier de modération existant" data-u="+reason &lt;numéro&gt; &lt;nouvelle raison&gt;" data-c="#E91E63">
+      <div class="name">+reason</div>
+      <div class="desc">Corrige la raison d'un dossier de modération existant</div>
+      <div class="usage">+reason &lt;numéro&gt; &lt;nouvelle raison&gt;</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="purge supprime les messages récents d'un membre précis (ce salon, ou tous avec &quot;all&quot;) " data-n="purge" data-d="Supprime les messages récents d'un membre précis (ce salon, ou tous avec &quot;all&quot;)" data-u="+purge @membre [nombre|all]" data-c="#E91E63">
+      <div class="name">+purge</div>
+      <div class="desc">Supprime les messages récents d'un membre précis (ce salon, ou tous avec &quot;all&quot;)</div>
+      <div class="usage">+purge @membre [nombre|all]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="close ferme le ticket courant et archive le transcript dans les logs " data-n="close" data-d="Ferme le ticket courant et archive le transcript dans les logs" data-u="+close [raison]" data-c="#E91E63">
+      <div class="name">+close</div>
+      <div class="desc">Ferme le ticket courant et archive le transcript dans les logs</div>
+      <div class="usage">+close [raison]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="userinfo fiche d'identité complète d'un membre (modération + sécurité + indice) " data-n="userinfo" data-d="Fiche d'identité complète d'un membre (modération + sécurité + indice)" data-u="+userinfo [@membre/ID]" data-c="#E91E63">
+      <div class="name">+userinfo</div>
+      <div class="desc">Fiche d'identité complète d'un membre (modération + sécurité + indice)</div>
+      <div class="usage">+userinfo [@membre/ID]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="moveall déplace tous les membres en vocal — ou un membre précis (mention/id) — vers un salon vocal moov" data-n="moveall" data-d="Déplace tous les membres en vocal — ou un membre précis (mention/ID) — vers un salon vocal" data-u="+moveall [@membre/ID] &lt;#salon vocal | ID | nom&gt; (ou sois connecté au salon cible)" data-c="#E91E63">
+      <div class="name">+moveall<span class="al">alias: +moov</span></div>
+      <div class="desc">Déplace tous les membres en vocal — ou un membre précis (mention/ID) — vers un salon vocal</div>
+      <div class="usage">+moveall [@membre/ID] &lt;#salon vocal | ID | nom&gt; (ou sois connecté au salon cible)</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="dm envoie un message privé à un membre (mention ou id) " data-n="dm" data-d="Envoie un message privé à un membre (mention ou ID)" data-u="+dm @membre/ID &lt;message&gt;" data-c="#E91E63">
+      <div class="name">+dm</div>
+      <div class="desc">Envoie un message privé à un membre (mention ou ID)</div>
+      <div class="usage">+dm @membre/ID &lt;message&gt;</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="say fait parler le bot dans le salon (supporte {var:nom}) " data-n="say" data-d="Fait parler le bot dans le salon (supporte {var:nom})" data-u="+say &lt;message&gt;" data-c="#E91E63">
+      <div class="name">+say</div>
+      <div class="desc">Fait parler le bot dans le salon (supporte {var:nom})</div>
+      <div class="usage">+say &lt;message&gt;</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="embed crée un embed personnalisé (titre | description | image, supporte {var:nom}) " data-n="embed" data-d="Crée un embed personnalisé (titre | description | image, supporte {var:nom})" data-u="+embed &lt;titre&gt; | &lt;description&gt; | [url image]" data-c="#E91E63">
+      <div class="name">+embed</div>
+      <div class="desc">Crée un embed personnalisé (titre | description | image, supporte {var:nom})</div>
+      <div class="usage">+embed &lt;titre&gt; | &lt;description&gt; | [url image]</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div></div></section><section id="c4" style="--cc:#E67E22"><h2 class="cat">Automod <span style="color:var(--mut);font-size:.8rem">(4)</span></h2>
+    <div class="grid"><div class="cmd" data-s="automod configure les protections automatiques du serveur " data-n="automod" data-d="Configure les protections automatiques du serveur" data-u="+automod &lt;antispam|antilink|antibadword|antimassmention&gt; &lt;on|off&gt;" data-c="#E67E22">
+      <div class="name">+automod</div>
+      <div class="desc">Configure les protections automatiques du serveur</div>
+      <div class="usage">+automod &lt;antispam|antilink|antibadword|antimassmention&gt; &lt;on|off&gt;</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="badword gère la liste des mots interdits " data-n="badword" data-d="Gère la liste des mots interdits" data-u="+badword add &lt;mot&gt; | !badword remove &lt;mot&gt; | !badword list" data-c="#E67E22">
+      <div class="name">+badword</div>
+      <div class="desc">Gère la liste des mots interdits</div>
+      <div class="usage">+badword add &lt;mot&gt; | !badword remove &lt;mot&gt; | !badword list</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="autoslowmode active le mode lent automatiquement pendant un pic de messages (retiré au calme) " data-n="autoslowmode" data-d="Active le mode lent automatiquement pendant un pic de messages (retiré au calme)" data-u="+autoslowmode on/off | !autoslowmode set &lt;msgs&gt; &lt;fenêtre_s&gt; &lt;lenteur_s&gt;" data-c="#E67E22">
+      <div class="name">+autoslowmode</div>
+      <div class="desc">Active le mode lent automatiquement pendant un pic de messages (retiré au calme)</div>
+      <div class="usage">+autoslowmode on/off | !autoslowmode set &lt;msgs&gt; &lt;fenêtre_s&gt; &lt;lenteur_s&gt;</div>
+      <div class="tap">👆 Clique pour voir une simulation</div>
+    </div><div class="cmd" data-s="linkwl whitelist de domaines pour l'antilink (liens autorisés malgré l'antilink) " data-n="linkwl" data-d="Whitelist de domaines pour l'antilink (liens autorisés malgré l'antilink)" data-u="+linkwl add &lt;domaine&gt; | !linkwl del &lt;domaine&gt; | !linkwl list" data-c="#E67E22">
+      <div class="name">+linkwl</div>
+      <div class="desc">Whitelist de domaines pour l'antilink (liens autorisés malgré l'antilink)</div>
+      <div class="usage">+linkwl add &lt;domaine&gt; | !linkwl del &lt;domaine&gt; | !linkwl list</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
     </div></div></section><section id="c5" style="--cc:#1ABC9C"><h2 class="cat">Général <span style="color:var(--mut);font-size:.8rem">(11)</span></h2>
     <div class="grid"><div class="cmd" data-s="help affiche le menu d'aide paginé, ou le détail d'une commande " data-n="help" data-d="Affiche le menu d'aide paginé, ou le détail d'une commande" data-u="+help [commande]" data-c="#1ABC9C">
@@ -652,6 +654,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
   <div class="empty" id="empty">Aucune commande ne correspond. 🤷</div>
 </div>
 <div class="ov" id="ov"><div class="modal" id="mc"></div></div>
+<button id="toTop" class="totop" aria-label="Remonter en haut">↑</button>
 <footer>Généré automatiquement depuis le code · [+] Hasu Protect 🛡️ · <span id="dt"></span></footer>
 <script>function filt(q){q=q.trim().toLowerCase();var any=false;
 document.querySelectorAll('.cmd').forEach(function(c){var ok=!q||c.dataset.s.includes(q);c.style.display=ok?'':'none';if(ok)any=true;});
@@ -660,39 +663,46 @@ document.getElementById('empty').style.display=any?'none':'block';}
 var sb=document.getElementById('search');if(sb)sb.addEventListener('input',function(e){filt(e.target.value);});
 var dt=document.getElementById('dt');if(dt)dt.textContent=new Date().toLocaleString('fr-FR');
 var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent='▲ Masquer l\'historique';}else{mb.textContent=mb.dataset.label;}});
+var tt=document.getElementById('toTop');if(tt){window.addEventListener('scroll',function(){tt.classList.toggle('show',window.scrollY>400);});tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e;}
+var FLAG=/^(roles?|info|list|all|tout|force|confirm|on|off|reset|page|here|ici|add|remove|clear|enable|disable)$/;
 function exFor(tok){var t=tok.toLowerCase();
+ if(FLAG.test(t))return t;
  if(/membre|user|utilisateur|pseudo|cible|@/.test(t))return '@Jean';
  if(/salon|channel|#/.test(t))return '#général';
  if(/r[oô]le/.test(t))return '@Membre';
  if(/dur[ée]|duree|temps|delai|délai/.test(t))return '10m';
- if(/nombre|montant|quantit|count|^nb|xp|niveau|level|gagnant/.test(t))return '5';
+ if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|xp|niveau|level|gagnant/.test(t))return '5';
  if(/raison|motif/.test(t))return 'spam répété';
- if(/message|texte|contenu|annonce|lot|titre/.test(t))return 'Bonjour à tous !';
- if(/lien|url/.test(t))return 'https://exemple.com';
+ if(/message|texte|contenu|annonce|lot|titre|sujet/.test(t))return 'Bonjour à tous !';
+ if(/lien|url|invit/.test(t))return 'https://exemple.com';
  if(/\bid\b/.test(t))return '123456789012345678';
  if(/emoji/.test(t))return '🎉';
  if(/couleur|color|hex/.test(t))return '#5865F2';
  if(/prefix|préfixe|prefixe/.test(t))return '!';
- return 'valeur';}
+ if(/mot|word|terme/.test(t))return 'arnaque';
+ return 'exemple';}
 function hintFor(tok){var t=tok.toLowerCase();
+ if(FLAG.test(t))return 'à écrire tel quel (option)';
  if(/membre|user|utilisateur|pseudo|cible/.test(t))return 'un membre — mention @ ou ID';
  if(/salon|channel/.test(t))return 'un salon — #salon ou ID';
  if(/r[oô]le/.test(t))return 'un rôle — mention ou ID';
  if(/dur[ée]|duree|temps|delai|délai/.test(t))return 'une durée — ex. 10m, 2h, 1j';
- if(/nombre|montant|quantit|count|^nb|gagnant/.test(t))return 'un nombre';
+ if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|gagnant/.test(t))return 'un nombre';
  if(/raison|motif/.test(t))return 'la raison (texte libre)';
- if(/message|texte|contenu|annonce|lot|titre/.test(t))return 'le texte à utiliser';
- if(/lien|url/.test(t))return 'un lien';
+ if(/message|texte|contenu|annonce|lot|titre|sujet/.test(t))return 'le texte à utiliser';
+ if(/lien|url|invit/.test(t))return 'un lien';
  if(/\bid\b/.test(t))return 'un identifiant Discord';
  if(/prefix|préfixe|prefixe/.test(t))return 'le nouveau préfixe';
- return 'paramètre';}
-function parseParams(usage){var parts=(usage||'').trim().split(/\s+/).slice(1);
- return parts.map(function(p){var req=true,raw=p;
+ if(/mot|word|terme/.test(t))return 'un mot-clé';
+ return 'une valeur (ex. : exemple)';}
+function parseParams(usage){var first=(usage||'').split('|')[0];var parts=first.trim().split(/\s+/).slice(1);
+ return parts.map(function(p){var req=true,raw=p,lit=false;
   if(/^\[.*\]$/.test(p)){req=false;raw=p.slice(1,-1);}
   else if(/^<.*>$/.test(p)){req=true;raw=p.slice(1,-1);}
   else if(/^[@#]/.test(p)){raw=p.slice(1);}
-  return {token:p,raw:raw,req:req,ex:exFor(raw),hint:hintFor(raw)};});}
+  else{lit=true;}
+  return {token:p,raw:raw,req:req,lit:lit,ex:lit?p:exFor(raw),hint:lit?'à écrire tel quel':hintFor(raw)};});}
 function botReply(name,desc,params){var n=name.toLowerCase();
  var get=function(re){for(var i=0;i<params.length;i++)if(re.test(params[i].raw.toLowerCase()))return params[i].ex;return null;};
  var who=get(/membre|user|utilisateur|cible/)||'@Jean',reason=get(/raison|motif/),dur=get(/dur[ée]|duree|temps/)||'10m';
