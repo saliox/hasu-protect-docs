@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-If+swfP3Nu/onKPkdE8DCJSXLFsuRMfQOb5s1ye3jj8='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-NZSUZL6IWKva4AoDDrPp2vpv/4jJlLa90kAA3wZ6yso='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
@@ -122,11 +122,11 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 <div class="layout">
   <aside class="side"><div class="gpanel" id="gpanel">
   <h2>🧠 Guardian AI</h2>
-  <div class="gsub">Apprentissage autonome · cycle #33 · maj 26/06 16:27</div>
-  <div class="gbig"><div class="n">90%</div><div class="l">maîtrise globale</div></div>
+  <div class="gsub">Apprentissage autonome · cycle #34 · maj 26/06 16:37</div>
+  <div class="gbig"><div class="n">89%</div><div class="l">maîtrise globale</div></div>
   <div class="gstat"><span class="k">Reconnaît une menace</span><span class="v">98%</span></div>
-  <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">99%</span></div>
-  <div class="gstat"><span class="k">Exemples appris</span><span class="v">28372</span></div>
+  <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">100%</span></div>
+  <div class="gstat"><span class="k">Exemples appris</span><span class="v">28744</span></div>
   <div class="gstat"><span class="k">Solutions mémorisées</span><span class="v">559</span></div>
   <div class="gstat"><span class="k">Erreurs apprises (ce cycle)</span><span class="v">0</span></div>
   <div class="gstat"><span class="k">Règles re-vérifiées</span><span class="v">262/262</span></div>
@@ -732,10 +732,13 @@ function setStatus(){var el=document.getElementById('botstatus');if(!el)return;v
  el.className='bstat '+c;var x=document.getElementById('bstxt');if(x)x.textContent=t;}
 var __hbURL='https://api.github.com/repos/saliox/hasu-protect-docs/contents/heartbeat.json?ref=status';
 function pollHB(){fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content)return;var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){return;}if(j.at){__hbApi=j.at;if(j.status)__bs=j.status;setStatus();}}).catch(function(){});}
-var __next=120;
-function tickNext(){var e=document.getElementById('gnext');if(e)e.textContent='🔄 Actualisation auto dans '+__next+' s';__next=__next>0?__next-1:120;}
-function pollG(){__next=120;fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hbStats=d.heartbeat;if(d.botStatus&&!__hbApi)__bs=d.botStatus;setStatus();if(d.at&&d.at!==__gAt){__gAt=d.at;renderG(d);}}).catch(function(){});}
-setInterval(pollG,120000);setTimeout(pollG,3000);setInterval(pollHB,120000);setTimeout(pollHB,1500);setInterval(setStatus,30000);setInterval(tickNext,1000);tickNext();
+// Compteur ALIGNÉ SUR L'HORLOGE (fenêtres glissantes de 120 s) → reste cohérent après un refresh de la
+// page (avant : __next repartait de 120 à chaque chargement). nextIn = secondes avant la prochaine frontière.
+function nextIn(){return 120-(Math.floor(Date.now()/1000)%120);}
+var __win=Math.floor(Date.now()/1000/120);
+function tickNext(){var e=document.getElementById('gnext');if(e)e.textContent='🔄 Actualisation auto dans '+nextIn()+' s';var w=Math.floor(Date.now()/1000/120);if(w!==__win){__win=w;pollG();}}
+function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hbStats=d.heartbeat;if(d.botStatus&&!__hbApi)__bs=d.botStatus;setStatus();if(d.at&&d.at!==__gAt){__gAt=d.at;renderG(d);}}).catch(function(){});}
+setTimeout(pollG,3000);setInterval(pollHB,120000);setTimeout(pollHB,1500);setInterval(setStatus,30000);setInterval(tickNext,1000);tickNext();
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e;}
 function md(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<u>$1</u>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');}
 function elH(t,c,html){var e=document.createElement(t);if(c)e.className=c;e.innerHTML=html;return e;}
