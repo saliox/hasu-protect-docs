@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-H48iUkwA4j0mMOnXjIItfO2lIyOtEtFlm/cqRgk8zi4='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-uF/690XQKhiOPNqJhm09RDk8v+kgE3y9BPW7hzRosW0='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Documentation des commandes du bot Discord [+] Hasu Protect — modération & sécurité.">
@@ -157,14 +157,14 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
       <div class="desc">Retire un membre de la whitelist antiraid</div>
       <div class="usage">+unwl @membre/ID</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="bl blacklist : empêche un membre de recevoir le moindre rôle, et le bannit s'il (re)joint " data-n="bl" data-d="Blacklist : empêche un membre de recevoir le moindre rôle, et le bannit s'il (re)joint" data-u="+bl (liste) | !bl @membre/ID" data-c="#F1C40F">
+    </div><div class="cmd" data-s="bl blacklist un membre : il ne peut plus recevoir aucun rôle et est banni automatiquement dès qu'il (re)joint le serveur " data-n="bl" data-d="Blacklist un membre : il ne peut plus recevoir aucun rôle et est banni automatiquement dès qu'il (re)joint le serveur" data-u="+bl (liste) | !bl @membre/ID" data-c="#F1C40F">
       <div class="name">+bl</div>
-      <div class="desc">Blacklist : empêche un membre de recevoir le moindre rôle, et le bannit s'il (re)joint</div>
+      <div class="desc">Blacklist un membre : il ne peut plus recevoir aucun rôle et est banni automatiquement dès qu'il (re)joint le serveur</div>
       <div class="usage">+bl (liste) | !bl @membre/ID</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
-    </div><div class="cmd" data-s="unbl retire un membre de la blacklist rank " data-n="unbl" data-d="Retire un membre de la blacklist rank" data-u="+unbl @membre/ID" data-c="#F1C40F">
+    </div><div class="cmd" data-s="unbl retire un membre de la blacklist : il peut de nouveau recevoir des rôles et n'est plus banni à l'arrivée " data-n="unbl" data-d="Retire un membre de la blacklist : il peut de nouveau recevoir des rôles et n'est plus banni à l'arrivée" data-u="+unbl @membre/ID" data-c="#F1C40F">
       <div class="name">+unbl</div>
-      <div class="desc">Retire un membre de la blacklist rank</div>
+      <div class="desc">Retire un membre de la blacklist : il peut de nouveau recevoir des rôles et n'est plus banni à l'arrivée</div>
       <div class="usage">+unbl @membre/ID</div>
       <div class="tap">👆 Clique pour voir une simulation</div>
     </div><div class="cmd" data-s="nuke vide un salon en le supprimant puis en le recréant à l'identique. `+nuke lock` protège un salon renew" data-n="nuke" data-d="Vide un salon en le supprimant puis en le recréant à l'identique. `+nuke lock` protège un salon" data-u="+nuke | !nuke lock | !nuke unlock" data-c="#F1C40F">
@@ -655,7 +655,7 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 </div>
 <div class="ov" id="ov"><div class="modal" id="mc"></div></div>
 <button id="toTop" class="totop" aria-label="Remonter en haut">↑</button>
-<footer>Généré automatiquement depuis le code · [+] Hasu Protect 🛡️ · <span id="dt"></span></footer>
+<footer>[+] Hasu Protect 🛡️ · <span id="dt"></span></footer>
 <script>function filt(q){q=q.trim().toLowerCase();var any=false;
 document.querySelectorAll('.cmd').forEach(function(c){var ok=!q||c.dataset.s.includes(q);c.style.display=ok?'':'none';if(ok)any=true;});
 document.querySelectorAll('section').forEach(function(s){var vis=Array.prototype.slice.call(s.querySelectorAll('.cmd')).some(function(c){return c.style.display!=='none';});s.style.display=vis?'':'none';});
@@ -665,6 +665,8 @@ var dt=document.getElementById('dt');if(dt)dt.textContent=new Date().toLocaleStr
 var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent='▲ Masquer l\'historique';}else{mb.textContent=mb.dataset.label;}});
 var tt=document.getElementById('toTop');if(tt){window.addEventListener('scroll',function(){tt.classList.toggle('show',window.scrollY>400);});tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e;}
+function md(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<u>$1</u>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');}
+function elH(t,c,html){var e=document.createElement(t);if(c)e.className=c;e.innerHTML=html;return e;}
 var FLAG=/^(roles?|info|list|all|tout|force|confirm|on|off|reset|page|here|ici|add|remove|clear|enable|disable)$/;
 function exFor(tok){var t=tok.toLowerCase();
  if(FLAG.test(t))return t;
@@ -727,7 +729,7 @@ function openSim(card){var name=card.dataset.n,desc=card.dataset.d||'',usage=car
  var cmdLine='+'+name+(params.length?' '+params.map(function(p){return p.ex;}).join(' '):'');
  var h=el('div','m-head'),t=el('div');t.appendChild(el('span','m-name','+'+name));h.appendChild(t);
  var x=el('button','m-x','✕');x.setAttribute('aria-label','Fermer');x.addEventListener('click',closeSim);h.appendChild(x);mc.appendChild(h);
- mc.appendChild(el('p','m-desc',desc));
+ mc.appendChild(elH('p','m-desc',md(desc)));
  mc.appendChild(el('div','m-usage','📌 '+usage));
  if(params.length){mc.appendChild(el('div','m-lbl','Paramètres'));var pl=el('div');
   params.forEach(function(p){var row=el('div','m-prow');row.appendChild(el('code','m-ptok',p.token));
@@ -738,7 +740,7 @@ function openSim(card){var name=card.dataset.n,desc=card.dataset.d||'',usage=car
  var sim=el('div','m-sim');
  var um=el('div','m-msg');um.appendChild(el('div','m-av u','🧑'));var ub=el('div','m-bub');ub.appendChild(el('div','m-who','Utilisateur'));ub.appendChild(el('div','m-cmd',cmdLine));um.appendChild(ub);sim.appendChild(um);
  var r=botReply(name,desc,params),bm=el('div','m-msg');bm.appendChild(el('div','m-av b','🛡️'));var bb=el('div','m-bub');bb.appendChild(el('div','m-who','[+] Hasu Protect • BOT'));
- var emb=el('div','m-embed');emb.appendChild(el('div','m-etitle',r[0]+' '+r[1]));emb.appendChild(el('div','m-edesc',r[2]));bb.appendChild(emb);bm.appendChild(bb);sim.appendChild(bm);
+ var emb=el('div','m-embed');emb.appendChild(el('div','m-etitle',r[0]+' '+r[1]));emb.appendChild(elH('div','m-edesc',md(r[2])));bb.appendChild(emb);bm.appendChild(bb);sim.appendChild(bm);
  mc.appendChild(sim);
  mc.appendChild(el('div','m-note','⚠️ Aperçu simulé à titre indicatif — les valeurs (@Jean, 10m, …) sont des exemples.'));
  document.getElementById('ov').classList.add('open');}
