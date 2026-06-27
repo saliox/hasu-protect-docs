@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-nwqtZKQ/8Oq7UbimWPaalxfkilGg1fFXaqE93ZCaNj4=' 'sha256-DyqxsEVSJuyoYk0PwcLLY/nRsfEI3aa28t5+b3cFaPQ='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-ewsWvbFBnJ99ePd+MnSMWV7tVj7kSsU7AGMHEGVHbZ0=' 'sha256-DyqxsEVSJuyoYk0PwcLLY/nRsfEI3aa28t5+b3cFaPQ='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 132 commandes — documentation complète et interactive.">
@@ -125,6 +125,9 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 .hentry{margin-top:14px}
 .hentry h3{font-size:1rem;margin:0 0 5px;color:var(--gold)}
 .hentry h3 span{color:var(--mut);font-size:.76rem;font-weight:400;margin-left:8px}
+.histsearch{width:100%;box-sizing:border-box;margin:4px 0 10px;padding:9px 13px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:inherit;font-size:.9rem;outline:none}
+.histsearch:focus{border-color:var(--purple)}
+.histnone{color:var(--mut);font-size:.9rem;font-style:italic;margin:6px 0}
 .totop{position:fixed;right:18px;bottom:18px;width:40px;height:40px;border-radius:50%;background:var(--purple);color:#fff;border:none;font-size:.95rem;line-height:40px;padding:0;text-align:center;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.45);z-index:55}
 .totop.show{display:flex}.totop:hover{filter:brightness(1.12);transform:translateY(-2px)}
 .ov{position:fixed;inset:0;background:rgba(5,5,10,.78);display:none;align-items:flex-start;justify-content:center;padding:28px 14px;overflow:auto;z-index:60}
@@ -932,6 +935,7 @@ if(sb){sb.addEventListener('input',clearSel);
   else if(e.key==='Enter'&&__sel>=0&&cards[__sel]){e.preventDefault();openSim(cards[__sel]);}});}
 var dt=document.getElementById('dt');if(dt)dt.textContent=new Date().toLocaleString('fr-FR');
 var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent=tr('hidehist');}else{mb.textContent=mb.dataset.label;}});
+var hs=document.getElementById('histSearch');if(hs)hs.addEventListener('input',function(e){var q=e.target.value.trim().toLowerCase(),sh=0;document.querySelectorAll('#hist .hentry').forEach(function(en){var m=!q||en.textContent.toLowerCase().indexOf(q)>=0;en.style.display=m?'':'none';if(m)sh++;});var hn=document.getElementById('histNone');if(hn)hn.hidden=!(q&&sh===0);});
 var __lb=document.getElementById('lang');if(__lb)__lb.addEventListener('click',function(){setLang(curLang()==='fr'?'en':'fr');});
 // Thème clair/sombre : persisté (localStorage), sombre par défaut. Le bouton montre l'icône de la cible.
 function curTheme(){try{return localStorage.getItem('theme')==='light'?'light':'dark';}catch(e){return 'dark';}}
@@ -1000,6 +1004,7 @@ function applyLang(){var L=curLang();document.documentElement.lang=L;
    if(el.hasAttribute('data-md')){el.innerHTML=md((L==='en'&&en)?en:(el.getAttribute('data-fr')||''));} // markdown (backticks → code) en FR ET EN
    else{if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(L==='en'&&en)?en:el.dataset.fr0;}});
  var sb=document.getElementById('search');if(sb)sb.setAttribute('placeholder',tr('search'));
+ var hsp=document.getElementById('histSearch');if(hsp)hsp.setAttribute('placeholder',tr('histph'));var hnn=document.getElementById('histNone');if(hnn)hnn.textContent=tr('histnone');
  var lb=document.getElementById('lang');if(lb)lb.textContent=(L==='fr'?'EN':'FR');
  document.querySelectorAll('.tap').forEach(function(el){el.textContent=tr('simhint');});
  // Signatures d'usage des cartes : traduites mot à mot en EN, restaurées en FR (fr0 = original mémorisé).
