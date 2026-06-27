@@ -135,6 +135,7 @@
     "counting": "Counting channel: the community counts upward from 1, the bot validates and resets on mistakes",
     "morpion": "Play tic-tac-toe against another member, using buttons",
     "steal": "Steal an emoji (or sticker) from a message and add it to the server",
-    "lockword": "Panic word: a secret word that YOU type in chat to instantly lock down the whole server in an emergency"
+    "lockword": "Panic word: a secret word that YOU type in chat to instantly lock down the whole server in an emergency",
+    "music": "The server's music (dedicated Hasu Music bot): how to use it, and how to invite it"
   }
 }
