@@ -121,6 +121,20 @@
     "voicexp": "Enables/disables voice XP gain (5–9 XP/min, built-in anti-farm)",
     "warn": "Gives a warning to a member (automatic sanction based on the tiers)",
     "warnexpiry": "Sets the automatic expiry of warnings (in days)",
-    "wl": "Whitelist: protects a trusted member (never sanctioned by antiraid)"
+    "wl": "Whitelist: protects a trusted member (never sanctioned by antiraid)",
+    "shield": "Adaptive raid shield: automatically hardens the server's entrance during a threat surge",
+    "threatnet": "Cross-server threat network: a raider/scammer neutralized on one server is blocked on the others",
+    "birthday": "Save your birthday (automatic announcement on the day) — admin: channel / role / test",
+    "changelog": "Preview the next changelog (notes, removals, detected commands) before its automatic release",
+    "diag": "Live health check: database, Guardian AI, heartbeat, website and last deployment (owner)",
+    "duo": "Draws the « duo of the week »: 2 active members to get to know each other (icebreaker)",
+    "growth": "Server growth curve: joins and leaves over the last 14 days",
+    "pet": "The server mascot: the community feeds it by staying active… and it wastes away if things go quiet",
+    "pulse": "Server activity heatmap: which hours and days it is most alive",
+    "ticket": "Support ticket system: a button that opens a private channel with the staff",
+    "counting": "Counting channel: the community counts upward from 1, the bot validates and resets on mistakes",
+    "morpion": "Play tic-tac-toe against another member, using buttons",
+    "steal": "Steal an emoji (or sticker) from a message and add it to the server",
+    "lockword": "Panic word: a secret word that YOU type in chat to instantly lock down the whole server in an emergency"
   }
 }
