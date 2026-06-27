@@ -41,7 +41,7 @@
     "delrole": "Removes a role from a member, by mention or ID (restricted like addrole: owners + allowed via +nukeadd)",
     "devine": "Guess the mystery number (the bot tells you higher / lower)",
     "dm": "Sends a private message to a member (mention or ID)",
-    "doc": "Shows the link to the online documentation",
+    "doc": "Shows the link to the online documentation in a nice embed, with a direct-access button.",
     "embed": "Creates a custom embed (title | description | image, supports {var:name})",
     "errorlog": "Sets the channel where the bot's errors are posted (owner)",
     "exportconfig": "Shows this server's ID to clone its settings to another",
@@ -138,8 +138,8 @@
     "steal": "Steal an emoji (or sticker) from a message and add it to the server",
     "lockword": "Panic word: a secret word that YOU type in chat to instantly lock down the whole server in an emergency",
     "music": "The server's music (dedicated Hasu Music bot): how to use it, and how to invite it",
-    "doc": "Shows the link to the online documentation in a nice embed, with a direct-access button.",
     "tierlist": "Create a tier list (S→D): collaborative (the community votes each tier) or random. Curated themes or your own items.",
-    "warhammer": "Grimdark RP game (inspired by Warhammer 40k): pick your faction and fight turn-based battles, with persistent progression."
+    "warhammer": "Grimdark RP game (inspired by Warhammer 40k): pick your faction and fight turn-based battles, with persistent progression.",
+    "bang": "Duel game: each round, 2 players face off to be the fastest in a random channel — the last one standing wins."
   }
 }
