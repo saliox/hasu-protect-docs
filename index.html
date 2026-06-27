@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-57P1KXlE4hNqh+mZooHWEDlt2CHAULGq+55XAXyw9Mg=' 'sha256-36scSRpyFRcu2b89CDXuuYdQpFnGg9ox8qq9HS1eoYI='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-yr55keSedxGcO2WkXuNWSkhO4rfQpaHV49+OZ6dGIew=' 'sha256-36scSRpyFRcu2b89CDXuuYdQpFnGg9ox8qq9HS1eoYI='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 112 commandes — documentation complète et interactive.">
@@ -819,9 +819,9 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  if(d.difficultyLevel!=null)h+=st('🔥 Difficulté d\'entraînement','niveau '+d.difficultyLevel);
  if(d.redteam)h+=st('🎭 Surprises évitées (jeu adverse)',d.redteam.avoided+'%');
  if(d.offline){h+=sec('Validation hors-ligne (cas jamais vus)');h+=st('✅ Précision prouvée',d.offline.accuracy+'%');h+=st('Fausses alertes',d.offline.fp);h+=st('Menaces ratées',d.offline.fn);}
- if(d.protections&&d.protections.length){h+=sec('Sur quoi l\'IA travaille pour améliorer la sécurité')+d.protections.map(function(p){return '<div class="gprot">🎯 '+escH(p)+'</div>';}).join('');}
- if(d.errorTypes&&d.errorTypes.length){var mx=Math.max.apply(null,d.errorTypes.map(function(x){return x.count;}))||1;h+=sec('Types d\'erreurs apprises')+d.errorTypes.map(function(x){return '<div class="gtype"><div class="row"><span>'+escH(x.label)+'</span><span>'+x.count+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
- if(d.examplesLearned&&d.examplesLearned.length){h+=sec('Dernières erreurs apprises')+d.examplesLearned.map(function(e){return '<div class="gex"><span class="t">'+escH(e.type)+'</span>'+escH(e.detail)+'</div>';}).join('');}
+ if(d.protections&&d.protections.length){h+=sec('Sur quoi l\'IA travaille pour améliorer la sécurité')+d.protections.map(function(p){return '<div class="gprot" data-en="🎯 '+escH(trGuardian(p))+'">🎯 '+escH(p)+'</div>';}).join('');}
+ if(d.errorTypes&&d.errorTypes.length){var mx=Math.max.apply(null,d.errorTypes.map(function(x){return x.count;}))||1;h+=sec('Types d\'erreurs apprises')+d.errorTypes.map(function(x){return '<div class="gtype"><div class="row"><span data-en="'+escH(trGuardian(x.label))+'">'+escH(x.label)+'</span><span>'+x.count+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
+ if(d.examplesLearned&&d.examplesLearned.length){h+=sec('Dernières erreurs apprises')+d.examplesLearned.map(function(e){return '<div class="gex"><span class="t" data-en="'+escH(trGuardian(e.type))+'">'+escH(e.type)+'</span><span data-en="'+escH(trGuardian(e.detail))+'">'+escH(e.detail)+'</span></div>';}).join('');}
  p.innerHTML=h;if(typeof applyLang==='function')applyLang();}
 var __gAt=0,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
