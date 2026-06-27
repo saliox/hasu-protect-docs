@@ -136,6 +136,9 @@
     "morpion": "Play tic-tac-toe against another member, using buttons",
     "steal": "Steal an emoji (or sticker) from a message and add it to the server",
     "lockword": "Panic word: a secret word that YOU type in chat to instantly lock down the whole server in an emergency",
-    "music": "The server's music (dedicated Hasu Music bot): how to use it, and how to invite it"
+    "music": "The server's music (dedicated Hasu Music bot): how to use it, and how to invite it",
+    "doc": "Shows the link to the online documentation in a nice embed, with a direct-access button.",
+    "tierlist": "Create a tier list (S→D): collaborative (the community votes each tier) or random. Curated themes or your own items.",
+    "warhammer": "Grimdark RP game (inspired by Warhammer 40k): pick your faction and fight turn-based battles, with persistent progression."
   }
 }

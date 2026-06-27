@@ -100,6 +100,11 @@ h2.cat{font-size:1.3rem;border-left:4px solid var(--cc,var(--gold));padding-left
 .m-cpy{margin-top:8px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:7px 13px;font-size:.85rem;font-family:inherit;cursor:pointer;transition:.15s}
 .m-cpy:hover{border-color:var(--cc,var(--gold))}
 .m-cpy.ok{color:#57F287;border-color:#57F287}
+/* Boutons : micro-animations satisfaisantes (léger lift au survol + effet « pression » au clic). Respecte prefers-reduced-motion. */
+button,.nav a{transition:transform .12s ease,box-shadow .15s ease,border-color .15s ease,background .15s ease,color .15s ease}
+button:hover,.nav a:hover{transform:translateY(-1px)}
+button:active,.nav a:active{transform:scale(.94)}
+@media(prefers-reduced-motion:reduce){button,.nav a{transition:none}button:hover,.nav a:hover,button:active,.nav a:active{transform:none}}
 footer{text-align:center;color:var(--mut);font-size:.82rem;padding:30px 16px;border-top:1px solid var(--line)}
 .empty{color:var(--mut);text-align:center;padding:30px;display:none}
 mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
@@ -640,9 +645,9 @@ section{animation:fadeIn .5s ease backwards}
       <div class="desc" data-md data-fr="Affiche le menu d'aide paginé, ou le détail d'une commande" data-en="Shows the paginated help menu, or the details of a command">Affiche le menu d'aide paginé, ou le détail d'une commande</div>
       <div class="usage">+help [commande]</div>
       <div class="cmd-foot"><span class="tap" data-i18n="simhint">👆 Clique pour voir une simulation</span><button class="cpy" type="button" data-i18n="copy" aria-label="Copier la commande">⧉ Copier</button></div>
-    </div><div class="cmd" tabindex="0" role="button" aria-label="+doc — voir la simulation" data-s="doc affiche le lien de la documentation en ligne docs documentation wiki guide" data-n="doc" data-d="Affiche le lien de la documentation en ligne" data-d-en="" data-u="+doc" data-c="#1ABC9C">
+    </div><div class="cmd" tabindex="0" role="button" aria-label="+doc — voir la simulation" data-s="doc affiche le lien de la documentation en ligne docs documentation wiki guide" data-n="doc" data-d="Affiche le lien de la documentation en ligne" data-d-en="Shows the link to the online documentation in a nice embed, with a direct-access button." data-u="+doc" data-c="#1ABC9C">
       <div class="name">+doc <span class="accb acc-all" data-i18n="accAll">👥 Tous</span><span class="al">alias: +docs, +documentation, +wiki, +guide</span></div>
-      <div class="desc" data-md data-fr="Affiche le lien de la documentation en ligne" data-en="">Affiche le lien de la documentation en ligne</div>
+      <div class="desc" data-md data-fr="Affiche le lien de la documentation en ligne" data-en="Shows the link to the online documentation in a nice embed, with a direct-access button.">Affiche le lien de la documentation en ligne</div>
       <div class="usage">+doc</div>
       <div class="cmd-foot"><span class="tap" data-i18n="simhint">👆 Clique pour voir une simulation</span><button class="cpy" type="button" data-i18n="copy" aria-label="Copier la commande">⧉ Copier</button></div>
     </div><div class="cmd" tabindex="0" role="button" aria-label="+bot — voir la simulation" data-s="bot tableau de bord complet du bot (connexion, sécurité, surveillance, activité, code, système) " data-n="bot" data-d="Tableau de bord complet du bot (connexion, sécurité, surveillance, activité, code, système)" data-d-en="Full bot dashboard (connection, security, monitoring, activity, code, system)" data-u="+bot" data-c="#1ABC9C">
@@ -813,9 +818,9 @@ section{animation:fadeIn .5s ease backwards}
       <div class="desc" data-md data-fr="Devine le nombre mystère — MULTIJOUEUR ! Tout le monde propose, podium des 3 meilleurs + bonus de série" data-en="Guess the mystery number (the bot tells you higher / lower)">Devine le nombre mystère — MULTIJOUEUR ! Tout le monde propose, podium des 3 meilleurs + bonus de série</div>
       <div class="usage">+devine [max]</div>
       <div class="cmd-foot"><span class="tap" data-i18n="simhint">👆 Clique pour voir une simulation</span><button class="cpy" type="button" data-i18n="copy" aria-label="Copier la commande">⧉ Copier</button></div>
-    </div><div class="cmd" tabindex="0" role="button" aria-label="+tierlist — voir la simulation" data-s="tierlist crée une tier list (s→d) : collaborative (la commu vote chaque tier) ou aléatoire. thèmes curatés ou tes propres éléments tier tl" data-n="tierlist" data-d="Crée une tier list (S→D) : collaborative (la commu vote chaque tier) ou aléatoire. Thèmes curatés ou tes propres éléments" data-d-en="" data-u="+tierlist [random] [thème | thème: élément1, élément2, …]" data-c="#E74C3C">
+    </div><div class="cmd" tabindex="0" role="button" aria-label="+tierlist — voir la simulation" data-s="tierlist crée une tier list (s→d) : collaborative (la commu vote chaque tier) ou aléatoire. thèmes curatés ou tes propres éléments tier tl" data-n="tierlist" data-d="Crée une tier list (S→D) : collaborative (la commu vote chaque tier) ou aléatoire. Thèmes curatés ou tes propres éléments" data-d-en="Create a tier list (S→D): collaborative (the community votes each tier) or random. Curated themes or your own items." data-u="+tierlist [random] [thème | thème: élément1, élément2, …]" data-c="#E74C3C">
       <div class="name">+tierlist <span class="accb acc-all" data-i18n="accAll">👥 Tous</span><span class="al">alias: +tier, +tl</span></div>
-      <div class="desc" data-md data-fr="Crée une tier list (S→D) : collaborative (la commu vote chaque tier) ou aléatoire. Thèmes curatés ou tes propres éléments" data-en="">Crée une tier list (S→D) : collaborative (la commu vote chaque tier) ou aléatoire. Thèmes curatés ou tes propres éléments</div>
+      <div class="desc" data-md data-fr="Crée une tier list (S→D) : collaborative (la commu vote chaque tier) ou aléatoire. Thèmes curatés ou tes propres éléments" data-en="Create a tier list (S→D): collaborative (the community votes each tier) or random. Curated themes or your own items.">Crée une tier list (S→D) : collaborative (la commu vote chaque tier) ou aléatoire. Thèmes curatés ou tes propres éléments</div>
       <div class="usage">+tierlist [random] [thème | thème: élément1, élément2, …]</div>
       <div class="cmd-foot"><span class="tap" data-i18n="simhint">👆 Clique pour voir une simulation</span><button class="cpy" type="button" data-i18n="copy" aria-label="Copier la commande">⧉ Copier</button></div>
     </div><div class="cmd" tabindex="0" role="button" aria-label="+meme — voir la simulation" data-s="meme affiche un meme aléatoire (depuis reddit) " data-n="meme" data-d="Affiche un meme aléatoire (depuis Reddit)" data-d-en="Shows a random meme (from Reddit)" data-u="+meme [subreddit]" data-c="#E74C3C">
@@ -873,9 +878,9 @@ section{animation:fadeIn .5s ease backwards}
       <div class="desc" data-md data-fr="Joue au morpion (tic-tac-toe) contre un autre membre, avec des boutons" data-en="Play tic-tac-toe against another member, using buttons">Joue au morpion (tic-tac-toe) contre un autre membre, avec des boutons</div>
       <div class="usage">+morpion @membre</div>
       <div class="cmd-foot"><span class="tap" data-i18n="simhint">👆 Clique pour voir une simulation</span><button class="cpy" type="button" data-i18n="copy" aria-label="Copier la commande">⧉ Copier</button></div>
-    </div><div class="cmd" tabindex="0" role="button" aria-label="+warhammer — voir la simulation" data-s="warhammer jeu de rôle grimdark (inspiré de warhammer 40k) : choisis ta faction et combats au tour par tour wh wh40k grimdark" data-n="warhammer" data-d="Jeu de rôle grimdark (inspiré de Warhammer 40k) : choisis ta faction et combats au tour par tour" data-d-en="" data-u="+warhammer [faction]" data-c="#E74C3C">
+    </div><div class="cmd" tabindex="0" role="button" aria-label="+warhammer — voir la simulation" data-s="warhammer jeu de rôle grimdark (inspiré de warhammer 40k) : choisis ta faction et combats au tour par tour wh wh40k grimdark" data-n="warhammer" data-d="Jeu de rôle grimdark (inspiré de Warhammer 40k) : choisis ta faction et combats au tour par tour" data-d-en="Grimdark RP game (inspired by Warhammer 40k): pick your faction and fight turn-based battles, with persistent progression." data-u="+warhammer [faction]" data-c="#E74C3C">
       <div class="name">+warhammer <span class="accb acc-all" data-i18n="accAll">👥 Tous</span><span class="al">alias: +wh, +wh40k, +grimdark</span></div>
-      <div class="desc" data-md data-fr="Jeu de rôle grimdark (inspiré de Warhammer 40k) : choisis ta faction et combats au tour par tour" data-en="">Jeu de rôle grimdark (inspiré de Warhammer 40k) : choisis ta faction et combats au tour par tour</div>
+      <div class="desc" data-md data-fr="Jeu de rôle grimdark (inspiré de Warhammer 40k) : choisis ta faction et combats au tour par tour" data-en="Grimdark RP game (inspired by Warhammer 40k): pick your faction and fight turn-based battles, with persistent progression.">Jeu de rôle grimdark (inspiré de Warhammer 40k) : choisis ta faction et combats au tour par tour</div>
       <div class="usage">+warhammer [faction]</div>
       <div class="cmd-foot"><span class="tap" data-i18n="simhint">👆 Clique pour voir une simulation</span><button class="cpy" type="button" data-i18n="copy" aria-label="Copier la commande">⧉ Copier</button></div>
     </div></div></section>
