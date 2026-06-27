@@ -109,6 +109,7 @@
     "tempsmute": "Mutes a member (text + voice) for a given duration",
     "theme": "Changes the bot's embed color (help menu, etc.)",
     "tupref": "Starts a \"Would you rather…?\" (random, or custom: +tupref X or Y) with live votes 🅰️/🅱️",
+    "undo": "Reverses an attacker's damage on MEMBERS: unbans their victims + restores the roles they removed (post-raid recovery)",
     "unbl": "Removes a member from the blacklist: they can receive roles again and are no longer banned on join",
     "unmute": "Gives a member their voice back (removes text and voice mute)",
     "unowner": "Removes a bot owner (mention or ID)",
