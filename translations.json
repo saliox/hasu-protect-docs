@@ -81,7 +81,7 @@
     "purge": "Deletes the recent messages of a specific member (this channel, or all with \"all\")",
     "quarantine": "Lists quarantined members and lets you release or ban them",
     "quizz": "Multiplayer quiz: 10 questions, the most correct answers wins an XP boost (rotating theme)",
-    "raid": "Gag: fake \"raid\" loading bar followed by a surprise gif",
+    "raid": "Gag: fake \"hack/raid\" sequence with a progress bar… then a big surprise",
     "reason": "Edits the reason of an existing moderation case",
     "remind": "Schedules a reminder (DM/channel) after a delay",
     "reset": "Resets the bot's entire configuration on this server (double owner confirmation)",

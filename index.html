@@ -36,9 +36,10 @@ a{color:var(--gold);text-decoration:none}
 header{position:relative;padding:42px 22px 26px;text-align:center;background:radial-gradient(900px 320px at 50% -60px,rgba(88,101,242,.22),transparent),var(--bg);border-bottom:1px solid var(--line)}
 .bstat{position:absolute;top:22px;right:22px;font-size:.92rem;font-weight:700;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.18);display:inline-flex;align-items:center;gap:8px;letter-spacing:.02em}
 .topbtns{position:absolute;top:18px;left:18px;display:flex;gap:8px;z-index:6}
-.langbtn{font-size:.85rem;font-weight:800;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.18);color:var(--gold);cursor:pointer;letter-spacing:.04em;line-height:1}
+/* Boutons langue + thème : MÊME pilule que le badge de statut « En ligne » (mêmes dimensions + accent vert + glow). */
+.langbtn{font-size:.92rem;font-weight:700;padding:8px 16px;border-radius:999px;border:1px solid #57F287;background:rgba(0,0,0,.18);color:#57F287;cursor:pointer;letter-spacing:.02em;line-height:1;display:inline-flex;align-items:center;gap:8px}
 :root[data-theme="light"] .langbtn{background:rgba(255,255,255,.6)}
-.langbtn:hover{border-color:var(--gold)}
+.langbtn:hover{border-color:#57F287;box-shadow:0 0 14px rgba(87,242,135,.45)}
 @media(max-width:640px){.topbtns{position:static;justify-content:center;margin:0 auto 12px}}
 .bstat .bdot{width:9px;height:9px;border-radius:50%;flex:none}
 .bstat.on{color:#57F287;border-color:#57F287}.bstat.on .bdot{background:#57F287}
@@ -211,16 +212,16 @@ section{animation:fadeIn .5s ease backwards}
 <div class="layout">
   <aside class="side"><div class="gpanel" id="gpanel">
   <h2>🧠 Guardian AI</h2>
-  <div class="gsub">Apprentissage autonome · cycle #154 · maj 27/06 23:42</div>
+  <div class="gsub">Apprentissage autonome · cycle #154 · maj 27/06 23:44</div>
   <div class="gbig"><div class="n">90%</div><div class="l">maîtrise globale</div></div>
   <div class="gstat"><span class="k">Reconnaît une menace</span><span class="v">100%</span></div>
   <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">100%</span></div>
   <div class="gstat"><span class="k">Exemples appris</span><span class="v">67069</span></div>
   <div class="gstat"><span class="k">Solutions mémorisées</span><span class="v">580</span></div>
-  <div class="gstat"><span class="k">Erreurs apprises (ce cycle)</span><span class="v">0</span></div>
-  <div class="gstat"><span class="k">Règles re-vérifiées</span><span class="v">263/263</span></div>
+  
+  
   <div class="gstat"><span class="k">🔥 Difficulté d'entraînement</span><span class="v">niveau 12</span></div>
-  <div class="gstat"><span class="k">🎭 Surprises évitées (jeu adverse)</span><span class="v">89%</span></div>
+  <div class="gstat"><span class="k">🎭 Surprises évitées (jeu adverse)</span><span class="v">93%</span></div>
   <div class="gsec">Validation hors-ligne (cas jamais vus)</div><div class="gstat"><span class="k">✅ Précision prouvée</span><span class="v">100%</span></div><div class="gstat"><span class="k">Fausses alertes</span><span class="v">0</span></div><div class="gstat"><span class="k">Menaces ratées</span><span class="v">11</span></div>
   <div class="gsec">Sur quoi l'IA travaille pour améliorer la sécurité</div><div class="gprot">🎯 Reconnaître les vraies menaces (permissions sensibles)</div><div class="gprot">🎯 Vérifier l'authenticité des bots (nom + ID officiel)</div><div class="gprot">🎯 Anticiper les failles &amp; abus Discord connus (phishing, vol de token, faux staff)</div><div class="gprot">🎯 Utilisation de l'API VirusTotal (vérif des liens &amp; fichiers)</div><div class="gprot">🎯 Repérer les raiders connus dès l'arrivée</div><div class="gprot">🎯 Distinguer un admin légitime d'un compte compromis</div><div class="gprot">🎯 Réduire les fausses alertes (anti faux-positif)</div><div class="gprot">🎯 Apprendre de ses erreurs à chaque cycle</div>
   <div class="gsec">Types d'erreurs apprises</div><div class="gtype"><div class="row"><span>Bot non vérifié (anti-bot)</span><span>156</span></div><div class="gbar"><i style="width:100%"></i></div></div><div class="gtype"><div class="row"><span>Admin légitime (anti faux-positif)</span><span>143</span></div><div class="gbar"><i style="width:92%"></i></div></div><div class="gtype"><div class="row"><span>Raider connu (réputation)</span><span>141</span></div><div class="gbar"><i style="width:90%"></i></div></div><div class="gtype"><div class="row"><span>Raider très signalé</span><span>74</span></div><div class="gbar"><i style="width:47%"></i></div></div><div class="gtype"><div class="row"><span>Compte récent + Admin</span><span>33</span></div><div class="gbar"><i style="width:21%"></i></div></div><div class="gtype"><div class="row"><span>Accumulation de permissions</span><span>27</span></div><div class="gbar"><i style="width:17%"></i></div></div><div class="gtype"><div class="row"><span>Cas limite mixte</span><span>4</span></div><div class="gbar"><i style="width:3%"></i></div></div><div class="gtype"><div class="row"><span>Compte très récent</span><span>2</span></div><div class="gbar"><i style="width:1%"></i></div></div>
@@ -863,10 +864,10 @@ section{animation:fadeIn .5s ease backwards}
       <div class="desc" data-md data-fr="Cadeau vocal : tirage au sort parmi les membres en vocal (immédiat, chronométré ou auto)" data-en="Voice gift: random draw among members in voice (instant, timed or auto)">Cadeau vocal : tirage au sort parmi les membres en vocal (immédiat, chronométré ou auto)</div>
       <div class="usage">+vcgift | !vcgift &lt;durée: 30s/10m/1h&gt; | !vcgift on/off | !vcgift channel #salon | !vcgift reward &lt;texte&gt;</div>
       <div class="cmd-foot"><span class="tap" data-i18n="simhint">👆 Clique pour voir une simulation</span><button class="cpy" type="button" data-i18n="copy" aria-label="Copier la commande">⧉ Copier</button></div>
-    </div><div class="cmd" tabindex="0" role="button" aria-label="+raid — voir la simulation" data-s="raid gag : fausse barre de chargement de « raid » suivie d'un gif surprise " data-n="raid" data-d="Gag : fausse barre de chargement de « raid » suivie d'un gif surprise" data-d-en="Gag: fake &quot;raid&quot; loading bar followed by a surprise gif" data-u="+raid" data-c="#E74C3C">
-      <div class="name">+raid <span class="accb acc-all" data-i18n="accAll">👥 Tous</span></div>
-      <div class="desc" data-md data-fr="Gag : fausse barre de chargement de « raid » suivie d'un gif surprise" data-en="Gag: fake &quot;raid&quot; loading bar followed by a surprise gif">Gag : fausse barre de chargement de « raid » suivie d'un gif surprise</div>
-      <div class="usage">+raid</div>
+    </div><div class="cmd" tabindex="0" role="button" aria-label="+raid — voir la simulation" data-s="raid gag : fausse séquence de « hack/raid » avec barre de progression… puis grosse surprise 😈 hack" data-n="raid" data-d="Gag : fausse séquence de « hack/raid » avec barre de progression… puis grosse surprise 😈" data-d-en="Gag: fake &quot;hack/raid&quot; sequence with a progress bar… then a big surprise" data-u="+raid [@membre]" data-c="#E74C3C">
+      <div class="name">+raid <span class="accb acc-all" data-i18n="accAll">👥 Tous</span><span class="al">alias: +hack</span></div>
+      <div class="desc" data-md data-fr="Gag : fausse séquence de « hack/raid » avec barre de progression… puis grosse surprise 😈" data-en="Gag: fake &quot;hack/raid&quot; sequence with a progress bar… then a big surprise">Gag : fausse séquence de « hack/raid » avec barre de progression… puis grosse surprise 😈</div>
+      <div class="usage">+raid [@membre]</div>
       <div class="cmd-foot"><span class="tap" data-i18n="simhint">👆 Clique pour voir une simulation</span><button class="cpy" type="button" data-i18n="copy" aria-label="Copier la commande">⧉ Copier</button></div>
     </div><div class="cmd" tabindex="0" role="button" aria-label="+pet — voir la simulation" data-s="pet la mascotte du serveur : la communauté la nourrit en restant active… et elle dépérit si ça s'endort mascotte familier" data-n="pet" data-d="La mascotte du serveur : la communauté la nourrit en restant active… et elle dépérit si ça s'endort" data-d-en="The server mascot: the community feeds it by staying active… and it wastes away if things go quiet" data-u="+pet [name &lt;nom&gt; | feed | adopt [nom]]" data-c="#E74C3C">
       <div class="name">+pet <span class="accb acc-all" data-i18n="accAll">👥 Tous</span><span class="al">alias: +mascotte, +familier</span></div>
