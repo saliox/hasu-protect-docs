@@ -85,6 +85,7 @@
     "raid": "Gag: fake \"hack/raid\" sequence with a progress bar… then a big surprise",
     "reason": "Edits the reason of an existing moderation case",
     "remind": "Schedules a reminder (DM/channel) after a delay",
+    "report": "Discreetly reports a member to staff (with their security context: danger index, record, perms…)",
     "reset": "Resets the bot's entire configuration on this server (double owner confirmation)",
     "restart": "Restarts the bot",
     "rolemenu": "Creates a button role menu (members assign roles themselves)",
