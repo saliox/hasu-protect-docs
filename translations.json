@@ -123,6 +123,7 @@
     "vc": "Shows the active voice channels and their member count",
     "vcgift": "Voice gift: random draw among members in voice (instant, timed or auto)",
     "voicexp": "Enables/disables voice XP gain (5–9 XP/min, built-in anti-farm)",
+    "vote": "Gives the link to vote for the bot on top.gg (free, every 12h) — helps it climb the rankings",
     "warn": "Gives a warning to a member (automatic sanction based on the tiers)",
     "warnexpiry": "Sets the automatic expiry of warnings (in days)",
     "watchdog": "Monitors the other pm2 bots and DMs you if one goes down (owner)",
