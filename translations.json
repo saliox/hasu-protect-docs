@@ -46,6 +46,7 @@
     "embed": "Creates a custom embed (title | description | image, supports {var:name})",
     "errorlog": "Sets the channel where the bot's errors are posted (owner)",
     "exportconfig": "Shows this server's ID to clone its settings to another",
+    "firedrill": "Dry-run attack drill: simulates a raid/nuke and shows what would happen, with a readiness score (no real action)",
     "gameleaderboard": "Game wins leaderboard (quiz, lotto, guess, fun poll)",
     "gay": "The gay-meter: measures a member's gayness rate (for laughs)",
     "giveaway": "Starts a giveaway (possible conditions: role, level)",
