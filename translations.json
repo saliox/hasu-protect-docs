@@ -19,7 +19,7 @@
     "announce": "Schedules an announcement in the channel after a delay",
     "antibot": "Antibot: strict (on), smart (checks name+ID) or off, + removes unknown bots",
     "antiraid": "Configure the server's antiraid modules",
-    "aura": "Gives someone MAXIMUM aura 🟣🔥 (fun, with a gif)",
+    "aura": "Farm your aura points 🟣: a slick move gains some, a cringe moment loses some. Per-server leaderboard",
     "automod": "Configure the server's automatic protections",
     "autorole": "Automatically gives a role to new members",
     "autoslowmode": "Enables slowmode automatically during a message spike (removed when calm)",
