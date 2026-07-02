@@ -78,6 +78,7 @@
     "perm": "Permission tiers: assigns a role to an access level (mod/admin/owner)",
     "ping": "Shows the bot's latency",
     "poll": "Creates a poll (reactions)",
+    "postmortem": "Post-mortem of the last security alert: chronological timeline (who/what/when) + the bot's response and verdict",
     "prefix": "Changes the bot prefix on this server",
     "punish": "Configures automatic sanctions based on the number of infractions (strikes)",
     "purge": "Deletes the recent messages of a specific member (this channel, or all with \"all\")",
@@ -146,6 +147,8 @@
     "music": "The server's music (dedicated Hasu Music bot): how to use it, and how to invite it",
     "tierlist": "Tier list (S→D): everyone makes THEIR OWN of the current theme (button → private panel, posted with their name). 14 items · curated themes or your own list.",
     "warhammer": "Grimdark RP game (Warhammer 40k) — beta: turn-based battles with lore & war cries. Solo (AI with a special move) or +warhammer @player → choose Alliance (2v2 co-op) or War (PvP).",
-    "bang": "Duel game: each round, 2 players face off to be the fastest in a random channel — the last one standing wins."
+    "bang": "Duel game: each round, 2 players face off to be the fastest in a random channel — the last one standing wins.",
+    "audit": "Runs the security self-audit on demand (detailed flaws + per-target actions). `+audit ignores` manages accepted flaws",
+    "cooldown": "Sets the anti-spam delay (cooldown) of a command on this server"
   }
 }
