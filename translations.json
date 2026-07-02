@@ -145,7 +145,7 @@
     "lockword": "Panic word: a secret word that YOU type in chat to instantly lock down the whole server in an emergency",
     "music": "The server's music (dedicated Hasu Music bot): how to use it, and how to invite it",
     "tierlist": "Tier list (S→D): everyone makes THEIR OWN of the current theme (button → private panel, posted with their name). 14 items · curated themes or your own list.",
-    "warhammer": "Grimdark RP game (inspired by Warhammer 40k): pick your faction and fight turn-based battles, with persistent progression.",
+    "warhammer": "Grimdark RP game (Warhammer 40k) — beta: turn-based battles with lore & war cries. Solo (AI with a special move) or +warhammer @player → choose Alliance (2v2 co-op) or War (PvP).",
     "bang": "Duel game: each round, 2 players face off to be the fastest in a random channel — the last one standing wins."
   }
 }
