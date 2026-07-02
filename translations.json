@@ -135,6 +135,7 @@
     "birthday": "Save your birthday (automatic announcement on the day) — admin: channel / role / test",
     "changelog": "Preview the next changelog (notes, removals, detected commands) before its automatic release",
     "diag": "Live health check: database, Guardian AI, heartbeat, website and last deployment (owner)",
+    "digest": "Monthly security digest (protection score, incidents, growth) — instant preview, or on/off for the automatic monthly DM",
     "duo": "Draws the « duo of the week »: 2 active members to get to know each other (icebreaker)",
     "growth": "Server growth curve: joins and leaves over the last 14 days",
     "pet": "The server mascot: the community feeds it by staying active… and it wastes away if things go quiet",
