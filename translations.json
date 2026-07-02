@@ -26,6 +26,8 @@
     "autoevents": "Automatic surprise events (aura rain, quick draw) to keep the server lively without anyone launching anything",
     "grade": "Grades of the Imperium 🎖️ (Warhammer 40k): activity-based progression ladder (Aspirant → Primarch) with an auto-role at each tier",
     "casino": "Imperial Casino 🎰: bet your aura on the 40k slot machine, blackjack or roulette",
+    "war": "Grimdark territory war 🗺️: Warhammer factions conquer a map of 40k sectors, week after week. `+war push` to fight for your faction",
+    "missions": "Daily contracts 🎯: 3 missions a day (win battles, farm, play…) that pay aura & XP, plus a bonus for clearing all three",
     "automod": "Configure the server's automatic protections",
     "autorole": "Automatically gives a role to new members",
     "autoslowmode": "Enables slowmode automatically during a message spike (removed when calm)",
