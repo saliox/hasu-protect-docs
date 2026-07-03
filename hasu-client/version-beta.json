@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "54358914efb6247af320c3437f070904204298899380875eec3b05c0990ce755",
+    "sha256":  "ab01f9981c7fbc6c09dcf9a90a97a93b5f9401f0b67f258c856f78a4d5e87ffb",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.34.1",
-    "notes":  "LOGO HASU CLIENT dans les nouvelles versions : le logo officiel apparait au-dessus du titre du menu principal et a cote du titre du menu pause sur 1.7.10, 1.12.2 et 1.16.5 (meme logo que le launcher)."
+    "version":  "1.35.0",
+    "notes":  "PARITE 1.8.9 : 9 modules ajoutes aux ports — Auto Reconnect, Block Outline, Chunk Borders, Chat remonte, No Hurt Cam, No Scoreboard, No Sky (1.7/1.12), Particules de crit x3, Textures figees (FPS). Synchronises avec les etats de modules du 1.8.9."
 }
