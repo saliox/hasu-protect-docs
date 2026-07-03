@@ -174,7 +174,7 @@
     "music": "The server's music (dedicated Hasu Music bot): how to use it, and how to invite it",
     "tierlist": "Tier list (S→D): everyone makes THEIR OWN of the current theme (button → private panel, posted with their name). 14 items · curated themes or your own list.",
     "warhammer": "Grimdark RP game (Warhammer 40k) — beta: turn-based battles with lore & war cries. Solo (AI with a special move) or +warhammer @player → choose Alliance (2v2 co-op) or War (PvP). +warhammer boss → co-op server boss: everyone fights it together for a shared reward.",
-    "expedition": "Solo Warhammer 40k roguelike (+expedition): travel across grimdark landscapes (with a matching GIF each leg), choose your path (climb the mountain or go around), face road events — surprise ambush, a merchant selling lore items to boost your stats, awe-inspiring or horrific scenery — and fight scaling enemies across 8 stages. Reach the end to earn XP.",
+    "expedition": "Solo Warhammer 40k roguelike (+expedition): travel across grimdark landscapes (GIF each leg), pick varied paths (no-escape ambush, sneak past a patrol, dungeon, merchant…), use your faction's own special move, grab a war-spoils upgrade of your choice after wins, fight elites, and face a named FINAL BOSS after 8 regions. Survive for XP. `+expedition top` = server leaderboard (deepest run + boss kills).",
     "bang": "Duel game: each round, 2 players face off to be the fastest in a random channel — the last one standing wins.",
     "audit": "Runs the security self-audit on demand (detailed flaws + per-target actions). `+audit ignores` manages accepted flaws",
     "cooldown": "Sets the anti-spam delay (cooldown) of a command on this server"
