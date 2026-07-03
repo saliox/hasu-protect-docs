@@ -1,6 +1,6 @@
 {
-    "sha256":  "97b905bf79900645cbb739b75b3292f5a9b41412b39690490b28f8b7309ccebb",
+    "sha256":  "704bf37c44de8c12ecaa02f2b6521f767dbe3dd4fc7b2a67af39b1f6361c872d",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.25.0",
+    "version":  "1.26.0",
     "notes":  "Cosmetiques : 9 capes ANIME HD animees + 5 casques (halo, couronne, oreilles de chat, cornes, haut-de-forme). Nametag Hasu : plaque violette + logo H au-dessus des joueurs du client. Police du menu pixel-perfect. Animations on/off enrichies. Mise a jour automatique au demarrage."
 }
