@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "cb5d23c9088c203d07749590a2f558e3c57c859124700b715e5e1c6e4991d6d1",
+    "sha256":  "4834ee6b49a44aad1f8c1702e320975e40c1e8363895ffdbeb2da66254d79efa",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.31.1",
-    "notes":  "Optimisation de toutes les nouveautes (3 ports) : HUD reconstruit 5x/s au lieu de chaque frame (zero allocation/frame), FPS Graph en un seul lot GPU, Entity Culling etale sur les ticks + cache purge, waypoints sans re-parsing par frame, glint arc-en-ciel precalcule. Meme rendu, moins de travail par image."
+    "version":  "1.32.1",
+    "notes":  "8 nouvelles capes HD (Galaxie, Lave, Ocean Profond, Petales Sakura, Eclair, Hexa Tech, Hasu Royal, Damier Neon) sur toutes les versions + VRAIE preview 3D dans le launcher : casques, ailes et auras tournent en 3D (scene JavaFX) a cote de la grille des cosmetiques."
 }
