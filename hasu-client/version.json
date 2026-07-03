@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "d91e8151ebec27eb805f17cdc99d7c762ea1b48caa134d12e666f0aff573f6a6",
+    "sha256":  "673aa38522986a5c6371b07a34085976d08b0366df8077d6277d97f2faf1a4e2",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.30.0",
-    "notes":  "PARITE QUASI TOTALE : les derniers gros mods 1.8.9 sur 1.7.10/1.12.2/1.16.5 - FPS Graph, Inventory HUD, Target HUD, Custom Glint (7 couleurs + arc-en-ciel, couleur partagee), Entity Culling (FPS, ne revele jamais rien), Perspective (touche 1.8.9 mirroree), Chat Macros (fichier partage, toutes versions), Item Physics (1.12.2/1.16.5), FreeLook (1.7.10/1.12.2). Limites honnetes documentees dans le changelog (1.7 Animations = mecanique disparue post-1.9, Shiny Potions 1.8.9, Item Physics pas en 1.7.10, FreeLook pas en 1.16.5)."
+    "version":  "1.30.1",
+    "notes":  "CORRECTIF : l\u0027import des reglages 1.8.9 vers les autres versions ne marchait pas quand la 1.8.9 et les ports utilisaient deux dossiers de config differents. Le launcher reconcilie maintenant les deux a chaque lancement et sortie de jeu (la 1.8.9 = autorite pour les etats de mods et reglages ; le plus recent gagne pour les cosmetiques ; macros et cape importee synchronisees aussi). Verifie en reel : les etats 1.8.9 apparaissent bien dans le port 1.12.2."
 }
