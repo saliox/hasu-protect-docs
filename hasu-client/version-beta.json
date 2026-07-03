@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "824551efb147b4444ee1098513f09b5dedabd89ec986f71b2535833e4884ebd1",
+    "sha256":  "defef8e847081ec051b2c1ac66b41af2f638d0510a94095e3b9a193f6329eb39",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.33.0",
-    "notes":  "GROS CORRECTIF VISUEL : le menu des mods des ports pouvait s afficher sans ses panneaux (texte flottant, fond invisible) - primitives de dessin blindees, affichage garanti. MENU PAUSE THEME sur 1.7.10/1.12.2/1.16.5 : Echap ouvre un panneau Hasu (Retour / Mods / Options / Sauvegarder et quitter -\u003e menu Hasu) au lieu du Game menu vanilla."
+    "version":  "1.33.1",
+    "notes":  "Menu Hasu au demarrage VERIFIE en conditions reelles sur 1.7.10 et 1.12.2 (logs a l appui : l ecran vanilla est intercepte et remplace). Cette version livre les jars verifies + un log de diagnostic ([HasuCore] GuiOpen dans logs/latest.log) pour investiguer a distance si le probleme persistait."
 }
