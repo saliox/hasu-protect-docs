@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "151774485a1fc8ab81e4905faef3afbaead63c1d0bbff052acc1ae86c9478b25",
+    "sha256":  "6def7f86c7eab0dadf4a64d08e7c47f850a6372739a299a695ab8a16acb28493",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.32.7",
-    "notes":  "MENUS DES PORTS AU DESIGN 1.8.9 COMPLET : tuiles sur 2 colonnes avec coche carree animee + chips de categories (Tout / HUD / Joueur / Visuel / Perf) dans les menus RShift 1.7.10 / 1.12.2 / 1.16.5 - les ~65 mods enfin ranges comme sur la 1.8.9. Recherche, animations et Cosmetiques inchanges."
+    "version":  "1.32.8",
+    "notes":  "LE CLIENT DES LE PREMIER ECRAN sur toutes les versions : la 1.7.10, 1.12.2 et 1.16.5 remplacent le menu principal vanilla par le MENU HASU (fond theme degrade + etoiles, titre HASU CLIENT, boutons stylises, pilules de versions avec bascule automatique) - fini le look Minecraft de base dans les ports. La 1.8.9 inchangee."
 }
