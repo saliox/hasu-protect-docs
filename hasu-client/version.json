@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "972c01cc7996cf4821710b066421b1bf796e8c860b4866ecf176ea28380af5a4",
+    "sha256":  "e355ea04394db7bd06601381f1f215ab84556cc41fddf5441f27c8e5fcf0d352",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.32.5",
-    "notes":  "CORRECTIF : reglages perdus en 1.7.10/1.12.2 apres une session 1.16.5 - la 1.16.5 reecrivait le options.txt partage dans son nouveau format de touches, illisible pour les anciennes versions. Le launcher garde maintenant UN fichier d options par famille (1.7-1.12 / 1.13+) et bascule automatiquement a chaque lancement. Miroir des mods Hasu 1.7.10 re-teste en reel : OK."
+    "version":  "1.32.6",
+    "notes":  "PROTECTION DES MONDES SOLO : un dossier de mondes PAR VERSION, bascule par renommage instantane a chaque lancement (jamais de copie ni de suppression) - fini les mondes convertis irreversiblement en changeant de version. Audit des autres fichiers partages : serveurs compatibles partout, configs Forge sans conflit, natives deja separees, options.txt deja par famille (v1.32.5)."
 }
