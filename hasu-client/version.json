@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "fe3162e7c004bd4bca5a4b6bd88ad7a53eccf0f3fd9090440fc76092c7d78e25",
+    "sha256":  "54358914efb6247af320c3437f070904204298899380875eec3b05c0990ce755",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.34.0",
-    "notes":  "CAPES ANIME DE RETOUR (19 capes GIF Goku/Gojo/Itachi/Luffy... reintegrees a la galerie). POLICE LISSE PARTOUT en jeu sur 1.7.10/1.12.2/1.16.5 (anti-alias style Lunar/Badlion : menus, chat, boutons, tooltips). PREVIEW 3D AVEC TON SKIN dans le launcher (personnage complet + cosmetique choisi). PAGE COSMETIQUES REORGANISEE (selecteur Casques/Ailes/Auras)."
+    "version":  "1.34.1",
+    "notes":  "LOGO HASU CLIENT dans les nouvelles versions : le logo officiel apparait au-dessus du titre du menu principal et a cote du titre du menu pause sur 1.7.10, 1.12.2 et 1.16.5 (meme logo que le launcher)."
 }
