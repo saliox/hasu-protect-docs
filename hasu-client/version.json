@@ -1,6 +1,6 @@
-{
-    "sha256":  "704bf37c44de8c12ecaa02f2b6521f767dbe3dd4fc7b2a67af39b1f6361c872d",
+﻿{
+    "sha256":  "2a622ad57b3f2fd5b4f7800eca00346b404fa50c9792974e30976b7bf29e7872",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.26.0",
-    "notes":  "Cosmetiques : 9 capes ANIME HD animees + 5 casques (halo, couronne, oreilles de chat, cornes, haut-de-forme). Nametag Hasu : plaque violette + logo H au-dessus des joueurs du client. Police du menu pixel-perfect. Animations on/off enrichies. Mise a jour automatique au demarrage."
+    "version":  "1.27.0",
+    "notes":  "HASU SUR 1.16.5 : 4e port natif - Forge 1.16.5 s\u0027installe tout seul (installateur officiel silencieux) et Hasu Core embarque les 25 fonctionnalites (HUD complet, Fullbright, ToggleSprint, Plaque Hasu, FPS Boost, Zoom, No Fire, No Bob, Hitboxes, Auto GG) + le ClickGUI complet (RShift) avec cosmetiques selectionnables appliques sur toutes les versions. Boutons 1.16.5 dans le menu du jeu et le launcher."
 }
