@@ -68,6 +68,7 @@
     "panic": "Incident mode: in one command, lock the whole server + verification to max + antiraid MAX during an attack (reversible in one click)",
     "secu": "Unified security panel: toggle on/off the recent modules (on-call, config drift, self-bots, webhooks, entry challenge, progressive trust, monthly digest, raid shield)",
     "wizard": "Step-by-step setup assistant: one step at a time (logs, alert role, hardening, verification, backup) with Do / Skip — hardens the safe steps for you",
+    "fleet": "Fleet overview (owner): protection score, recent incidents, quarantines and un-hardened servers across ALL guarded servers, at a glance",
     "giveaway": "Starts a giveaway (possible conditions: role, level)",
     "help": "Shows the paginated help menu, or the details of a command",
     "history": "Shows a member's record (sanction history)",
