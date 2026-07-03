@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "3d2af7821ef6b2dffa703e126033fafb3be87b58d2bad8d486f7473e51f2c0a8",
+    "sha256":  "d91e8151ebec27eb805f17cdc99d7c762ea1b48caa134d12e666f0aff573f6a6",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.29.0",
-    "notes":  "LES MODS HASU SUR TOUTES LES VERSIONS : +28 fonctionnalites portees de la 1.8.9 vers 1.7.10, 1.12.2 et 1.16.5 (~53 par port). 14 nouveaux elements HUD (fleches, objet, durabilite, lumiere, joueurs, IP, XP, yaw/pitch, chunk, dimension, entites, saturation, vie, vise) + No Fog, Meteo claire, Hit Sounds, Nick Hider, Crosshair custom (memes reglages qu\u0027en 1.8.9), Low Fire, No Pumpkin, Cacher BossBar, No Hand, Toggle Sneak, Alerte PV bas, Jour permanent, Waypoints (Inser/Suppr + marqueur de mort) et TNT Timer. Config unique : tout se reflete depuis la 1.8.9."
+    "version":  "1.30.0",
+    "notes":  "PARITE QUASI TOTALE : les derniers gros mods 1.8.9 sur 1.7.10/1.12.2/1.16.5 - FPS Graph, Inventory HUD, Target HUD, Custom Glint (7 couleurs + arc-en-ciel, couleur partagee), Entity Culling (FPS, ne revele jamais rien), Perspective (touche 1.8.9 mirroree), Chat Macros (fichier partage, toutes versions), Item Physics (1.12.2/1.16.5), FreeLook (1.7.10/1.12.2). Limites honnetes documentees dans le changelog (1.7 Animations = mecanique disparue post-1.9, Shiny Potions 1.8.9, Item Physics pas en 1.7.10, FreeLook pas en 1.16.5)."
 }
