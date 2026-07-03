@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "6def7f86c7eab0dadf4a64d08e7c47f850a6372739a299a695ab8a16acb28493",
+    "sha256":  "824551efb147b4444ee1098513f09b5dedabd89ec986f71b2535833e4884ebd1",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.32.8",
-    "notes":  "LE CLIENT DES LE PREMIER ECRAN sur toutes les versions : la 1.7.10, 1.12.2 et 1.16.5 remplacent le menu principal vanilla par le MENU HASU (fond theme degrade + etoiles, titre HASU CLIENT, boutons stylises, pilules de versions avec bascule automatique) - fini le look Minecraft de base dans les ports. La 1.8.9 inchangee."
+    "version":  "1.33.0",
+    "notes":  "GROS CORRECTIF VISUEL : le menu des mods des ports pouvait s afficher sans ses panneaux (texte flottant, fond invisible) - primitives de dessin blindees, affichage garanti. MENU PAUSE THEME sur 1.7.10/1.12.2/1.16.5 : Echap ouvre un panneau Hasu (Retour / Mods / Options / Sauvegarder et quitter -\u003e menu Hasu) au lieu du Game menu vanilla."
 }
