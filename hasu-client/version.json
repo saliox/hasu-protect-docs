@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "7ef43d4861035a6c7e9ba8c865f31a7db1e703666937daa47fa002fb70a7dd4c",
+    "sha256":  "1059234e69ae4ae6d893c0b6c95fb78c165582f71158bb16f3b4e9b4de5e837b",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.32.3",
-    "notes":  "COSMETIQUES SUR LE JOUEUR EN 1.16.5 : les ~280 capes (animees et importee incluses), les casques et les ailes s affichent maintenant sur ton skin en 1.16.5, avec le balancement de cape vanilla — plus seulement les auras et la plaque. Selection inchangee (RShift / launcher / 1.8.9, config partagee)."
+    "version":  "1.32.4",
+    "notes":  "Menu des mods UNIFIE sur les ports : le vrai fond theme de la 1.8.9 (degrade violet -\u003e noir, halo accent, nuance bleutee, opaque) arrive dans les menus RShift 1.7.10 / 1.12.2 / 1.16.5. Parite verifiee port par port : cosmetiques sur le joueur et ~65 fonctionnalites presentes partout."
 }
