@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "d8366fba5d4e24b984bf781eb2962aafd3dbcd8746de0ea298f3448e13ccbb51",
+    "sha256":  "913d398d69c92a4c666c64258962fc66276a18b05cb49ad1c4d5b7bf2e7029c0",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.33.6",
-    "notes":  "FINI LE FOND DIRT : tous les sous-menus vanilla (Options, Video, Controles, Packs...) affichent le fond violet du theme Hasu sur 1.7.10, 1.12.2 et 1.16.5 — texture remplacee dans le mod avec pre-compensation de l assombrissement (x0.25) du jeu."
+    "version":  "1.33.7",
+    "notes":  "BOUTONS AU THEME HASU : les boutons gris pierre des menus vanilla (Options, Video, Controles...) deviennent violets Hasu sur 1.7.10, 1.12.2 et 1.16.5 — degrade violet, bordure accent au survol, etat desactive assombri. Hotbar et icones intactes."
 }
