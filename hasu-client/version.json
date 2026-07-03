@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "eb89f342979da710f3ecc7505116b2656ced14289f793d72bea298b2e72ede6e",
+    "sha256":  "026abae74ab4bac5963471668f52039ec518e9f09229f801911489a22789b22c",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.33.2",
-    "notes":  "LA POLICE DU CLIENT SUR TOUTES LES VERSIONS : 1.7.10 / 1.12.2 / 1.16.5 utilisent la meme police lisse Inter que la 1.8.9 (atlas haute resolution cale au pixel, ombre douce) dans tout l habillage Hasu (menus, HUD, etiquettes). Repli vanilla automatique si echec. Verifie en reel : chargee et rendue sans erreur."
+    "version":  "1.33.3",
+    "notes":  "CORRECTIF duplicate mod (ecran Forge en 1.7-1.12) : le jar 1.16.5 residuel a la racine de mods/ est retire AVANT chaque lancement ET apres chaque sortie de jeu. MENU COSMETIQUES reorganise dans les ports : panneau agrandi + sections titrees Casques / Ailes / Auras / Capes bien separees."
 }
