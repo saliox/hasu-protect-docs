@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "673aa38522986a5c6371b07a34085976d08b0366df8077d6277d97f2faf1a4e2",
+    "sha256":  "3b78d6a1374910f1c0f45d618a878eccdf64cf24681f3ee5a46c2b59ce54b4c3",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.30.1",
-    "notes":  "CORRECTIF : l\u0027import des reglages 1.8.9 vers les autres versions ne marchait pas quand la 1.8.9 et les ports utilisaient deux dossiers de config differents. Le launcher reconcilie maintenant les deux a chaque lancement et sortie de jeu (la 1.8.9 = autorite pour les etats de mods et reglages ; le plus recent gagne pour les cosmetiques ; macros et cape importee synchronisees aussi). Verifie en reel : les etats 1.8.9 apparaissent bien dans le port 1.12.2."
+    "version":  "1.30.2",
+    "notes":  "Menu des mods (1.8.9) : panneau et barre de recherche OPAQUES - le jeu ne transparait plus a travers la fenetre. L\u0027editeur de HUD garde volontairement sa transparence (il sert a placer les elements par-dessus le jeu)."
 }
