@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "e5145ec7357d10469dbd4d2703ae66117364147091d6d9dafaf16da14afda5ea",
+    "sha256":  "7ef43d4861035a6c7e9ba8c865f31a7db1e703666937daa47fa002fb70a7dd4c",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.32.2",
-    "notes":  "Preview 3D du launcher refaite : vrai eclairage (cle + ambiance + contre-jour violet), tete Minecraft avec visage, formes affinees par cosmetique (anneau de halo, couronne a gemmes, chapeaux a bord, Terre avec continents...), torse pour les ailes/auras, sol d ancrage, materiaux brillants."
+    "version":  "1.32.3",
+    "notes":  "COSMETIQUES SUR LE JOUEUR EN 1.16.5 : les ~280 capes (animees et importee incluses), les casques et les ailes s affichent maintenant sur ton skin en 1.16.5, avec le balancement de cape vanilla — plus seulement les auras et la plaque. Selection inchangee (RShift / launcher / 1.8.9, config partagee)."
 }
