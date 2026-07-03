@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "3b78d6a1374910f1c0f45d618a878eccdf64cf24681f3ee5a46c2b59ce54b4c3",
+    "sha256":  "2751b7bfa476ffb349a7909fb540419e21a4f8610e379494f7c3ba31a4353cdd",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.30.2",
-    "notes":  "Menu des mods (1.8.9) : panneau et barre de recherche OPAQUES - le jeu ne transparait plus a travers la fenetre. L\u0027editeur de HUD garde volontairement sa transparence (il sert a placer les elements par-dessus le jeu)."
+    "version":  "1.31.0",
+    "notes":  "Vrai fond theme dans le menu des mods (degrade violet-\u003enoir, halo accent, opaque). Preview 3D PERMANENTE en jeu : cape + casque + ailes selectionnes tournent ensemble. COMPATIBILITE PC NEUF : previews de capes extraites du client embarque (fini contenu introuvable), bouton Launcher sans chemin fixe, decodage GIF en arriere-plan (fini les lags). Nouvelle page GUIDE : toutes les fonctionnalites expliquees pour un nouvel utilisateur."
 }
