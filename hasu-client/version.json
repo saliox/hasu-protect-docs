@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "b6a7af82d051224c77232477707f0cdea96e49d217646473bc067cac43ebc354",
+    "sha256":  "2915576a50337db134a2597c6fc02d1dfac12ede833e88e074d5a9b5e2d446e1",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.33.4",
-    "notes":  "AUDIT bugs/failles + optimisations des ports : ciel etoile des menus Hasu dessine en un seul lot GPU (au lieu de 110 formes par image), police Inter ombre+texte en une seule passe (2x moins d appels GL par ligne, HUD plus leger), le launcher ne brasse plus mondes/options pour la 1.8.9 en mode dev. Validation du switch de version et nettoyage anti-doublon reverifies."
+    "version":  "1.33.5",
+    "notes":  "FIABILITE (audit profond) : sauvegardes de reglages 100% atomiques partout (launcher, config partagee, ports, cosmetiques) — un crash en pleine ecriture ne peut plus effacer vos reglages. Fuite VRAM corrigee au re-import de cape animee. Fullbright ne peut plus ecraser la luminosite d origine dans options.txt."
 }
