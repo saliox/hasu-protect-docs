@@ -79,6 +79,7 @@
     "joincreate": "\"Hub\" voice channel: joining it creates a personal temporary voice channel (Join-to-Create)",
     "kick": "Kicks a member from the server",
     "leaderboard": "Members leaderboard by level",
+    "recap": "Community recap 📊: server growth, most active members, voice activity and top aura (the community counterpart of +digest)",
     "level": "Unified profile card of a member: level/XP + aura, grade, league rank, streak and Warhammer (alias +profil)",
     "levelrole": "Level rewards: automatically grants a role at a tier",
     "linkwl": "Domain whitelist for antilink (links allowed despite antilink)",
