@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "e355ea04394db7bd06601381f1f215ab84556cc41fddf5441f27c8e5fcf0d352",
+    "sha256":  "151774485a1fc8ab81e4905faef3afbaead63c1d0bbff052acc1ae86c9478b25",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.32.6",
-    "notes":  "PROTECTION DES MONDES SOLO : un dossier de mondes PAR VERSION, bascule par renommage instantane a chaque lancement (jamais de copie ni de suppression) - fini les mondes convertis irreversiblement en changeant de version. Audit des autres fichiers partages : serveurs compatibles partout, configs Forge sans conflit, natives deja separees, options.txt deja par famille (v1.32.5)."
+    "version":  "1.32.7",
+    "notes":  "MENUS DES PORTS AU DESIGN 1.8.9 COMPLET : tuiles sur 2 colonnes avec coche carree animee + chips de categories (Tout / HUD / Joueur / Visuel / Perf) dans les menus RShift 1.7.10 / 1.12.2 / 1.16.5 - les ~65 mods enfin ranges comme sur la 1.8.9. Recherche, animations et Cosmetiques inchanges."
 }
