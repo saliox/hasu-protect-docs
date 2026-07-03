@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "ee68fda8de1a0ede459e277050b34b58b9fb74b2d89d1d852ff55f96ffef57d4",
+    "sha256":  "3d2af7821ef6b2dffa703e126033fafb3be87b58d2bad8d486f7473e51f2c0a8",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.28.1",
-    "notes":  "Mise a jour auto-redemarrante : en acceptant une MAJ, le launcher se ferme, la nouvelle version s\u0027installe en silencieux PAR-DESSUS l\u0027ancienne (une seule confirmation Windows), puis le launcher REDEMARRE tout seul. Repli installeur classique si le silencieux echoue - redemarrage garanti. Inclut le nouveau menu des mods v1.28.0 et le port 1.16.5 v1.27.0."
+    "version":  "1.29.0",
+    "notes":  "LES MODS HASU SUR TOUTES LES VERSIONS : +28 fonctionnalites portees de la 1.8.9 vers 1.7.10, 1.12.2 et 1.16.5 (~53 par port). 14 nouveaux elements HUD (fleches, objet, durabilite, lumiere, joueurs, IP, XP, yaw/pitch, chunk, dimension, entites, saturation, vie, vise) + No Fog, Meteo claire, Hit Sounds, Nick Hider, Crosshair custom (memes reglages qu\u0027en 1.8.9), Low Fire, No Pumpkin, Cacher BossBar, No Hand, Toggle Sneak, Alerte PV bas, Jour permanent, Waypoints (Inser/Suppr + marqueur de mort) et TNT Timer. Config unique : tout se reflete depuis la 1.8.9."
 }
