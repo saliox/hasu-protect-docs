@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "ab01f9981c7fbc6c09dcf9a90a97a93b5f9401f0b67f258c856f78a4d5e87ffb",
+    "sha256":  "afec3907440618200beda7656bd6f807206799b5bf74701641c4482c5389bc44",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.35.0",
-    "notes":  "PARITE 1.8.9 : 9 modules ajoutes aux ports — Auto Reconnect, Block Outline, Chunk Borders, Chat remonte, No Hurt Cam, No Scoreboard, No Sky (1.7/1.12), Particules de crit x3, Textures figees (FPS). Synchronises avec les etats de modules du 1.8.9."
+    "version":  "1.35.1",
+    "notes":  "POLICE EN JEU REFAITE : glyphes plus grands (proportions vanilla), graisse Medium lisible, resolution ajustee (2 texels/pixel logique) = rendu net sans sous-echantillonnage sur 1.7.10/1.12.2/1.16.5."
 }
