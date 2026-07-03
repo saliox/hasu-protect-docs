@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "026abae74ab4bac5963471668f52039ec518e9f09229f801911489a22789b22c",
+    "sha256":  "b6a7af82d051224c77232477707f0cdea96e49d217646473bc067cac43ebc354",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.33.3",
-    "notes":  "CORRECTIF duplicate mod (ecran Forge en 1.7-1.12) : le jar 1.16.5 residuel a la racine de mods/ est retire AVANT chaque lancement ET apres chaque sortie de jeu. MENU COSMETIQUES reorganise dans les ports : panneau agrandi + sections titrees Casques / Ailes / Auras / Capes bien separees."
+    "version":  "1.33.4",
+    "notes":  "AUDIT bugs/failles + optimisations des ports : ciel etoile des menus Hasu dessine en un seul lot GPU (au lieu de 110 formes par image), police Inter ombre+texte en une seule passe (2x moins d appels GL par ligne, HUD plus leger), le launcher ne brasse plus mondes/options pour la 1.8.9 en mode dev. Validation du switch de version et nettoyage anti-doublon reverifies."
 }
