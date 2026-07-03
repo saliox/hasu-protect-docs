@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "defef8e847081ec051b2c1ac66b41af2f638d0510a94095e3b9a193f6329eb39",
+    "sha256":  "eb89f342979da710f3ecc7505116b2656ced14289f793d72bea298b2e72ede6e",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.33.1",
-    "notes":  "Menu Hasu au demarrage VERIFIE en conditions reelles sur 1.7.10 et 1.12.2 (logs a l appui : l ecran vanilla est intercepte et remplace). Cette version livre les jars verifies + un log de diagnostic ([HasuCore] GuiOpen dans logs/latest.log) pour investiguer a distance si le probleme persistait."
+    "version":  "1.33.2",
+    "notes":  "LA POLICE DU CLIENT SUR TOUTES LES VERSIONS : 1.7.10 / 1.12.2 / 1.16.5 utilisent la meme police lisse Inter que la 1.8.9 (atlas haute resolution cale au pixel, ombre douce) dans tout l habillage Hasu (menus, HUD, etiquettes). Repli vanilla automatique si echec. Verifie en reel : chargee et rendue sans erreur."
 }
