@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "2915576a50337db134a2597c6fc02d1dfac12ede833e88e074d5a9b5e2d446e1",
+    "sha256":  "d8366fba5d4e24b984bf781eb2962aafd3dbcd8746de0ea298f3448e13ccbb51",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.33.5",
-    "notes":  "FIABILITE (audit profond) : sauvegardes de reglages 100% atomiques partout (launcher, config partagee, ports, cosmetiques) — un crash en pleine ecriture ne peut plus effacer vos reglages. Fuite VRAM corrigee au re-import de cape animee. Fullbright ne peut plus ecraser la luminosite d origine dans options.txt."
+    "version":  "1.33.6",
+    "notes":  "FINI LE FOND DIRT : tous les sous-menus vanilla (Options, Video, Controles, Packs...) affichent le fond violet du theme Hasu sur 1.7.10, 1.12.2 et 1.16.5 — texture remplacee dans le mod avec pre-compensation de l assombrissement (x0.25) du jeu."
 }
