@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "2a622ad57b3f2fd5b4f7800eca00346b404fa50c9792974e30976b7bf29e7872",
+    "sha256":  "ee68fda8de1a0ede459e277050b34b58b9fb74b2d89d1d852ff55f96ffef57d4",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.27.0",
-    "notes":  "HASU SUR 1.16.5 : 4e port natif - Forge 1.16.5 s\u0027installe tout seul (installateur officiel silencieux) et Hasu Core embarque les 25 fonctionnalites (HUD complet, Fullbright, ToggleSprint, Plaque Hasu, FPS Boost, Zoom, No Fire, No Bob, Hitboxes, Auto GG) + le ClickGUI complet (RShift) avec cosmetiques selectionnables appliques sur toutes les versions. Boutons 1.16.5 dans le menu du jeu et le launcher."
+    "version":  "1.28.1",
+    "notes":  "Mise a jour auto-redemarrante : en acceptant une MAJ, le launcher se ferme, la nouvelle version s\u0027installe en silencieux PAR-DESSUS l\u0027ancienne (une seule confirmation Windows), puis le launcher REDEMARRE tout seul. Repli installeur classique si le silencieux echoue - redemarrage garanti. Inclut le nouveau menu des mods v1.28.0 et le port 1.16.5 v1.27.0."
 }
