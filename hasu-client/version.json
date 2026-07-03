@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "4834ee6b49a44aad1f8c1702e320975e40c1e8363895ffdbeb2da66254d79efa",
+    "sha256":  "e5145ec7357d10469dbd4d2703ae66117364147091d6d9dafaf16da14afda5ea",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.32.1",
-    "notes":  "8 nouvelles capes HD (Galaxie, Lave, Ocean Profond, Petales Sakura, Eclair, Hexa Tech, Hasu Royal, Damier Neon) sur toutes les versions + VRAIE preview 3D dans le launcher : casques, ailes et auras tournent en 3D (scene JavaFX) a cote de la grille des cosmetiques."
+    "version":  "1.32.2",
+    "notes":  "Preview 3D du launcher refaite : vrai eclairage (cle + ambiance + contre-jour violet), tete Minecraft avec visage, formes affinees par cosmetique (anneau de halo, couronne a gemmes, chapeaux a bord, Terre avec continents...), torse pour les ailes/auras, sol d ancrage, materiaux brillants."
 }
