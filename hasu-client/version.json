@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "2751b7bfa476ffb349a7909fb540419e21a4f8610e379494f7c3ba31a4353cdd",
+    "sha256":  "cb5d23c9088c203d07749590a2f558e3c57c859124700b715e5e1c6e4991d6d1",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.31.0",
-    "notes":  "Vrai fond theme dans le menu des mods (degrade violet-\u003enoir, halo accent, opaque). Preview 3D PERMANENTE en jeu : cape + casque + ailes selectionnes tournent ensemble. COMPATIBILITE PC NEUF : previews de capes extraites du client embarque (fini contenu introuvable), bouton Launcher sans chemin fixe, decodage GIF en arriere-plan (fini les lags). Nouvelle page GUIDE : toutes les fonctionnalites expliquees pour un nouvel utilisateur."
+    "version":  "1.31.1",
+    "notes":  "Optimisation de toutes les nouveautes (3 ports) : HUD reconstruit 5x/s au lieu de chaque frame (zero allocation/frame), FPS Graph en un seul lot GPU, Entity Culling etale sur les ticks + cache purge, waypoints sans re-parsing par frame, glint arc-en-ciel precalcule. Meme rendu, moins de travail par image."
 }
