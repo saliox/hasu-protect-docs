@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "08e5ff21b24927358b70a0e488f4d8152bef6668ffda9c88fe088615629a46cb",
+    "sha256":  "f2d08fbcb14894b1f73a3368b22773b515475dfe8cb1e3915019f23bac4ccd41",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.38.1",
-    "notes":  "SECURITE NIVEAU OS : jetons de compte proteges par le COFFRE WINDOWS (DPAPI, scope utilisateur) — indechiffrables sur une autre machine ET par un autre compte Windows du meme PC. Repli AES automatique si DPAPI indisponible. Protection active affichee sur la page Compte."
+    "version":  "1.39.0",
+    "notes":  "BENCHMARK FPS INTEGRE (+bench) : bouton Bench 30s dans le menu RShift (a cote de Confort/Competition) — mesure moyenne, min, max et 1% low sur 30 s pour chiffrer le gain du preset Competition. Sur 1.7.10/1.12.2/1.16.5."
 }
