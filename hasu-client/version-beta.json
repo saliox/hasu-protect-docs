@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "f2d08fbcb14894b1f73a3368b22773b515475dfe8cb1e3915019f23bac4ccd41",
+    "sha256":  "26996a6c33ad62ca8a03a9e9d852003ad7557c9a1cec5965a2c62ba3f45b22ec",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.39.0",
-    "notes":  "BENCHMARK FPS INTEGRE (+bench) : bouton Bench 30s dans le menu RShift (a cote de Confort/Competition) — mesure moyenne, min, max et 1% low sur 30 s pour chiffrer le gain du preset Competition. Sur 1.7.10/1.12.2/1.16.5."
+    "version":  "1.40.0",
+    "notes":  "SKIN CUSTOM sur toutes les versions : importe ton skin (PNG 64x64/64x32) depuis la page Cosmetiques, active Skin custom dans le menu RShift en jeu. Reversible, reste sur ton PC, vieux 64x32 convertis auto."
 }
