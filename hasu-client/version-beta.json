@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "a7a1111932d577e826bd9d7240a7b75b577e7212f1e5638243c17c84f003eb71",
+    "sha256":  "b8b5cd7b804fda095fd511556527f312254dc5fdb09543b83bed1202003aeb60",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.44.0",
-    "notes":  "OPTIMISATION FPS \u0026 LATENCE sur les 4 versions, sans rien changer au jeu : GC G1 regle client (pauses invisibles au lieu de micro-freezes, FPS minimum plus haut), memoire fixe (plus de redimensionnement en partie), reseau IPv4 prefere, et priorite CPU au-dessus de la normale pour le jeu."
+    "version":  "1.45.0",
+    "notes":  "POLICE : LA VRAIE SOLUTION. Le MOTEUR de police vanilla est remplace par le moteur Inter lisse du client sur 1.7.10/1.12.2 (technique Lunar/Badlion) : menus, chat (couleurs/gras/souligne), tooltips — tout est net. Interrupteur Police lisse dans RShift. Textures de police bricolees retirees partout (causaient le rendu sale) ; 1.8.9/1.16.5 reviennent a leur police vanilla propre."
 }
