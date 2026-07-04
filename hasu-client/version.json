@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "5a7622447bca0c3c85076adf59d3076503a6f627bcffe89a6db8aff517e87cc0",
+    "sha256":  "ab1d46f21cb4d309f19e1efc832aa5e0fdf441ba995505e6bf147b943b77a668",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.37.1",
-    "notes":  "STATS DE JEU sur la page d accueil : temps total, temps par version et derniere session affiches sous le bouton JOUER (compte a partir de 15 s de session)."
+    "version":  "1.38.0",
+    "notes":  "MULTI-COMPTES sans se relog (change de compte en un clic, session rafraichie automatiquement) + SECURITE renforcee (jetons chiffres, cle liee a la machine + sel aleatoire par installation, launcher.json copie inutilisable) + CONNEXION PAR TOKEN (colle un refresh token Microsoft comme le sniper)."
 }
