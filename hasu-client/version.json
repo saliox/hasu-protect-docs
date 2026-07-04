@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "ab1d46f21cb4d309f19e1efc832aa5e0fdf441ba995505e6bf147b943b77a668",
+    "sha256":  "08e5ff21b24927358b70a0e488f4d8152bef6668ffda9c88fe088615629a46cb",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.38.0",
-    "notes":  "MULTI-COMPTES sans se relog (change de compte en un clic, session rafraichie automatiquement) + SECURITE renforcee (jetons chiffres, cle liee a la machine + sel aleatoire par installation, launcher.json copie inutilisable) + CONNEXION PAR TOKEN (colle un refresh token Microsoft comme le sniper)."
+    "version":  "1.38.1",
+    "notes":  "SECURITE NIVEAU OS : jetons de compte proteges par le COFFRE WINDOWS (DPAPI, scope utilisateur) — indechiffrables sur une autre machine ET par un autre compte Windows du meme PC. Repli AES automatique si DPAPI indisponible. Protection active affichee sur la page Compte."
 }
