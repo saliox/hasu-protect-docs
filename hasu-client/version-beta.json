@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "afec3907440618200beda7656bd6f807206799b5bf74701641c4482c5389bc44",
+    "sha256":  "c28846731663d1b224d72d243a9897a83398496e838dc69170ea02b8b58573eb",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.35.1",
-    "notes":  "POLICE EN JEU REFAITE : glyphes plus grands (proportions vanilla), graisse Medium lisible, resolution ajustee (2 texels/pixel logique) = rendu net sans sous-echantillonnage sur 1.7.10/1.12.2/1.16.5."
+    "version":  "1.36.0",
+    "notes":  "CONFORT DE JEU : presets Competition/Confort dans le menu RShift (set FPS optimal d un clic), ecran de deconnexion Hasu avec compte a rebours + boutons, bouton Reprendre sur le menu titre (dernier serveur en un clic, memorise), et la cape choisie s affiche sur ton personnage 3D dans le launcher."
 }
