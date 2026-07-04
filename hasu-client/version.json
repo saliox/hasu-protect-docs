@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "5fd46a5fca5673386c351c2010ff777b9254b6d5af55296714ef9f9538340b58",
+    "sha256":  "f1650b2e642f64742b1f59a4352188713204de1c483d2c0e0615225190e81110",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.41.0",
-    "notes":  "EDITEUR DE HUD (glisser-deposer) : bouton Editeur HUD dans le menu RShift — deplace a la souris le bloc d infos et les keystrokes. Positions sauvegardees et partagees entre versions, bouton Reinitialiser. Sur 1.7.10/1.12.2/1.16.5."
+    "version":  "1.41.1",
+    "notes":  "POLICE EN JEU NETTOYEE : plus de lettres dedoublees ni de points gris sous le texte (atlas regenere a la taille native du moteur de police). Plus propre sur 1.7.10/1.12.2/1.16.5."
 }
