@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "4f1dc26f28f14bce990392f4918c83ced82c5fb424f8592b1206e291873eeb86",
+    "sha256":  "5a7622447bca0c3c85076adf59d3076503a6f627bcffe89a6db8aff517e87cc0",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.37.0",
-    "notes":  "REGLAGES PAR MODULE dans le menu RShift : pilule violette cliquable a cote de l interrupteur des modules reglables — couleur du Contour de bloc (6 couleurs), hauteur du Chat remonte (+4 a +40 px), multiplicateur des Particules de crit (x6 a x30). Sauvegarde immediate, partagee entre versions."
+    "version":  "1.37.1",
+    "notes":  "STATS DE JEU sur la page d accueil : temps total, temps par version et derniere session affiches sous le bouton JOUER (compte a partir de 15 s de session)."
 }
