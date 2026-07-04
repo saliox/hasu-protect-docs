@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "4f1456231a2f1e35340ba6710a98e6fcf9a042216d4f1e8ef27a79e3c0ad770a",
+    "sha256":  "a7a1111932d577e826bd9d7240a7b75b577e7212f1e5638243c17c84f003eb71",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.43.2",
-    "notes":  "AUDIT DE PARITE : 8 capes HD manquantes ajoutees aux ports (textures + menu en jeu) — 1159 textures de capes sur CHAQUE version comme la 1.8.9. Parite des features verifiee (84/82/83, ecarts = impossibilites techniques documentees), menus/logo/police presents partout."
+    "version":  "1.44.0",
+    "notes":  "OPTIMISATION FPS \u0026 LATENCE sur les 4 versions, sans rien changer au jeu : GC G1 regle client (pauses invisibles au lieu de micro-freezes, FPS minimum plus haut), memoire fixe (plus de redimensionnement en partie), reseau IPv4 prefere, et priorite CPU au-dessus de la normale pour le jeu."
 }
