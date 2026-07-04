@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "b8b5cd7b804fda095fd511556527f312254dc5fdb09543b83bed1202003aeb60",
+    "sha256":  "6efe94ac711d2b97dede897a27e1df1e5ecda4b63b61970b17d5435aa05feada",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.45.0",
-    "notes":  "POLICE : LA VRAIE SOLUTION. Le MOTEUR de police vanilla est remplace par le moteur Inter lisse du client sur 1.7.10/1.12.2 (technique Lunar/Badlion) : menus, chat (couleurs/gras/souligne), tooltips — tout est net. Interrupteur Police lisse dans RShift. Textures de police bricolees retirees partout (causaient le rendu sale) ; 1.8.9/1.16.5 reviennent a leur police vanilla propre."
+    "version":  "1.46.0",
+    "notes":  "POLICE LISSE SUR LES 4 VERSIONS : la 1.8.9 recoit le moteur Inter (menus, chat couleurs/gras, tooltips), la 1.16.5 passe au rendu TTF NATIF du jeu (provider officiel, qualite maximale, replis vanilla). Toutes les versions actuelles et futures ont leur voie police lisse."
 }
