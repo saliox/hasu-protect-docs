@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "26996a6c33ad62ca8a03a9e9d852003ad7557c9a1cec5965a2c62ba3f45b22ec",
+    "sha256":  "5fd46a5fca5673386c351c2010ff777b9254b6d5af55296714ef9f9538340b58",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.40.0",
-    "notes":  "SKIN CUSTOM sur toutes les versions : importe ton skin (PNG 64x64/64x32) depuis la page Cosmetiques, active Skin custom dans le menu RShift en jeu. Reversible, reste sur ton PC, vieux 64x32 convertis auto."
+    "version":  "1.41.0",
+    "notes":  "EDITEUR DE HUD (glisser-deposer) : bouton Editeur HUD dans le menu RShift — deplace a la souris le bloc d infos et les keystrokes. Positions sauvegardees et partagees entre versions, bouton Reinitialiser. Sur 1.7.10/1.12.2/1.16.5."
 }
