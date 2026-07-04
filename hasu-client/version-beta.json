@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "6efe94ac711d2b97dede897a27e1df1e5ecda4b63b61970b17d5435aa05feada",
+    "sha256":  "5acdabb7576624ac275d7effcb16471f4c0974e42ba8853d2d1baa0e875e5cd1",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.46.0",
-    "notes":  "POLICE LISSE SUR LES 4 VERSIONS : la 1.8.9 recoit le moteur Inter (menus, chat couleurs/gras, tooltips), la 1.16.5 passe au rendu TTF NATIF du jeu (provider officiel, qualite maximale, replis vanilla). Toutes les versions actuelles et futures ont leur voie police lisse."
+    "version":  "1.46.1",
+    "notes":  "AUDIT MOTEUR DE POLICE : couleurs exactes des soulignes/barres du chat + blindage anti-crash (l atlas de police ne se construit que sur le thread de rendu, mesures hors-thread sans risque). Sur les 4 versions."
 }
