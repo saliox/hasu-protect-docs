@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "2f4b8d8b867bed43a41758da445230b82cc8342628cc26bc2abe3c1012173ef7",
+    "sha256":  "8cdd97a1973f5de7eb1e87e9cfc60f239f6d2c33a2b39f128b0126f629458d9c",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.42.2",
-    "notes":  "SECONDE PASSE DE REVIEW (5 correctifs) : boutons presets sur leur propre rangee (plus de chevauchement avec les categories), reconnexion auto au tick + plafonnee a 3 essais/2 min (fini la boucle en cas de ban), editeur HUD garde les blocs a l ecran, fuite de texture corrigee au re-import du skin, micro-optimisation bench 1.7.10."
+    "version":  "1.42.3",
+    "notes":  "POLICE ENFIN LISSE : filtrage GPU de la texture de police active (flag blur, la technique des packs smooth font Lunar/Badlion) + atlas HD anti-aliase. Texte lisse dans les menus vanilla, le chat et les tooltips sur 1.7.10/1.12.2/1.16.5."
 }
