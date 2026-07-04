@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "5acdabb7576624ac275d7effcb16471f4c0974e42ba8853d2d1baa0e875e5cd1",
+    "sha256":  "2386fd0eb742f39dee3fea67748e41c706e9612f23dbdbf05d9cf1f8b8498be4",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.46.1",
-    "notes":  "AUDIT MOTEUR DE POLICE : couleurs exactes des soulignes/barres du chat + blindage anti-crash (l atlas de police ne se construit que sur le thread de rendu, mesures hors-thread sans risque). Sur les 4 versions."
+    "version":  "1.47.0",
+    "notes":  "ONGLET AMIS dans le menu RShift des ports (1.7.10/1.12.2/1.16.5) : liste defilante des joueurs du client, clic = copie du pseudo. (Statuts en ligne/demandes d amis : etape suivante avec le backend.)"
 }
