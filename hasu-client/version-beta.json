@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "723bd1473703cf6afae75d528b1ce7a28f84df155a4925ae27f10db0d7830769",
+    "sha256":  "4f1456231a2f1e35340ba6710a98e6fcf9a042216d4f1e8ef27a79e3c0ad770a",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.43.1",
-    "notes":  "1.8.9 : FINI LE FOND TERRE — fond viole du theme + boutons violets aussi sur la 1.8.9 (Controles, listes de touches, Options...). Les 4 versions MC ont le meme habillage complet : fond theme, boutons violets, police lisse."
+    "version":  "1.43.2",
+    "notes":  "AUDIT DE PARITE : 8 capes HD manquantes ajoutees aux ports (textures + menu en jeu) — 1159 textures de capes sur CHAQUE version comme la 1.8.9. Parite des features verifiee (84/82/83, ecarts = impossibilites techniques documentees), menus/logo/police presents partout."
 }
