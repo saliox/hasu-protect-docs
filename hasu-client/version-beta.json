@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "624ced242daf154aaca5523206b1071d51ef1bdeb2305ea59ba06b70c0db1ac3",
+    "sha256":  "723bd1473703cf6afae75d528b1ce7a28f84df155a4925ae27f10db0d7830769",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.43.0",
-    "notes":  "POLICE LISSE SUR LES 4 VERSIONS (la 1.8.9 recoit l override police HD + filtrage GPU ; chaque mise a jour visuelle touche desormais toutes les versions MC) + PREVIEW 3D FACON MINECRAFT (matieres mates, eclairage plat comme en jeu)."
+    "version":  "1.43.1",
+    "notes":  "1.8.9 : FINI LE FOND TERRE — fond viole du theme + boutons violets aussi sur la 1.8.9 (Controles, listes de touches, Options...). Les 4 versions MC ont le meme habillage complet : fond theme, boutons violets, police lisse."
 }
