@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "07f22b51cedf2f0596b27b83281656209b1b6974038f7f92089a7b6b72e09a54",
+    "sha256":  "ec33896cfd2456fa43c8e5ab20fa8500febfcb73e258f593e92d12f8f63b660a",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.49.0",
-    "notes":  "RECHERCHE \u0026 DEMANDES D AMIS : onglet AMIS dans le launcher — recherche de joueur par pseudo (fonctionne des maintenant), envoi de demande d ami + Demandes recues/Accepter (s activent quand le backend amis est branche)."
+    "version":  "1.50.0",
+    "notes":  "AMIS, MESSAGES \u0026 TEAMS dans le launcher : liste d amis (Message/Retirer), messages prives, teams avec tag 3 lettres (creer/rejoindre/inviter). Recherche fonctionnelle ; messages/teams s activent avec le backend."
 }
