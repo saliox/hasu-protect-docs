@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "d61824be3c52ec98ea192bb8e589f29f3c2cda0bcc4374409063c458527e7137",
+    "sha256":  "18167d3cd985644009aaaa914aa49d8265e36c637f840e048f66fa761b42ca26",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.54.0",
-    "notes":  "Teams enrichies : (1) chaque team a sa PROPRE COULEUR de tag en jeu (teinte unique et stable au-dessus des tetes, sur les 4 versions). (2) Cycle de demande de rejoint complet dans l\u0027onglet AMIS : sans team tu peux DEMANDER a rejoindre une team via son tag ; le chef voit les demandes et clique Accepter ou Refuser."
+    "version":  "1.55.0",
+    "notes":  "Tag de team partout en jeu : le tag colore de ta team apparait maintenant AUSSI dans la liste TAB (1.8.9, 1.12.2, 1.16.5) et dans le CHAT (les 4 versions, devant l\u0027expediteur), en plus de la plaque au-dessus des tetes. La 1.7.10 garde le tag chat + plaque (sa liste TAB d\u0027origine ne supporte pas les noms personnalises)."
 }
