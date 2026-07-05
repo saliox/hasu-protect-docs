@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "9cfb9150d95f1b08af5739ed0943b691505361e1c9c683f9ea7f3e2bc8bd86cb",
+    "sha256":  "336fd93836bee2cb9bbf3eb591cd00ab7cb67a52a3102588963f30024aef34e1",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.56.0",
-    "notes":  "Presence des amis : l\u0027onglet AMIS montre qui est EN LIGNE (launcher ouvert) et qui est EN JEU sur quel serveur (heartbeat du mod, 4 versions). Un ami en jeu affiche un bouton REJOINDRE qui copie l\u0027adresse du serveur. Necessite d\u0027appliquer le schema SQL hasu_presence (fourni)."
+    "version":  "1.57.0",
+    "notes":  "Rejoindre un ami en 1 clic : le bouton Rejoindre lance directement la bonne version et te connecte au serveur de ton ami (fini le copier-coller d\u0027adresse). Le statut des amis se rafraichit tout seul toutes les 18 s tant que l\u0027onglet AMIS est ouvert."
 }
