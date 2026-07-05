@@ -3,4 +3,9 @@
     "url": "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
     "version": "1.50.0",
     "notes": "AMIS, MESSAGES & TEAMS dans le launcher : liste d amis (Message/Retirer), messages prives, teams avec tag 3 lettres (creer/rejoindre/inviter). Recherche fonctionnelle ; messages/teams s activent avec le backend."
+﻿{
+    "sha256":  "e6a79e7d37b0c7eb2c7dbfed2644b1caee0a0fd244aececa0417a0fd6bc732c5",
+    "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
+    "version":  "1.51.0",
+    "notes":  "AMIS restrictions \u0026 suggestions : DM/demande uniquement vers les joueurs du client Hasu (verif serveur) + en jeu l onglet Amis met en avant les joueurs du client CROISES sur ton serveur (marques ici en vert, clic = copie le pseudo)."
 }
