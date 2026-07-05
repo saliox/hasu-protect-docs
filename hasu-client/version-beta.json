@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "9d81055f4324cc234f609fc799420ec4859b76be759f89b42d765bd0465be89e",
+    "sha256":  "83d07b32a34c12c9c5d76d33ff020ef3b97d7e7c3833fd5ba095293576307f50",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.48.0",
-    "notes":  "CAPES MICROSOFT OFFICIELLES dans l onglet Cosmetiques (comme minecraft.net) : Charger mes capes -\u003e apercu + Equiper + Retirer la cape, via l API officielle Microsoft/Mojang. Necessite un compte Microsoft connecte."
+    "version":  "1.48.1",
+    "notes":  "OPTIMISATION DES NOUVEAUTES : moteur de police lisse sans allocation pour les textes courants (HUD/menus plus legers), apercus des capes Microsoft mis en cache (equiper/retirer ne re-telecharge plus)."
 }
