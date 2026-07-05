@@ -1,6 +1,6 @@
-{
-    "sha256":  "18167d3cd985644009aaaa914aa49d8265e36c637f840e048f66fa761b42ca26",
+﻿{
+    "sha256":  "9cfb9150d95f1b08af5739ed0943b691505361e1c9c683f9ea7f3e2bc8bd86cb",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.55.0",
-    "notes":  "Tag de team partout en jeu : le tag colore de ta team apparait maintenant AUSSI dans la liste TAB (1.8.9, 1.12.2, 1.16.5) et dans le CHAT (les 4 versions, devant l\u0027expediteur), en plus de la plaque au-dessus des tetes. La 1.7.10 garde le tag chat + plaque (sa liste TAB d\u0027origine ne supporte pas les noms personnalises)."
+    "version":  "1.56.0",
+    "notes":  "Presence des amis : l\u0027onglet AMIS montre qui est EN LIGNE (launcher ouvert) et qui est EN JEU sur quel serveur (heartbeat du mod, 4 versions). Un ami en jeu affiche un bouton REJOINDRE qui copie l\u0027adresse du serveur. Necessite d\u0027appliquer le schema SQL hasu_presence (fourni)."
 }
