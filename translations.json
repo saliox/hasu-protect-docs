@@ -66,6 +66,7 @@
     "saison": "Seasonal game leaderboard (reset every month — the podium is rewarded with XP). +gameleaderboard is the all-time board",
     "memory": "Solo memory game 🧠: find the 8 emoji pairs in as few tries as possible — the more efficient you are, the more XP you win",
     "demineur": "Solo minesweeper 💣: reveal gems to grow your XP pot, avoid the 3 bombs, and cash out before you blow up — risk vs reward",
+    "motus": "Word of the day 🟩 (Wordle/Sutom style): one mystery word shared by the whole server, 6 guesses, 🟩🟨⬛ feedback, day streaks and spoiler-free sharing. `+motus <word>` to guess, `+motus classement` for today's board",
     "joueur": "Toggle the 🎮 Player role: get pinged when a tournament or a big game starts",
     "tournoi": "Elimination tournament 🎪: sign up, then face others in reaction duels (first to click when the button turns green) up to the final — the champion wins XP",
     "gay": "The gay-meter: measures a member's gayness rate (for laughs)",
