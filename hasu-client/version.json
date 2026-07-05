@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "83cc2f74d9709ab143842bdefe87e064f75ef8071928e4bff05c2768e569bb0a",
+    "sha256":  "07f22b51cedf2f0596b27b83281656209b1b6974038f7f92089a7b6b72e09a54",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.48.2",
-    "notes":  "CORRECTIFS capes Microsoft : verrou anti-double-clic (plus de requetes concurrentes/mauvais etat/rate-limit) + delai d attente reseau (une API muette ne bloque plus les boutons)."
+    "version":  "1.49.0",
+    "notes":  "RECHERCHE \u0026 DEMANDES D AMIS : onglet AMIS dans le launcher — recherche de joueur par pseudo (fonctionne des maintenant), envoi de demande d ami + Demandes recues/Accepter (s activent quand le backend amis est branche)."
 }
