@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "f704e09b0878323924bc795dd41a4e46c3b48b4cf9d23747a6b95b7f9f593a67",
+    "sha256":  "9d81055f4324cc234f609fc799420ec4859b76be759f89b42d765bd0465be89e",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.47.1",
-    "notes":  "CORRECTIF onglet Amis : changer d onglet remet le defilement en haut (la liste pouvait apparaitre vide apres un long defilement dans Mods)."
+    "version":  "1.48.0",
+    "notes":  "CAPES MICROSOFT OFFICIELLES dans l onglet Cosmetiques (comme minecraft.net) : Charger mes capes -\u003e apercu + Equiper + Retirer la cape, via l API officielle Microsoft/Mojang. Necessite un compte Microsoft connecte."
 }
