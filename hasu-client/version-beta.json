@@ -1,6 +1,6 @@
-{
-    "sha256":  "cf79a1ffde1e66899fb4c539880d47ed0a396044484add2dd64d35f269c11645",
+﻿{
+    "sha256":  "687393ef141bb7710edc54dcc5eedb5d47c2d09177423e0776bc59230473f574",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.52.0",
-    "notes":  "Correctifs : (1) l\u0027erreur \u0027duplicate mod hasucore\u0027 ne peut plus bloquer le jeu - le nettoyage du jar en trop est desormais infaillible (reessais, puis renommage, puis neutralisation, meme si le fichier est verrouille). (2) Les boutons grises (desactives) des menus vanilla, dont le menu Multijoueur, etaient quasi invisibles (fond presque noir) : ils sont maintenant en gris-violet lisible. (3) La team affiche son nombre de membres."
+    "version":  "1.53.0",
+    "notes":  "Tag de team en jeu : le tag de 3 lettres de ta team s\u0027affiche en violet devant ton pseudo sur la plaque Hasu, au-dessus de la tete des joueurs, sur les 4 versions (1.8.9 / 1.7.10 / 1.12.2 / 1.16.5). La liste des membres est relue toutes les 10 min sans peser sur les FPS. Cree ta team et invite tes amis depuis l\u0027onglet AMIS du launcher."
 }
