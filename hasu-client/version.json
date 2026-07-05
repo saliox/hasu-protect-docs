@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "2386fd0eb742f39dee3fea67748e41c706e9612f23dbdbf05d9cf1f8b8498be4",
+    "sha256":  "f704e09b0878323924bc795dd41a4e46c3b48b4cf9d23747a6b95b7f9f593a67",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.47.0",
-    "notes":  "ONGLET AMIS dans le menu RShift des ports (1.7.10/1.12.2/1.16.5) : liste defilante des joueurs du client, clic = copie du pseudo. (Statuts en ligne/demandes d amis : etape suivante avec le backend.)"
+    "version":  "1.47.1",
+    "notes":  "CORRECTIF onglet Amis : changer d onglet remet le defilement en haut (la liste pouvait apparaitre vide apres un long defilement dans Mods)."
 }
