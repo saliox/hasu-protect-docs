@@ -1,6 +1,6 @@
-﻿{
-    "sha256":  "ec33896cfd2456fa43c8e5ab20fa8500febfcb73e258f593e92d12f8f63b660a",
-    "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.50.0",
-    "notes":  "AMIS, MESSAGES \u0026 TEAMS dans le launcher : liste d amis (Message/Retirer), messages prives, teams avec tag 3 lettres (creer/rejoindre/inviter). Recherche fonctionnelle ; messages/teams s activent avec le backend."
+{
+    "sha256": "ec33896cfd2456fa43c8e5ab20fa8500febfcb73e258f593e92d12f8f63b660a",
+    "url": "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
+    "version": "1.50.0",
+    "notes": "AMIS, MESSAGES & TEAMS dans le launcher : liste d amis (Message/Retirer), messages prives, teams avec tag 3 lettres (creer/rejoindre/inviter). Recherche fonctionnelle ; messages/teams s activent avec le backend."
 }
