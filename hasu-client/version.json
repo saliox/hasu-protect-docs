@@ -1,11 +1,6 @@
-{
-    "sha256": "ec33896cfd2456fa43c8e5ab20fa8500febfcb73e258f593e92d12f8f63b660a",
-    "url": "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version": "1.50.0",
-    "notes": "AMIS, MESSAGES & TEAMS dans le launcher : liste d amis (Message/Retirer), messages prives, teams avec tag 3 lettres (creer/rejoindre/inviter). Recherche fonctionnelle ; messages/teams s activent avec le backend."
 ﻿{
-    "sha256":  "e6a79e7d37b0c7eb2c7dbfed2644b1caee0a0fd244aececa0417a0fd6bc732c5",
+    "sha256":  "cf79a1ffde1e66899fb4c539880d47ed0a396044484add2dd64d35f269c11645",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.51.0",
-    "notes":  "AMIS restrictions \u0026 suggestions : DM/demande uniquement vers les joueurs du client Hasu (verif serveur) + en jeu l onglet Amis met en avant les joueurs du client CROISES sur ton serveur (marques ici en vert, clic = copie le pseudo)."
+    "version":  "1.52.0",
+    "notes":  "Correctifs : (1) l\u0027erreur \u0027duplicate mod hasucore\u0027 ne peut plus bloquer le jeu - le nettoyage du jar en trop est desormais infaillible (reessais, puis renommage, puis neutralisation, meme si le fichier est verrouille). (2) Les boutons grises (desactives) des menus vanilla, dont le menu Multijoueur, etaient quasi invisibles (fond presque noir) : ils sont maintenant en gris-violet lisible. (3) La team affiche son nombre de membres."
 }
