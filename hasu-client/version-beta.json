@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "83d07b32a34c12c9c5d76d33ff020ef3b97d7e7c3833fd5ba095293576307f50",
+    "sha256":  "83cc2f74d9709ab143842bdefe87e064f75ef8071928e4bff05c2768e569bb0a",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.48.1",
-    "notes":  "OPTIMISATION DES NOUVEAUTES : moteur de police lisse sans allocation pour les textes courants (HUD/menus plus legers), apercus des capes Microsoft mis en cache (equiper/retirer ne re-telecharge plus)."
+    "version":  "1.48.2",
+    "notes":  "CORRECTIFS capes Microsoft : verrou anti-double-clic (plus de requetes concurrentes/mauvais etat/rate-limit) + delai d attente reseau (une API muette ne bloque plus les boutons)."
 }
