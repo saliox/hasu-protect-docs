@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "336fd93836bee2cb9bbf3eb591cd00ab7cb67a52a3102588963f30024aef34e1",
+    "sha256":  "7b051425cf1d2a8246b40cee7afa4862d72adee4ef1a18a8dfbd9ca8a7a3172f",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.57.0",
-    "notes":  "Rejoindre un ami en 1 clic : le bouton Rejoindre lance directement la bonne version et te connecte au serveur de ton ami (fini le copier-coller d\u0027adresse). Le statut des amis se rafraichit tout seul toutes les 18 s tant que l\u0027onglet AMIS est ouvert."
+    "version":  "1.58.0",
+    "notes":  "Nouvelle version : Minecraft 1.11.2 ! Le port Hasu Core arrive sur 1.11.2 avec toutes les integrations (menu RShift, mods QoL, cosmetiques, plaque Hasu, tags de team plaque+TAB+chat, presence des amis). Choisis-la avec la fleche a cote de JOUER. Prochaines : 1.9.4/1.10 puis les modernes (1.18.2/1.20.1/1.21)."
 }

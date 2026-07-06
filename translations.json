@@ -173,7 +173,7 @@
     "pulse": "Server activity heatmap: which hours and days it is most alive",
     "ticket": "Support ticket system: a button that opens a private channel with the staff",
     "counting": "Counting channel: the community counts upward from 1, the bot validates and resets on mistakes",
-    "morpion": "Play tic-tac-toe against another member, using buttons",
+    "morpion": "Play tic-tac-toe against another member — or solo vs the bot (`+morpion`) — using buttons",
     "puissance4": "Play Connect 4: drop discs to line up 4, against a member (invite) or the bot",
     "steal": "Steal an emoji (or sticker) from a message and add it to the server",
     "lockword": "Panic word: a secret word that YOU type in chat to instantly lock down the whole server in an emergency",
