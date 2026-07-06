@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "37297b989ea9b974fd941e07340843e8eac537eda2ded3139c3e3d7a17c25719",
+    "sha256":  "baa97c32dbb12cf387ecdc183ef7a6b398db3c7d5fc3380a70d49e1c56314942",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.61.1",
-    "notes":  "1.9.4 : les boutons des ecrans Multijoueur/Solo repassent au style Minecraft d\u0027origine (garanti sans bug) apres echec du theme. Fond theme + police lisse conserves."
+    "version":  "1.62.0",
+    "notes":  "Profils : import / export. Exporte un profil en .json pour le partager, ou importe celui d\u0027un ami en 1 clic."
 }
