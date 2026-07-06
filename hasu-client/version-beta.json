@@ -1,6 +1,6 @@
-{
-    "sha256":  "61b005609a29ac69fa6cd2d9dcce4fb040cf281dbda0920928dc2755055c393a",
+﻿{
+    "sha256":  "64457a694d891c91157c65ca29dfec27b22a6b26300c0bd24de7736f68a13be1",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.59.0",
-    "notes":  "Nouvelle version Minecraft 1.9.4 (combat 1.9) avec toutes les integrations Hasu (menu, mods QoL, cosmetiques, plaque, tags plaque/TAB/chat, presence). Habillage des ecrans regenere depuis le vanilla 1.9.4 (widgets/fond/police)."
+    "version":  "1.60.0",
+    "notes":  "Profils / presets : nouvel onglet PROFILS. Enregistre ta config (mods actifs, HUD, reglages, cosmetiques) sous un nom (PvP, UHC, Build...) et recharge-la en 1 clic, sur les 6 versions. Le profil s\u0027applique au prochain lancement."
 }
