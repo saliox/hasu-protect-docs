@@ -1,6 +1,6 @@
-{
-    "sha256":  "cc0a376c6195efd86985a7e77483f5b916f1cdd107bfe3d8eeb76691a8740dc1",
+﻿{
+    "sha256":  "61b005609a29ac69fa6cd2d9dcce4fb040cf281dbda0920928dc2755055c393a",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.58.1",
-    "notes":  "Correctif boutons : dans les menus vanilla (Multijoueur, selection de monde Solo), les boutons desactives paraissaient plus clairs que les actifs -\u003e ecrans incoherents, bouton Jouer/Solo qui ressortait. Nouvelle hierarchie coherente (desactive sombre \u003c normal \u003c survol vif) sur les 5 versions."
+    "version":  "1.59.0",
+    "notes":  "Nouvelle version Minecraft 1.9.4 (combat 1.9) avec toutes les integrations Hasu (menu, mods QoL, cosmetiques, plaque, tags plaque/TAB/chat, presence). Habillage des ecrans regenere depuis le vanilla 1.9.4 (widgets/fond/police)."
 }
