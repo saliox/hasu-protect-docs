@@ -1,6 +1,6 @@
-{
-    "sha256":  "0fe2e3fe66c998e1003aeee43e437dfab88fd7119c51436d1145e9cb81f24656",
+﻿{
+    "sha256":  "37297b989ea9b974fd941e07340843e8eac537eda2ded3139c3e3d7a17c25719",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.61.0",
-    "notes":  "Nouvelle version Minecraft 1.10.2 avec toutes les integrations Hasu. Le set legacy est complet (1.7.10 -\u003e 1.16.5). Habillage regenere depuis le vanilla 1.10.2."
+    "version":  "1.61.1",
+    "notes":  "1.9.4 : les boutons des ecrans Multijoueur/Solo repassent au style Minecraft d\u0027origine (garanti sans bug) apres echec du theme. Fond theme + police lisse conserves."
 }
