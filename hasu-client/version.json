@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "baa97c32dbb12cf387ecdc183ef7a6b398db3c7d5fc3380a70d49e1c56314942",
+    "sha256":  "0020dee8682f3d8ce7ee4ab7530803eed02a5c2f5e06801201839f4034c048f4",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.62.0",
-    "notes":  "Profils : import / export. Exporte un profil en .json pour le partager, ou importe celui d\u0027un ami en 1 clic."
+    "version":  "1.63.0",
+    "notes":  "Profil de perfs en 1 clic sur TOUTES les versions (1.7.10 -\u003e 1.16.5). Dans le menu du jeu (RShift), le preset Competition applique d\u0027un coup les reglages FPS optimaux (FPS Boost, Entity Culling, distance/particules/VSync reduits) et affiche desormais ton gain en direct : avant -\u003e apres FPS. Un 2e clic (Confort) remet tout comme avant. Sur la 1.8.9, un panneau dedie Profil perf dans l\u0027onglet Graphismes s\u0027adapte a la RAM de ta machine."
 }
