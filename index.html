@@ -43,6 +43,7 @@ header{position:relative;padding:42px 22px 26px;text-align:center;background:rad
 .bstat.on{color:#57F287;border-color:#57F287}.bstat.on .bdot{background:#57F287}
 .bstat.off{color:#ED4245;border-color:#ED4245}.bstat.off .bdot{background:#ED4245}
 .bstat.upd{color:#E67E22;border-color:#E67E22}.bstat.upd .bdot{background:#E67E22}
+.bstat.unk{color:var(--mut);border-color:var(--line)}.bstat.unk .bdot{background:var(--mut)}
 @media(max-width:640px){.bstat{position:static;margin:0 auto 12px;font-size:.88rem}}
 header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
 header p{color:var(--mut);margin:.5rem 0 0}
@@ -227,7 +228,7 @@ section{animation:fadeIn .5s ease backwards}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style></head><body>
 <header>
-  <div class="bstat on" id="botstatus"><span class="bdot"></span><span id="bstxt">En ligne</span></div>
+  <div class="bstat unk" id="botstatus"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
   <div class="topbtns"><button id="lang" class="langbtn" type="button" aria-label="Language / Langue">EN</button><button id="theme" class="langbtn" type="button" aria-label="Thème clair / sombre">☀️</button></div>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p data-i18n="tagline">Documentation des commandes — bot de modération &amp; sécurité Discord</p>
@@ -1208,7 +1209,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.innerHTML=h;if(typeof applyLang==='function')applyLang();}
 var __gAt=0,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1268,10 +1269,16 @@ function trGuardian(s){if(__GMAP[s])return __GMAP[s];return String(s)
 // Premier rendu i18n : APRÈS la définition de I18N (var assigné plus haut) — sinon applyLang() lèverait
 // une exception qui avorterait tout le reste du script (toggle de langue + polling live morts).
 applyLang();
+// Badge de statut : « Vérification… » (gris) tant qu'aucun heartbeat n'a été reçu — avant, le badge
+// démarrait VERT en dur et restait « En ligne » si les deux sources échouaient, même bot mort.
+// Fenêtre « en ligne » = 10 min : le bot bat toutes les ~2 min mais le CDN raw sert jusqu'à 5 min de cache
+// (max-age=300) → avec l'ancien seuil de 5 min, un bot vivant passait « Hors ligne » par intermittence.
+// __skew = horloge visiteur − horloge serveur (en-tête Date du CDN) : sans ça, une horloge locale décalée
+// de quelques minutes suffisait à rendre le badge faux dans les deux sens.
 function setStatus(){var el=document.getElementById('botstatus');if(!el)return;var hb=Math.max(__hbApi,__hbStats),t,c;
  if(__bs==='updating'){t=tr('updating');c='upd';}
- else if(!hb){return;}
- else if(Date.now()-hb<300000){t=tr('online');c='on';}
+ else if(!hb){t=tr('checking');c='unk';}
+ else if((Date.now()-__skew)-hb<600000){t=tr('online');c='on';}
  else{t=tr('offline');c='off';}
  el.className='bstat '+c;var x=document.getElementById('bstxt');if(x)x.textContent=t;}
 // Badges de l'en-tête (commandes / catégories / membres protégés) → rafraîchis en direct depuis le heartbeat
@@ -1292,8 +1299,20 @@ function setBadges(d){if(!d)return;
  animTo(document.getElementById('bServers'),d.servers);
  animTo(document.getElementById('bCmds'),d.commands);
  animTo(document.getElementById('bCats'),d.categories);}
+// Heartbeat lu en PRIORITÉ sur raw.githubusercontent.com : CORS ouvert, pas de quota. L'ancienne source
+// unique (api.github.com/contents) est limitée à 60 req/h par IP sans token → à 1 requête/2 min (+ rechargements,
+// + onglets multiples, + IP partagées) le quota sautait, chaque poll répondait 403 en silence et le badge
+// retombait sur le heartbeat périmé de stats.json → « Hors ligne » affiché alors que le bot tournait.
+// L'API ne sert plus que de secours si le CDN raw est injoignable.
+var __rawURL='https://raw.githubusercontent.com/saliox/hasu-protect-docs/status/heartbeat.json';
 var __hbURL='https://api.github.com/repos/saliox/hasu-protect-docs/contents/heartbeat.json?ref=status';
-function pollHB(){fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content)return;var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){return;}if(j.at){__hbApi=j.at;if(j.status)__bs=j.status;setStatus();}setBadges(j);}).catch(function(){});}
+var __skew=0;
+function applyHB(j){if(!j)return;if(j.at){__hbApi=j.at;if(j.status)__bs=j.status;setStatus();}setBadges(j);}
+function pollHB(){fetch(__rawURL,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;
+  var dh=Date.parse(r.headers.get('date')||''),age=(parseInt(r.headers.get('age')||'0',10)||0)*1000;
+  if(isFinite(dh))__skew=Date.now()-(dh+age); // Date + Age ≈ heure serveur actuelle, même sur réponse cachée
+  return r.json();}).then(applyHB)
+ .catch(function(){fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content)return;var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){return;}applyHB(j);}).catch(function(){});});}
 // Compteur ALIGNÉ SUR L'HORLOGE (fenêtres glissantes de 120 s) → reste cohérent après un refresh de la
 // page (avant : le compteur repartait de 120 à chaque chargement). nextIn = secondes avant la prochaine frontière.
 function nextIn(){return 120-(Math.floor(Date.now()/1000)%120);}
