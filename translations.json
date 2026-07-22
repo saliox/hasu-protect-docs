@@ -100,6 +100,7 @@
     "menu": "Opens the bot configuration panel (alias of +setup)",
     "mog": "Mog someone, bipolar chad style 🗿💅 (fun)",
     "moveall": "Moves all members in voice — or a specific member (mention/ID) — to a voice channel",
+    "news": "What's new? 📰 The bot's latest additions and removals, grouped by date (in-bot mini-changelog)",
     "note": "Private moderation notes on a member (staff only)",
     "nuke": "Clears a channel by deleting then recreating it identically. `+nuke lock` protects a channel",
     "nukeadd": "Allows a member to use the nuke command (or removes them)",
