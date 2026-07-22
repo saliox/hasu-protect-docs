@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-h+WNSju1n+8FlB6liB4QQuAwl3Wh7DqTdCo4HXXHySs=' 'sha256-ye27xD4gzhM6k9qCyo/3uStJFjXZ/kKxGhbD1S61eJw='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-h+WNSju1n+8FlB6liB4QQuAwl3Wh7DqTdCo4HXXHySs=' 'sha256-Lei2uuGALtkIH4eqNSlQQzdPZ9b+HfaUr/6KofEpJB8='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <script>if(window.top!==window.self){try{window.top.location=window.self.location}catch(e){document.documentElement.style.display='none'}}</script>
@@ -1330,7 +1330,7 @@ function exFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
  if(/salon|channel|#/.test(t))return en?'#general':'#général';
  if(/r[oô]le/.test(t))return en?'@Member':'@Membre';
  if(/dur[ée]|duree|temps|delai|délai/.test(t))return '10m';
- if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|xp|niveau|level|gagnant/.test(t))return '5';
+ if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|xp|niveau|level|gagnant|mise|pari/.test(t))return '5';
  if(/raison|motif/.test(t))return en?'repeated spam':'spam répété';
  if(/message|texte|contenu|annonce|lot|titre|sujet/.test(t))return en?'Hello everyone!':'Bonjour à tous !';
  if(/lien|url|invit/.test(t))return en?'https://example.com':'https://exemple.com';
@@ -1346,7 +1346,7 @@ function hintFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
  if(/salon|channel/.test(t))return en?'a channel — #channel or ID':'un salon — #salon ou ID';
  if(/r[oô]le/.test(t))return en?'a role — mention or ID':'un rôle — mention ou ID';
  if(/dur[ée]|duree|temps|delai|délai/.test(t))return en?'a duration — e.g. 10m, 2h, 1d':'une durée — ex. 10m, 2h, 1j';
- if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|gagnant/.test(t))return en?'a number':'un nombre';
+ if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|gagnant|mise|pari/.test(t))return en?'a number':'un nombre';
  if(/raison|motif/.test(t))return en?'the reason (free text)':'la raison (texte libre)';
  if(/message|texte|contenu|annonce|lot|titre|sujet/.test(t))return en?'the text to use':'le texte à utiliser';
  if(/lien|url|invit/.test(t))return en?'a link':'un lien';
@@ -1354,13 +1354,40 @@ function hintFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
  if(/prefix|préfixe|prefixe/.test(t))return en?'the new prefix':'le nouveau préfixe';
  if(/mot|word|terme/.test(t))return en?'a keyword':'un mot-clé';
  return en?'a value (e.g. example)':'une valeur (ex. : exemple)';}
-function parseParams(usage){var first=(usage||'').split('|')[0];var parts=first.trim().split(/\s+/).slice(1);
- return parts.map(function(p){var req=true,raw=p,lit=false;
-  if(/^\[.*\]$/.test(p)){req=false;raw=p.slice(1,-1);}
-  else if(/^<.*>$/.test(p)){req=true;raw=p.slice(1,-1);}
+// Découpe une chaîne sur les « | » de PREMIER NIVEAU uniquement : un | à l'intérieur de
+// [smart | off | reset] ou <on|off> est un choix de valeurs, pas une forme alternative de la commande.
+function splitTop(s){var out=[],b='',d=0,j,c;for(j=0;j<s.length;j++){c=s.charAt(j);
+ if(c==='['||c==='<')d++;else if(c===']'||c==='>')d=Math.max(0,d-1);
+ if(c==='|'&&d===0){out.push(b);b='';}else b+=c;}out.push(b);return out;}
+function parseParams(usage){
+ // Avant : split('|')[0] + split sur les espaces cassait tout groupe [a | b] — « +shield [smart | off | reset] »
+ // devenait le paramètre « [smart », marqué obligatoire « à écrire tel quel » (22 commandes touchées).
+ var first=splitTop(usage||'')[0].trim();
+ // Tokenise en gardant les groupes [ … ] / < … > ENTIERS, même s'ils contiennent espaces et |.
+ var parts=[],buf='',dep=0,i,ch;
+ for(i=0;i<first.length;i++){ch=first.charAt(i);
+  if(ch==='['||ch==='<')dep++;else if(ch===']'||ch==='>')dep=Math.max(0,dep-1);
+  if(dep===0&&/\s/.test(ch)){if(buf){parts.push(buf);buf='';}}else buf+=ch;}
+ if(buf)parts.push(buf);parts=parts.slice(1);
+ var en=curLang()==='en';
+ return parts.map(function(p){var req=true,raw=p,lit=false,alts=null;
+  if(/^\[[\s\S]*\]$/.test(p)){req=false;raw=p.slice(1,-1).trim();}
+  else if(/^<[\s\S]*>$/.test(p)){req=true;raw=p.slice(1,-1).trim();}
   else if(/^[@#]/.test(p)){raw=p.slice(1);}
   else{lit=true;}
-  return {token:p,raw:raw,req:req,lit:lit,ex:lit?p:exFor(raw),hint:lit?(curLang()==='en'?'type as-is':'à écrire tel quel'):hintFor(raw)};});}
+  if(!lit&&raw.indexOf('|')!==-1){alts=splitTop(raw).map(function(s){return s.trim();}).filter(Boolean);if(alts.length<2)alts=null;}
+  var ex,hint;
+  if(lit){ex=p;hint=en?'type as-is':'à écrire tel quel';}
+  else if(alts){
+   // Exemple = 1re alternative, nettoyée : sous-groupes optionnels retirés, <placeholder> remplacé par un exemple.
+   var a0=alts[0].replace(/\[[^\]]*\]/g,'').replace(/\s+/g,' ').trim();
+   a0=a0.replace(/<([^>]*)>/g,function(_,g){g=g.trim();return g.indexOf('|')!==-1?g.split('|')[0].trim():exFor(g);});
+   if(/^[@#]/.test(a0))ex=exFor(a0);
+   else if(a0.indexOf(' ')===-1){var e0=exFor(a0);ex=(e0!=='exemple'&&e0!=='example')?e0:a0;} // mot-placeholder connu (« nombre » → 5) sinon littéral (« smart »)
+   else ex=a0;
+   hint=(en?'one of: ':'au choix : ')+alts.join(' · ');}
+  else{ex=exFor(raw);hint=hintFor(raw);}
+  return {token:p,raw:raw,req:req,lit:lit,ex:ex,hint:hint};});}
 function botReply(name,desc,params){var n=name.toLowerCase();
  var get=function(re){for(var i=0;i<params.length;i++)if(re.test(params[i].raw.toLowerCase()))return params[i].ex;return null;};
  var who=get(/membre|user|utilisateur|cible/)||'@Jean',reason=get(/raison|motif/),dur=get(/dur[ée]|duree|temps/)||'10m',en=curLang()==='en',R=reason?(en?'\nReason: ':'\nRaison : ')+reason:'';
