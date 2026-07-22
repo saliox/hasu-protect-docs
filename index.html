@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-ZnM/LNgUh5zNF1eoCZ35QNroIIv886QIDXs1ClP7NHU=' 'sha256-FwbE49W7mMpOS9Fmu1dwMjnxUDzPsw2dZdYLiNrdojA=' 'sha256-h+WNSju1n+8FlB6liB4QQuAwl3Wh7DqTdCo4HXXHySs='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-h+WNSju1n+8FlB6liB4QQuAwl3Wh7DqTdCo4HXXHySs=' 'sha256-h4dqFC9uL4ReYoED8UYmbPkubSqsP3dlDRAWOX6MCrE='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <script>if(window.top!==window.self){try{window.top.location=window.self.location}catch(e){document.documentElement.style.display='none'}}</script>
@@ -44,6 +44,7 @@ header{position:relative;padding:42px 22px 26px;text-align:center;background:rad
 .bstat.off{color:#ED4245;border-color:#ED4245}.bstat.off .bdot{background:#ED4245}
 .bstat.upd{color:#E67E22;border-color:#E67E22}.bstat.upd .bdot{background:#E67E22}
 .bstat.unk{color:var(--mut);border-color:var(--line)}.bstat.unk .bdot{background:var(--mut)}
+:root[data-theme="light"] .bstat{background:rgba(255,255,255,.6)} /* même fond clair que .langbtn — sinon pilule gris foncé en thème clair */
 @media(max-width:640px){.bstat{position:static;margin:0 auto 12px;font-size:.88rem}}
 header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
 header p{color:var(--mut);margin:.5rem 0 0}

@@ -1,0 +1,34 @@
+# Garde-fou : la CSP de index.html autorise les scripts inline par hash sha256.
+# Chaque modification d'un <script> inline change son hash — si la meta CSP n'est
+# pas mise à jour en même temps, le navigateur BLOQUE tout le JS du site en
+# production (page morte : recherche, filtres, simulations, statut… plus rien).
+# Ce workflow refuse le commit fautif au lieu de laisser le site casser en silence.
+name: Vérifier les hash CSP
+on:
+  push:
+    paths: [index.html]
+  pull_request:
+    paths: [index.html]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hash CSP = scripts inline ?
+        run: |
+          node -e '
+          const fs = require("fs"), crypto = require("crypto");
+          const html = fs.readFileSync("index.html", "utf8");
+          const m = html.match(/script-src ([^;]+);/);
+          if (!m) { console.error("Pas de directive script-src trouvée"); process.exit(1); }
+          const csp = m[1];
+          const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(x => x[1]);
+          let ko = 0;
+          for (const [i, s] of scripts.entries()) {
+            const h = "sha256-" + crypto.createHash("sha256").update(s, "utf8").digest("base64");
+            const ok = csp.includes("'" + h + "'");
+            console.log(`script ${i} (${s.length} car.) ${h} ${ok ? "OK" : "ABSENT DE LA CSP"}`);
+            if (!ok) ko++;
+          }
+          if (ko) { console.error(`\n${ko} script(s) inline seraient bloqués par la CSP. Recalcule le(s) hash et mets à jour la meta Content-Security-Policy.`); process.exit(1); }
+          '
