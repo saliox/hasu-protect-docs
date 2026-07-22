@@ -98,7 +98,7 @@
     "massrole": "Adds (or removes) a role to all human members of the server",
     "meme": "Shows a random meme (from Reddit)",
     "menu": "Opens the bot configuration panel (alias of +setup)",
-    "mog": "Mog someone, bipolar chad style 🗿💅 (fun)",
+    "mog": "Mog one or SEVERAL people, bipolar chad style 🗿💅 (fun, with gif — counter-mogs and crits possible)",
     "moveall": "Moves all members in voice — or a specific member (mention/ID) — to a voice channel",
     "news": "What's new? 📰 The bot's latest additions and removals, grouped by date (in-bot mini-changelog)",
     "note": "Private moderation notes on a member (staff only)",
