@@ -10,7 +10,14 @@
     "Jeux & Économie": "Games & Economy",
     "Communauté": "Community",
     "Fun": "Fun",
-    "Autres": "Other"
+    "Autres": "Other",
+    "🛡️ Sécurité & Antiraid": "🛡️ Security & Antiraid",
+    "🔨 Modération": "🔨 Moderation",
+    "⚙️ Configuration": "⚙️ Configuration",
+    "🎮 Jeux & Fun": "🎮 Games & Fun",
+    "📈 Profil & Classements": "📈 Profile & Rankings",
+    "🏘️ Communauté & Utilitaires": "🏘️ Community & Utilities",
+    "👑 Owner du bot": "👑 Bot owner"
   },
   "commands": {
     "addrole": "Gives a role to a member, by mention or ID (restricted like nuke: owners + those allowed via +nukeadd)",
@@ -191,6 +198,24 @@
     "gala": "Saturday-night Grand Quiz 🎙️ (+gala): every Saturday at 9pm, all enrolled servers play the SAME 10-question quiz at the same time, with a cross-server individual leaderboard AND a per-server ranking (average of the top scores, so size doesn't win). Announced to the 🎮 Player role 30 min before. `+gala on` (admin) enrolls this channel; `+gala` shows the standings.",
     "bang": "Duel game: each round, 2 players face off to be the fastest in a random channel — the last one standing wins.",
     "audit": "Runs the security self-audit on demand (detailed flaws + per-target actions). `+audit ignores` manages accepted flaws",
-    "cooldown": "Sets the anti-spam delay (cooldown) of a command on this server"
+    "cooldown": "Sets the anti-spam delay (cooldown) of a command on this server",
+    "antiban": "Prevents banning several members in a row (shortcut for +antiraid antiban)",
+    "antichannel": "Prevents channel creation/deletion/modification (shortcut for +antiraid antichannel)",
+    "antideco": "Prevents abusive (repeated) voice disconnections (shortcut for +antiraid antideco)",
+    "antidelete": "Automatically recreates a deleted channel (same settings) (shortcut for +antiraid antidelete)",
+    "antieveryone": "Prevents pinging @everyone/@here several times in a row (shortcut for +antiraid antieveryone)",
+    "antiperm": "Anti-nuke: reverts the granting of dangerous permissions/roles (Administrator, etc.) (shortcut for +antiraid antiperm)",
+    "antitoken": "Prevents too many members from joining at the same time (auto lockdown) (shortcut for +antiraid antitoken)",
+    "antiunban": "Punishes those who try to unban a member (shortcut for +antiraid antiunban)",
+    "antiupdate": "Prevents changes to the server settings (name, icon, etc.) (shortcut for +antiraid antiupdate)",
+    "antivanity": "Anti-vanity: instantly restores the vanity URL (discord.gg/xxx) if it gets changed + deranks the author (shortcut for +antiraid antivanity)",
+    "antiwebhook": "Prevents webhook creation (shortcut for +antiraid antiwebhook)",
+    "autoescalate": "Automatically switches to MAX security during a join wave (raid) (shortcut for +antiraid autoescalate)",
+    "ftg": "(Gently) tell someone to shut it 🤫 — meme/banter with a GIF, others vote with the ➕ reaction",
+    "guardian": "Guardian: DMs the owners when a recent member receives sensitive permissions (shortcut for +antiraid guardian)",
+    "sdt": "Trophy room 🏆: the server records — members online/in voice at once, counting streak, monthly XP top, biggest aura…",
+    "syncroles": "Reward roles 🏆: migrates/syncs the monthly podium + level roles + custom roles across ALL servers (bot owner, paced processing) — `+syncroles all`",
+    "testalerts": "Posts a sample of EVERY security alert type in the log channel, marked TEST, to spot false positives (bot owner)",
+    "unflag": "Removes a wrongly flagged member from the permanent danger database (👑 root owner only) — `+unflag <id>` alone shows their record first"
   }
 }
