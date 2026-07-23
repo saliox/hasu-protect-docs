@@ -1,0 +1,19 @@
+# Garde-fou : la CSP de index.html autorise les scripts inline par hash sha256.
+# Chaque modification d'un <script> inline change son hash — si la meta CSP n'est
+# pas mise à jour en même temps, le navigateur BLOQUE tout le JS du site en
+# production (page morte : recherche, filtres, simulations, statut… plus rien).
+# Ce workflow refuse le commit fautif au lieu de laisser le site casser en silence.
+# La logique vit dans .github/check-csp.js (script séparé : pas d'échappement shell).
+name: Vérifier les hash CSP
+on:
+  push:
+    paths: [index.html, .github/check-csp.js, .github/workflows/check-csp.yml]
+  pull_request:
+    paths: [index.html, .github/check-csp.js, .github/workflows/check-csp.yml]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hash CSP = scripts inline ?
+        run: node .github/check-csp.js
