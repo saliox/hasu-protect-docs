@@ -7,9 +7,9 @@
 name: Vérifier les hash CSP
 on:
   push:
-    paths: [index.html]
+    paths: [index.html, .github/check-csp.js, .github/workflows/check-csp.yml]
   pull_request:
-    paths: [index.html]
+    paths: [index.html, .github/check-csp.js, .github/workflows/check-csp.yml]
 jobs:
   check:
     runs-on: ubuntu-latest
