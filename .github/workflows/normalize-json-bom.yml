@@ -33,15 +33,38 @@ jobs:
         run: |
           shopt -s globstar nullglob
           changed=0
+          changed_list="$RUNNER_TEMP/normalize-bom-changed-files.txt"
+          : > "$changed_list"
           for f in **/version.json **/version-beta.json; do
             [ -f "$f" ] || continue
             if [ "$(head -c3 "$f" | od -An -tx1 | tr -d ' \n')" = "efbbbf" ]; then
               tail -c +4 "$f" > "$f.nobom" && mv "$f.nobom" "$f"
               echo "stripped BOM: $f"
+              echo "$f" >> "$changed_list"
               changed=1
             fi
           done
           echo "changed=$changed" >> "$GITHUB_ENV"
+
+      - name: Validate JSON is still parseable
+        if: env.changed == '1'
+        shell: bash
+        run: |
+          fail=0
+          changed_list="$RUNNER_TEMP/normalize-bom-changed-files.txt"
+          while IFS= read -r f; do
+            [ -n "$f" ] || continue
+            if node -e "JSON.parse(require('fs').readFileSync(process.argv[1], 'utf8'))" "$f"; then
+              echo "valid JSON: $f"
+            else
+              echo "::error file=$f::JSON invalide apres retrait du BOM"
+              fail=1
+            fi
+          done < "$changed_list"
+          if [ "$fail" = "1" ]; then
+            echo "Au moins un manifeste est invalide apres normalisation, abandon (pas de commit/push)."
+            exit 1
+          fi
 
       - name: Commit normalized files
         if: env.changed == '1'
