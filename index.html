@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-g1IWj3skNjT7RVObEbJLA0WXT4Ule30CKprFIFG4rpg=' 'sha256-bcPuYV1cex6iMpgybhrN6dq8/cPcIdJuptkiF2FTnsk='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-T2ka0elVbCvV7YZnAT4/dOlqWjkwQce/MZdBJt0Rb3E='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 196 commandes — documentation complète et interactive.">
@@ -230,7 +230,7 @@ section{animation:fadeIn .5s ease backwards}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style></head><body>
 <header>
-  <div class="bstat unk" id="botstatus"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
+  <div class="bstat unk" id="botstatus" role="status"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
   <div class="topbtns"><button id="lang" class="langbtn" type="button" aria-label="Language / Langue">EN</button><button id="theme" class="langbtn" type="button" aria-label="Thème clair / sombre">☀️</button></div>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p data-i18n="tagline">Documentation des commandes — bot de modération &amp; sécurité Discord</p>
@@ -1294,7 +1294,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  function de(k){return GP[k]?' data-en="'+GP[k]+'"':'';}
  function st(k,v){return '<div class="gstat"><span class="k"'+de(k)+'>'+k+'</span><span class="v">'+v+'</span></div>';}
  function sec(k){return '<div class="gsec"'+de(k)+'>'+k+'</div>';}
- function nf(n){return Number(n).toLocaleString('fr-FR');}
+ function nf(n){return Number(n).toLocaleString(curLang()==='en'?'en-GB':'fr-FR');}
  var t=new Date(d.at).toLocaleString(curLang()==='en'?'en-GB':'fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
  var h='<h2>🧠 Guardian AI</h2><div class="gsub"><span data-en="Autonomous learning">Apprentissage autonome</span> · cycle #'+escH(d.cycle)+' · '+escH(t)+'</div>';
  h+='<div class="gbig"><div class="n">'+escH(d.mastery)+'%</div><div class="l"'+de('maîtrise globale')+'>maîtrise globale</div></div>';
@@ -1315,14 +1315,14 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
   // Précision recalculée AVEC décimales : l'« accuracy » entière du bot arrondissait 99,97 → « 100% »
   // juste au-dessus de « Menaces ratées : 11 » — contradiction visible pour le lecteur.
   var acc=(d.offline.samples&&d.offline.fp!=null&&d.offline.fn!=null)?Math.round((d.offline.samples-d.offline.fp-d.offline.fn)/d.offline.samples*10000)/100:d.offline.accuracy;
-  h+=st('✅ Précision réelle',escH(String(acc).replace('.',','))+'%');
+  h+=st('✅ Précision réelle',escH(curLang()==='en'?String(acc):String(acc).replace('.',','))+'%'); // virgule décimale en FR, point en EN
   if(d.offline.gain!=null)h+=st('📈 Gain vs base initiale','+'+escH(d.offline.gain)+' pts');
   h+=st('Fausses alertes',escH(d.offline.fp)+(d.offline.samples?' / '+nf(d.offline.samples):''));
   h+=st('Menaces ratées',escH(d.offline.fn)+(d.offline.samples?' / '+nf(d.offline.samples):''));}
  if(d.protections&&d.protections.length){h+=sec('Axes d\'entraînement')+d.protections.map(function(p){return '<div class="gprot" data-en="🎯 '+escH(trGuardian(p))+'">🎯 '+escH(p)+'</div>';}).join('');}
  if(d.errorTypes&&d.errorTypes.length){var mx=Math.max.apply(null,d.errorTypes.map(function(x){return x.count;}))||1;h+=sec('Types d\'erreurs corrigées')+d.errorTypes.map(function(x){return '<div class="gtype"><div class="row"><span data-en="'+escH(trGuardian(x.label))+'">'+escH(x.label)+'</span><span>'+escH(x.count)+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
  p.innerHTML=h;if(typeof applyLang==='function')applyLang();}
-var __gAt=0,__hbApi=0,__hbStats=0,__bs='online';
+var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
 var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
@@ -1347,7 +1347,10 @@ function pickLang(){
 function curLang(){if(!__lang)__lang=pickLang();return __lang;}
 function setLang(L){__lang=L;try{localStorage.setItem('lang',L);}catch(e){}
  try{var u=new URL(location.href);u.searchParams.set('lang',L);history.replaceState(null,'',u);}catch(e){} // l'URL reflète la langue → liens partagés OK
- applyLang();}
+ applyLang();
+ // Re-rendu du panneau Guardian dans la nouvelle langue : les VALEURS formatées (séparateurs de milliers,
+ // virgule/point décimal, date) ne sont pas couvertes par applyLang, qui ne bascule que les libellés.
+ if(__gLast&&typeof renderG==='function')renderG(__gLast);}
 function tr(k){var e=I18N[k];return e?(e[curLang()]||e.fr):k;}
 function applyLang(){var L=curLang();document.documentElement.lang=L;
  document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(I18N[k])el.textContent=tr(k);});
@@ -1430,12 +1433,17 @@ var __rawURL='https://raw.githubusercontent.com/saliox/hasu-protect-docs/status/
 var __hbURL='https://api.github.com/repos/saliox/hasu-protect-docs/contents/heartbeat.json?ref=status';
 var __apiLast=0,__exactUntil=0,__lastC='';
 // exact=true : lecture API sans cache → « at » fiable à la seconde pendant 2 min 30 (voir setStatus).
-// La DERNIÈRE lecture fait foi : une lecture fraîche montrant un vieux « at » prouve que le bot s'est tu.
-function applyHB(j,exact){if(!j)return;if(j.at){__hbApi=j.at;if(exact)__exactUntil=Date.now()+150000;if(j.status)__bs=j.status;setStatus();}setBadges(j);}
+// Math.max : un timestamp de battement ne peut qu'avancer. Sans ça, le poll CDN suivant une lecture API
+// fraîche pouvait resservir la MÊME copie cachée périmée, faire reculer __hbApi, et la règle stricte de la
+// fenêtre « exact » déclarait le bot hors ligne juste après que l'API avait prouvé le contraire.
+function applyHB(j,exact){if(!j)return;if(j.at){__hbApi=Math.max(__hbApi,j.at);if(exact)__exactUntil=Date.now()+150000;if(j.status)__bs=j.status;setStatus();}setBadges(j);}
 // Lecture EXACTE (sans cache) via l'API GitHub — tranche la zone grise du cache CDN, ou secourt un CDN
 // raw en panne. gap = intervalle minimal entre deux appels : l'API est limitée à 60 req/h par IP.
 function pollAPI(gap){var n=Date.now();if(n-__apiLast<gap)return;__apiLast=n;
- fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content)return;var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){return;}applyHB(j,true);}).catch(function(){});}
+ // Échec (403 quota, réseau, contenu invalide) → on ne brûle pas toute la fenêtre de throttle :
+ // réessai possible dans ~60 s au lieu d'attendre 4-5 min sans verdict.
+ var fail=function(){__apiLast=n-Math.max(0,gap-60000);};
+ fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content){fail();return;}var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){fail();return;}applyHB(j,true);}).catch(fail);}
 function pollHB(){fetch(__rawURL,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){applyHB(j,false);})
  .catch(function(){pollAPI(240000);});}
 // Onglet remis au premier plan (retour de veille, changement d'onglet) → re-vérifie tout de suite.
@@ -1445,7 +1453,7 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden)poll
 function nextIn(){return 120-(Math.floor(Date.now()/1000)%120);}
 var __win=Math.floor(Date.now()/1000/120);
 function tickNext(){var e=document.getElementById('gnext');if(e)e.textContent=tr('refresh')+' '+nextIn()+' s';var w=Math.floor(Date.now()/1000/120);if(w!==__win){__win=w;pollG();}}
-function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hbStats=d.heartbeat;if(d.botStatus&&!__hbApi)__bs=d.botStatus;setStatus();setBadges(d);if(d.at&&d.at!==__gAt){__gAt=d.at;renderG(d);}}).catch(function(){});}
+function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hbStats=d.heartbeat;if(d.botStatus&&!__hbApi)__bs=d.botStatus;setStatus();setBadges(d);if(d.at&&d.at!==__gAt){__gAt=d.at;__gLast=d;renderG(d);}}).catch(function(){});}
 setTimeout(pollG,3000);setInterval(pollHB,120000);setTimeout(pollHB,1500);setInterval(setStatus,30000);setInterval(tickNext,1000);tickNext();
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e;}
 function md(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<u>$1</u>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');}
@@ -1486,21 +1494,34 @@ function hintFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
 function splitTop(s){var out=[],b='',d=0,j,c;for(j=0;j<s.length;j++){c=s.charAt(j);
  if(c==='['||c==='<')d++;else if(c===']'||c==='>')d=Math.max(0,d-1);
  if(c==='|'&&d===0){out.push(b);b='';}else b+=c;}out.push(b);return out;}
+// Sépare les FORMES ALTERNATIVES d'une commande : un | de premier niveau ne coupe que si ce qui suit est
+// une nouvelle commande (+x / !x). Sinon c'est un choix de valeurs (« +lockdown on|off ») ou un séparateur
+// littéral à taper (« +embed <titre> | <description> ») — il reste dans la forme courante.
+function splitForms(s){var out=[],b='',d=0,j,c;for(j=0;j<s.length;j++){c=s.charAt(j);
+ if(c==='['||c==='<')d++;else if(c===']'||c==='>')d=Math.max(0,d-1);
+ if(c==='|'&&d===0&&/^\s*[+!]/.test(s.slice(j+1))){out.push(b);b='';}else b+=c;}out.push(b);return out;}
 function parseParams(usage){
  // Avant : split('|')[0] + split sur les espaces cassait tout groupe [a | b] — « +shield [smart | off | reset] »
  // devenait le paramètre « [smart », marqué obligatoire « à écrire tel quel » (22 commandes touchées).
- var first=splitTop(usage||'')[0].trim();
+ var first=splitForms(usage||'')[0].trim();
  // Tokenise en gardant les groupes [ … ] / < … > ENTIERS, même s'ils contiennent espaces et |.
  var parts=[],buf='',dep=0,i,ch;
  for(i=0;i<first.length;i++){ch=first.charAt(i);
   if(ch==='['||ch==='<')dep++;else if(ch===']'||ch==='>')dep=Math.max(0,dep-1);
   if(dep===0&&/\s/.test(ch)){if(buf){parts.push(buf);buf='';}}else buf+=ch;}
  if(buf)parts.push(buf);parts=parts.slice(1);
+ // « a | b | c » espacé au premier niveau : si TOUS les jetons sont des mots-clés nus (pas de <>[]),
+ // c'est une alternance de valeurs → fusion en un seul choix (« +autoevents on | off | ici | test »).
+ // Sinon (placeholders présents), le | est un séparateur LITTÉRAL que l'utilisateur tape vraiment
+ // (« +embed <titre> | <description> ») → chaque | reste un jeton « à écrire tel quel ».
+ if(parts.indexOf('|')!==-1&&parts.every(function(p){return p==='|'||!/[<>\[\]]/.test(p);}))
+  parts=[parts.filter(function(p){return p!=='|';}).join('|')];
  var en=curLang()==='en';
  return parts.map(function(p){var req=true,raw=p,lit=false,alts=null;
   if(/^\[[\s\S]*\]$/.test(p)){req=false;raw=p.slice(1,-1).trim();}
   else if(/^<[\s\S]*>$/.test(p)){req=true;raw=p.slice(1,-1).trim();}
   else if(/^[@#]/.test(p)){raw=p.slice(1);}
+  else if(p!=='|'&&p.indexOf('|')!==-1){req=true;} // choix nu sans crochets : « on|off » (+lockdown, +antibot)
   else{lit=true;}
   if(!lit&&raw.indexOf('|')!==-1){alts=splitTop(raw).map(function(s){return s.trim();}).filter(Boolean);if(alts.length<2)alts=null;}
   var ex,hint;
