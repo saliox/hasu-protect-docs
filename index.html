@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-g1IWj3skNjT7RVObEbJLA0WXT4Ule30CKprFIFG4rpg=' 'sha256-y9J/AxSTgyHjYajHMqWamOUJvStheyL49mVS953OR3Q='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-T2ka0elVbCvV7YZnAT4/dOlqWjkwQce/MZdBJt0Rb3E='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 196 commandes — documentation complète et interactive.">
@@ -42,6 +42,8 @@ header{position:relative;padding:42px 22px 26px;text-align:center;background:rad
 .bstat.on{color:#57F287;border-color:#57F287}.bstat.on .bdot{background:#57F287}
 .bstat.off{color:#ED4245;border-color:#ED4245}.bstat.off .bdot{background:#ED4245}
 .bstat.upd{color:#E67E22;border-color:#E67E22}.bstat.upd .bdot{background:#E67E22}
+.bstat.unk{color:var(--mut);border-color:var(--line)}.bstat.unk .bdot{background:var(--mut)}
+:root[data-theme="light"] .bstat{background:rgba(255,255,255,.6)} /* même fond clair que .langbtn — sinon pilule gris foncé en thème clair */
 @media(max-width:640px){.bstat{position:static;margin:0 auto 12px;font-size:.88rem}}
 header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
 header p{color:var(--mut);margin:.5rem 0 0}
@@ -228,7 +230,7 @@ section{animation:fadeIn .5s ease backwards}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style></head><body>
 <header>
-  <div class="bstat on" id="botstatus"><span class="bdot"></span><span id="bstxt">En ligne</span></div>
+  <div class="bstat unk" id="botstatus" role="status"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
   <div class="topbtns"><button id="lang" class="langbtn" type="button" aria-label="Language / Langue">EN</button><button id="theme" class="langbtn" type="button" aria-label="Thème clair / sombre">☀️</button></div>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p data-i18n="tagline">Documentation des commandes — bot de modération &amp; sécurité Discord</p>
@@ -1302,29 +1304,41 @@ var tt=document.getElementById('toTop');if(tt){window.addEventListener('scroll',
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery==null)return;
  // Libellés du panneau FR→EN (les VALEURS, fournies par le bot, restent telles quelles).
- var GP={'maîtrise globale':'overall mastery','Reconnaît une menace':'Detects a threat','Épargne un membre sain':'Spares a safe member','Exemples appris':'Examples learned','Solutions mémorisées':'Solutions memorized','Erreurs apprises (ce cycle)':'Errors learned (this cycle)','Règles re-vérifiées':'Rules re-checked','🔥 Difficulté d\'entraînement':'🔥 Training difficulty','✅ Précision prouvée':'✅ Proven accuracy','Fausses alertes':'False alarms','Menaces ratées':'Missed threats','Validation hors-ligne (cas jamais vus)':'Offline validation (unseen cases)','Types d\'erreurs apprises':'Types of errors learned','Dernières erreurs apprises':'Latest errors learned','Sur quoi l\'IA travaille pour améliorer la sécurité':'What the AI is working on to improve security','🎭 Surprises évitées (jeu adverse)':'🎭 Surprises avoided (adversarial play)'};
+ var GP={'maîtrise globale':'overall mastery','Entraînement (cycle actuel)':'Training (current cycle)','🎯 Détection des menaces':'🎯 Threat detection','🟢 Épargne les membres sains':'🟢 Spares legitimate members','🧩 Généralisation (cas inédits)':'🧩 Generalization (novel cases)','📚 Exemples étudiés':'📚 Examples studied','💾 Solutions mémorisées':'💾 Solutions memorized','♻️ Erreurs corrigées (ce cycle)':'♻️ Errors fixed (this cycle)','📏 Règles re-vérifiées':'📏 Rules re-checked','🔥 Difficulté (niveau)':'🔥 Difficulty (level)','🎭 Jeu adverse (attaques simulées)':'🎭 Adversarial game (simulated attacks)','Attaques déjouées':'Attacks foiled','Fausses alertes':'False alarms','Angles morts découverts':'Blind spots found','Validation hors-ligne (cas jamais vus)':'Offline validation (unseen cases)','✅ Précision réelle':'✅ Actual accuracy','📈 Gain vs base initiale':'📈 Gain vs initial baseline','Menaces ratées':'Missed threats','Axes d\'entraînement':'Training focus areas','Types d\'erreurs corrigées':'Types of errors fixed'};
  function de(k){return GP[k]?' data-en="'+GP[k]+'"':'';}
  function st(k,v){return '<div class="gstat"><span class="k"'+de(k)+'>'+k+'</span><span class="v">'+v+'</span></div>';}
  function sec(k){return '<div class="gsec"'+de(k)+'>'+k+'</div>';}
+ function nf(n){return Number(n).toLocaleString(curLang()==='en'?'en-GB':'fr-FR');}
  var t=new Date(d.at).toLocaleString(curLang()==='en'?'en-GB':'fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
- var h='<h2>🧠 Guardian AI</h2><div class="gsub"><span data-en="Autonomous learning">Apprentissage autonome</span> · cycle #'+d.cycle+' · '+escH(t)+'</div>';
- h+='<div class="gbig"><div class="n">'+d.mastery+'%</div><div class="l"'+de('maîtrise globale')+'>maîtrise globale</div></div>';
- h+=st('Reconnaît une menace',d.threat+'%');
- h+=st('Épargne un membre sain',d.spare+'%');
- h+=st('Exemples appris',d.examples);
- h+=st('Solutions mémorisées',d.solutions);
- if(d.errorsThisCycle!=null)h+=st('Erreurs apprises (ce cycle)',d.errorsThisCycle);
- if(d.rules)h+=st('Règles re-vérifiées',d.rules.ok+'/'+d.rules.total);
- if(d.difficultyLevel!=null)h+=st('🔥 Difficulté d\'entraînement','niveau '+d.difficultyLevel);
- if(d.redteam)h+=st('🎭 Surprises évitées (jeu adverse)',d.redteam.avoided+'%');
- if(d.offline){h+=sec('Validation hors-ligne (cas jamais vus)');h+=st('✅ Précision prouvée',d.offline.accuracy+'%');h+=st('Fausses alertes',d.offline.fp);h+=st('Menaces ratées',d.offline.fn);}
- if(d.protections&&d.protections.length){h+=sec('Sur quoi l\'IA travaille pour améliorer la sécurité')+d.protections.map(function(p){return '<div class="gprot" data-en="🎯 '+escH(trGuardian(p))+'">🎯 '+escH(p)+'</div>';}).join('');}
- if(d.errorTypes&&d.errorTypes.length){var mx=Math.max.apply(null,d.errorTypes.map(function(x){return x.count;}))||1;h+=sec('Types d\'erreurs apprises')+d.errorTypes.map(function(x){return '<div class="gtype"><div class="row"><span data-en="'+escH(trGuardian(x.label))+'">'+escH(x.label)+'</span><span>'+x.count+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
- if(d.examplesLearned&&d.examplesLearned.length){h+=sec('Dernières erreurs apprises')+d.examplesLearned.map(function(e){return '<div class="gex"><span class="t" data-en="'+escH(trGuardian(e.type))+'">'+escH(e.type)+'</span><span data-en="'+escH(trGuardian(e.detail))+'">'+escH(e.detail)+'</span></div>';}).join('');}
+ var h='<h2>🧠 Guardian AI</h2><div class="gsub"><span data-en="Autonomous learning">Apprentissage autonome</span> · cycle #'+escH(d.cycle)+' · '+escH(t)+'</div>';
+ h+='<div class="gbig"><div class="n">'+escH(d.mastery)+'%</div><div class="l"'+de('maîtrise globale')+'>maîtrise globale</div></div>';
+ h+=sec('Entraînement (cycle actuel)');
+ h+=st('🎯 Détection des menaces',escH(d.threat)+'%');
+ h+=st('🟢 Épargne les membres sains',escH(d.spare)+'%');
+ if(d.generalization!=null)h+=st('🧩 Généralisation (cas inédits)',escH(d.generalization)+'%');
+ h+=st('📚 Exemples étudiés',nf(d.examples));
+ h+=st('💾 Solutions mémorisées',nf(d.solutions));
+ if(d.errorsThisCycle!=null)h+=st('♻️ Erreurs corrigées (ce cycle)',escH(d.errorsThisCycle));
+ if(d.rules)h+=st('📏 Règles re-vérifiées',escH(d.rules.ok)+'/'+escH(d.rules.total));
+ if(d.difficultyLevel!=null)h+=st('🔥 Difficulté (niveau)',escH(d.difficultyLevel));
+ if(d.redteam){h+=sec('🎭 Jeu adverse (attaques simulées)');
+  h+=st('Attaques déjouées',escH(d.redteam.avoided)+'%');
+  if(d.redteam.falseAlarm!=null)h+=st('Fausses alertes',escH(d.redteam.falseAlarm));
+  if(d.redteam.blindspots!=null)h+=st('Angles morts découverts',escH(d.redteam.blindspots));}
+ if(d.offline){h+=sec('Validation hors-ligne (cas jamais vus)');
+  // Précision recalculée AVEC décimales : l'« accuracy » entière du bot arrondissait 99,97 → « 100% »
+  // juste au-dessus de « Menaces ratées : 11 » — contradiction visible pour le lecteur.
+  var acc=(d.offline.samples&&d.offline.fp!=null&&d.offline.fn!=null)?Math.round((d.offline.samples-d.offline.fp-d.offline.fn)/d.offline.samples*10000)/100:d.offline.accuracy;
+  h+=st('✅ Précision réelle',escH(curLang()==='en'?String(acc):String(acc).replace('.',','))+'%'); // virgule décimale en FR, point en EN
+  if(d.offline.gain!=null)h+=st('📈 Gain vs base initiale','+'+escH(d.offline.gain)+' pts');
+  h+=st('Fausses alertes',escH(d.offline.fp)+(d.offline.samples?' / '+nf(d.offline.samples):''));
+  h+=st('Menaces ratées',escH(d.offline.fn)+(d.offline.samples?' / '+nf(d.offline.samples):''));}
+ if(d.protections&&d.protections.length){h+=sec('Axes d\'entraînement')+d.protections.map(function(p){return '<div class="gprot" data-en="🎯 '+escH(trGuardian(p))+'">🎯 '+escH(p)+'</div>';}).join('');}
+ if(d.errorTypes&&d.errorTypes.length){var mx=Math.max.apply(null,d.errorTypes.map(function(x){return x.count;}))||1;h+=sec('Types d\'erreurs corrigées')+d.errorTypes.map(function(x){return '<div class="gtype"><div class="row"><span data-en="'+escH(trGuardian(x.label))+'">'+escH(x.label)+'</span><span>'+escH(x.count)+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
  p.innerHTML=h;if(typeof applyLang==='function')applyLang();}
-var __gAt=0,__hbApi=0,__hbStats=0,__bs='online';
+var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1347,7 +1361,10 @@ function pickLang(){
 function curLang(){if(!__lang)__lang=pickLang();return __lang;}
 function setLang(L){__lang=L;try{localStorage.setItem('lang',L);}catch(e){}
  try{var u=new URL(location.href);u.searchParams.set('lang',L);history.replaceState(null,'',u);}catch(e){} // l'URL reflète la langue → liens partagés OK
- applyLang();}
+ applyLang();
+ // Re-rendu du panneau Guardian dans la nouvelle langue : les VALEURS formatées (séparateurs de milliers,
+ // virgule/point décimal, date) ne sont pas couvertes par applyLang, qui ne bascule que les libellés.
+ if(__gLast&&typeof renderG==='function')renderG(__gLast);}
 function tr(k){var e=I18N[k];return e?(e[curLang()]||e.fr):k;}
 function applyLang(){var L=curLang();document.documentElement.lang=L;
  document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(I18N[k])el.textContent=tr(k);});
@@ -1384,12 +1401,27 @@ function trGuardian(s){if(__GMAP[s])return __GMAP[s];return String(s)
 // Premier rendu i18n : APRÈS la définition de I18N (var assigné plus haut) — sinon applyLang() lèverait
 // une exception qui avorterait tout le reste du script (toggle de langue + polling live morts).
 applyLang();
-function setStatus(){var el=document.getElementById('botstatus');if(!el)return;var hb=Math.max(__hbApi,__hbStats),t,c;
+// Badge de statut — machine à TROIS ZONES, sans lecture d'en-têtes HTTP (Age/Date ne sont pas exposés
+// en CORS par raw.githubusercontent — vérifié — donc l'âge du cache CDN est invisible côté JS) :
+//   < 4 min 30 → En ligne : battement ~2 min + marge, aucun doute.
+//   ≥ 10 min   → Hors ligne : le cache CDN (5 min) + le battement (2 min) ne peuvent pas masquer plus
+//                de ~7 min ; au-delà, le bot est muet quelle que soit la fraîcheur de la copie servie.
+//   entre les 2 → zone grise du cache : impossible de distinguer « bot mort depuis 5 min » d'une simple
+//                copie CDN restée 5 min en cache. On GARDE l'état affiché (pas de clignotement) et on
+//                demande la vérité à pollAPI (lecture exacte, sans cache), throttlée pour ne jamais
+//                approcher le quota API de 60 req/h qui avait déjà tué le badge une fois.
+// Après une réponse API, le « at » est exact pendant 2 min 30 (__exactUntil) → la règle des 4 min 30
+// s'applique directement : bot muet depuis plus de 4 min 30 = Hors ligne, sans attendre les 10 min.
+// Premier chargement dans la zone grise (aucun état précédent) → « Vérification… » jusqu'au verdict API.
+function setStatus(){var el=document.getElementById('botstatus');if(!el)return;var hb=Math.max(__hbApi,__hbStats),t,c,age=Date.now()-hb;
  if(__bs==='updating'){t=tr('updating');c='upd';}
- else if(!hb){return;}
- else if(Date.now()-hb<300000){t=tr('online');c='on';}
- else{t=tr('offline');c='off';}
- el.className='bstat '+c;var x=document.getElementById('bstxt');if(x)x.textContent=t;}
+ else if(!hb){t=tr('checking');c='unk';}
+ else if(age<270000){t=tr('online');c='on';}
+ else if(age>=600000||Date.now()<__exactUntil){t=tr('offline');c='off';}
+ else{if(typeof pollAPI==='function')pollAPI(300000);
+  if(__lastC==='on'||__lastC==='off'){c=__lastC;t=tr(c==='on'?'online':'offline');}
+  else{t=tr('checking');c='unk';}}
+ __lastC=c;el.className='bstat '+c;var x=document.getElementById('bstxt');if(x)x.textContent=t;}
 // Badges de l'en-tête (commandes / catégories / membres protégés) → rafraîchis en direct depuis le heartbeat
 // (toutes les ~2 min, sans recharger ni reconstruire le site) et, en repli, depuis stats.json.
 // Animation « count-up » : le badge défile de l'ancienne valeur vers la nouvelle (easeOutCubic) au lieu de sauter.
@@ -1408,14 +1440,34 @@ function setBadges(d){if(!d)return;
  animTo(document.getElementById('bServers'),d.servers);
  animTo(document.getElementById('bCmds'),d.commands);
  animTo(document.getElementById('bCats'),d.categories);}
+// Heartbeat lu en PRIORITÉ sur raw.githubusercontent.com : CORS ouvert, pas de quota. L'API contents
+// (60 req/h par IP sans token) ne sert plus que de lecture exacte ponctuelle : à 1 requête/2 min en
+// continu, le quota sautait (rechargements + onglets multiples + IP partagées) et le badge mourait en 403.
+var __rawURL='https://raw.githubusercontent.com/saliox/hasu-protect-docs/status/heartbeat.json';
 var __hbURL='https://api.github.com/repos/saliox/hasu-protect-docs/contents/heartbeat.json?ref=status';
-function pollHB(){fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content)return;var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){return;}if(j.at){__hbApi=j.at;if(j.status)__bs=j.status;setStatus();}setBadges(j);}).catch(function(){});}
+var __apiLast=0,__exactUntil=0,__lastC='';
+// exact=true : lecture API sans cache → « at » fiable à la seconde pendant 2 min 30 (voir setStatus).
+// Math.max : un timestamp de battement ne peut qu'avancer. Sans ça, le poll CDN suivant une lecture API
+// fraîche pouvait resservir la MÊME copie cachée périmée, faire reculer __hbApi, et la règle stricte de la
+// fenêtre « exact » déclarait le bot hors ligne juste après que l'API avait prouvé le contraire.
+function applyHB(j,exact){if(!j)return;if(j.at){__hbApi=Math.max(__hbApi,j.at);if(exact)__exactUntil=Date.now()+150000;if(j.status)__bs=j.status;setStatus();}setBadges(j);}
+// Lecture EXACTE (sans cache) via l'API GitHub — tranche la zone grise du cache CDN, ou secourt un CDN
+// raw en panne. gap = intervalle minimal entre deux appels : l'API est limitée à 60 req/h par IP.
+function pollAPI(gap){var n=Date.now();if(n-__apiLast<gap)return;__apiLast=n;
+ // Échec (403 quota, réseau, contenu invalide) → on ne brûle pas toute la fenêtre de throttle :
+ // réessai possible dans ~60 s au lieu d'attendre 4-5 min sans verdict.
+ var fail=function(){__apiLast=n-Math.max(0,gap-60000);};
+ fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content){fail();return;}var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){fail();return;}applyHB(j,true);}).catch(fail);}
+function pollHB(){fetch(__rawURL,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){applyHB(j,false);})
+ .catch(function(){pollAPI(240000);});}
+// Onglet remis au premier plan (retour de veille, changement d'onglet) → re-vérifie tout de suite.
+document.addEventListener('visibilitychange',function(){if(!document.hidden)pollHB();});
 // Compteur ALIGNÉ SUR L'HORLOGE (fenêtres glissantes de 120 s) → reste cohérent après un refresh de la
 // page (avant : le compteur repartait de 120 à chaque chargement). nextIn = secondes avant la prochaine frontière.
 function nextIn(){return 120-(Math.floor(Date.now()/1000)%120);}
 var __win=Math.floor(Date.now()/1000/120);
 function tickNext(){var e=document.getElementById('gnext');if(e)e.textContent=tr('refresh')+' '+nextIn()+' s';var w=Math.floor(Date.now()/1000/120);if(w!==__win){__win=w;pollG();}}
-function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hbStats=d.heartbeat;if(d.botStatus&&!__hbApi)__bs=d.botStatus;setStatus();setBadges(d);if(d.at&&d.at!==__gAt){__gAt=d.at;renderG(d);}}).catch(function(){});}
+function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hbStats=d.heartbeat;if(d.botStatus&&!__hbApi)__bs=d.botStatus;setStatus();setBadges(d);if(d.at&&d.at!==__gAt){__gAt=d.at;__gLast=d;renderG(d);}}).catch(function(){});}
 setTimeout(pollG,3000);setInterval(pollHB,120000);setTimeout(pollHB,1500);setInterval(setStatus,30000);setInterval(tickNext,1000);tickNext();
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e;}
 function md(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<u>$1</u>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');}
@@ -1427,7 +1479,7 @@ function exFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
  if(/salon|channel|#/.test(t))return en?'#general':'#général';
  if(/r[oô]le/.test(t))return en?'@Member':'@Membre';
  if(/dur[ée]|duree|temps|delai|délai/.test(t))return '10m';
- if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|xp|niveau|level|gagnant/.test(t))return '5';
+ if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|xp|niveau|level|gagnant|mise|pari/.test(t))return '5';
  if(/raison|motif/.test(t))return en?'repeated spam':'spam répété';
  if(/message|texte|contenu|annonce|lot|titre|sujet/.test(t))return en?'Hello everyone!':'Bonjour à tous !';
  if(/lien|url|invit/.test(t))return en?'https://example.com':'https://exemple.com';
@@ -1443,7 +1495,7 @@ function hintFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
  if(/salon|channel/.test(t))return en?'a channel — #channel or ID':'un salon — #salon ou ID';
  if(/r[oô]le/.test(t))return en?'a role — mention or ID':'un rôle — mention ou ID';
  if(/dur[ée]|duree|temps|delai|délai/.test(t))return en?'a duration — e.g. 10m, 2h, 1d':'une durée — ex. 10m, 2h, 1j';
- if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|gagnant/.test(t))return en?'a number':'un nombre';
+ if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|gagnant|mise|pari/.test(t))return en?'a number':'un nombre';
  if(/raison|motif/.test(t))return en?'the reason (free text)':'la raison (texte libre)';
  if(/message|texte|contenu|annonce|lot|titre|sujet/.test(t))return en?'the text to use':'le texte à utiliser';
  if(/lien|url|invit/.test(t))return en?'a link':'un lien';
@@ -1451,13 +1503,53 @@ function hintFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
  if(/prefix|préfixe|prefixe/.test(t))return en?'the new prefix':'le nouveau préfixe';
  if(/mot|word|terme/.test(t))return en?'a keyword':'un mot-clé';
  return en?'a value (e.g. example)':'une valeur (ex. : exemple)';}
-function parseParams(usage){var first=(usage||'').split('|')[0];var parts=first.trim().split(/\s+/).slice(1);
- return parts.map(function(p){var req=true,raw=p,lit=false;
-  if(/^\[.*\]$/.test(p)){req=false;raw=p.slice(1,-1);}
-  else if(/^<.*>$/.test(p)){req=true;raw=p.slice(1,-1);}
+// Découpe une chaîne sur les « | » de PREMIER NIVEAU uniquement : un | à l'intérieur de
+// [smart | off | reset] ou <on|off> est un choix de valeurs, pas une forme alternative de la commande.
+function splitTop(s){var out=[],b='',d=0,j,c;for(j=0;j<s.length;j++){c=s.charAt(j);
+ if(c==='['||c==='<')d++;else if(c===']'||c==='>')d=Math.max(0,d-1);
+ if(c==='|'&&d===0){out.push(b);b='';}else b+=c;}out.push(b);return out;}
+// Sépare les FORMES ALTERNATIVES d'une commande : un | de premier niveau ne coupe que si ce qui suit est
+// une nouvelle commande (+x / !x). Sinon c'est un choix de valeurs (« +lockdown on|off ») ou un séparateur
+// littéral à taper (« +embed <titre> | <description> ») — il reste dans la forme courante.
+function splitForms(s){var out=[],b='',d=0,j,c;for(j=0;j<s.length;j++){c=s.charAt(j);
+ if(c==='['||c==='<')d++;else if(c===']'||c==='>')d=Math.max(0,d-1);
+ if(c==='|'&&d===0&&/^\s*[+!]/.test(s.slice(j+1))){out.push(b);b='';}else b+=c;}out.push(b);return out;}
+function parseParams(usage){
+ // Avant : split('|')[0] + split sur les espaces cassait tout groupe [a | b] — « +shield [smart | off | reset] »
+ // devenait le paramètre « [smart », marqué obligatoire « à écrire tel quel » (22 commandes touchées).
+ var first=splitForms(usage||'')[0].trim();
+ // Tokenise en gardant les groupes [ … ] / < … > ENTIERS, même s'ils contiennent espaces et |.
+ var parts=[],buf='',dep=0,i,ch;
+ for(i=0;i<first.length;i++){ch=first.charAt(i);
+  if(ch==='['||ch==='<')dep++;else if(ch===']'||ch==='>')dep=Math.max(0,dep-1);
+  if(dep===0&&/\s/.test(ch)){if(buf){parts.push(buf);buf='';}}else buf+=ch;}
+ if(buf)parts.push(buf);parts=parts.slice(1);
+ // « a | b | c » espacé au premier niveau : si TOUS les jetons sont des mots-clés nus (pas de <>[]),
+ // c'est une alternance de valeurs → fusion en un seul choix (« +autoevents on | off | ici | test »).
+ // Sinon (placeholders présents), le | est un séparateur LITTÉRAL que l'utilisateur tape vraiment
+ // (« +embed <titre> | <description> ») → chaque | reste un jeton « à écrire tel quel ».
+ if(parts.indexOf('|')!==-1&&parts.every(function(p){return p==='|'||!/[<>\[\]]/.test(p);}))
+  parts=[parts.filter(function(p){return p!=='|';}).join('|')];
+ var en=curLang()==='en';
+ return parts.map(function(p){var req=true,raw=p,lit=false,alts=null;
+  if(/^\[[\s\S]*\]$/.test(p)){req=false;raw=p.slice(1,-1).trim();}
+  else if(/^<[\s\S]*>$/.test(p)){req=true;raw=p.slice(1,-1).trim();}
   else if(/^[@#]/.test(p)){raw=p.slice(1);}
+  else if(p!=='|'&&p.indexOf('|')!==-1){req=true;} // choix nu sans crochets : « on|off » (+lockdown, +antibot)
   else{lit=true;}
-  return {token:p,raw:raw,req:req,lit:lit,ex:lit?p:exFor(raw),hint:lit?(curLang()==='en'?'type as-is':'à écrire tel quel'):hintFor(raw)};});}
+  if(!lit&&raw.indexOf('|')!==-1){alts=splitTop(raw).map(function(s){return s.trim();}).filter(Boolean);if(alts.length<2)alts=null;}
+  var ex,hint;
+  if(lit){ex=p;hint=en?'type as-is':'à écrire tel quel';}
+  else if(alts){
+   // Exemple = 1re alternative, nettoyée : sous-groupes optionnels retirés, <placeholder> remplacé par un exemple.
+   var a0=alts[0].replace(/\[[^\]]*\]/g,'').replace(/\s+/g,' ').trim();
+   a0=a0.replace(/<([^>]*)>/g,function(_,g){g=g.trim();return g.indexOf('|')!==-1?g.split('|')[0].trim():exFor(g);});
+   if(/^[@#]/.test(a0))ex=exFor(a0);
+   else if(a0.indexOf(' ')===-1){var e0=exFor(a0);ex=(e0!=='exemple'&&e0!=='example')?e0:a0;} // mot-placeholder connu (« nombre » → 5) sinon littéral (« smart »)
+   else ex=a0;
+   hint=(en?'one of: ':'au choix : ')+alts.join(' · ');}
+  else{ex=exFor(raw);hint=hintFor(raw);}
+  return {token:p,raw:raw,req:req,lit:lit,ex:ex,hint:hint};});}
 function botReply(name,desc,params){var n=name.toLowerCase();
  var get=function(re){for(var i=0;i<params.length;i++)if(re.test(params[i].raw.toLowerCase()))return params[i].ex;return null;};
  var who=get(/membre|user|utilisateur|cible/)||'@Jean',reason=get(/raison|motif/),dur=get(/dur[ée]|duree|temps/)||'10m',en=curLang()==='en',R=reason?(en?'\nReason: ':'\nRaison : ')+reason:'';
