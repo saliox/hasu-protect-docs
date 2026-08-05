@@ -1,6 +1,6 @@
-{
-    "sha256":  "141cf9272290ebaa7312f8a037c670ea0b242df28eedf596178d22c54acb7c9e",
+﻿{
+    "sha256":  "2bbbfe31bd0391850d197d2444d71eb874400f727748b0412c340efa7ceb488a",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.64.0",
-    "notes":  "Nouvelle version MODERNE : Minecraft 1.20.1 (beta) - menu Hasu, tags de team (chat/tetes/TAB), presence, HUD (FPS/coords/CPS/ping/keystrokes), Zoom, ToggleSprint, crosshair, menu RShift. Le launcher telecharge un Java 17 tout seul. Capes/cosmetiques a venir."
+    "version":  "1.65.0",
+    "notes":  "1.20.1 : les menus (principal + Mods RShift) ont enfin le vrai look Hasu (fond etoile + logo + boutons violets + pastilles de version + toggles ON/OFF), fini les boutons vanilla."
 }
