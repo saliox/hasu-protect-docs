@@ -1,6 +1,6 @@
-{
-    "sha256":  "3281bdf4cac52b228e2bae9b27422010ab825857dde96f4c902fb64a1ffcb162",
+﻿{
+    "sha256":  "fc374682e70b90dee2e485eb3c6ee5cdd8090b7a3c62a57e1a7e00f7dd6e8c60",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.67.0",
-    "notes":  "1.20.1 plus fluide : grosse passe d\u0027optimisation du rendu (caches de textures/couleurs, HUD et selecteur de capes qui ne recalculent plus a chaque image, tags TAB rafraichis 1x/s, config relue seulement si modifiee). Moins de saccades GC, framerate plus stable. Aucun changement visible."
+    "version":  "1.68.0",
+    "notes":  "1.20.1 : les casques (15 formes 3D dont 3 cubes HD textures) et les ailes (7, qui battent) s\u0027affichent enfin sur ton joueur, comme sur les autres versions. Le bouton Cosmetiques ouvre un hub Capes/Casques/Ailes. Rendu procedural 1.8.9/1.16.5 reecrit en API moderne (PoseStack + shaders). Beta : visible sur ton joueur (pas encore synchro entre joueurs)."
 }
