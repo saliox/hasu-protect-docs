@@ -217,6 +217,7 @@
     "sdt": "Trophy room 🏆: the server records — members online/in voice at once, counting streak, monthly XP top, biggest aura…",
     "syncroles": "Reward roles 🏆: migrates/syncs the monthly podium + level roles + custom roles across ALL servers (bot owner, paced processing) — `+syncroles all`",
     "testalerts": "Posts a sample of EVERY security alert type in the log channel, marked TEST, to spot false positives (ROOT bot owner only)",
-    "unflag": "Removes a wrongly flagged member from the permanent danger database (👑 root owner only) — `+unflag <id>` alone shows their record first"
+    "unflag": "Removes a wrongly flagged member from the permanent danger database (👑 root owner only) — `+unflag <id>` alone shows their record first",
+    "logs": "Searches the log archive (by member, type or time range) — the answer is sent by DM"
   }
 }
