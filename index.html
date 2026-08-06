@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-IsBPWiWhydPJ9/wX8GTQOsGbkGcpJgL87vEBQd8HDGg=' 'sha256-XviQb+qHrl5adJYLg/HYG6YZmL0XJ2FQnGYOf6MrMAI='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-FMGWvqQt6uSyrS8ZN7j22ZrX6xbgHUcCprUKTnkgQXo=' 'sha256-XviQb+qHrl5adJYLg/HYG6YZmL0XJ2FQnGYOf6MrMAI='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -47,6 +47,7 @@ header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
 header p{color:var(--mut);margin:.5rem 0 0}
 .badges{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .badge{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:.85rem;color:var(--mut)}
+.vbadge{border-color:color-mix(in srgb,var(--purple) 45%,var(--line));background:rgba(88,101,242,.12)}
 .badge b{color:var(--gold)}
 .wrap{max-width:1000px;margin:0 auto;padding:24px 18px 70px}
 .layout{display:flex;gap:22px;max-width:1180px;margin:0 auto;padding:24px 18px 70px;align-items:flex-start}
@@ -84,7 +85,7 @@ header p{color:var(--mut);margin:.5rem 0 0}
 section{margin-bottom:34px}
 h2.cat{font-size:1.3rem;border-left:4px solid var(--cc,var(--gold));padding-left:11px;margin:0 0 14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
-.cmd{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;transition:.15s;cursor:pointer}
+.cmd{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;transition:.15s;cursor:pointer;content-visibility:auto;contain-intrinsic-size:auto 128px}
 .cmd:hover{border-color:var(--cc,var(--purple));transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,0,0,.35)}
 .cmd.kbsel{border-color:var(--gold);box-shadow:0 0 0 2px rgba(241,196,15,.4)}
 .cmd .name{font-family:'Consolas',monospace;font-size:1.05rem;color:var(--cc,var(--gold));font-weight:700}
@@ -215,7 +216,7 @@ header p{animation:fadeUp .55s ease .1s backwards}
 .nav a{transition:transform .15s,border-color .15s,border-left-color .15s}
 .nav a:hover{transform:translateY(-1px)}
 section{animation:fadeIn .5s ease backwards}
-.grid .cmd{animation:fadeUp .45s ease backwards}
+/* Pas d'animation d'entrée PAR carte : avec content-visibility:auto elle rejouerait à chaque carte révélée au scroll (saccades). Les cartes gardent leurs transitions de survol. */
 .grid .cmd:nth-child(2){animation-delay:.05s}
 .grid .cmd:nth-child(3){animation-delay:.1s}
 .grid .cmd:nth-child(4){animation-delay:.15s}
@@ -232,23 +233,23 @@ section{animation:fadeIn .5s ease backwards}
   <div class="topbtns"><button id="lang" class="langbtn" type="button" aria-label="Language / Langue">EN</button><button id="theme" class="langbtn" type="button" aria-label="Thème clair / sombre">☀️</button></div>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p data-i18n="tagline">Documentation des commandes — bot de modération &amp; sécurité Discord</p>
-  <div class="badges"><span class="badge"><b id="bCmds">189</b> <span data-i18n="cmds">commandes</span></span><span class="badge"><b id="bCats">7</b> <span data-i18n="cats">catégories</span></span><span class="badge">🛡️ <b id="bServers">18</b> <span data-i18n="serv">serveurs protégés</span></span><span class="badge">👥 <b id="bMembers">4 381</b> <span data-i18n="prot">membres protégés</span></span></div>
+  <div class="badges"><span class="badge"><b id="bCmds">189</b> <span data-i18n="cmds">commandes</span></span><span class="badge"><b id="bCats">7</b> <span data-i18n="cats">catégories</span></span><span class="badge">🛡️ <b id="bServers">18</b> <span data-i18n="serv">serveurs protégés</span></span><span class="badge">👥 <b id="bMembers">4 381</b> <span data-i18n="prot">membres protégés</span></span><span class="badge vbadge" id="visits-badge" hidden></span></div>
   <div class="cta-row"><a class="cta" data-i18n="addbot" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot</a><a class="cta cta-vote" data-i18n="vote" href="https://top.gg/bot/1141214226862575678/vote" target="_blank" rel="noopener noreferrer">⭐ Voter sur top.gg</a></div>
   <div class="topgg-badge"><a href="https://top.gg/bot/1141214226862575678" target="_blank" rel="noopener noreferrer"><img src="https://top.gg/api/widget/1141214226862575678.svg" alt="top.gg" loading="lazy" onload="var b=this.closest('.topgg-badge');if(b)b.style.display='block'"></a></div>
 </header>
 <div class="layout">
   <aside class="side"><div class="gpanel" id="gpanel">
   <h2>🧠 Guardian AI</h2>
-  <div class="gsub">Apprentissage autonome · cycle #877 · maj 07/08 00:31</div>
+  <div class="gsub">Apprentissage autonome · cycle #5 · maj 07/08 00:52</div>
   <div class="gbig"><div class="n">90%</div><div class="l">maîtrise globale</div></div>
   <div class="gstat"><span class="k">Reconnaît une menace</span><span class="v">80%</span></div>
   <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">100%</span></div>
-  <div class="gstat"><span class="k">Exemples appris</span><span class="v">171228</span></div>
+  <div class="gstat"><span class="k">Exemples appris</span><span class="v">171972</span></div>
   <div class="gstat"><span class="k">Solutions mémorisées</span><span class="v">584</span></div>
-  
-  
+  <div class="gstat"><span class="k">Erreurs apprises (ce cycle)</span><span class="v">0</span></div>
+  <div class="gstat"><span class="k">Règles re-vérifiées</span><span class="v">278/278</span></div>
   <div class="gstat"><span class="k">🔥 Difficulté d'entraînement</span><span class="v">niveau 12</span></div>
-  <div class="gstat"><span class="k">🎭 Surprises évitées (jeu adverse)</span><span class="v">96%</span></div>
+  <div class="gstat"><span class="k">🎭 Surprises évitées (jeu adverse)</span><span class="v">94%</span></div>
   <div class="gsec">Validation hors-ligne (cas jamais vus)</div><div class="gstat"><span class="k">✅ Précision prouvée</span><span class="v">100%</span></div>
   <div class="gsec">Sur quoi l'IA travaille pour améliorer la sécurité</div><div class="gprot">🎯 Reconnaître les vraies menaces (permissions sensibles)</div><div class="gprot">🎯 Vérifier l'authenticité des bots (nom + ID officiel)</div><div class="gprot">🎯 Anticiper les failles &amp; abus Discord connus (phishing, vol de token, faux staff)</div><div class="gprot">🎯 Utilisation de l'API VirusTotal (vérif des liens &amp; fichiers)</div><div class="gprot">🎯 Repérer les raiders connus dès l'arrivée</div><div class="gprot">🎯 Distinguer un admin légitime d'un compte compromis</div><div class="gprot">🎯 Réduire les fausses alertes (anti faux-positif)</div><div class="gprot">🎯 Apprendre de ses erreurs à chaque cycle</div>
   <div class="gsec">Types d'erreurs apprises</div><div class="gtype"><div class="row"><span>Réputation inter-serveurs</span><span>215</span></div><div class="gbar"><i style="width:100%"></i></div></div><div class="gtype"><div class="row"><span>Bots &amp; applications</span><span>159</span></div><div class="gbar"><i style="width:74%"></i></div></div><div class="gtype"><div class="row"><span>Faux positifs évités</span><span>144</span></div><div class="gbar"><i style="width:67%"></i></div></div><div class="gtype"><div class="row"><span>Permissions &amp; rôles</span><span>60</span></div><div class="gbar"><i style="width:28%"></i></div></div><div class="gtype"><div class="row"><span>Cas limites</span><span>4</span></div><div class="gbar"><i style="width:2%"></i></div></div><div class="gtype"><div class="row"><span>Comptes &amp; arrivées</span><span>2</span></div><div class="gbar"><i style="width:1%"></i></div></div>
@@ -1258,8 +1259,11 @@ var dt=document.getElementById('dt');if(dt)dt.textContent=new Date().toLocaleStr
 var __visits=0;
 try{__visits=parseInt(localStorage.getItem('visits')||'0',10);if(!isFinite(__visits)||__visits<0)__visits=0;
  if(!sessionStorage.getItem('vcounted')){__visits++;try{localStorage.setItem('visits',String(__visits));}catch(e){}try{sessionStorage.setItem('vcounted','1');}catch(e){}}}catch(e){__visits=0;}
-function renderVisits(){var el=document.getElementById('visits');if(!el)return;if(!(__visits>0)){el.hidden=true;return;}
- el.textContent=(curLang()==='en')?(' · 👁️ your visit #'+__visits):(' · 👁️ ta '+__visits+(__visits===1?'ʳᵉ':'ᵉ')+' visite');el.hidden=false;}
+function renderVisits(){var en=curLang()==='en',ord=(__visits===1?'ʳᵉ':'ᵉ');
+ var b=document.getElementById('visits-badge'); // badge d'en-tête (VISIBLE sans scroller)
+ if(b){if(__visits>0){b.innerHTML=en?('👁️ your visit #<b>'+__visits+'</b>'):('👁️ ta <b>'+__visits+'</b>'+ord+' visite');b.hidden=false;}else b.hidden=true;}
+ var f=document.getElementById('visits'); // rappel discret en pied de page
+ if(f){if(__visits>0){f.textContent=en?(' · 👁️ your visit #'+__visits):(' · 👁️ ta '+__visits+ord+' visite');f.hidden=false;}else f.hidden=true;}}
 var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent=tr('hidehist');}else{mb.textContent=mb.dataset.label;}});
 // Flèche « déplier le changelog » : montre/cache les items au-delà des 6 premiers (vedette).
 document.querySelectorAll('.cl-toggle').forEach(function(b){b.addEventListener('click',function(){var box=b.closest('.changelog')||b.parentNode;var open=b.classList.toggle('expanded');b.setAttribute('aria-expanded',open);box.querySelectorAll('.cl-list').forEach(function(u){u.classList.toggle('open',open);});});});
@@ -1270,7 +1274,7 @@ function curTheme(){try{return localStorage.getItem('theme')==='light'?'light':'
 function applyTheme(t){if(t==='light')document.documentElement.setAttribute('data-theme','light');else document.documentElement.removeAttribute('data-theme');var b=document.getElementById('theme');if(b)b.textContent=(t==='light'?'🌙':'☀️');}
 applyTheme(curTheme());
 var __tb=document.getElementById('theme');if(__tb)__tb.addEventListener('click',function(){var t=curTheme()==='light'?'dark':'light';try{localStorage.setItem('theme',t);}catch(e){}applyTheme(t);});
-var tt=document.getElementById('toTop');if(tt){window.addEventListener('scroll',function(){tt.classList.toggle('show',window.scrollY>400);});tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:__rm?'auto':'smooth'});});}
+var tt=document.getElementById('toTop');if(tt){window.addEventListener('scroll',function(){tt.classList.toggle('show',window.scrollY>400);},{passive:true});tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:__rm?'auto':'smooth'});});}
 // Auto-actualisation du panneau Guardian : re-fetch stats.json et re-rend le panneau SANS recharger la page.
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery==null)return;
