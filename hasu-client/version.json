@@ -1,6 +1,6 @@
-{
-    "sha256":  "2bbbfe31bd0391850d197d2444d71eb874400f727748b0412c340efa7ceb488a",
+﻿{
+    "sha256":  "5d1765f57e9140e1b39d9fee09a1a04928b7db93933b68ce2c1349457aef8fc5",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.65.0",
-    "notes":  "1.20.1 : les menus (principal + Mods RShift) ont enfin le vrai look Hasu (fond etoile + logo + boutons violets + pastilles de version + toggles ON/OFF), fini les boutons vanilla."
+    "version":  "1.66.0",
+    "notes":  "1.20.1 : les capes Hasu (statiques + animees GIF + cape custom importee) s\u0027affichent enfin sur le joueur, avec un selecteur a apercu live (nouveau bouton Cosmetiques). Rendu 100% moderne (aucun cheat) + passe de robustesse issue d\u0027un audit approfondi : ecriture config atomique, menus qui ne cassent plus au redimensionnement, tags TAB qui n\u0027ecrasent plus les rangs serveur, fuites memoire corrigees."
 }
