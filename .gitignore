@@ -1,2 +1,5 @@
 build.js
+publish-safety.js
+build.test.js
+test-fixtures/
 node_modules/
