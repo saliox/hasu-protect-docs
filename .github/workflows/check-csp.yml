@@ -7,9 +7,9 @@
 name: Vérifier les hash CSP
 on:
   push:
-    paths: [index.html, .github/check-csp.js, .github/workflows/check-csp.yml]
+    paths: [index.html, .github/check-csp.js, .github/unit-tests.js, .github/workflows/check-csp.yml]
   pull_request:
-    paths: [index.html, .github/check-csp.js, .github/workflows/check-csp.yml]
+    paths: [index.html, .github/check-csp.js, .github/unit-tests.js, .github/workflows/check-csp.yml]
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -17,3 +17,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Hash CSP = scripts inline ?
         run: node .github/check-csp.js
+      - name: Tests unitaires (parseur & exemples)
+        run: node .github/unit-tests.js

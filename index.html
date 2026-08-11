@@ -1,6 +1,6 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-n1fks8WYm2GuyvOI5Pjb5e7aCYgu9vtCI0LxR3BKP7o='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-gq/oMNItV307GbezHY5zgn4s+q0p9MwoAZ5i5HH0p3U='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -26,7 +26,7 @@
 /* Thème CLAIR (data-theme="light") : surfaces claires + texte sombre. Les blocs de code restent volontairement
    sombres (style « éditeur »). On rabaisse les textes gris clairs qui deviendraient illisibles sur fond blanc. */
 :root[data-theme="light"]{--bg:#eef0f7;--card:#ffffff;--card2:#e8eaf3;--txt:#1b1c26;--mut:#56586c;--line:#d8dae6}
-:root[data-theme="light"] .cmd .desc,:root[data-theme="light"] .changelog li,:root[data-theme="light"] .m-desc,:root[data-theme="light"] .m-edesc,:root[data-theme="light"] .gex,:root[data-theme="light"] .gprot,:root[data-theme="light"] .hentry li{color:#2c2d3a}
+:root[data-theme="light"] .cmd .desc,:root[data-theme="light"] .changelog li,:root[data-theme="light"] .m-desc,:root[data-theme="light"] .m-edesc,:root[data-theme="light"] .gprot,:root[data-theme="light"] .hentry li{color:#2c2d3a}
 :root[data-theme="light"] .cmd:hover{box-shadow:0 6px 22px rgba(40,40,80,.14)}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;overflow-wrap:break-word}
 a{color:var(--gold);text-decoration:none}
@@ -64,7 +64,10 @@ header p{color:var(--mut);margin:.5rem 0 0}
 .gsec{margin:14px 0 7px;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
 .gtype{margin:7px 0}.gtype .row{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:3px}
 .gbar{height:6px;background:#0e0e18;border-radius:4px;overflow:hidden}.gbar>i{display:block;height:100%;background:var(--purple)}
-.gex{font-size:.8rem;color:#cfcfe0;padding:6px 0;border-bottom:1px solid var(--line)}.gex .t{color:var(--gold);font-size:.71rem;display:block;margin-bottom:1px}
+/* ── Perf : le rendu (layout/paint) des sections hors écran et des entrées d'historique est différé
+   jusqu'à leur apparition dans le viewport. Le DOM reste complet : recherche, filtres, ancres inchangés. */
+.cmd{content-visibility:auto;contain-intrinsic-size:auto 230px}
+.hentry{content-visibility:auto;contain-intrinsic-size:auto 400px}
 .gprot{font-size:.82rem;color:#cfcfe0;padding:4px 0}
 .gnext{font-size:.72rem;color:var(--mut);text-align:center;margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
 #search{width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:16px;margin:8px 0 22px}
@@ -1250,7 +1253,7 @@ function setCat(v){__fCat=v;document.querySelectorAll('#catnav .navf').forEach(f
 function setAcc(v){__fAcc=v;document.querySelectorAll('#accnav .accf').forEach(function(b){b.classList.toggle('active',b.dataset.acc===v);});filt();}
 document.querySelectorAll('#catnav .navf').forEach(function(b){b.addEventListener('click',function(){setCat(__fCat===b.dataset.cat?'all':b.dataset.cat);});});
 document.querySelectorAll('#accnav .accf').forEach(function(b){b.addEventListener('click',function(){setAcc(__fAcc===b.dataset.acc?null:b.dataset.acc);});});
-var sb=document.getElementById('search');if(sb)sb.addEventListener('input',function(e){filt(e.target.value);});
+var sb=document.getElementById('search');var __ft=0;if(sb)sb.addEventListener('input',function(e){clearTimeout(__ft);__ft=setTimeout(function(){filt(e.target.value);},120);}); // debounce : filt() coûte ~20 ms sur mobile lent, inutile de le payer à chaque frappe
 // Navigation des résultats au CLAVIER : ↑/↓ déplacent la sélection, Entrée ouvre la simulation.
 var __sel=-1;
 function visCards(){return Array.prototype.slice.call(document.querySelectorAll('.cmd')).filter(function(c){return c.style.display!=='none';});}
@@ -1281,7 +1284,7 @@ function renderVisits(){var en=curLang()==='en',ord=(__visits===1?'ʳᵉ':'ᵉ')
  if(f){if(__visits>0){f.textContent=(en?(' · 👁️ your visit #'+__visits):(' · 👁️ ta '+__visits+ord+' visite'))+g.replace(/<\/?b>/g,'');f.hidden=false;}else f.hidden=true;}}
 // /hit incrémente le total (1 fois par session, comme le compteur local) ; les rechargements suivants
 // lisent sans incrémenter (/get). Un échec ne pose pas le verrou de session → nouvel essai au prochain chargement.
-(function(){var inc=false;try{inc=!sessionStorage.getItem('gcounted');}catch(e){}
+(function(){var inc=false;try{sessionStorage.setItem('__w','1');sessionStorage.removeItem('__w');inc=!sessionStorage.getItem('gcounted');}catch(e){inc=false;} // stockage non écrivable (navigation privée stricte) → /get seulement, jamais /hit : sans verrou de session, chaque rechargement gonflerait le compteur
  fetch('https://abacus.jasoncameron.dev/'+(inc?'hit':'get')+'/hasu-protect-docs/site-visits',{cache:'no-store'})
  .then(function(r){if(!r.ok)throw 0;return r.json();})
  .then(function(d){if(d&&isFinite(d.value)&&d.value>0){__gvisits=d.value;try{localStorage.setItem('gvisits',String(d.value));}catch(e){}if(inc)try{sessionStorage.setItem('gcounted','1');}catch(e){}renderVisits();}})
@@ -1299,7 +1302,7 @@ var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',func
  var ver=cl.querySelector('.ver');if(ver&&ver.parentNode===cl)cl.insertBefore(b,ver.nextSibling);else cl.appendChild(b);})();
 // Flèche « déplier le changelog » : montre/cache les items au-delà des 6 premiers (vedette).
 document.querySelectorAll('.cl-toggle').forEach(function(b){b.addEventListener('click',function(){var box=b.closest('.changelog')||b.parentNode;var open=b.classList.toggle('expanded');b.setAttribute('aria-expanded',open);box.querySelectorAll('.cl-list').forEach(function(u){u.classList.toggle('open',open);});});});
-var hs=document.getElementById('histSearch');if(hs)hs.addEventListener('input',function(e){var q=e.target.value.trim().toLowerCase(),sh=0;document.querySelectorAll('#hist .hentry').forEach(function(en){var m=!q||en.textContent.toLowerCase().indexOf(q)>=0;en.style.display=m?'':'none';if(m)sh++;});var hn=document.getElementById('histNone');if(hn)hn.hidden=!(q&&sh===0);});
+var hs=document.getElementById('histSearch');var __ht=0;if(hs)hs.addEventListener('input',function(e){clearTimeout(__ht);__ht=setTimeout(function(){var q=e.target.value.trim().toLowerCase(),sh=0;document.querySelectorAll('#hist .hentry').forEach(function(en){var m=!q||en.textContent.toLowerCase().indexOf(q)>=0;en.style.display=m?'':'none';if(m)sh++;});var hn=document.getElementById('histNone');if(hn)hn.hidden=!(q&&sh===0);},150);});
 var __lb=document.getElementById('lang');if(__lb)__lb.addEventListener('click',function(){setLang(curLang()==='fr'?'en':'fr');});
 // Thème clair/sombre : persisté (localStorage), sombre par défaut. Le bouton montre l'icône de la cible.
 function curTheme(){try{return localStorage.getItem('theme')==='light'?'light':'dark';}catch(e){return 'dark';}}
@@ -1444,7 +1447,7 @@ applyLang();
 //   le « at » est exact 2 min 30 (__exactUntil) → la règle des 4 min 30 s'applique directement.
 // Premier chargement dans la zone grise → « Vérification… » jusqu'au verdict API. Jamais de faux vert.
 function setStatus(){var el=document.getElementById('botstatus');if(!el)return;var hb=Math.max(__hbApi,__hbStats),t,c,age=Date.now()-hb;
- if(__bs==='updating'){t=tr('updating');c='upd';}
+ if(__bs==='updating'&&hb&&age<600000){t=tr('updating');c='upd';} // updating honoré SEULEMENT si heartbeat < 10 min — sinon un bot mort pendant sa maj resterait orange pour toujours
  else if(!hb){t=tr('checking');c='unk';}
  else if(age<270000){t=tr('online');c='on';}
  else if(age>=600000||Date.now()<__exactUntil){t=tr('offline');c='off';}
@@ -1493,8 +1496,10 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden)poll
 function nextIn(){return 120-(Math.floor(Date.now()/1000)%120);}
 var __win=Math.floor(Date.now()/1000/120),__gnext=null;
 function tickNext(){var e=__gnext||(__gnext=document.getElementById('gnext'));if(e)e.textContent=tr('refresh')+' '+nextIn()+' s';var w=Math.floor(Date.now()/1000/120);if(w!==__win){__win=w;pollG();}} /* P4 : ref #gnext mise en cache (évite un getElementById/seconde) */
-function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hbStats=d.heartbeat;if(d.botStatus&&!__hbApi)__bs=d.botStatus;setStatus();if(!(__hbApi&&Date.now()-__hbApi<300000))setBadges(d);if(d.at&&d.at>__gAt){__gAt=d.at;renderG(d);}}).catch(function(){});} /* B1/P5 : badges seulement si l'API n'est pas fraîche (sinon pollHB fait foi → plus de clignotement) */
-setTimeout(pollG,3000);setInterval(pollHB,120000);setTimeout(pollHB,1500);setInterval(setStatus,30000);setInterval(tickNext,1000);tickNext();
+function pollG(){fetch('stats.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d)return;if(d.heartbeat)__hbStats=d.heartbeat;if(d.botStatus&&!__hbApi)__bs=d.botStatus;setStatus();if(!(__hbApi&&Date.now()-__hbApi<270000))setBadges(d);/* même seuil de fraîcheur que le badge de statut (4 min 30) */if(d.at&&d.at>__gAt){__gAt=d.at;renderG(d);}}).catch(function(){});} /* B1/P5 : badges seulement si l'API n'est pas fraîche (sinon pollHB fait foi → plus de clignotement) */
+setTimeout(pollG,3000);setTimeout(pollHB,1500);tickNext();
+// Onglet caché → timers muets (batterie, quota API) ; visibilitychange → pollHB re-synchronise tout au retour.
+setInterval(function(){if(!document.hidden)pollHB();},120000);setInterval(function(){if(!document.hidden)setStatus();},30000);setInterval(function(){if(!document.hidden)tickNext();},1000);
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e;}
 function md(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<u>$1</u>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');}
 function elH(t,c,html){var e=document.createElement(t);if(c)e.className=c;e.innerHTML=html;return e;}

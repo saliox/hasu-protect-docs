@@ -51,3 +51,11 @@ le template local.
    | `say`, `embed`, `dm` | Modération | Communauté & Utilitaires | messagerie/annonces, comme `announce`/`sticky` |
    | `close` | Modération | Communauté & Utilitaires | clôture de ticket — `ticket` y est déjà |
    | `massrole`, `delrole` | Sécurité & Antiraid | Modération | gestion de rôles du quotidien (contrairement à `addrole`, verrouillée façon nuke) |
+
+8. **Perf & robustesse (PR #13)** : `content-visibility:auto` sur `.cmd` et
+   `.hentry` (rendu différé hors écran), debounce des deux recherches,
+   timers muets quand l'onglet est caché, `preconnect` raw + abacus dans le
+   `<head>`, `updating` honoré seulement si heartbeat < 10 min, compteur
+   `/get` seul si le stockage est bloqué (navigation privée), seuil de
+   fraîcheur unifié 270 s, CSS `.gex` mort supprimé. Tests unitaires du
+   parseur dans `.github/unit-tests.js`, exécutés par le workflow CI.
