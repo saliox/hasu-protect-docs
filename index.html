@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-gmxoUKJzxeXzbt4ZN6UroQOr1VtBixkzJowsm3Nl7Ac='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-XsUDN9fAcf3hW2R2avL9AdkqtnjWKdMnB/y6IxPeF+A='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -79,6 +79,19 @@ header p{color:var(--mut);margin:.5rem 0 0}
 .navf,.accf{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--cc,var(--line));border-radius:8px;padding:6px 12px;font-size:.9rem;color:var(--txt);cursor:pointer;font-family:inherit;line-height:1.2}
 .navf:hover,.accf:hover{border-color:var(--cc,var(--gold));border-left-color:var(--cc,var(--gold))}
 .navf.active{background:var(--cc,var(--gold));color:#0b0b12;border-color:var(--cc,var(--gold));font-weight:700}
+/* ── Compteur de commandes sur chaque filtre (posé en JS depuis les cartes) */
+.navcnt{font-size:.72rem;font-weight:700;color:var(--mut);background:rgba(127,127,160,.16);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
+.navf.active .navcnt,.accf.active .navcnt{color:inherit;background:rgba(0,0,0,.18)}
+/* ── Mobile : fini le zigzag — grille alignée. « Tout » en pleine largeur, catégories sur 2 colonnes,
+   filtres d'accès sur 2 colonnes, libellés en tête de bloc. Desktop : inchangé (flex d'origine). */
+@media(max-width:640px){
+ #catnav{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+ #catnav .navlbl,#accnav .navlbl{grid-column:1 / -1;margin:0 0 -1px}
+ #catnav .navf{width:100%;text-align:left;padding:8px 10px;font-size:.86rem}
+ #catnav .navf[data-cat="all"]{grid-column:1 / -1;text-align:center}
+ #accnav{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+ #accnav .accf{width:100%;padding:8px 10px;font-size:.86rem;text-align:center}
+}
 .accf[data-acc="owner"]{border-left-color:#F1C40F}.accf[data-acc="admin"]{border-left-color:#ED4245}.accf[data-acc="staff"]{border-left-color:#5b6bff}.accf[data-acc="all"]{border-left-color:#3fb968}
 .accf.active[data-acc="owner"]{background:rgba(241,196,15,.16);border-color:#F1C40F;color:#F1C40F;font-weight:700}
 .accf.active[data-acc="admin"]{background:rgba(237,66,69,.16);border-color:#ED4245;color:#ff6b6d;font-weight:700}
@@ -1336,7 +1349,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
 var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1379,7 +1392,20 @@ function applyLang(){var L=curLang();document.documentElement.lang=L;
  // Signatures d'usage des cartes : traduites mot à mot en EN, restaurées en FR (fr0 = original mémorisé).
  document.querySelectorAll('.usage').forEach(function(el){if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(L==='en')?trUsage(el.dataset.fr0):el.dataset.fr0;});
  var mb=document.getElementById('moreBtn');if(mb){var n=mb.getAttribute('data-count')||'';mb.setAttribute('data-label',tr('seehist')+(n?' ('+n+')':''));var hi=document.getElementById('hist');mb.textContent=(hi&&hi.classList.contains('open'))?tr('hidehist'):mb.getAttribute('data-label');}
- if(typeof setStatus==='function')setStatus();if(typeof renderVisits==='function')renderVisits();}
+ if(typeof setStatus==='function')setStatus();if(typeof renderVisits==='function')renderVisits();if(typeof addNavCounts==='function')addNavCounts();}
+// ── Organisation des catégories : compteur de commandes sur chaque filtre (catégories ET niveaux d'accès),
+// calculé depuis les cartes → toujours juste, même quand le bot ajoute des commandes. Re-posé après chaque
+// applyLang car la bascule de langue réécrit le textContent des boutons (ce qui efface les badges).
+// + libellé « Catégories : » en tête (symétrie avec « Accès : »).
+function addNavCounts(){
+ var cards=[].slice.call(document.querySelectorAll('.cmd[data-cat]'));if(!cards.length)return;
+ var byCat={},byAcc={};
+ cards.forEach(function(c){byCat[c.dataset.cat]=(byCat[c.dataset.cat]||0)+1;if(c.dataset.acc)byAcc[c.dataset.acc]=(byAcc[c.dataset.acc]||0)+1;});
+ function put(b,n){var old=b.querySelector('.navcnt');if(old)old.remove();if(n==null)return;var s=document.createElement('span');s.className='navcnt';s.textContent=n;b.appendChild(s);}
+ document.querySelectorAll('#catnav .navf').forEach(function(b){put(b,b.dataset.cat==='all'?cards.length:(byCat[b.dataset.cat]||0));});
+ document.querySelectorAll('#accnav .accf').forEach(function(b){put(b,byAcc[b.dataset.acc]||0);}); // « Tous » = commandes accessibles à tous (ce que montre le filtre), pas le total du site
+ var cn=document.getElementById('catnav');
+ if(cn&&!cn.querySelector('.navlbl')){var l=document.createElement('span');l.className='navlbl';l.setAttribute('data-i18n','catLabel');l.textContent=tr('catLabel');cn.insertBefore(l,cn.firstChild);}}
 // Glossaire FR→EN des SIGNATURES d'usage (<membre>, [salon], (liste)…) → traduites mot à mot en mode EN.
 // Défini AVANT le 1er applyLang() (qui s'en sert pour traduire les .usage si la langue initiale est EN).
 var __UG={membre:'member',membres:'members',salon:'channel',salons:'channels','durée':'duration',duree:'duration',valeur:'value',valeurs:'values','numéro':'number',numero:'number',nombre:'number',raison:'reason',motif:'reason',liste:'list',ajoute:'add',ajouter:'add',retire:'remove',retirer:'remove',supprime:'remove',temps:'time',sanction:'action',lien:'link',liens:'links',texte:'text','rôle':'role',mot:'word',mots:'words',terme:'term',couleur:'color','préfixe':'prefix',prefixe:'prefix',montant:'amount',cible:'target',ou:'or',et:'and',tout:'all',pseudo:'nickname',utilisateur:'user',niveau:'level',gagnant:'winner',gagnants:'winners',sujet:'subject',titre:'title',contenu:'content',annonce:'announcement','délai':'delay',delai:'delay',jour:'day',jours:'days','réponds':'reply','réponse':'reply','à':'to',avec:'with',un:'a',une:'a',sans:'without',dans:'in',par:'by',pour:'for',vers:'to',nom:'name',jj:'DD',mm:'MM',mois:'month',vocal:'voice',vocaux:'voice','fenêtre':'window',fenetre:'window','connecté':'connected','connectés':'connected',connecte:'connected',fichier:'file',fichiers:'files',semaine:'week','activité':'activity'};
