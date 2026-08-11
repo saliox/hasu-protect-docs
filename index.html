@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-8WNa3XNwa3L7Ivs4vs2jH78+f9aKjCszfav0ZvNCiyg='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-gmxoUKJzxeXzbt4ZN6UroQOr1VtBixkzJowsm3Nl7Ac='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -141,6 +141,13 @@ mark{background:rgba(241,196,15,.3);color:inherit;border-radius:3px}
 .cl-toggle{margin-top:11px;background:transparent;border:1px solid var(--line);color:var(--mut);border-radius:9px;padding:6px 15px;font-size:.82rem;font-weight:700;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
 .cl-toggle:hover{border-color:var(--gold);color:var(--gold);background:rgba(241,196,15,.07)}
 .cl-toggle .cl-less{display:none}
+/* ── Changelog replié sur MOBILE : titre + date seuls, dépliable via .m-clbtn. Desktop : rien ne change. */
+.m-clbtn{display:none}.m-clbtn .mc{display:none}.m-clbtn.open .mo{display:none}.m-clbtn.open .mc{display:inline}
+@media(max-width:640px){
+ .m-clbtn{display:block;width:100%;margin-top:10px;background:transparent;border:1px solid var(--line);color:var(--mut);border-radius:9px;padding:8px 15px;font-size:.86rem;font-weight:700;cursor:pointer;transition:border-color .15s,color .15s}
+ .m-clbtn:hover{border-color:var(--gold);color:var(--gold)}
+ .changelog.m-collapsed .cl-list,.changelog.m-collapsed .cl-toggle,.changelog.m-collapsed .more,.changelog.m-collapsed .hist{display:none}
+}
 .cl-toggle.expanded .cl-more{display:none}
 .cl-toggle.expanded .cl-less{display:inline}
 .more{margin-top:12px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.88rem}
@@ -1267,6 +1274,16 @@ function renderVisits(){var en=curLang()==='en',ord=(__visits===1?'ʳᵉ':'ᵉ')
  .then(function(d){if(d&&isFinite(d.value)&&d.value>0){__gvisits=d.value;try{localStorage.setItem('gvisits',String(d.value));}catch(e){}if(inc)try{sessionStorage.setItem('gcounted','1');}catch(e){}renderVisits();}})
  .catch(function(){});})();
 var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent=tr('hidehist');}else{mb.textContent=mb.dataset.label;}});
+// ── Mobile : le changelog occupait plusieurs écrans avant d'arriver aux commandes → replié par défaut
+// (titre + date), déplié/replié via un bouton flèche. Le bouton n'apparaît qu'à ≤640px (CSS) ; sur
+// desktop la classe m-collapsed n'a aucun effet. Créé en JS car le HTML du changelog est régénéré par le bot.
+(function(){var cl=document.querySelector('.changelog');if(!cl)return;
+ cl.classList.add('m-collapsed');
+ var b=document.createElement('button');b.type='button';b.className='m-clbtn';b.setAttribute('aria-expanded','false');
+ b.innerHTML='<span class="mo"><span data-lang="fr">▼ Voir les nouveautés</span><span data-lang="en">▼ See what’s new</span></span><span class="mc"><span data-lang="fr">▲ Réduire</span><span data-lang="en">▲ Collapse</span></span>';
+ var L=curLang();b.querySelectorAll('[data-lang]').forEach(function(el){el.style.display=(el.getAttribute('data-lang')===L)?'':'none';});
+ b.addEventListener('click',function(){var open=!cl.classList.toggle('m-collapsed');b.setAttribute('aria-expanded',String(open));b.classList.toggle('open',open);});
+ var ver=cl.querySelector('.ver');if(ver&&ver.parentNode===cl)cl.insertBefore(b,ver.nextSibling);else cl.appendChild(b);})();
 // Flèche « déplier le changelog » : montre/cache les items au-delà des 6 premiers (vedette).
 document.querySelectorAll('.cl-toggle').forEach(function(b){b.addEventListener('click',function(){var box=b.closest('.changelog')||b.parentNode;var open=b.classList.toggle('expanded');b.setAttribute('aria-expanded',open);box.querySelectorAll('.cl-list').forEach(function(u){u.classList.toggle('open',open);});});});
 var hs=document.getElementById('histSearch');if(hs)hs.addEventListener('input',function(e){var q=e.target.value.trim().toLowerCase(),sh=0;document.querySelectorAll('#hist .hentry').forEach(function(en){var m=!q||en.textContent.toLowerCase().indexOf(q)>=0;en.style.display=m?'':'none';if(m)sh++;});var hn=document.getElementById('histNone');if(hn)hn.hidden=!(q&&sh===0);});
