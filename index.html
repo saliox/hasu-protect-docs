@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-4TtFsui9UlE4u9Qkx425mx+OYXi7y6uiW4XOkXBetgE=' 'sha256-XviQb+qHrl5adJYLg/HYG6YZmL0XJ2FQnGYOf6MrMAI='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-8WNa3XNwa3L7Ivs4vs2jH78+f9aKjCszfav0ZvNCiyg='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -42,6 +42,8 @@ header{position:relative;padding:42px 22px 26px;text-align:center;background:rad
 .bstat.on{color:#57F287;border-color:#57F287}.bstat.on .bdot{background:#57F287}
 .bstat.off{color:#ED4245;border-color:#ED4245}.bstat.off .bdot{background:#ED4245}
 .bstat.upd{color:#E67E22;border-color:#E67E22}.bstat.upd .bdot{background:#E67E22}
+.bstat.unk{color:var(--mut);border-color:var(--line)}.bstat.unk .bdot{background:var(--mut)}
+:root[data-theme="light"] .bstat{background:rgba(255,255,255,.6)} /* même fond clair que .langbtn */
 @media(max-width:640px){.bstat{position:static;margin:0 auto 12px;font-size:.88rem}}
 header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
 header p{color:var(--mut);margin:.5rem 0 0}
@@ -229,7 +231,7 @@ section{animation:fadeIn .5s ease backwards}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style></head><body>
 <header>
-  <div class="bstat on" id="botstatus"><span class="bdot"></span><span id="bstxt">En ligne</span></div>
+  <div class="bstat unk" id="botstatus" role="status"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
   <div class="topbtns"><button id="lang" class="langbtn" type="button" aria-label="Language / Langue">EN</button><button id="theme" class="langbtn" type="button" aria-label="Thème clair / sombre">☀️</button></div>
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p data-i18n="tagline">Documentation des commandes — bot de modération &amp; sécurité Discord</p>
@@ -239,21 +241,7 @@ section{animation:fadeIn .5s ease backwards}
 </header>
 <div class="layout">
   <aside class="side"><div class="gpanel" id="gpanel">
-  <h2>🧠 Guardian AI</h2>
-  <div class="gsub">Apprentissage autonome · cycle #905 · maj 07/08 08:56</div>
-  <div class="gbig"><div class="n">90%</div><div class="l">maîtrise globale</div></div>
-  <div class="gstat"><span class="k">Reconnaît une menace</span><span class="v">80%</span></div>
-  <div class="gstat"><span class="k">Épargne un membre sain</span><span class="v">100%</span></div>
-  <div class="gstat"><span class="k">Exemples appris</span><span class="v">181644</span></div>
-  <div class="gstat"><span class="k">Solutions mémorisées</span><span class="v">584</span></div>
-  <div class="gstat"><span class="k">Erreurs apprises (ce cycle)</span><span class="v">0</span></div>
-  <div class="gstat"><span class="k">Règles re-vérifiées</span><span class="v">278/278</span></div>
-  <div class="gstat"><span class="k">🔥 Difficulté d'entraînement</span><span class="v">niveau 12</span></div>
-  <div class="gstat"><span class="k">🎭 Surprises évitées (jeu adverse)</span><span class="v">95%</span></div>
-  <div class="gsec">Validation hors-ligne (cas jamais vus)</div><div class="gstat"><span class="k">✅ Précision prouvée</span><span class="v">100%</span></div>
-  <div class="gsec">Sur quoi l'IA travaille pour améliorer la sécurité</div><div class="gprot">🎯 Reconnaître les vraies menaces (permissions sensibles)</div><div class="gprot">🎯 Vérifier l'authenticité des bots (nom + ID officiel)</div><div class="gprot">🎯 Anticiper les failles &amp; abus Discord connus (phishing, vol de token, faux staff)</div><div class="gprot">🎯 Utilisation de l'API VirusTotal (vérif des liens &amp; fichiers)</div><div class="gprot">🎯 Repérer les raiders connus dès l'arrivée</div><div class="gprot">🎯 Distinguer un admin légitime d'un compte compromis</div><div class="gprot">🎯 Réduire les fausses alertes (anti faux-positif)</div><div class="gprot">🎯 Apprendre de ses erreurs à chaque cycle</div>
-  <div class="gsec">Types d'erreurs apprises</div><div class="gtype"><div class="row"><span>Réputation inter-serveurs</span><span>215</span></div><div class="gbar"><i style="width:100%"></i></div></div><div class="gtype"><div class="row"><span>Bots &amp; applications</span><span>159</span></div><div class="gbar"><i style="width:74%"></i></div></div><div class="gtype"><div class="row"><span>Faux positifs évités</span><span>144</span></div><div class="gbar"><i style="width:67%"></i></div></div><div class="gtype"><div class="row"><span>Permissions &amp; rôles</span><span>60</span></div><div class="gbar"><i style="width:28%"></i></div></div><div class="gtype"><div class="row"><span>Cas limites</span><span>4</span></div><div class="gbar"><i style="width:2%"></i></div></div><div class="gtype"><div class="row"><span>Comptes &amp; arrivées</span><span>2</span></div><div class="gbar"><i style="width:1%"></i></div></div>
-  
+<h2>🧠 Guardian AI</h2><div class="gsub"><span data-en="Autonomous learning">Apprentissage autonome</span> · cycle #905 · 07/08 06:56</div><div class="gbig"><div class="n">90%</div><div class="l" data-en="overall mastery">maîtrise globale</div></div><div class="gsec" data-en="Training (current cycle)">Entraînement (cycle actuel)</div><div class="gstat"><span class="k" data-en="🎯 Threat detection">🎯 Détection des menaces</span><span class="v">80%</span></div><div class="gstat"><span class="k" data-en="🟢 Spares legitimate members">🟢 Épargne les membres sains</span><span class="v">100%</span></div><div class="gstat"><span class="k" data-en="🧩 Generalization (novel cases)">🧩 Généralisation (cas inédits)</span><span class="v">99%</span></div><div class="gstat"><span class="k" data-en="📚 Examples studied">📚 Exemples étudiés</span><span class="v">181 644</span></div><div class="gstat"><span class="k" data-en="💾 Solutions memorized">💾 Solutions mémorisées</span><span class="v">584</span></div><div class="gstat"><span class="k" data-en="♻️ Errors fixed (this cycle)">♻️ Erreurs corrigées (ce cycle)</span><span class="v">0</span></div><div class="gstat"><span class="k" data-en="📏 Rules re-checked">📏 Règles re-vérifiées</span><span class="v">278/278</span></div><div class="gstat"><span class="k" data-en="🔥 Difficulty (level)">🔥 Difficulté (niveau)</span><span class="v">12</span></div><div class="gsec" data-en="🎭 Adversarial game (simulated attacks)">🎭 Jeu adverse (attaques simulées)</div><div class="gstat"><span class="k" data-en="Attacks foiled">Attaques déjouées</span><span class="v">95%</span></div><div class="gsec" data-en="Offline validation (unseen cases)">Validation hors-ligne (cas jamais vus)</div><div class="gstat"><span class="k" data-en="✅ Actual accuracy">✅ Précision réelle</span><span class="v">100%</span></div><div class="gsec" data-en="Training focus areas">Axes d'entraînement</div><div class="gprot" data-en="🎯 Recognize real threats (sensitive permissions)">🎯 Reconnaître les vraies menaces (permissions sensibles)</div><div class="gprot" data-en="🎯 Verify bot authenticity (name + official ID)">🎯 Vérifier l'authenticité des bots (nom + ID officiel)</div><div class="gprot" data-en="🎯 Anticipate known Discord exploits &amp; abuse (phishing, token theft, fake staff)">🎯 Anticiper les failles &amp; abus Discord connus (phishing, vol de token, faux staff)</div><div class="gprot" data-en="🎯 VirusTotal API usage (link &amp; file checks)">🎯 Utilisation de l'API VirusTotal (vérif des liens &amp; fichiers)</div><div class="gprot" data-en="🎯 Spot known raiders on arrival">🎯 Repérer les raiders connus dès l'arrivée</div><div class="gprot" data-en="🎯 Tell a legitimate admin from a compromised account">🎯 Distinguer un admin légitime d'un compte compromis</div><div class="gprot" data-en="🎯 Reduce false alerts (anti false-positive)">🎯 Réduire les fausses alertes (anti faux-positif)</div><div class="gprot" data-en="🎯 Learn from its mistakes every cycle">🎯 Apprendre de ses erreurs à chaque cycle</div><div class="gsec" data-en="Types of errors fixed">Types d'erreurs corrigées</div><div class="gtype"><div class="row"><span data-en="Cross-server reputation">Réputation inter-serveurs</span><span>215</span></div><div class="gbar"><i style="width:100%"></i></div></div><div class="gtype"><div class="row"><span data-en="Bots &amp; apps">Bots &amp; applications</span><span>159</span></div><div class="gbar"><i style="width:74%"></i></div></div><div class="gtype"><div class="row"><span data-en="False positives avoided">Faux positifs évités</span><span>144</span></div><div class="gbar"><i style="width:67%"></i></div></div><div class="gtype"><div class="row"><span data-en="Permissions &amp; roles">Permissions &amp; rôles</span><span>60</span></div><div class="gbar"><i style="width:28%"></i></div></div><div class="gtype"><div class="row"><span data-en="Edge cases">Cas limites</span><span>4</span></div><div class="gbar"><i style="width:2%"></i></div></div><div class="gtype"><div class="row"><span data-en="Accounts &amp; joins">Comptes &amp; arrivées</span><span>2</span></div><div class="gbar"><i style="width:1%"></i></div></div>
 </div><div class="gnext" id="gnext">🔄 Actualisation auto dans 120 s</div></aside>
   <main class="main">
   <div class="changelog"><h2><span data-i18n="lastup">📰 Dernière mise à jour —</span> <span data-lang="fr">Une caisse légendaire fait son apparition 💎</span><span data-lang="en">A legendary crate makes its appearance 💎</span></h2><div class="ver"><span data-i18n="puborg">Publié le</span> 7 août 2026 à 09:01</div><ul data-lang="fr" class="cl-list"><li>💎 <strong>Une caisse légendaire, rare, avec un peu d'aura</strong> — aux caisses surprises s'ajoute un troisième palier : environ une caisse sur trente est <strong>légendaire</strong>. Elle donne beaucoup plus d'XP que la caisse dorée, et c'est la seule à contenir un peu d'<strong>aura</strong>. Volontairement peu : sur un serveur au maximum de caisses, cela représente moins de trente aura par jour, quand la roue quotidienne en distribue déjà des centaines à un seul joueur. C'est une surprise, pas une source de revenu.</li><li>🔊 <strong>Les salons vocaux temporaires ne s'accumulent plus</strong> — avec le « Rejoindre pour créer », revenir dans le salon d'accueil depuis son propre salon vocal laissait celui-ci <strong>vide et jamais supprimé</strong>. Rien ne pouvait plus le nettoyer avant un redémarrage du bot. Répété, cela saturait la catégorie du salon d'accueil — et une fois pleine, plus aucun salon ne pouvait être créé pour personne. Le nettoyage se fait désormais dans tous les cas.</li><li>🔒 <strong><code>+bug</code> ne peut plus révéler ce qui doit rester caché</strong> — le panneau de signalement affiche « ta dernière commande » dans le salon. Il pouvait donc y republier le contenu d'un <strong>signalement</strong> (<code>+report</code>), désignant du même coup la personne qui l'avait envoyé et celle qu'il visait, ainsi que des commandes volontairement invisibles. Ces contenus ne sont plus mémorisés du tout.</li><li>🔁 <strong>Le bouton « Rejouer » explique son refus, sans encombrer le salon</strong> — quand on reclique trop vite, le message d'attente n'est plus posté dans le salon mais affiché à toi seul. Cliquer en boucle ne remplit donc plus le fil de messages du bot.</li><li>⏰ <strong>Les rappels restent accessibles à tout le monde</strong> — le nombre de rappels en attente par serveur est plafonné, et quelques personnes pouvaient à elles seules remplir ce plafond et priver les autres de <code>+remind</code> et <code>+announce</code>. Une part est maintenant réservée à ceux qui en ont peu : un gros utilisateur se limite lui-même avant de gêner qui que ce soit.</li><li>⚡ <strong>L'affichage du rang est presque deux fois plus rapide</strong> — le calcul de ta place dans le classement (<code>+level</code>) interrogeait la base d'une façon qui l'obligeait à faire deux recherches puis à les fusionner. Réécrit, il n'en fait plus qu'une : <strong>1,75 fois plus rapide</strong>, pour un résultat identique. Cela ne change pas la vitesse générale du bot, seulement celle des commandes qui affichent un rang.</li><li class="cl-extra">🎨 <strong>Deux commandes répondaient sans mise en forme</strong> — <code>+base</code> et <code>+warhammer</code> renvoyaient certains refus en texte nu, alors que le reste du bot les habille d'un encadré coloré. <code>+warhammer</code> allait jusqu'à afficher le <strong>même</strong> message des deux façons selon le chemin emprunté. C'est uniformisé.</li></ul><ul data-lang="en" class="cl-list"><li>💎 <strong>A rare legendary crate, with a little aura</strong> — surprise crates gain a third tier: roughly one crate in thirty is <strong>legendary</strong>. It gives far more XP than the golden crate, and it is the only one containing a little <strong>aura</strong>. Deliberately little: on a server at its crate limit, that is under thirty aura a day, when the daily wheel already hands hundreds to a single player. It is a surprise, not an income.</li><li>🔊 <strong>Temporary voice channels no longer pile up</strong> — with &quot;Join to Create&quot;, going back to the lobby from your own voice channel left that channel <strong>empty and never deleted</strong>. Nothing could clean it up before a bot restart. Repeated, this filled the lobby's category — and once full, no channel could be created for anyone. Cleanup now happens in every case.</li><li>🔒 <strong><code>+bug</code> can no longer reveal what must stay hidden</strong> — the report panel shows &quot;your last command&quot; in the channel. It could therefore republish the contents of a <strong>report</strong> (<code>+report</code>), naming both the person who sent it and their target, as well as deliberately invisible commands. Those contents are no longer stored at all.</li><li>🔁 <strong>The &quot;Replay&quot; button explains its refusal without cluttering the channel</strong> — when you click again too quickly, the wait message is now shown to you alone instead of being posted in the channel. Clicking repeatedly no longer fills the thread with bot messages.</li><li>⏰ <strong>Reminders stay available to everyone</strong> — the number of pending reminders per server is capped, and a handful of people could fill that cap on their own, locking everyone else out of <code>+remind</code> and <code>+announce</code>. A share is now reserved for those with few: a heavy user limits themselves well before inconveniencing anyone.</li><li>⚡ <strong>Rank display is nearly twice as fast</strong> — working out your place in the leaderboard (<code>+level</code>) queried the database in a way that forced it to run two searches and merge them. Rewritten, it runs just one: <strong>1.75× faster</strong>, for an identical result. This does not change the bot's overall speed, only that of commands showing a rank.</li><li class="cl-extra">🎨 <strong>Two commands replied without formatting</strong> — <code>+base</code> and <code>+warhammer</code> returned some refusals as bare text, while the rest of the bot wraps them in a coloured panel. <code>+warhammer</code> even showed the <strong>same</strong> message both ways depending on the path taken. This is now consistent.</li></ul><button class="cl-toggle" type="button" aria-expanded="false"><span class="cl-more"><span data-lang="fr">▼ Voir les 1 autres</span><span data-lang="en">▼ Show 1 more</span></span><span class="cl-less"><span data-lang="fr">▲ Réduire</span><span data-lang="en">▲ Show less</span></span></button>
@@ -1254,18 +1242,30 @@ if(sb){sb.addEventListener('input',clearSel);
   else if(e.key==='ArrowUp'){e.preventDefault();selCard(cards,Math.max(0,__sel<0?0:__sel-1));}
   else if(e.key==='Enter'&&__sel>=0&&cards[__sel]){e.preventDefault();openSim(cards[__sel]);}});}
 var dt=document.getElementById('dt');if(dt)dt.textContent=new Date().toLocaleString('fr-FR');
-// ── Compteur de visites LOCAL (par navigateur) : combien de fois CE visiteur a ouvert le site. 100% PRIVÉ —
-// AUCUNE donnée ne quitte le navigateur (pas de service tiers, pas d'IP, pas de requête réseau). Stocké en
-// localStorage, +1 par SESSION (un simple rafraîchissement ne recompte pas). Best-effort : si le stockage est
-// bloqué (navigation privée, cookies coupés, webview Discord) → compteur masqué, aucune erreur.
-var __visits=0;
+// ── Compteur de visites à DEUX NIVEAUX.
+// 1) LOCAL (par navigateur) : combien de fois CE visiteur a ouvert le site. localStorage, +1 par SESSION
+//    (un simple rafraîchissement ne recompte pas). Aucune donnée personnelle ne quitte le navigateur.
+// 2) GLOBAL (tous visiteurs) : total anonyme via Abacus (abacus.jasoncameron.dev — compteur public
+//    open-source, successeur de CountAPI). UNE requête GET anonyme par session, sans cookie ni identifiant.
+//    Best-effort à deux étages : service muet → dernière valeur connue (localStorage) ; jamais vue → le
+//    badge retombe sur le compteur local seul, exactement comme avant. Aucune erreur visible.
+var __visits=0,__gvisits=0;
 try{__visits=parseInt(localStorage.getItem('visits')||'0',10);if(!isFinite(__visits)||__visits<0)__visits=0;
  if(!sessionStorage.getItem('vcounted')){__visits++;try{localStorage.setItem('visits',String(__visits));}catch(e){}try{sessionStorage.setItem('vcounted','1');}catch(e){}}}catch(e){__visits=0;}
+try{__gvisits=parseInt(localStorage.getItem('gvisits')||'0',10);if(!isFinite(__gvisits)||__gvisits<0)__gvisits=0;}catch(e){}
 function renderVisits(){var en=curLang()==='en',ord=(__visits===1?'ʳᵉ':'ᵉ');
+ var g=__gvisits>0?(' · 🌍 <b>'+Number(__gvisits).toLocaleString(en?'en-GB':'fr-FR')+'</b>'+(en?' total':' au total')):'';
  var b=document.getElementById('visits-badge'); // badge d'en-tête (VISIBLE sans scroller)
- if(b){if(__visits>0){b.innerHTML=en?('👁️ your visit #<b>'+__visits+'</b>'):('👁️ ta <b>'+__visits+'</b>'+ord+' visite');b.hidden=false;}else b.hidden=true;}
+ if(b){if(__visits>0){b.innerHTML=(en?('👁️ your visit #<b>'+__visits+'</b>'):('👁️ ta <b>'+__visits+'</b>'+ord+' visite'))+g;b.hidden=false;}else b.hidden=true;}
  var f=document.getElementById('visits'); // rappel discret en pied de page
- if(f){if(__visits>0){f.textContent=en?(' · 👁️ your visit #'+__visits):(' · 👁️ ta '+__visits+ord+' visite');f.hidden=false;}else f.hidden=true;}}
+ if(f){if(__visits>0){f.textContent=(en?(' · 👁️ your visit #'+__visits):(' · 👁️ ta '+__visits+ord+' visite'))+g.replace(/<\/?b>/g,'');f.hidden=false;}else f.hidden=true;}}
+// /hit incrémente le total (1 fois par session, comme le compteur local) ; les rechargements suivants
+// lisent sans incrémenter (/get). Un échec ne pose pas le verrou de session → nouvel essai au prochain chargement.
+(function(){var inc=false;try{inc=!sessionStorage.getItem('gcounted');}catch(e){}
+ fetch('https://abacus.jasoncameron.dev/'+(inc?'hit':'get')+'/hasu-protect-docs/site-visits',{cache:'no-store'})
+ .then(function(r){if(!r.ok)throw 0;return r.json();})
+ .then(function(d){if(d&&isFinite(d.value)&&d.value>0){__gvisits=d.value;try{localStorage.setItem('gvisits',String(d.value));}catch(e){}if(inc)try{sessionStorage.setItem('gcounted','1');}catch(e){}renderVisits();}})
+ .catch(function(){});})();
 var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent=tr('hidehist');}else{mb.textContent=mb.dataset.label;}});
 // Flèche « déplier le changelog » : montre/cache les items au-delà des 6 premiers (vedette).
 document.querySelectorAll('.cl-toggle').forEach(function(b){b.addEventListener('click',function(){var box=b.closest('.changelog')||b.parentNode;var open=b.classList.toggle('expanded');b.setAttribute('aria-expanded',open);box.querySelectorAll('.cl-list').forEach(function(u){u.classList.toggle('open',open);});});});
@@ -1280,32 +1280,46 @@ var tt=document.getElementById('toTop');if(tt){window.addEventListener('scroll',
 // Auto-actualisation du panneau Guardian : re-fetch stats.json et re-rend le panneau SANS recharger la page.
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery==null)return;
+ __gLast=d; // mémorisé pour re-rendre le panneau à la bascule de langue (formats de nombres)
  // Libellés du panneau FR→EN (les VALEURS, fournies par le bot, restent telles quelles).
- var GP={'maîtrise globale':'overall mastery','Reconnaît une menace':'Detects a threat','Épargne un membre sain':'Spares a safe member','Exemples appris':'Examples learned','Solutions mémorisées':'Solutions memorized','Erreurs apprises (ce cycle)':'Errors learned (this cycle)','Règles re-vérifiées':'Rules re-checked','🔥 Difficulté d\'entraînement':'🔥 Training difficulty','✅ Précision prouvée':'✅ Proven accuracy','Validation hors-ligne (cas jamais vus)':'Offline validation (unseen cases)','Types d\'erreurs apprises':'Types of errors learned','Sur quoi l\'IA travaille pour améliorer la sécurité':'What the AI is working on to improve security','🎭 Surprises évitées (jeu adverse)':'🎭 Surprises avoided (adversarial play)'};
+ var GP={'maîtrise globale':'overall mastery','Entraînement (cycle actuel)':'Training (current cycle)','🎯 Détection des menaces':'🎯 Threat detection','🟢 Épargne les membres sains':'🟢 Spares legitimate members','🧩 Généralisation (cas inédits)':'🧩 Generalization (novel cases)','📚 Exemples étudiés':'📚 Examples studied','💾 Solutions mémorisées':'💾 Solutions memorized','♻️ Erreurs corrigées (ce cycle)':'♻️ Errors fixed (this cycle)','📏 Règles re-vérifiées':'📏 Rules re-checked','🔥 Difficulté (niveau)':'🔥 Difficulty (level)','🎭 Jeu adverse (attaques simulées)':'🎭 Adversarial game (simulated attacks)','Attaques déjouées':'Attacks foiled','Fausses alertes':'False alarms','Angles morts découverts':'Blind spots found','Validation hors-ligne (cas jamais vus)':'Offline validation (unseen cases)','✅ Précision réelle':'✅ Actual accuracy','📈 Gain vs base initiale':'📈 Gain vs initial baseline','Menaces ratées':'Missed threats','Axes d\'entraînement':'Training focus areas','Types d\'erreurs corrigées':'Types of errors fixed'};
  function de(k){return GP[k]?' data-en="'+GP[k]+'"':'';}
  function st(k,v){return '<div class="gstat"><span class="k"'+de(k)+'>'+k+'</span><span class="v">'+v+'</span></div>';}
  function sec(k){return '<div class="gsec"'+de(k)+'>'+k+'</div>';}
+ function nf(n){return Number(n).toLocaleString(curLang()==='en'?'en-GB':'fr-FR');}
  var t=new Date(d.at).toLocaleString(curLang()==='en'?'en-GB':'fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
- var h='<h2>🧠 Guardian AI</h2><div class="gsub"><span data-en="Autonomous learning">Apprentissage autonome</span> · cycle #'+d.cycle+' · '+escH(t)+'</div>';
- h+='<div class="gbig"><div class="n">'+d.mastery+'%</div><div class="l"'+de('maîtrise globale')+'>maîtrise globale</div></div>';
- h+=st('Reconnaît une menace',d.threat+'%');
- h+=st('Épargne un membre sain',d.spare+'%');
- h+=st('Exemples appris',d.examples);
- h+=st('Solutions mémorisées',d.solutions);
- if(d.errorsThisCycle!=null)h+=st('Erreurs apprises (ce cycle)',d.errorsThisCycle);
- if(d.rules)h+=st('Règles re-vérifiées',d.rules.ok+'/'+d.rules.total);
- if(d.difficultyLevel!=null)h+=st('🔥 Difficulté d\'entraînement','niveau '+d.difficultyLevel);
- if(d.redteam)h+=st('🎭 Surprises évitées (jeu adverse)',d.redteam.avoided+'%');
- if(d.offline){h+=sec('Validation hors-ligne (cas jamais vus)');h+=st('✅ Précision prouvée',d.offline.accuracy+'%');}
- if(d.protections&&d.protections.length){h+=sec('Sur quoi l\'IA travaille pour améliorer la sécurité')+d.protections.map(function(p){return '<div class="gprot" data-en="🎯 '+escH(trGuardian(p))+'">🎯 '+escH(p)+'</div>';}).join('');}
- if(d.errorTypes&&d.errorTypes.length){var mx=Math.max.apply(null,d.errorTypes.map(function(x){return x.count;}))||1;h+=sec('Types d\'erreurs apprises')+d.errorTypes.map(function(x){return '<div class="gtype"><div class="row"><span data-en="'+escH(trGuardian(x.label))+'">'+escH(x.label)+'</span><span>'+x.count+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
+ var h='<h2>🧠 Guardian AI</h2><div class="gsub"><span data-en="Autonomous learning">Apprentissage autonome</span> · cycle #'+escH(d.cycle)+' · '+escH(t)+'</div>';
+ h+='<div class="gbig"><div class="n">'+escH(d.mastery)+'%</div><div class="l"'+de('maîtrise globale')+'>maîtrise globale</div></div>';
+ h+=sec('Entraînement (cycle actuel)');
+ h+=st('🎯 Détection des menaces',escH(d.threat)+'%');
+ h+=st('🟢 Épargne les membres sains',escH(d.spare)+'%');
+ if(d.generalization!=null)h+=st('🧩 Généralisation (cas inédits)',escH(d.generalization)+'%');
+ h+=st('📚 Exemples étudiés',nf(d.examples));
+ h+=st('💾 Solutions mémorisées',nf(d.solutions));
+ if(d.errorsThisCycle!=null)h+=st('♻️ Erreurs corrigées (ce cycle)',escH(d.errorsThisCycle));
+ if(d.rules)h+=st('📏 Règles re-vérifiées',escH(d.rules.ok)+'/'+escH(d.rules.total));
+ if(d.difficultyLevel!=null)h+=st('🔥 Difficulté (niveau)',escH(d.difficultyLevel));
+ if(d.redteam){h+=sec('🎭 Jeu adverse (attaques simulées)');
+  h+=st('Attaques déjouées',escH(d.redteam.avoided)+'%');
+  if(d.redteam.falseAlarm!=null)h+=st('Fausses alertes',escH(d.redteam.falseAlarm));
+  if(d.redteam.blindspots!=null)h+=st('Angles morts découverts',escH(d.redteam.blindspots));}
+ if(d.offline){h+=sec('Validation hors-ligne (cas jamais vus)');
+  // Précision recalculée AVEC décimales quand l'échantillon est fourni : l'« accuracy » entière arrondissait
+  // 99,97 → « 100% » à côté de « Menaces ratées : 11 » — contradiction visible pour le lecteur.
+  var acc=(d.offline.samples&&d.offline.fp!=null&&d.offline.fn!=null)?Math.round((d.offline.samples-d.offline.fp-d.offline.fn)/d.offline.samples*10000)/100:d.offline.accuracy;
+  h+=st('✅ Précision réelle',escH(curLang()==='en'?String(acc):String(acc).replace('.',','))+'%');
+  if(d.offline.gain!=null)h+=st('📈 Gain vs base initiale','+'+escH(d.offline.gain)+' pts');
+  if(d.offline.fp!=null)h+=st('Fausses alertes',escH(d.offline.fp)+(d.offline.samples?' / '+nf(d.offline.samples):''));
+  if(d.offline.fn!=null)h+=st('Menaces ratées',escH(d.offline.fn)+(d.offline.samples?' / '+nf(d.offline.samples):''));}
+ if(d.protections&&d.protections.length){h+=sec('Axes d\'entraînement')+d.protections.map(function(p){return '<div class="gprot" data-en="🎯 '+escH(trGuardian(p))+'">🎯 '+escH(p)+'</div>';}).join('');}
+ if(d.errorTypes&&d.errorTypes.length){var mx=Math.max.apply(null,d.errorTypes.map(function(x){return x.count;}))||1;h+=sec('Types d\'erreurs corrigées')+d.errorTypes.map(function(x){return '<div class="gtype"><div class="row"><span data-en="'+escH(trGuardian(x.label))+'">'+escH(x.label)+'</span><span>'+escH(x.count)+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
  p.innerHTML=h;
  // Opti : ne re-traduire QUE le panneau (ses [data-en]) au lieu de rescanner toute la page (189 cartes) à chaque
  // rafraîchissement Guardian. Même logique que applyLang (mémorise fr0), scopée au panneau -> 0 balayage global inutile.
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
-var __gAt=0,__hbApi=0,__hbStats=0,__bs='online';
+var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1329,6 +1343,7 @@ function curLang(){if(!__lang)__lang=pickLang();return __lang;}
 function setLang(L){__lang=L;try{localStorage.setItem('lang',L);}catch(e){}
  try{var u=new URL(location.href);u.searchParams.set('lang',L);history.replaceState(null,'',u);}catch(e){} // l'URL reflète la langue → liens partagés OK
  applyLang();
+ if(__gLast&&typeof renderG==='function')renderG(__gLast); // valeurs formatées (milliers, décimales) re-rendues dans la nouvelle langue
  var _ov=document.getElementById('ov');if(_ov&&_ov.classList.contains('open')&&__simCard)openSim(__simCard);} // B3/B4 : modale ouverte → re-render dans la nouvelle langue
 function tr(k){var e=I18N[k];return e?(e[curLang()]||e.fr):k;}
 function applyLang(){var L=curLang();document.documentElement.lang=L;
@@ -1359,12 +1374,21 @@ function trGuardian(s){return __GMAP[s]||String(s);} // repli : on réaffiche le
 // Premier rendu i18n : APRÈS la définition de I18N (var assigné plus haut) — sinon applyLang() lèverait
 // une exception qui avorterait tout le reste du script (toggle de langue + polling live morts).
 applyLang();
-function setStatus(){var el=document.getElementById('botstatus');if(!el)return;var hb=Math.max(__hbApi,__hbStats),t,c;
+// Badge de statut — machine à TROIS ZONES, sans lecture d'en-têtes HTTP (Age/Date ne sont pas exposés
+// en CORS par raw.githubusercontent — vérifié — donc l'âge du cache CDN est invisible côté JS) :
+//   < 4 min 30 → En ligne · ≥ 10 min → Hors ligne · entre les 2 → zone grise du cache : on GARDE l'état
+//   affiché (pas de clignotement) et pollAPI (lecture exacte, throttlée) tranche. Après une réponse API,
+//   le « at » est exact 2 min 30 (__exactUntil) → la règle des 4 min 30 s'applique directement.
+// Premier chargement dans la zone grise → « Vérification… » jusqu'au verdict API. Jamais de faux vert.
+function setStatus(){var el=document.getElementById('botstatus');if(!el)return;var hb=Math.max(__hbApi,__hbStats),t,c,age=Date.now()-hb;
  if(__bs==='updating'){t=tr('updating');c='upd';}
- else if(!hb){return;}
- else if(Date.now()-hb<300000){t=tr('online');c='on';}
- else{t=tr('offline');c='off';}
- el.className='bstat '+c;var x=document.getElementById('bstxt');if(x)x.textContent=t;}
+ else if(!hb){t=tr('checking');c='unk';}
+ else if(age<270000){t=tr('online');c='on';}
+ else if(age>=600000||Date.now()<__exactUntil){t=tr('offline');c='off';}
+ else{if(typeof pollAPI==='function')pollAPI(300000);
+  if(__lastC==='on'||__lastC==='off'){c=__lastC;t=tr(c==='on'?'online':'offline');}
+  else{t=tr('checking');c='unk';}}
+ __lastC=c;el.className='bstat '+c;var x=document.getElementById('bstxt');if(x)x.textContent=t;}
 // Badges de l'en-tête (commandes / catégories / membres protégés) → rafraîchis en direct depuis le heartbeat
 // (toutes les ~2 min, sans recharger ni reconstruire le site) et, en repli, depuis stats.json.
 // Animation « count-up » : le badge défile de l'ancienne valeur vers la nouvelle (easeOutCubic) au lieu de sauter.
@@ -1383,8 +1407,24 @@ function setBadges(d){if(!d)return;
  animTo(document.getElementById('bServers'),d.servers);
  animTo(document.getElementById('bCmds'),d.commands);
  animTo(document.getElementById('bCats'),d.categories);}
+// Heartbeat lu en PRIORITÉ sur raw.githubusercontent.com : CORS ouvert, pas de quota. L'API contents
+// (60 req/h par IP sans token) ne sert plus que de lecture exacte ponctuelle : à 1 requête/2 min en
+// continu, le quota sautait (rechargements + onglets multiples + IP partagées) et le badge mourait en 403.
+var __rawURL='https://raw.githubusercontent.com/saliox/hasu-protect-docs/status/heartbeat.json';
 var __hbURL='https://api.github.com/repos/saliox/hasu-protect-docs/contents/heartbeat.json?ref=status';
-function pollHB(){fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content)return;var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){return;}if(j.at){__hbApi=j.at;if(j.status)__bs=j.status;setStatus();}setBadges(j);if(j.guardian&&j.guardian.at&&j.guardian.at>__gAt){__gAt=j.guardian.at;renderG(j.guardian);}}).catch(function(){});}
+var __apiLast=0,__exactUntil=0,__lastC='';
+// Math.max : un timestamp de battement ne peut qu'avancer — une copie CDN périmée resservie après une
+// lecture API fraîche ne doit pas faire reculer l'horloge (faux « Hors ligne » sinon).
+function applyHB(j,exact){if(!j)return;if(j.at){__hbApi=Math.max(__hbApi,j.at);if(exact)__exactUntil=Date.now()+150000;if(j.status)__bs=j.status;setStatus();}setBadges(j);if(j.guardian&&j.guardian.at&&j.guardian.at>__gAt){__gAt=j.guardian.at;renderG(j.guardian);}}
+// Lecture EXACTE (sans cache) via l'API GitHub — tranche la zone grise du cache CDN, ou secourt un CDN
+// raw en panne. gap = intervalle minimal entre deux appels. Un échec ne brûle pas la fenêtre (retry ~60 s).
+function pollAPI(gap){var n=Date.now();if(n-__apiLast<gap)return;__apiLast=n;
+ var fail=function(){__apiLast=n-Math.max(0,gap-60000);};
+ fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content){fail();return;}var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){fail();return;}applyHB(j,true);}).catch(fail);}
+function pollHB(){fetch(__rawURL,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){applyHB(j,false);})
+ .catch(function(){pollAPI(240000);});}
+// Onglet remis au premier plan (retour de veille, changement d'onglet) → re-vérifie tout de suite.
+document.addEventListener('visibilitychange',function(){if(!document.hidden)pollHB();});
 // Compteur ALIGNÉ SUR L'HORLOGE (fenêtres glissantes de 120 s) → reste cohérent après un refresh de la
 // page (avant : le compteur repartait de 120 à chaque chargement). nextIn = secondes avant la prochaine frontière.
 function nextIn(){return 120-(Math.floor(Date.now()/1000)%120);}
@@ -1402,7 +1442,7 @@ function exFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
  if(/salon|channel|#/.test(t))return en?'#general':'#général';
  if(/r[oô]le/.test(t))return en?'@Member':'@Membre';
  if(/dur[ée]|duree|temps|delai|délai/.test(t))return '10m';
- if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|xp|niveau|level|gagnant/.test(t))return '5';
+ if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|xp|niveau|level|gagnant|mise|pari/.test(t))return '5';
  if(/raison|motif/.test(t))return en?'repeated spam':'spam répété';
  if(/message|texte|contenu|annonce|lot|titre|sujet/.test(t))return en?'Hello everyone!':'Bonjour à tous !';
  if(/lien|url|invit/.test(t))return en?'https://example.com':'https://exemple.com';
@@ -1418,7 +1458,7 @@ function hintFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
  if(/salon|channel/.test(t))return en?'a channel — #channel or ID':'un salon — #salon ou ID';
  if(/r[oô]le/.test(t))return en?'a role — mention or ID':'un rôle — mention ou ID';
  if(/dur[ée]|duree|temps|delai|délai/.test(t))return en?'a duration — e.g. 10m, 2h, 1d':'une durée — ex. 10m, 2h, 1j';
- if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|gagnant/.test(t))return en?'a number':'un nombre';
+ if(/n°|numero|numéro|nombre|montant|quantit|count|^nb|gagnant|mise|pari/.test(t))return en?'a number':'un nombre';
  if(/raison|motif/.test(t))return en?'the reason (free text)':'la raison (texte libre)';
  if(/message|texte|contenu|annonce|lot|titre|sujet/.test(t))return en?'the text to use':'le texte à utiliser';
  if(/lien|url|invit/.test(t))return en?'a link':'un lien';
@@ -1426,13 +1466,47 @@ function hintFor(tok){var t=tok.toLowerCase(),en=curLang()==='en';
  if(/prefix|préfixe|prefixe/.test(t))return en?'the new prefix':'le nouveau préfixe';
  if(/mot|word|terme/.test(t))return en?'a keyword':'un mot-clé';
  return en?'a value (e.g. example)':'une valeur (ex. : exemple)';}
-function parseParams(usage){var first=(usage||'').split('|')[0];var parts=first.trim().split(/\s+/).slice(1);
- return parts.map(function(p){var req=true,raw=p,lit=false;
-  if(/^\[.*\]$/.test(p)){req=false;raw=p.slice(1,-1);}
-  else if(/^<.*>$/.test(p)){req=true;raw=p.slice(1,-1);}
+// Découpe sur les | de PREMIER NIVEAU uniquement (un | dans [a | b] ou <a|b> est un choix de valeurs).
+function splitTop(s){var out=[],b='',d=0,j,c;for(j=0;j<s.length;j++){c=s.charAt(j);
+ if(c==='['||c==='<')d++;else if(c===']'||c==='>')d=Math.max(0,d-1);
+ if(c==='|'&&d===0){out.push(b);b='';}else b+=c;}out.push(b);return out;}
+// Sépare les FORMES ALTERNATIVES : un | de premier niveau ne coupe que si ce qui suit est une nouvelle
+// commande (+x / !x). Sinon c'est un choix (« +lockdown on|off ») ou un séparateur littéral à taper
+// (« +embed <titre> | <description> ») — il reste dans la forme courante.
+function splitForms(s){var out=[],b='',d=0,j,c;for(j=0;j<s.length;j++){c=s.charAt(j);
+ if(c==='['||c==='<')d++;else if(c===']'||c==='>')d=Math.max(0,d-1);
+ if(c==='|'&&d===0&&/^\s*[+!]/.test(s.slice(j+1))){out.push(b);b='';}else b+=c;}out.push(b);return out;}
+function parseParams(usage){
+ var first=splitForms(usage||'')[0].trim();
+ // Tokenise en gardant les groupes [ … ] / < … > ENTIERS, même s'ils contiennent espaces et |.
+ var parts=[],buf='',dep=0,i,ch;
+ for(i=0;i<first.length;i++){ch=first.charAt(i);
+  if(ch==='['||ch==='<')dep++;else if(ch===']'||ch==='>')dep=Math.max(0,dep-1);
+  if(dep===0&&/\s/.test(ch)){if(buf){parts.push(buf);buf='';}}else buf+=ch;}
+ if(buf)parts.push(buf);parts=parts.slice(1);
+ // « a | b | c » espacé : si TOUS les jetons sont des mots-clés nus → fusion en un seul choix.
+ // Sinon (placeholders présents), chaque | est un séparateur LITTÉRAL que l'utilisateur tape vraiment.
+ if(parts.indexOf('|')!==-1&&parts.every(function(p){return p==='|'||!/[<>\[\]]/.test(p);}))
+  parts=[parts.filter(function(p){return p!=='|';}).join('|')];
+ var en=curLang()==='en';
+ return parts.map(function(p){var req=true,raw=p,lit=false,alts=null;
+  if(/^\[[\s\S]*\]$/.test(p)){req=false;raw=p.slice(1,-1).trim();}
+  else if(/^<[\s\S]*>$/.test(p)){req=true;raw=p.slice(1,-1).trim();}
   else if(/^[@#]/.test(p)){raw=p.slice(1);}
+  else if(p!=='|'&&p.indexOf('|')!==-1){req=true;} // choix nu sans crochets : « on|off »
   else{lit=true;}
-  return {token:p,raw:raw,req:req,lit:lit,ex:lit?p:exFor(raw),hint:lit?(curLang()==='en'?'type as-is':'à écrire tel quel'):hintFor(raw)};});}
+  if(!lit&&raw.indexOf('|')!==-1){alts=splitTop(raw).map(function(s){return s.trim();}).filter(Boolean);if(alts.length<2)alts=null;}
+  var ex,hint;
+  if(lit){ex=p;hint=en?'type as-is':'à écrire tel quel';}
+  else if(alts){
+   var a0=alts[0].replace(/\[[^\]]*\]/g,'').replace(/\s+/g,' ').trim();
+   a0=a0.replace(/<([^>]*)>/g,function(_,g){g=g.trim();return g.indexOf('|')!==-1?g.split('|')[0].trim():exFor(g);});
+   if(/^[@#]/.test(a0))ex=exFor(a0);
+   else if(a0.indexOf(' ')===-1){var e0=exFor(a0);ex=(e0!=='exemple'&&e0!=='example')?e0:a0;}
+   else ex=a0;
+   hint=(en?'one of: ':'au choix : ')+alts.join(' · ');}
+  else{ex=exFor(raw);hint=hintFor(raw);}
+  return {token:p,raw:raw,req:req,lit:lit,ex:ex,hint:hint};});}
 function botReply(name,desc,params){var n=name.toLowerCase();
  var get=function(re){for(var i=0;i<params.length;i++)if(re.test(params[i].raw.toLowerCase()))return params[i].ex;return null;};
  var who=get(/membre|user|utilisateur|cible/)||'@Jean',reason=get(/raison|motif/),dur=get(/dur[ée]|duree|temps/)||'10m',en=curLang()==='en',R=reason?(en?'\nReason: ':'\nRaison : ')+reason:'';

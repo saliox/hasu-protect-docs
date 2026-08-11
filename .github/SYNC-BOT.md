@@ -1,5 +1,9 @@
 # ⚠️ À porter dans la copie locale du site (générateur du bot)
 
+> **Récidive du 07/08** : la « maj site » du bot a de nouveau écrasé tous les
+> correctifs ci-dessous (re-greffés depuis). Tant que le template local ne les
+> intègre pas, chaque déploiement du bot les supprime.
+
 Le déploiement auto du bot (« état local = référence ») a déjà écrasé une fois
 les correctifs fusionnés sur `main` (commit `04e80b70`, réconciliation du 23/07).
 Tant que la copie locale du site sur le PC du bot n'intègre pas les correctifs
@@ -32,3 +36,10 @@ ci-dessous, chaque « maj site » du bot les fera disparaître à nouveau.
 La référence exacte de chaque bloc est dans l'index.html de `main` après la
 fusion de la PR #6 — le plus simple est de recopier ces blocs tels quels dans
 le template local.
+
+6. **Compteur de visites global** : en plus du compteur local par navigateur,
+   le badge affiche le total anonyme de tous les visiteurs via Abacus
+   (`abacus.jasoncameron.dev` — /hit une fois par session, /get ensuite,
+   valeur mémorisée en localStorage `gvisits`). La CSP `connect-src` doit
+   inclure `https://abacus.jasoncameron.dev` ET
+   `https://raw.githubusercontent.com` (heartbeat du badge de statut).
