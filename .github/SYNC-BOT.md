@@ -43,3 +43,11 @@ le template local.
    valeur mémorisée en localStorage `gvisits`). La CSP `connect-src` doit
    inclure `https://abacus.jasoncameron.dev` ET
    `https://raw.githubusercontent.com` (heartbeat du badge de statut).
+
+7. **Recatégorisation de 6 commandes** (appliquée côté site en JS au chargement —
+   le bloc devient no-op dès que le bot range ces commandes dans ses définitions) :
+   | Commande | Ancienne catégorie | Nouvelle catégorie | Raison |
+   |---|---|---|---|
+   | `say`, `embed`, `dm` | Modération | Communauté & Utilitaires | messagerie/annonces, comme `announce`/`sticky` |
+   | `close` | Modération | Communauté & Utilitaires | clôture de ticket — `ticket` y est déjà |
+   | `massrole`, `delrole` | Sécurité & Antiraid | Modération | gestion de rôles du quotidien (contrairement à `addrole`, verrouillée façon nuke) |

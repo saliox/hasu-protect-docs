@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-XsUDN9fAcf3hW2R2avL9AdkqtnjWKdMnB/y6IxPeF+A='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-n1fks8WYm2GuyvOI5Pjb5e7aCYgu9vtCI0LxR3BKP7o='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -1414,6 +1414,26 @@ function trUsage(s){return String(s).replace(/[A-Za-zÀ-ÿ]+/g,function(w){retur
 // ⛔ Table SERVIE AU NAVIGATEUR : n'y mettre que du texte déjà destiné au public (cf. G_FAM, côté build).
 var __GMAP={'Bots & applications':'Bots & apps','Permissions & rôles':'Permissions & roles','Comptes & arrivées':'Accounts & joins','Réputation inter-serveurs':'Cross-server reputation','Faux positifs évités':'False positives avoided','Cas limites':'Edge cases','Reconnaître les vraies menaces (permissions sensibles)':'Recognize real threats (sensitive permissions)',"Vérifier l'authenticité des bots (nom + ID officiel)":'Verify bot authenticity (name + official ID)','Anticiper les failles & abus Discord connus (phishing, vol de token, faux staff)':'Anticipate known Discord exploits & abuse (phishing, token theft, fake staff)',"Utilisation de l'API VirusTotal (vérif des liens & fichiers)":'VirusTotal API usage (link & file checks)',"Repérer les raiders connus dès l'arrivée":'Spot known raiders on arrival',"Distinguer un admin légitime d'un compte compromis":'Tell a legitimate admin from a compromised account','Réduire les fausses alertes (anti faux-positif)':'Reduce false alerts (anti false-positive)','Apprendre de ses erreurs à chaque cycle':'Learn from its mistakes every cycle'};
 function trGuardian(s){return __GMAP[s]||String(s);} // repli : on réaffiche le FR, jamais une traduction « devinée » à partir des signaux
+// ── Recatégorisation de 6 commandes (référence pour le template du bot — SYNC-BOT.md §7) :
+// say / embed / dm (messagerie) et close (clôture de ticket, dont le reste du flux est en Communauté)
+// → Communauté & Utilitaires ; massrole / delrole (gestion de rôles du quotidien, non verrouillées
+// contrairement à addrole) → Modération. Fait au chargement : déplace la carte dans la bonne section
+// (elle hérite la couleur --cc de sa section), aligne data-cat (filtres/compteurs) et l'accent de la
+// modale, puis recale les « (N) » des en-têtes. No-op automatique quand le bot rangera ces commandes.
+(function(){
+ var MOVES={say:'5',embed:'5',dm:'5',close:'5',massrole:'1',delrole:'1'};
+ Object.keys(MOVES).forEach(function(n){
+  var card=document.querySelector('.cmd[data-n="'+n+'"]');if(!card)return;
+  var to=MOVES[n];if(card.dataset.cat===to)return;
+  var sec=document.getElementById('c'+to);var grid=sec&&sec.querySelector('.grid');if(!grid)return;
+  card.dataset.cat=to;
+  var cc=(sec.getAttribute('style')||'').match(/--cc:\s*([^;]+)/);if(cc)card.dataset.c=cc[1].trim();
+  grid.appendChild(card);});
+ document.querySelectorAll('section').forEach(function(s){
+  if(!/^c\d+$/.test(s.id||''))return;
+  var n=s.querySelectorAll('.cmd').length,h=s.querySelector('h2.cat span:last-child');
+  if(h&&/^\(\d+\)$/.test(h.textContent.trim()))h.textContent='('+n+')';});
+})();
 // Premier rendu i18n : APRÈS la définition de I18N (var assigné plus haut) — sinon applyLang() lèverait
 // une exception qui avorterait tout le reste du script (toggle de langue + polling live morts).
 applyLang();
