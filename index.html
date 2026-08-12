@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-6MRVexcKcE0CyCmyVqF9an/yCYQo2zTdOh73FTO/DP8='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-Dt41m4NUxqYLFfjWuOskkuHHtMy1swz0KLvTlveQr2E='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -326,6 +326,22 @@ section{animation:fadeIn .5s ease backwards}
 .nsteps .num{color:var(--mut);font-weight:800;min-width:18px}
 .nsteps code{cursor:pointer;color:var(--gold);font-weight:700}
 .nsteps code:hover{text-decoration:underline}
+
+/* ── Chips des filtres actifs (recherche + catégorie + accès) au-dessus des résultats */
+.achips{display:none;flex-wrap:wrap;gap:7px;align-items:center;margin:-14px 0 16px}
+.achips.show{display:flex}
+.achip{background:rgba(88,101,242,.14);border:1px solid var(--purple);color:var(--txt);border-radius:999px;padding:4px 11px;font-size:.8rem;cursor:pointer}
+.achip b{margin-left:6px;font-weight:800}
+.achip:hover{background:rgba(237,66,69,.14);border-color:#ED4245}
+.achip.clr{background:transparent;border-color:var(--line);color:var(--mut)}
+/* ── Mini-tour de bienvenue */
+.tourb{position:absolute;z-index:80;background:var(--card);border:1px solid var(--purple);border-radius:12px;padding:12px 14px;max-width:270px;box-shadow:0 10px 30px rgba(0,0,0,.45);font-size:.88rem}
+.tourb .tt{font-weight:800;margin-bottom:4px}
+.tourb .tx{color:var(--mut);font-size:.82rem;margin-bottom:10px}
+.tourb .row{display:flex;gap:8px;justify-content:flex-end}
+.tourb button{border-radius:8px;padding:5px 12px;font-size:.8rem;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--mut)}
+.tourb button.next{background:var(--purple);border-color:var(--purple);color:#fff;font-weight:700}
+.tourhl{outline:2px solid var(--purple);outline-offset:3px;border-radius:10px}
 </style></head><body>
 <header>
   <div class="bstat unk" id="botstatus" role="status"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
@@ -1440,7 +1456,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
 var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},favLabel:{fr:'⭐ Mes favoris :',en:'⭐ My favorites:'},favAdd:{fr:'Ajouter aux favoris',en:'Add to favorites'},favDel:{fr:'Retirer des favoris',en:'Remove from favorites'},kph:{fr:'Tape une commande… (Échap pour fermer)',en:'Type a command… (Esc to close)'},kfuzzy:{fr:'Résultats approchés (faute de frappe ?)',en:'Close matches (typo?)'},needsT:{fr:'🧭 J’ai besoin de…',en:'🧭 I need to…'},needsSub:{fr:'Choisis ta situation → les commandes dans le bon ordre. Clique une commande pour sa fiche.',en:'Pick your situation → the right commands in order. Click a command for details.'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},clearAll:{fr:'Tout effacer',en:'Clear all'},tryDiscord:{fr:'🎮 Ouvrir Discord',en:'🎮 Open Discord'},tourSkip:{fr:'Passer',en:'Skip'},tourNext:{fr:'Suivant',en:'Next'},tourDone:{fr:'C’est parti !',en:'Let’s go!'},tour1t:{fr:'🔍 Recherche',en:'🔍 Search'},tour1x:{fr:'Tape un nom ou un mot-clé — les fautes de frappe sont tolérées.',en:'Type a name or keyword — typos are forgiven.'},tour2t:{fr:'🗂️ Filtres',en:'🗂️ Filters'},tour2x:{fr:'Filtre par catégorie ou par niveau d’accès. Sur mobile, le bouton 🗂️ en bas à gauche te suit partout.',en:'Filter by category or access level. On mobile the 🗂️ button follows you.'},tour3t:{fr:'⚡ Astuce pro',en:'⚡ Pro tip'},tour3x:{fr:'Ctrl+K ouvre la recherche rapide depuis n’importe où. Clique une carte pour voir la commande en action, et ⭐ pour la garder sous la main.',en:'Ctrl+K opens quick search anywhere. Click a card to see the command in action, ⭐ to keep it handy.'},favLabel:{fr:'⭐ Mes favoris :',en:'⭐ My favorites:'},favAdd:{fr:'Ajouter aux favoris',en:'Add to favorites'},favDel:{fr:'Retirer des favoris',en:'Remove from favorites'},kph:{fr:'Tape une commande… (Échap pour fermer)',en:'Type a command… (Esc to close)'},kfuzzy:{fr:'Résultats approchés (faute de frappe ?)',en:'Close matches (typo?)'},needsT:{fr:'🧭 J’ai besoin de…',en:'🧭 I need to…'},needsSub:{fr:'Choisis ta situation → les commandes dans le bon ordre. Clique une commande pour sa fiche.',en:'Pick your situation → the right commands in order. Click a command for details.'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1721,6 +1737,50 @@ function botReply(name,desc,params){var n=name.toLowerCase();
  if(/setup|config|menu/.test(n))return ['⚙️','Configuration',en?'Opens the **configuration menu**: prefix, security, logs, welcome, levels, appearance…':'Ouvre le **menu de configuration** : préfixe, sécurité, logs, bienvenue, niveaux, apparence…'];
  if(/^base$/.test(n))return ['🛡️',en?'Security center':'Centre de sécurité',en?'Dashboard shown: posture, active modules, at-risk members and backups.':'Tableau de bord affiché : posture, modules actifs, membres à risque et sauvegardes.'];
  if(/punish/.test(n))return ['⚖️','Sanction',who+(en?' was sanctioned per the configuration (warn, mute or ban).':' a été sanctionné selon la configuration (avertissement, mute ou ban).')];
+ // ── Familles ajoutées (PR #19) : 145 commandes tombaient sur le générique « Action effectuée ».
+ if(/^(guide|secu|safe)$/.test(n))return ['🧭',en?'Security hub':'Centre de sécurité',en?'Interactive panel posted: current posture, what to enable next, one-click fixes.':'Panneau interactif publié : posture actuelle, quoi activer ensuite, corrections en un clic.'];
+ if(/^(digest|pulse|recap)$/.test(n))return ['📊',en?'Digest':'Digest',en?'Monthly digest posted: protection score **A−**, 3 incidents blocked, +44 members.':'Digest du mois publié : score de protection **A−**, 3 incidents bloqués, +44 membres.'];
+ if(/^jeux$/.test(n))return ['🕹️',en?'Games hub':'Menu des jeux',en?'Games menu posted: 25+ games, your stats and the server leaderboard.':'Menu des jeux publié : 25+ jeux, tes stats et le classement du serveur.'];
+ if(/^(shield|panic)$/.test(n))return ['🛡️',en?'Shield raised':'Bouclier levé',en?'The server is **hardened**: entry checks strengthened, suspicious joins challenged, alerts armed.':'Le serveur est **durci** : contrôles d\'entrée renforcés, arrivées suspectes challengées, alertes armées.'];
+ if(/firedrill/.test(n))return ['🚨',en?'Raid drill':'Exercice de raid',en?'**Simulated raid** launched: 12 fake accounts join… protections react in 1.8 s. Report posted in logs.':'**Raid simulé** lancé : 12 faux comptes arrivent… les protections réagissent en 1,8 s. Rapport publié dans les logs.'];
+ if(/postmortem/.test(n))return ['📋','Post-mortem',en?'Incident report generated: timeline, actions taken, 2 recommendations.':'Rapport d\'incident généré : chronologie, actions prises, 2 recommandations.'];
+ if(/oncall/.test(n))return ['📟',en?'On-call':'Garde',en?'You are **on call**: security alerts will ping you in DM first.':'Tu es **de garde** : les alertes de sécurité te ping en MP en premier.'];
+ if(/alert/.test(n))return ['🔔',en?'Alerts':'Alertes',en?'Alert routing updated: critical → DM, warnings → #logs.':'Routage des alertes mis à jour : critique → MP, avertissements → #logs.'];
+ if(/^anti|guardian|threatnet|autoescalate/.test(n))return ['🛡️',en?'Protection module':'Module de protection',en?'**'+name+'** is now **active**: continuous monitoring, instant response, entries in the security log.':'**'+name+'** est maintenant **actif** : surveillance continue, riposte instantanée, traçage dans le journal de sécurité.'];
+ if(/^(unwl|trust|linkwl)$/.test(n))return ['✅',en?'Trust list':'Liste de confiance',en?'Trust list updated for '+who+'.':'Liste de confiance mise à jour pour '+who+'.'];
+ if(/^unbl$/.test(n))return ['🕊️','Blacklist',who+(en?' was **removed from the blacklist**.':' est **retiré de la blacklist**.')];
+ if(/^nuke$/.test(n))return ['💥','Nuke',en?'Channel **rebuilt**: identical copy created, spam wiped, permissions preserved.':'Salon **reconstruit** : copie identique créée, spam effacé, permissions préservées.'];
+ if(/^undo$/.test(n))return ['↩️',en?'Damage undone':'Dégâts annulés',en?'Attacker\'s actions reverted: **4 members unbanned**, roles restored.':'Actions de l\'attaquant annulées : **4 membres débannis**, rôles rendus.'];
+ if(/note|reason|warnexpiry/.test(n))return ['📝',en?'Record updated':'Casier mis à jour',en?'Moderation record of '+who+' updated.':'Le casier de '+who+' a été mis à jour.'];
+ if(/sanctions|history|^logs$|indice/.test(n))return ['📜',en?'Record':'Casier',en?'**'+who+'** — 1 warning · 1 mute (10m) · clean for 34 days. Local risk score: **low**.':'**'+who+'** — 1 avertissement · 1 mute (10m) · rien depuis 34 jours. Indice de risque local : **faible**.'];
+ if(/^(ticket|close)$/.test(n))return ['🎫','Ticket',n==='close'?(en?'Ticket **closed** — transcript archived in logs.':'Ticket **fermé** — transcript archivé dans les logs.'):(en?'Ticket **opened**: a private channel was created with the staff.':'Ticket **ouvert** : un salon privé a été créé avec le staff.')];
+ if(/moveall/.test(n))return ['🔊',en?'Voice move':'Déplacement vocal',en?'**8 members** moved to the target voice channel.':'**8 membres** déplacés vers le salon vocal cible.'];
+ if(/^dm$/.test(n))return ['✉️',en?'DM sent':'MP envoyé',en?'Private message delivered to '+who+'.':'Message privé remis à '+who+'.'];
+ if(/snipe/.test(n))return ['🕵️','Snipe',en?'Last deleted message: “oops nothing” — @Bob, 12 s ago.':'Dernier message supprimé : « oups rien » — @Bob, il y a 12 s.'];
+ if(/report/.test(n))return ['🚩',en?'Report':'Signalement',en?'Report sent to the staff with context (message, channel, screenshots).':'Signalement transmis au staff avec le contexte (message, salon, captures).'];
+ if(/^(prefix|theme|joincreate|custom|var)$|^set/.test(n))return ['⚙️',en?'Setting saved':'Réglage enregistré',en?'**'+name+'** configured — active immediately.':'**'+name+'** configuré — actif immédiatement.'];
+ if(/casino|roue|heist|^loto$/.test(n))return ['🎰',en?'Casino':'Casino',en?'You bet **5 XP**… 🍒🍒🍒 **Jackpot!** You win **25 XP**.':'Tu mises **5 XP**… 🍒🍒🍒 **Jackpot !** Tu remportes **25 XP**.'];
+ if(/puissance4|morpion|navale|^rps$|motus|memory|demineur|typerace|devine|quidit|enigme|quizz|^defi$/.test(n))return ['🎮',en?'Game on':'Partie lancée',en?'**'+name+'** started — your move! (buttons below the message)':'Partie de **'+name+'** lancée — à toi de jouer ! (boutons sous le message)'];
+ if(/tournoi|course|expedition|^war$|warhammer|ligue|maitre|imposteur|gala|scenario|enquete|missions|objectif|autoevents|^drops$|^raid$/.test(n))return ['🎉',en?'Event started':'Événement lancé',en?'**'+name+'** is on! Sign-ups open, live leaderboard, rewards at the end.':'**'+name+'** est lancé ! Inscriptions ouvertes, classement en direct, récompenses à la fin.'];
+ if(/^(shop|vcgift|mog|ftg)$/.test(n))return ['🛒',en?'Economy':'Économie',en?'Purchase confirmed: **Golden nickname (7 days)** — balance: 320 XP.':'Achat confirmé : **Pseudo doré (7 jours)** — solde : 320 XP.'];
+ if(/^pet$/.test(n))return ['🐾',en?'Companion':'Compagnon',en?'**Pixel** is happy 🟢 — fed and played with today. +5 XP bond.':'**Pixel** est heureux 🟢 — nourri et câliné aujourd\'hui. Lien +5 XP.'];
+ if(/^(ship|gay|tierlist|meme)$/.test(n))return ['😄','Fun',en?'Result posted — **87%**! (picture generated)':'Résultat publié — **87 %** ! (image générée)'];
+ if(/voicexp|grade|saison|^sdt$|joueur/.test(n))return ['📈',en?'Progression':'Progression',en?who+' — season profile: level 12, 3,480 XP, rank #7.':who+' — profil de saison : niveau 12, 3 480 XP, rang #7.'];
+ if(/suggest|^bug$/.test(n))return ['💡',en?'Saved':'Enregistré',en?'Posted in the suggestions channel — the community votes with ⬆️⬇️.':'Publié dans le salon des suggestions — la communauté vote avec ⬆️⬇️.'];
+ if(/^duo$/.test(n))return ['👥','Duo',en?'Duo formed with '+who+' — shared XP bonus enabled.':'Duo formé avec '+who+' — bonus d\'XP partagé activé.'];
+ if(/growth/.test(n))return ['📈',en?'Growth':'Croissance',en?'14-day curve posted: **+62 joins**, −18 leaves, net **+44**.':'Courbe des 14 jours publiée : **+62 arrivées**, −18 départs, net **+44**.'];
+ if(/invites/.test(n))return ['📨','Invitations',who+(en?' has **12 invites** (9 valid, 3 left).':' a **12 invitations** (9 valides, 3 partis).')];
+ if(/starboard|sticky|counting|announce|^news$/.test(n))return ['📌',en?'Posted':'Publié',en?'Channel feature configured and first message posted.':'Fonction du salon configurée et premier message publié.'];
+ if(/birthday/.test(n))return ['🎂',en?'Birthday':'Anniversaire',en?'Saved! A wish will be posted on the day 🎉':'Enregistré ! Un vœu sera publié le jour J 🎉'];
+ if(/^(help|doc|bot)$/.test(n))return ['ℹ️','Info',en?'Interactive help sent: categories, quick links, and this very site 😉':'Aide interactive envoyée : catégories, liens rapides, et ce site même 😉'];
+ if(/^ping$/.test(n))return ['🏓','Pong',en?'Latency: **42 ms** (API: 87 ms).':'Latence : **42 ms** (API : 87 ms).'];
+ if(/^vc$|music/.test(n))return ['🔊','Vocal',en?'Connected to your voice channel — ready.':'Connecté à ton salon vocal — prêt.'];
+ if(/remind/.test(n))return ['⏰',en?'Reminder':'Rappel',en?'Reminder set for **'+dur+'**: “'+(en?'Hello everyone!':'Bonjour à tous !')+'”':'Rappel programmé dans **'+dur+'** : « Bonjour à tous ! »'];
+ if(/^afk$/.test(n))return ['💤','AFK',en?'AFK status set — people who ping you get an automatic reply.':'Statut AFK activé — ceux qui te ping reçoivent une réponse automatique.'];
+ if(/^(invite|vote)$/.test(n))return ['🔗',en?'Links':'Liens',en?'Here are the bot\'s invite and vote links.':'Voici les liens d\'invitation et de vote du bot.'];
+ if(/steal/.test(n))return ['😀','Emoji',en?'Emoji **:pixel:** added to the server.':'Emoji **:pixel:** ajouté au serveur.'];
+ if(/^diag$/.test(n))return ['🩺',en?'Health check':'Bilan de santé',en?'All green: database ✓ Guardian ✓ heartbeat ✓ website ✓ latency 42 ms.':'Tout est vert : base ✓ Guardian ✓ heartbeat ✓ site ✓ latence 42 ms.'];
+ if(/owner|customperm|unflag|fleet|changelog|errorlog|nukeadd|^statut$|^reset$|^update$|restart|vacuum|watchdog|testalerts/.test(n))return ['🔧',en?'Bot administration':'Administration du bot',en?'**Owner** operation executed — details in the private log.':'Opération **owner** exécutée — détails dans le journal privé.'];
  return ['✅',en?'Action done':'Action effectuée',(en?'The **+'+name+'** command ran successfully.':'La commande **+'+name+'** a bien été exécutée.')+(params.length?(en?'\nParameters: ':'\nParamètres : ')+params.map(function(p){return p.ex;}).join(', '):'')];}
 var __lastFocus=null,__simCard=null; // __lastFocus: focus avant ouverture (rendu à la fermeture) ; __simCard: carte de la modale ouverte (re-render sur bascule de langue, B3)
 function openSim(card){__simCard=card;var name=card.dataset.n,desc=(curLang()==='en'&&card.getAttribute('data-d-en'))?card.getAttribute('data-d-en'):(card.dataset.d||''),usage=card.dataset.u||('+'+name),cc=card.dataset.c||'#5865F2';
@@ -1948,6 +2008,77 @@ var NEEDS=[
   chips.appendChild(ch);});
  var fb=document.getElementById('favbar');
  cn.parentNode.insertBefore(box,fb||cn);})();
+// ═══ 🏷️ CHIPS DES FILTRES ACTIFS : ce qui filtre les résultats est visible et retirable d'un clic.
+(function(){var rc=document.getElementById('rescount');if(!rc)return;
+ var bar=document.createElement('div');bar.className='achips';bar.id='achips';
+ rc.parentNode.insertBefore(bar,rc.nextSibling);
+ function chip(txt,fn,cls){var c=document.createElement('button');c.type='button';c.className='achip'+(cls?' '+cls:'');
+  c.innerHTML=txt+(cls?'':' <b>×</b>');c.addEventListener('click',fn);bar.appendChild(c);}
+ window.updateChips=function(){bar.innerHTML='';var q=curQ(),n=0;
+  if(q){chip('🔍 '+escH(q),function(){var s=document.getElementById('search');s.value='';filt('');});n++;}
+  if(__fCat!=='all'){var b=document.querySelector('#catnav .navf[data-cat="'+__fCat+'"]');
+   if(b)chip(b.childNodes[0].textContent.trim(),function(){setCat('all');});n++;}
+  if(__fAcc){var a=document.querySelector('#accnav .accf[data-acc="'+__fAcc+'"]');
+   if(a)chip(a.childNodes[0].textContent.trim(),function(){setAcc(__fAcc);});n++;}
+  if(n>1)chip(tr('clearAll'),function(){var s=document.getElementById('search');if(s)s.value='';__fAcc=null;setCat('all');document.querySelectorAll('#accnav .accf').forEach(function(x){x.classList.remove('active');});filt('');},'clr');
+  bar.classList.toggle('show',n>0);};})();
+// ═══ 🔗 URL PARTAGEABLE : la recherche et les filtres vivent dans l'URL (?q=…&cat=…&acc=…).
+function syncURL(){try{var u=new URL(location.href),q=curQ();
+ q?u.searchParams.set('q',q):u.searchParams.delete('q');
+ __fCat!=='all'?u.searchParams.set('cat',__fCat):u.searchParams.delete('cat');
+ __fAcc?u.searchParams.set('acc',__fAcc):u.searchParams.delete('acc');
+ history.replaceState(null,'',u);}catch(e){}}
+(function(){var f0=filt;filt=function(q){f0(q);if(typeof updateChips==='function')updateChips();syncURL();};})();
+(function(){try{var u=new URL(location.href);var q=u.searchParams.get('q'),c=u.searchParams.get('cat'),a=u.searchParams.get('acc');
+ if(a&&document.querySelector('#accnav .accf[data-acc="'+a+'"]'))setAcc(a);
+ if(c&&document.querySelector('#catnav .navf[data-cat="'+c+'"]'))setCat(c);
+ if(q){var s=document.getElementById('search');if(s){s.value=q;filt(q);}}}catch(e){}})();
+// ═══ 🎮 « OUVRIR DISCORD » : copie la commande puis bascule vers l'appli. Ajouté à la rangée de boutons
+// de la modale (le wrapper openSim des favoris/votes tourne déjà — on chaîne un 2e wrapper).
+(function(){var o0=openSim;openSim=function(card){o0(card);
+ var mc=document.getElementById('mc');if(!mc)return;
+ var row=mc.querySelector('.m-cpyrow');if(!row||row.querySelector('.m-disc'))return;
+ var b=el('button','m-cpy m-disc',tr('tryDiscord'));b.type='button';
+ b.addEventListener('click',function(){
+  var cmd=mc.querySelector('.m-cmd');if(cmd&&navigator.clipboard)navigator.clipboard.writeText(cmd.textContent).catch(function(){});
+  setTimeout(function(){location.href='discord://';},120);});
+ row.appendChild(b);};})();
+// ═══ ♿ ACCESSIBILITÉ : la modale piège le focus (Tab boucle dedans) et s'annonce comme dialogue.
+(function(){var ov=document.getElementById('ov');if(!ov)return;
+ var mc=document.getElementById('mc');if(mc){mc.setAttribute('role','dialog');mc.setAttribute('aria-modal','true');}
+ ov.addEventListener('keydown',function(e){if(e.key!=='Tab')return;
+  var f=[].slice.call(mc.querySelectorAll('button, [href], input, [tabindex="0"]')).filter(function(x){return x.offsetParent!==null;});
+  if(!f.length)return;var first=f[0],last=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}});})();
+// Échap ferme aussi la feuille de filtres et le panneau d'uptime.
+document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;
+ var s=document.getElementById('fsheet'),k=document.getElementById('fback'),u=document.getElementById('uppop');
+ if(s)s.remove();if(k)k.remove();if(u)u.remove();});
+// ═══ 👋 MINI-TOUR (première visite uniquement, jamais sur un lien profond) : 3 bulles, passables.
+(function(){var seen=false;try{seen=!!localStorage.getItem('tourDone');}catch(e){}
+ if(seen||location.hash||location.search.indexOf('q=')>=0)return;
+ var first=false;try{first=!localStorage.getItem('visits')||localStorage.getItem('visits')==='1';}catch(e){return;}
+ if(!first){try{localStorage.setItem('tourDone','1');}catch(e){}return;} // visiteur existant : pas de tour
+ var steps=[{sel:'#search',t:'tour1t',x:'tour1x'},{sel:'#catnav',t:'tour2t',x:'tour2x'},{sel:'#search',t:'tour3t',x:'tour3x'}];
+ var i=0,b=null,hl=null;
+ function end(){if(b)b.remove();if(hl)hl.classList.remove('tourhl');try{localStorage.setItem('tourDone','1');}catch(e){}}
+ function show(){if(b)b.remove();if(hl)hl.classList.remove('tourhl');
+  if(i>=steps.length){end();return;}
+  var s=steps[i],t=document.querySelector(s.sel);if(!t){i++;show();return;}
+  hl=t;t.classList.add('tourhl');
+  var r=t.getBoundingClientRect();
+  b=document.createElement('div');b.className='tourb';b.setAttribute('role','dialog');
+  b.innerHTML='<div class="tt">'+tr(s.t)+'</div><div class="tx">'+tr(s.x)+'</div>';
+  var row=document.createElement('div');row.className='row';
+  var skip=document.createElement('button');skip.type='button';skip.textContent=tr('tourSkip');skip.addEventListener('click',end);
+  var next=document.createElement('button');next.type='button';next.className='next';
+  next.textContent=(i===steps.length-1)?tr('tourDone'):tr('tourNext');
+  next.addEventListener('click',function(){i++;show();});
+  row.appendChild(skip);row.appendChild(next);b.appendChild(row);
+  b.style.top=(r.bottom+scrollY+10)+'px';b.style.left=Math.max(10,Math.min(r.left+scrollX,innerWidth-290))+'px';
+  document.body.appendChild(b);next.focus();}
+ setTimeout(show,1600);})();
 // ═══ 📱 PWA : enregistrement du service worker (fichier séparé, jamais touché par les maj du bot)
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 (function(){var h=decodeURIComponent((location.hash||'').replace(/^#/,'')).toLowerCase();if(!h)return;var card=[].slice.call(document.querySelectorAll('.cmd')).filter(function(c){return c.dataset.n.toLowerCase()===h;})[0];if(card)openSim(card);})();</script>
