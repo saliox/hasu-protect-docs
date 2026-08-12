@@ -1,0 +1,28 @@
+# Alerte de statut du bot : toutes les 10 min, compare le heartbeat (branche `status`)
+# à l'état mémorisé dans l'issue « 📟 Suivi du statut du bot ». À chaque transition
+# (retour en ligne 🟢 / silence 🔴), un commentaire mentionnant @saliox est posté →
+# notification GitHub (mail + appli mobile). Silencieux le reste du temps.
+# Pas de déclencheur push sur `status` : la branche est force-poussée par le bot et
+# ne contient pas .github/workflows, GitHub n'y déclencherait rien. Dépôt public →
+# minutes Actions gratuites. Logique testable dans .github/comeback.sh.
+name: Alerte statut du bot
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: comeback
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Comparer le heartbeat à l'état mémorisé
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: bash .github/comeback.sh
