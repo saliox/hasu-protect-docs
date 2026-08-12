@@ -4,7 +4,9 @@
 
 L'historique (53 entrées, 43 % du poids d'index.html, 68 % des nœuds DOM) est
 téléchargé par tous les visiteurs alors que presque personne ne l'ouvre.
-**Le site est déjà prêt** à le charger à la demande (`loadHist()` dans le script) :
+**FAIT côté dépôt le 12/08** : `history.html` existe à la racine et `#hist` est vide
+dans l'index.html de `main`. Le générateur doit reproduire cet état (sinon sa
+prochaine « maj site » ré-inline tout et annule le gain) :
 
 1. Générer un fichier **`history.html`** à la racine, contenant **uniquement**
    les blocs `<div class="hentry">…</div>` — exactement le HTML qui se trouve
