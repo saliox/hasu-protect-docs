@@ -136,3 +136,15 @@ le template local.
     display:none qui ne charge jamais → img-src += https://top.gg,
     révélation via listener JS, lazy retiré) ; labels des chips de filtres
     échappés (durcissement).
+
+16. **Lot « prêt pour top.gg » (PR #27)** : encart « 🚀 Premiers pas » v2
+    (5 étapes numérotées, puces `+commande` cliquables → fiche, clés I18N
+    `qs1`–`qs5`/`qsInvite`, CSS `.qn`/`.qsc`), section **FAQ** statique en bas
+    de `<main>` (6 `<details class="fq">` bilingues via `data-lang` + second
+    bloc JSON-LD `FAQPage` dans le `<head>` — inerte, pas de hash CSP),
+    **démo de raid** (bouton héro `#demoBtn` + fonction `runDemo` : scène
+    scriptée 11 messages dans la modale, jeton anti-fuite de timers, lien
+    profond `#demo`, clés I18N `demo*`, CSS `.cta-demo`/`.m-sys`/`.m-av.r`/
+    `.m-sim.demo`), **rappel de vote top.gg** (clic sur « Voter » →
+    localStorage `votedTgAt` ; au retour 12 h+ → bouton pulsé `.revote-on`
+    + libellé `revote`).
