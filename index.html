@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-t+CD0nzl4zciWLExGwr0e+eiuV53Jff5F5bKSdIlCvg='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-vsFLUf8qtU4n+kJnm51mQkPAjVnYcH0KyDlGMdjhflg='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -377,49 +377,10 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .fqa{padding:0 0 12px;color:#cfcfe0;font-size:.9rem;line-height:1.55}
 :root[data-theme="light"] .fqa{color:#2c2d3a}
 .fqa code{background:rgba(88,101,242,.14);border-radius:6px;padding:1px 6px;font-size:.85em}
-/* ── Démo de raid : bouton héro + variantes de messages dans la modale */
-.cta-demo{background:#9B59B6;box-shadow:0 4px 18px rgba(155,89,182,.35)}
-.m-sim.demo{max-height:340px;overflow-y:auto;scroll-behavior:smooth}
-.m-sys{color:var(--mut);font-style:italic;font-size:.8rem;text-align:center;margin:8px 0}
-.m-av.r{background:#3d1620}
-.m-msg.pop,.m-sys.pop,.m-join.pop,.m-typing.pop{animation:mpop .3s ease}
-@keyframes mpop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.m-ts{color:var(--mut);font-size:.68rem;font-weight:400;margin-left:6px}
-.m-join{color:#57F287;font-size:.82rem;margin:5px 0 5px 6px}
-.m-join b{margin:0 2px}
-.m-typing{color:var(--mut);font-style:italic;font-size:.78rem;margin:6px 0 2px 6px}
-.m-typing::after{content:'…';animation:tdots 1.2s steps(4,end) infinite}
-@keyframes tdots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'…'}}
-.m-efoot{color:var(--mut);font-size:.66rem;margin-top:6px}
-/* Chrome façon Discord : barre du salon, barre d'écriture, séparateur de date */
-.m-dchat{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0e0e18}
-.m-dchat .m-sim{border:0;border-radius:0}
-.m-chbar{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line);background:#12121d}
-.m-chname{font-weight:800;font-size:.9rem}.m-chname::first-letter{color:var(--mut)}
-.m-chmembers{margin-left:auto;color:var(--mut);font-size:.78rem}
-.m-inbar{padding:9px 12px;border-top:1px solid var(--line);background:#12121d;color:var(--mut);font-size:.82rem;border-radius:0 0 12px 12px}
-.m-inbar.locked{color:#ED4245}
-.m-divider{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:.68rem;margin:8px 0;text-transform:uppercase;letter-spacing:.05em}
-.m-divider::before,.m-divider::after{content:'';flex:1;border-top:1px solid var(--line)}
-/* Avatars ronds à initiales + pseudos colorés + tag APP */
-.m-av.u2{background:linear-gradient(135deg,#e91e8c,#9B59B6);color:#fff;font-weight:800}
-.m-av.u3{background:linear-gradient(135deg,#3ba55d,#1ABC9C);color:#fff;font-weight:800}
-.m-av.r{background:linear-gradient(135deg,#57323c,#2d1a22);color:#ffb3c0;font-weight:800}
-.m-btag{background:#5865F2;color:#fff;font-size:.58rem;font-weight:800;border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:1px}
-/* Embeds riches : grille de champs + boutons factices + mention (modifié) */
-.m-efields{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:8px}
-.m-efield .fl{color:var(--mut);font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-.m-efield .fv{font-size:.84rem;font-weight:700}
-.m-ebtns{display:flex;gap:8px;margin-top:9px}
-.m-ebtn{background:#232433;border:1px solid var(--line);border-radius:7px;padding:4px 11px;font-size:.76rem;font-weight:700}
-.m-edited{color:var(--mut);font-size:.64rem;font-weight:400;margin-left:6px}
-/* Spam réellement supprimé par +undo : fondu + repli puis retrait du DOM */
-.m-msg.mdel,.m-join.mdel{opacity:0;transition:opacity .45s ease,max-height .55s ease .1s,margin .55s ease .1s;overflow:hidden;max-height:0!important;margin-top:0;margin-bottom:0}
-.raidline{color:#ffb3c0}
 /* ── Rappel de vote top.gg : halo pulsé quand les 12 h sont écoulées */
 .cta-vote.revote-on{animation:rvpulse 1.8s ease-in-out infinite}
 @keyframes rvpulse{0%,100%{box-shadow:0 4px 18px rgba(255,51,102,.35)}50%{box-shadow:0 0 0 9px rgba(255,51,102,0),0 4px 22px rgba(255,51,102,.65)}}
-@media (prefers-reduced-motion:reduce){.cta-vote.revote-on,.m-msg.pop{animation:none}.m-sim.demo{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){.cta-vote.revote-on{animation:none}}
 </style></head><body>
 <header>
   <div class="bstat unk" id="botstatus" role="status"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
@@ -427,7 +388,7 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   <h1><span class="b">[+]</span> Hasu Protect</h1>
   <p data-i18n="tagline">Documentation des commandes — bot de modération &amp; sécurité Discord</p>
   <div class="badges"><span class="badge"><b id="bCmds">189</b> <span data-i18n="cmds">commandes</span></span><span class="badge"><b id="bCats">7</b> <span data-i18n="cats">catégories</span></span><span class="badge">🛡️ <b id="bServers">18</b> <span data-i18n="serv">serveurs protégés</span></span><span class="badge">👥 <b id="bMembers">4 379</b> <span data-i18n="prot">membres protégés</span></span><span class="badge vbadge" id="visits-badge" hidden></span></div>
-  <div class="cta-row"><a class="cta" data-i18n="addbot" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot</a><a class="cta cta-vote" data-i18n="vote" href="https://top.gg/bot/1141214226862575678/vote" target="_blank" rel="noopener noreferrer">⭐ Voter sur top.gg</a><button type="button" class="cta cta-demo" id="demoBtn" data-i18n="demoBtn">🎬 Voir le bot en action</button></div>
+  <div class="cta-row"><a class="cta" data-i18n="addbot" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot</a><a class="cta cta-vote" data-i18n="vote" href="https://top.gg/bot/1141214226862575678/vote" target="_blank" rel="noopener noreferrer">⭐ Voter sur top.gg</a></div>
   <div class="topgg-badge"><a href="https://top.gg/bot/1141214226862575678" target="_blank" rel="noopener noreferrer"><img src="https://top.gg/api/widget/1141214226862575678.svg" alt="top.gg"></a></div>
 </header>
 <div class="layout">
@@ -1400,7 +1361,7 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   <section id="faq" class="faq"><h2 class="cat"><span data-i18n="faqT">❓ Questions fréquentes</span></h2>
    <details class="fq"><summary><span data-lang="fr">Quelles permissions faut-il donner au bot ?</span><span data-lang="en">Which permissions does the bot need?</span></summary><div class="fqa"><span data-lang="fr">Le lien d’invitation demande « Administrateur » : pour stopper un nuke, le bot doit pouvoir agir sur les rôles, salons, webhooks et bannissements <b>plus vite que l’attaquant</b>, sans jamais être bloqué par une permission manquante. Après l’installation, <code>+scan</code> te dit si quelque chose cloche.</span><span data-lang="en">The invite link asks for “Administrator”: to stop a nuke, the bot must act on roles, channels, webhooks and bans <b>faster than the attacker</b>, without ever being blocked by a missing permission. After setup, <code>+scan</code> tells you if anything is off.</span></div></details>
    <details class="fq"><summary><span data-lang="fr">Le bot est-il gratuit ?</span><span data-lang="en">Is the bot free?</span></summary><div class="fqa"><span data-lang="fr">Oui — les 189 commandes sont accessibles gratuitement. Pour soutenir le bot, tu peux voter sur top.gg (<code>+vote</code>, gratuit, toutes les 12 h).</span><span data-lang="en">Yes — all 189 commands are free to use. To support the bot, you can vote on top.gg (<code>+vote</code>, free, every 12h).</span></div></details>
-   <details class="fq"><summary><span data-lang="fr">On me raid, je fais quoi tout de suite ?</span><span data-lang="en">I’m being raided — what do I do right now?</span></summary><div class="fqa"><span data-lang="fr"><code>+panic</code> verrouille tout le serveur d’un coup. Ensuite <code>+shield smart</code> lève le bouclier adaptatif, <code>+quarantine</code> isole les comptes suspects et <code>+undo</code> répare les dégâts. Le bouton 🎬 « Voir le bot en action » en haut de page montre cette riposte en conditions réelles.</span><span data-lang="en"><code>+panic</code> locks the whole server at once. Then <code>+shield smart</code> raises the adaptive shield, <code>+quarantine</code> isolates suspicious accounts and <code>+undo</code> repairs the damage. The 🎬 “See the bot in action” button at the top shows this response in real conditions.</span></div></details>
+   <details class="fq"><summary><span data-lang="fr">On me raid, je fais quoi tout de suite ?</span><span data-lang="en">I’m being raided — what do I do right now?</span></summary><div class="fqa"><span data-lang="fr"><code>+panic</code> verrouille tout le serveur d’un coup. Ensuite <code>+shield smart</code> lève le bouclier adaptatif, <code>+quarantine</code> isole les comptes suspects et <code>+undo</code> répare les dégâts. La fiche de chaque commande montre un aperçu simulé de sa réponse.</span><span data-lang="en"><code>+panic</code> locks the whole server at once. Then <code>+shield smart</code> raises the adaptive shield, <code>+quarantine</code> isolates suspicious accounts and <code>+undo</code> repairs the damage. Each command’s card shows a simulated preview of its response.</span></div></details>
    <details class="fq"><summary><span data-lang="fr">C’est quoi, Guardian AI ?</span><span data-lang="en">What is Guardian AI?</span></summary><div class="fqa"><span data-lang="fr">Le moteur de détection auto-apprenant du bot : il s’entraîne en continu contre une IA attaquante (jeu adverse) et apprend de chaque erreur. Son panneau d’entraînement — précision, menaces ratées, axes de travail — est public dans la barre latérale : rien n’est caché.</span><span data-lang="en">The bot’s self-learning detection engine: it trains continuously against an attacker AI (adversarial game) and learns from every mistake. Its training panel — accuracy, missed threats, focus areas — is public in the sidebar: nothing is hidden.</span></div></details>
    <details class="fq"><summary><span data-lang="fr">Comment savoir si le bot est en ligne et fiable ?</span><span data-lang="en">How do I know the bot is online and reliable?</span></summary><div class="fqa"><span data-lang="fr">Le badge en haut à droite montre son état en direct ; un clic dessus ouvre l’historique de disponibilité des 7 derniers jours, heure par heure. Les courbes du panneau « 📈 Réseau » sont reconstruites automatiquement depuis les battements du bot — rien n’est saisi à la main.</span><span data-lang="en">The badge at the top right shows its live status; clicking it opens the last 7 days of uptime, hour by hour. The “📈 Network” panel curves are rebuilt automatically from the bot’s heartbeats — nothing is entered by hand.</span></div></details>
    <details class="fq"><summary><span data-lang="fr">J’ai trouvé un bug ou j’ai une idée ?</span><span data-lang="en">Found a bug or got an idea?</span></summary><div class="fqa"><span data-lang="fr"><code>+bug</code> signale un problème directement à l’équipe, <code>+suggest</code> propose une amélioration votée par ta communauté. Chaque correction est ensuite détaillée dans le changelog en haut de cette page.</span><span data-lang="en"><code>+bug</code> reports a problem straight to the team, <code>+suggest</code> proposes an improvement your community votes on. Every fix is then detailed in the changelog at the top of this page.</span></div></details>
@@ -1552,7 +1513,6 @@ var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offlin
  copy:{fr:'⧉ Copier',en:'⧉ Copy'},copied:{fr:'✓ Copié',en:'✓ Copied'},copylink:{fr:'🔗 Copier le lien',en:'🔗 Copy link'},filterAll:{fr:'✦ Tout',en:'✦ All'},accLabel:{fr:'Accès :',en:'Access:'},results:{fr:'résultat(s)',en:'result(s)'},newbadge:{fr:'NOUVEAU',en:'NEW'},removedh:{fr:'🗑️ Retiré du bot',en:'🗑️ Removed from the bot'},
  accOwner:{fr:'👑 Owner',en:'👑 Owner'},accAdmin:{fr:'🛡️ Admin',en:'🛡️ Admin'},accStaff:{fr:'🔨 Staff',en:'🔨 Staff'},accAll:{fr:'👥 Tous',en:'👥 Everyone'},
  qsTitle:{fr:'🚀 Premiers pas',en:'🚀 First steps'},qs1:{fr:'Ajoute le bot à ton serveur',en:'Add the bot to your server'},qs2:{fr:'Lance la configuration guidée',en:'Run the guided setup'},qs3:{fr:'Active l’essentiel antiraid',en:'Turn on the antiraid essentials'},qs4:{fr:'Teste tes défenses sans risque',en:'Safely test your defenses'},qs5:{fr:'Note la sécurité de ton serveur',en:'Grade your server’s security'},qsInvite:{fr:'inviter',en:'invite'},
- demoBtn:{fr:'🎬 Voir le bot en action',en:'🎬 See the bot in action'},demoTitle:{fr:'🎬 Démo — riposte à un raid',en:'🎬 Demo — raid response'},demoNote:{fr:'⚠️ Scène simulée sur un serveur fictif — c’est exactement ce que font +shield, +quarantine et +undo en vrai.',en:'⚠️ Simulated scene on a fictional server — exactly what +shield, +quarantine and +undo do for real.'},demoReplay:{fr:'🔁 Rejouer',en:'🔁 Replay'},
  revote:{fr:'⭐ Revoter sur top.gg !',en:'⭐ Vote again on top.gg!'},faqT:{fr:'❓ Questions fréquentes',en:'❓ FAQ'},
  ariaSim:{fr:'voir la simulation',en:'view the simulation'},ariaTop:{fr:'Remonter en haut',en:'Back to top'},ariaTheme:{fr:'Thème clair / sombre',en:'Light / dark theme'},ariaModal:{fr:'Simulation de commande',en:'Command simulation'},ariaHist:{fr:'Rechercher dans l’historique',en:'Search the history'}};
 // État de langue ROBUSTE : mémoire = source de vérité. Priorité au 1er chargement : ?lang= (URL partagée)
@@ -1571,7 +1531,7 @@ function setLang(L){__lang=L;try{localStorage.setItem('lang',L);}catch(e){}
  applyLang();
  if(__gLast&&typeof renderG==='function')renderG(__gLast); // valeurs formatées (milliers, décimales) re-rendues dans la nouvelle langue
  if(typeof renderNet==='function')renderNet();
- var _ov=document.getElementById('ov');if(_ov&&_ov.classList.contains('open')){if(__simCard)openSim(__simCard);else if(document.querySelector('#mc .m-sim.demo'))runDemo();}} // B3/B4 : modale ouverte → re-render dans la nouvelle langue
+ var _ov=document.getElementById('ov');if(_ov&&_ov.classList.contains('open')&&__simCard)openSim(__simCard);} // B3/B4 : modale ouverte → re-render dans la nouvelle langue
 function tr(k){var e=I18N[k];return e?(e[curLang()]||e.fr):k;}
 function applyLang(){var L=curLang();document.documentElement.lang=L;
  // Chaque passe n'écrit dans le DOM QUE si la valeur change : au chargement en FR (la langue
@@ -2242,115 +2202,6 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
 // ═══ 🎬 DÉMO DE RAID : rejoue dans la modale un raid scripté et la riposte du bot, message par message.
 // Réutilise l'overlay/les styles du simulateur. Timers annulés au replay et neutralisés à la fermeture
 // (jeton de run + test de l'overlay), donc aucune fuite si on ferme en plein milieu.
-var __demoTimers=[],__demoRun=0;
-function runDemo(){var EN=curLang()==='en',mc=document.getElementById('mc');if(!mc)return;__simCard=null;
- __demoTimers.forEach(clearTimeout);__demoTimers=[];
- mc.innerHTML='';mc.style.setProperty('--cc','#ED4245');
- var h=el('div','m-head'),t=el('div');t.appendChild(el('span','m-name',tr('demoTitle')));h.appendChild(t);
- var x=el('button','m-x','\u2715');x.setAttribute('aria-label',EN?'Close':'Fermer');x.addEventListener('click',closeSim);h.appendChild(x);mc.appendChild(h);
- // \u2500\u2500 Chrome fa\u00e7on Discord : barre du salon (nom + compteur de membres vivant) + barre d'\u00e9criture.
- var bar=el('div','m-chbar');bar.appendChild(el('span','m-chname','#\u2009g\u00e9n\u00e9ral'));
- var mcount=el('span','m-chmembers','\uD83D\uDC65 247');bar.appendChild(mcount);
- var sim=el('div','m-sim demo');
- var inbar=el('div','m-inbar'),inTxt=el('span',null,EN?'Message #general':'Envoyer un message dans #g\u00e9n\u00e9ral');inbar.appendChild(inTxt);
- var wrap=el('div','m-dchat');wrap.appendChild(bar);wrap.appendChild(sim);wrap.appendChild(inbar);mc.appendChild(wrap);
- mc.appendChild(el('div','m-note',tr('demoNote')));
- var row=el('div','m-cpyrow'),rb=el('button','m-cpy',tr('demoReplay'));rb.type='button';rb.addEventListener('click',runDemo);row.appendChild(rb);mc.appendChild(row);
- if(window.__tourEnd)window.__tourEnd();
- document.getElementById('ov').classList.add('open');try{history.replaceState(null,'','#demo');}catch(e){}x.focus();
- function members(n){mcount.textContent='\uD83D\uDC65 '+n;}
- function lockbar(on){inbar.classList.toggle('locked',on);inTxt.textContent=on?(EN?'\uD83D\uDD12 Channel locked \u2014 read only':'\uD83D\uDD12 Salon verrouill\u00e9 \u2014 lecture seule'):(EN?'Message #general':'Envoyer un message dans #g\u00e9n\u00e9ral');}
- function divider(txt){var d=el('div','m-divider pop');d.appendChild(el('span',null,txt));sim.appendChild(d);}
- var lastAuthor=null;
- // Message fa\u00e7on Discord : avatar rond (initiale color\u00e9e ou \uD83D\uDEE1\uFE0F), pseudo color\u00e9 + tag APP pour
- // le bot + horodatage ; les messages cons\u00e9cutifs du m\u00eame auteur sont group\u00e9s (pas d'en-t\u00eate r\u00e9p\u00e9t\u00e9).
- function msg(o,line){ // o={who,av,cls,color,bot,ts,raid}
-  if(lastAuthor===o.who&&sim.lastElementChild&&sim.lastElementChild.classList.contains('m-msg')){
-   var bb=sim.lastElementChild.querySelector('.m-bub');if(bb){var c2=el('div','m-cmd pop',line);if(o.raid)c2.classList.add('raidline');bb.appendChild(c2);return sim.lastElementChild;}}
-  var m=el('div','m-msg pop'+(o.raid?' raidmsg':''));
-  var av=el('div','m-av '+(o.cls||''),o.av);m.appendChild(av);
-  var b2=el('div','m-bub'),w=el('div','m-who');var nm=el('span','m-uname',o.who);if(o.color)nm.style.color=o.color;w.appendChild(nm);
-  if(o.bot)w.appendChild(el('span','m-btag','\u2713 APP'));
-  w.appendChild(el('span','m-ts',o.ts));b2.appendChild(w);
-  if(line!=null)b2.appendChild(el('div','m-cmd',line));
-  m.appendChild(b2);sim.appendChild(m);lastAuthor=o.who;return m;}
- function join(who,ts){lastAuthor=null;var d=el('div','m-join pop');d.appendChild(el('span',null,'\u2192'));d.appendChild(el('b',null,who));d.appendChild(el('span',null,EN?' just landed.':' vient d\u2019arriver.'));d.appendChild(el('span','m-ts',ts));sim.appendChild(d);}
- function typing(){var d=el('div','m-typing pop');d.id='mtyping';d.textContent='[+] Hasu Protect '+(EN?'is typing':'est en train d\u2019\u00e9crire');sim.appendChild(d);}
- var BOT={who:'[+] Hasu Protect',av:'\uD83D\uDEE1\uFE0F',cls:'b',color:'#7d8cff',bot:true,ts:EN?'10:41 PM':'22:41'};
- // Embed riche : barre de couleur + description + grille de champs + boutons factices + pied.
- function bot(color,emo,title,desc,fields,btns){var ty=document.getElementById('mtyping');if(ty)ty.remove();
-  lastAuthor=null;var m=msg(BOT,null),bb=m.querySelector('.m-bub');
-  var e2=el('div','m-embed');e2.style.borderLeftColor=color;
-  e2.appendChild(el('div','m-etitle',emo+' '+title));
-  if(desc)e2.appendChild(elH('div','m-edesc',md(desc)));
-  if(fields){var fg=el('div','m-efields');fields.forEach(function(f){var c=el('div','m-efield');c.appendChild(el('div','fl',f[0]));c.appendChild(el('div','fv',f[1]));fg.appendChild(c);});e2.appendChild(fg);}
-  if(btns){var bg=el('div','m-ebtns');btns.forEach(function(b3){bg.appendChild(el('span','m-ebtn',b3));});e2.appendChild(bg);}
-  e2.appendChild(el('div','m-efoot','Hasu Protect \u2022 '+(EN?'Today at 10:42 PM':'Aujourd\u2019hui \u00e0 22:42')));
-  bb.appendChild(e2);return e2;}
- var shieldEmbed=null;
- function editShield(){if(!shieldEmbed)return;var d=shieldEmbed.querySelector('.m-edesc');
-  if(d){d.innerHTML=md(EN?'Joins frozen \u00b7 channels **read-only** \u00b7 accounts frozen: **12/12**':'Arriv\u00e9es gel\u00e9es \u00b7 salons en **lecture seule** \u00b7 comptes gel\u00e9s : **12/12**');
-   var t2=shieldEmbed.querySelector('.m-etitle');if(t2&&!t2.querySelector('.m-edited'))t2.appendChild(el('span','m-edited',EN?'(edited)':'(modifi\u00e9)'));}}
- function purge(){[].slice.call(sim.querySelectorAll('.raidmsg, .m-join')).forEach(function(m2){
-  m2.style.maxHeight=m2.offsetHeight+'px';m2.classList.add('mdel');
-  setTimeout(function(){if(m2.parentNode)m2.parentNode.removeChild(m2);},650);});lastAuthor=null;}
- var TS=EN?'10:41 PM':'22:41';
- var LUNA={who:'Luna',av:'L',cls:'u2',color:'#e91e8c',ts:EN?'10:37 PM':'22:37'};
- var MAX={who:'Max',av:'M',cls:'u3',color:'#3ba55d',ts:EN?'10:39 PM':'22:39'};
- var R1={who:'DarkNitro77',av:'D',cls:'r',ts:TS,raid:true},R2={who:'DarkNitro82',av:'D',cls:'r',ts:TS,raid:true},R3={who:'DarkNitro91',av:'D',cls:'r',ts:TS,raid:true};
- var S=EN?[
-  [400,divider,EN?'Today':'Today'],
-  [500,msg,LUNA,'gg for tonight\u2019s event \uD83D\uDE04'],
-  [700,msg,MAX,'good night everyone \uD83D\uDC4B'],
-  [900,join,'DarkNitro77',TS],[450,join,'DarkNitro78',TS],[350,join,'DarkNitro82',TS],
-  [400,function(){members(259);}],
-  [600,msg,R1,'@everyone FREE NITRO \uD83C\uDF81 discord-glft.xyz/free'],
-  [350,msg,R1,'HURRY UP \u23F0 only 1h left @everyone'],
-  [450,msg,R2,'@everyone FREE NITRO \uD83C\uDF81 discord-glft.xyz/free'],
-  [400,msg,R3,'\uD83C\uDF81 grab it fast \u2192 discord-glft.xyz/free'],
-  [500,typing],
-  [900,function(){bot('#ED4245','\uD83D\uDEA8','Guardian AI \u2014 raid detected',null,[['Accounts','12'],['Similarity','93%'],['Created','< 48h'],['@everyone','4\u00d7 in 11s']],['\uD83D\uDEE1 Shield','\uD83D\uDCC4 Report']);}],
-  [900,function(){shieldEmbed=bot('#5865F2','\uD83D\uDEE1\uFE0F','+shield smart \u2014 shield raised','Joins frozen \u00b7 channels **read-only** \u00b7 accounts frozen: **4/12**');lockbar(true);}],
-  [1100,editShield],
-  [900,function(){bot('#E67E22','\uD83D\uDD2C','VirusTotal \u2014 link scanned','discord-glft.xyz \u2192 **malicious (phishing, 19/94 engines)** \u00b7 blocked everywhere');}],
-  [900,function(){bot('#9B59B6','\uD83D\uDEAB','+quarantine \u2014 accounts isolated','12 accounts quarantined \u00b7 reported to **ThreatNet**');members(247);}],
-  [1000,function(){purge();bot('#1ABC9C','\uD83E\uDDF9','+undo \u2014 damage reverted','**47** spam messages deleted \u00b7 permissions restored');}],
-  [1000,function(){bot('#57F287','\u2705','Raid neutralized in 9 seconds',null,[['Members hit','0'],['Accounts banned','12'],['Report','+postmortem']]);lockbar(false);}],
-  [900,divider,'8:02 AM'],
-  [700,msg,{who:'Luna',av:'L',cls:'u2',color:'#e91e8c',ts:'8:02 AM'},'what happened tonight?? \uD83D\uDE33'],
-  [900,msg,{who:'Max',av:'M',cls:'u3',color:'#3ba55d',ts:'8:03 AM'},'a raid. the bot handled everything on its own \uD83D\uDEE1\uFE0F']
- ]:[
-  [400,divider,'Aujourd\u2019hui'],
-  [500,msg,LUNA,'gg pour l\u2019event de ce soir \uD83D\uDE04'],
-  [700,msg,MAX,'bonne nuit tout le monde \uD83D\uDC4B'],
-  [900,join,'DarkNitro77',TS],[450,join,'DarkNitro78',TS],[350,join,'DarkNitro82',TS],
-  [400,function(){members(259);}],
-  [600,msg,R1,'@everyone NITRO GRATUIT \uD83C\uDF81 discord-glft.xyz/free'],
-  [350,msg,R1,'D\u00c9P\u00caCHEZ-VOUS \u23F0 plus qu\u2019 1h @everyone'],
-  [450,msg,R2,'@everyone NITRO GRATUIT \uD83C\uDF81 discord-glft.xyz/free'],
-  [400,msg,R3,'\uD83C\uDF81 r\u00e9cup\u00e9rez vite \u2192 discord-glft.xyz/free'],
-  [500,typing],
-  [900,function(){bot('#ED4245','\uD83D\uDEA8','Guardian AI \u2014 raid d\u00e9tect\u00e9',null,[['Comptes','12'],['Similarit\u00e9','93 %'],['Cr\u00e9\u00e9s','< 48 h'],['@everyone','4\u00d7 en 11 s']],['\uD83D\uDEE1 Shield','\uD83D\uDCC4 Rapport']);}],
-  [900,function(){shieldEmbed=bot('#5865F2','\uD83D\uDEE1\uFE0F','+shield smart \u2014 bouclier lev\u00e9','Arriv\u00e9es gel\u00e9es \u00b7 salons en **lecture seule** \u00b7 comptes gel\u00e9s : **4/12**');lockbar(true);}],
-  [1100,editShield],
-  [900,function(){bot('#E67E22','\uD83D\uDD2C','VirusTotal \u2014 lien analys\u00e9','discord-glft.xyz \u2192 **malveillant (phishing, 19/94 moteurs)** \u00b7 bloqu\u00e9 partout');}],
-  [900,function(){bot('#9B59B6','\uD83D\uDEAB','+quarantine \u2014 comptes isol\u00e9s','12 comptes en quarantaine \u00b7 signal\u00e9s au r\u00e9seau **ThreatNet**');members(247);}],
-  [1000,function(){purge();bot('#1ABC9C','\uD83E\uDDF9','+undo \u2014 d\u00e9g\u00e2ts r\u00e9par\u00e9s','**47** messages de spam supprim\u00e9s \u00b7 permissions r\u00e9tablies');}],
-  [1000,function(){bot('#57F287','\u2705','Raid neutralis\u00e9 en 9 secondes',null,[['Membres touch\u00e9s','0'],['Comptes bannis','12'],['Rapport','+postmortem']]);lockbar(false);}],
-  [900,divider,'8 h 02'],
-  [700,msg,{who:'Luna',av:'L',cls:'u2',color:'#e91e8c',ts:'8:02'},'il s\u2019est pass\u00e9 quoi cette nuit ?? \uD83D\uDE33'],
-  [900,msg,{who:'Max',av:'M',cls:'u3',color:'#3ba55d',ts:'8:03'},'un raid. le bot a tout g\u00e9r\u00e9 tout seul \uD83D\uDEE1\uFE0F']
- ];
- var run=++__demoRun,i=0;
- function step(){
-  if(run!==__demoRun||!document.getElementById('ov').classList.contains('open'))return;
-  if(document.hidden){var vh=function(){document.removeEventListener('visibilitychange',vh);step();};document.addEventListener('visibilitychange',vh);return;}
-  var st=S[i++];if(!st)return;
-  __demoTimers.push(setTimeout(function(){
-   if(run!==__demoRun||!document.getElementById('ov').classList.contains('open'))return;
-   st[1](st[2],st[3]);sim.scrollTop=sim.scrollHeight;step();},st[0]));}
- step();}
-(function(){var b=document.getElementById('demoBtn');if(b)b.addEventListener('click',function(){__lastFocus=b;runDemo();});})();
-// Lien profond : #demo rejoue la démo, #nomcommande ouvre la fiche correspondante.
-(function(){var h=decodeURIComponent((location.hash||'').replace(/^#/,'')).toLowerCase();if(!h)return;if(h==='demo'){runDemo();return;}var card=[].slice.call(document.querySelectorAll('.cmd')).filter(function(c){return c.dataset.n.toLowerCase()===h;})[0];if(card)openSim(card);})();</script>
+// Lien profond : #nomcommande ouvre la fiche correspondante.
+(function(){var h=decodeURIComponent((location.hash||'').replace(/^#/,'')).toLowerCase();if(!h)return;var card=[].slice.call(document.querySelectorAll('.cmd')).filter(function(c){return c.dataset.n.toLowerCase()===h;})[0];if(card)openSim(card);})();</script>
 </body></html>
