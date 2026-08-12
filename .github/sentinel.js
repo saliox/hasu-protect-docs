@@ -36,6 +36,10 @@ const MARKERS = [
   ['§15 Nouveautés v2 — garde anti-bruit (seenAt)', 'seenAt'],
   ['§15 Widget top.gg — badge (topgg-badge)', 'topgg-badge'],
   ['§15 Widget top.gg — img-src https://top.gg dans la CSP', 'https://top.gg'],
+  ['§16 Premiers pas v2 — puces cliquables (data-cmd)', 'data-cmd'],
+  ['§16 FAQ statique + JSON-LD FAQPage', 'FAQPage'],
+  ['§16 Démo de raid (runDemo)', 'runDemo'],
+  ['§16 Rappel de vote top.gg (votedTgAt)', 'votedTgAt'],
 ];
 
 // Fichiers annexes que le déploiement du bot ne doit ni supprimer ni omettre.
