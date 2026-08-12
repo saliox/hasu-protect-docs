@@ -56,6 +56,20 @@ const FILES = [
 const missing = MARKERS.filter(([, needle]) => !html.includes(needle));
 const gone = FILES.filter((f) => !fs.existsSync(f));
 
+// Équilibre des <div> dans le bloc changelog : un </div> manquant a déjà fait avaler toute la
+// page par la boîte dorée (bug du contour, 12/08). On vérifie la zone changelog → quickstart.
+const clStart = html.indexOf('<div class="changelog">');
+const clEnd = html.indexOf('<div class="quickstart"', clStart);
+if (clStart >= 0 && clEnd > clStart) {
+  const zone = html.slice(clStart, clEnd);
+  const opens = (zone.match(/<div[\s>]/g) || []).length;
+  const closes = (zone.match(/<\/div>/g) || []).length;
+  if (opens !== closes) {
+    console.error('❌ Déséquilibre de <div> dans le bloc changelog : ' + opens + ' ouverts / ' + closes + ' fermés — le contour doré va avaler la page.');
+    process.exit(1);
+  }
+}
+
 if (!missing.length && !gone.length) {
   console.log('✅ Sentinelle : les ' + MARKERS.length + ' blocs greffés et les ' + FILES.length + ' fichiers annexes sont tous présents.');
   process.exit(0);
