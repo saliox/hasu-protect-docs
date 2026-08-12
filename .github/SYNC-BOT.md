@@ -163,7 +163,12 @@ le template local.
     indicateur « écrit… » `.m-typing`, spam barré par `+undo` (`.raidmsg`/
     `.del`), pied d'embed `.m-efoot`, déroulé en chaîne avec pause onglet
     caché, relance au changement de langue (bloc `runDemo`). **Widget top.gg**
-    lisible : `.topgg-badge img{width:min(340px,88%);height:auto}`.
+    lisible et accordé au thème : `.topgg-badge img{width:min(340px,88%);
+    height:auto}` + cadre arrondi/ombre/hover, et le SVG est demandé avec les
+    paramètres de couleurs officiels (`topcolor`, `middlecolor`,
+    `usernamecolor`, `certifiedcolor`, `datacolor`, `labelcolor`,
+    `highlightcolor`) — palette sombre/claire re-peinte à chaque bascule via
+    l'enveloppe d'`applyTheme` (bloc « Widget top.gg » du script).
     **EN complet** : clé `showhist` (bouton historique), aria-labels traduits
     (`ariaSim` sur les 189 cartes, `ariaTop`, `ariaTheme`, `ariaModal`,
     `ariaHist`) appliqués par `applyLang`. Tests : `.github/unit-tests.js`
