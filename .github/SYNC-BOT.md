@@ -97,9 +97,7 @@ le template local.
     localStorage `favCmds`, barre de puces au-dessus des filtres), palette
     Ctrl+K (recherche instantanée, flèches + Entrée, tolérance aux fautes
     via distance d'édition — aussi branchée sur la recherche principale en
-    repli « résultats approchés »), guide « 🧭 J'ai besoin de… » BÊTA (6
-    recettes situation → commandes, bloc autonome `#needs` facile à
-    retirer), PWA (manifest.webmanifest + sw.js + icônes assets/icon-*.png
+    repli « résultats approchés »), PWA (manifest.webmanifest + sw.js + icônes assets/icon-*.png
     — fichiers séparés que le bot ne touche pas ; index.html doit garder le
     <link rel="manifest">, l'apple-touch-icon, l'enregistrement du SW et
     `worker-src 'self'` dans la CSP).
@@ -173,3 +171,8 @@ le template local.
     (`ariaSim` sur les 189 cartes, `ariaTop`, `ariaTheme`, `ariaModal`,
     `ariaHist`) appliqués par `applyLang`. Tests : `.github/unit-tests.js`
     passe à 48 cas (md, escH, lev, sparkline).
+
+18. **Guide « 🧭 J'ai besoin de… » RETIRÉ (12/08, PR #33)** : le bloc bêta
+    (CSS `.needs`/`.nchip`/`.nsteps`, JS `var NEEDS=` + injection, clés I18N
+    `needsT`/`needsSub`) a été supprimé à la demande — ne PAS le réintroduire
+    depuis un vieux template.

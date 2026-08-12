@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-gMGy9+d5aejoqQafUzMDw7WA9qHCrVTi6krRZfptz48='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-5twQqZYmg7CetfxrpVC91viliA38+ScFGqQtQJJW6to='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -322,19 +322,6 @@ section{animation:fadeIn .5s ease backwards}
 .kres .ki .kd{color:var(--mut);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .kres .ki.sel,.kres .ki:hover{background:rgba(88,101,242,.14);border-left-color:var(--purple)}
 .kres .kfuzzy{padding:8px 16px;color:var(--mut);font-size:.76rem}
-/* ── Guide « J'ai besoin de… » (bêta) */
-.needs{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 18px}
-.needs h2{font-size:1rem;margin:0 0 4px}.needs .beta{font-size:.62rem;font-weight:800;background:#E67E22;color:#0b0b12;border-radius:999px;padding:1px 7px;vertical-align:2px;margin-left:6px}
-.needs .nsub{color:var(--mut);font-size:.78rem;margin-bottom:10px}
-.nchips{display:flex;flex-wrap:wrap;gap:7px}
-.nchip{background:var(--card2,rgba(127,127,160,.12));border:1px solid var(--line);color:var(--txt);border-radius:999px;padding:6px 13px;font-size:.86rem;cursor:pointer}
-.nchip:hover,.nchip.on{border-color:var(--purple);color:var(--purple)}
-.nsteps{margin:12px 0 0;padding:0;list-style:none}
-.nsteps li{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-top:1px solid var(--line);font-size:.88rem}
-.nsteps .num{color:var(--mut);font-weight:800;min-width:18px}
-.nsteps code{cursor:pointer;color:var(--gold);font-weight:700}
-.nsteps code:hover{text-decoration:underline}
-
 /* ── Chips des filtres actifs (recherche + catégorie + accès) au-dessus des résultats */
 .achips{display:none;flex-wrap:wrap;gap:7px;align-items:center;margin:-14px 0 16px}
 .achips.show{display:flex}
@@ -1390,7 +1377,7 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   <section id="faq" class="faq"><h2 class="cat"><span data-i18n="faqT">❓ Questions fréquentes</span></h2>
    <details class="fq"><summary><span data-lang="fr">Quelles permissions faut-il donner au bot ?</span><span data-lang="en">Which permissions does the bot need?</span></summary><div class="fqa"><span data-lang="fr">Le lien d’invitation demande « Administrateur » : pour stopper un nuke, le bot doit pouvoir agir sur les rôles, salons, webhooks et bannissements <b>plus vite que l’attaquant</b>, sans jamais être bloqué par une permission manquante. Après l’installation, <code>+scan</code> te dit si quelque chose cloche.</span><span data-lang="en">The invite link asks for “Administrator”: to stop a nuke, the bot must act on roles, channels, webhooks and bans <b>faster than the attacker</b>, without ever being blocked by a missing permission. After setup, <code>+scan</code> tells you if anything is off.</span></div></details>
    <details class="fq"><summary><span data-lang="fr">Le bot est-il gratuit ?</span><span data-lang="en">Is the bot free?</span></summary><div class="fqa"><span data-lang="fr">Oui — les 189 commandes sont accessibles gratuitement. Pour soutenir le bot, tu peux voter sur top.gg (<code>+vote</code>, gratuit, toutes les 12 h).</span><span data-lang="en">Yes — all 189 commands are free to use. To support the bot, you can vote on top.gg (<code>+vote</code>, free, every 12h).</span></div></details>
-   <details class="fq"><summary><span data-lang="fr">On me raid, je fais quoi tout de suite ?</span><span data-lang="en">I’m being raided — what do I do right now?</span></summary><div class="fqa"><span data-lang="fr"><code>+panic</code> verrouille tout le serveur d’un coup. Ensuite <code>+shield smart</code> lève le bouclier adaptatif, <code>+quarantine</code> isole les comptes suspects et <code>+undo</code> répare les dégâts. Le guide « 🧭 J’ai besoin de… » en haut de page donne la séquence complète, et le bouton 🎬 montre la riposte en conditions réelles.</span><span data-lang="en"><code>+panic</code> locks the whole server at once. Then <code>+shield smart</code> raises the adaptive shield, <code>+quarantine</code> isolates suspicious accounts and <code>+undo</code> repairs the damage. The “🧭 I need to…” guide at the top gives the full sequence, and the 🎬 button shows the response in real conditions.</span></div></details>
+   <details class="fq"><summary><span data-lang="fr">On me raid, je fais quoi tout de suite ?</span><span data-lang="en">I’m being raided — what do I do right now?</span></summary><div class="fqa"><span data-lang="fr"><code>+panic</code> verrouille tout le serveur d’un coup. Ensuite <code>+shield smart</code> lève le bouclier adaptatif, <code>+quarantine</code> isole les comptes suspects et <code>+undo</code> répare les dégâts. Le bouton 🎬 « Voir le bot en action » en haut de page montre cette riposte en conditions réelles.</span><span data-lang="en"><code>+panic</code> locks the whole server at once. Then <code>+shield smart</code> raises the adaptive shield, <code>+quarantine</code> isolates suspicious accounts and <code>+undo</code> repairs the damage. The 🎬 “See the bot in action” button at the top shows this response in real conditions.</span></div></details>
    <details class="fq"><summary><span data-lang="fr">C’est quoi, Guardian AI ?</span><span data-lang="en">What is Guardian AI?</span></summary><div class="fqa"><span data-lang="fr">Le moteur de détection auto-apprenant du bot : il s’entraîne en continu contre une IA attaquante (jeu adverse) et apprend de chaque erreur. Son panneau d’entraînement — précision, menaces ratées, axes de travail — est public dans la barre latérale : rien n’est caché.</span><span data-lang="en">The bot’s self-learning detection engine: it trains continuously against an attacker AI (adversarial game) and learns from every mistake. Its training panel — accuracy, missed threats, focus areas — is public in the sidebar: nothing is hidden.</span></div></details>
    <details class="fq"><summary><span data-lang="fr">Comment savoir si le bot est en ligne et fiable ?</span><span data-lang="en">How do I know the bot is online and reliable?</span></summary><div class="fqa"><span data-lang="fr">Le badge en haut à droite montre son état en direct ; un clic dessus ouvre l’historique de disponibilité des 7 derniers jours, heure par heure. Les courbes du panneau « 📈 Réseau » sont reconstruites automatiquement depuis les battements du bot — rien n’est saisi à la main.</span><span data-lang="en">The badge at the top right shows its live status; clicking it opens the last 7 days of uptime, hour by hour. The “📈 Network” panel curves are rebuilt automatically from the bot’s heartbeats — nothing is entered by hand.</span></div></details>
    <details class="fq"><summary><span data-lang="fr">J’ai trouvé un bug ou j’ai une idée ?</span><span data-lang="en">Found a bug or got an idea?</span></summary><div class="fqa"><span data-lang="fr"><code>+bug</code> signale un problème directement à l’équipe, <code>+suggest</code> propose une amélioration votée par ta communauté. Chaque correction est ensuite détaillée dans le changelog en haut de cette page.</span><span data-lang="en"><code>+bug</code> reports a problem straight to the team, <code>+suggest</code> proposes an improvement your community votes on. Every fix is then detailed in the changelog at the top of this page.</span></div></details>
@@ -1532,7 +1519,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
 var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},netT:{fr:'📈 Réseau',en:'📈 Network'},netSub:{fr:'Relevés horaires — 30 derniers jours',en:'Hourly samples — last 30 days'},netWait:{fr:'Collecte en cours… premières courbes d’ici quelques heures.',en:'Collecting… first curves within a few hours.'},netServers:{fr:'Serveurs protégés',en:'Protected servers'},netMembers:{fr:'Membres protégés',en:'Protected members'},votesT:{fr:'📊 Avis sur la doc',en:'📊 Doc feedback'},votesTop:{fr:'Les plus utiles',en:'Most helpful'},votesFlop:{fr:'À améliorer',en:'Needs work'},newsSeen:{fr:'nouveautés depuis ta dernière visite —',en:'new since your last visit —'},newsGo:{fr:'voir le changelog',en:'see the changelog'},clearAll:{fr:'Tout effacer',en:'Clear all'},tryDiscord:{fr:'🎮 Ouvrir Discord',en:'🎮 Open Discord'},tourSkip:{fr:'Passer',en:'Skip'},tourNext:{fr:'Suivant',en:'Next'},tourDone:{fr:'C’est parti !',en:'Let’s go!'},tour1t:{fr:'🔍 Recherche',en:'🔍 Search'},tour1x:{fr:'Tape un nom ou un mot-clé — les fautes de frappe sont tolérées.',en:'Type a name or keyword — typos are forgiven.'},tour2t:{fr:'🗂️ Filtres',en:'🗂️ Filters'},tour2x:{fr:'Filtre par catégorie ou par niveau d’accès. Sur mobile, le bouton 🗂️ en bas à gauche te suit partout.',en:'Filter by category or access level. On mobile the 🗂️ button follows you.'},tour3t:{fr:'⚡ Astuce pro',en:'⚡ Pro tip'},tour3x:{fr:'Ctrl+K ouvre la recherche rapide depuis n’importe où. Clique une carte pour voir la commande en action, et ⭐ pour la garder sous la main.',en:'Ctrl+K opens quick search anywhere. Click a card to see the command in action, ⭐ to keep it handy.'},favLabel:{fr:'⭐ Mes favoris :',en:'⭐ My favorites:'},favAdd:{fr:'Ajouter aux favoris',en:'Add to favorites'},favDel:{fr:'Retirer des favoris',en:'Remove from favorites'},kph:{fr:'Tape une commande… (Échap pour fermer)',en:'Type a command… (Esc to close)'},kfuzzy:{fr:'Résultats approchés (faute de frappe ?)',en:'Close matches (typo?)'},needsT:{fr:'🧭 J’ai besoin de…',en:'🧭 I need to…'},needsSub:{fr:'Choisis ta situation → les commandes dans le bon ordre. Clique une commande pour sa fiche.',en:'Pick your situation → the right commands in order. Click a command for details.'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulNo:{fr:'👎 Non',en:'👎 No'},voteHint:{fr:'re-clique pour retirer · clique l’autre pour changer',en:'click again to remove · click the other to switch'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},netT:{fr:'📈 Réseau',en:'📈 Network'},netSub:{fr:'Relevés horaires — 30 derniers jours',en:'Hourly samples — last 30 days'},netWait:{fr:'Collecte en cours… premières courbes d’ici quelques heures.',en:'Collecting… first curves within a few hours.'},netServers:{fr:'Serveurs protégés',en:'Protected servers'},netMembers:{fr:'Membres protégés',en:'Protected members'},votesT:{fr:'📊 Avis sur la doc',en:'📊 Doc feedback'},votesTop:{fr:'Les plus utiles',en:'Most helpful'},votesFlop:{fr:'À améliorer',en:'Needs work'},newsSeen:{fr:'nouveautés depuis ta dernière visite —',en:'new since your last visit —'},newsGo:{fr:'voir le changelog',en:'see the changelog'},clearAll:{fr:'Tout effacer',en:'Clear all'},tryDiscord:{fr:'🎮 Ouvrir Discord',en:'🎮 Open Discord'},tourSkip:{fr:'Passer',en:'Skip'},tourNext:{fr:'Suivant',en:'Next'},tourDone:{fr:'C’est parti !',en:'Let’s go!'},tour1t:{fr:'🔍 Recherche',en:'🔍 Search'},tour1x:{fr:'Tape un nom ou un mot-clé — les fautes de frappe sont tolérées.',en:'Type a name or keyword — typos are forgiven.'},tour2t:{fr:'🗂️ Filtres',en:'🗂️ Filters'},tour2x:{fr:'Filtre par catégorie ou par niveau d’accès. Sur mobile, le bouton 🗂️ en bas à gauche te suit partout.',en:'Filter by category or access level. On mobile the 🗂️ button follows you.'},tour3t:{fr:'⚡ Astuce pro',en:'⚡ Pro tip'},tour3x:{fr:'Ctrl+K ouvre la recherche rapide depuis n’importe où. Clique une carte pour voir la commande en action, et ⭐ pour la garder sous la main.',en:'Ctrl+K opens quick search anywhere. Click a card to see the command in action, ⭐ to keep it handy.'},favLabel:{fr:'⭐ Mes favoris :',en:'⭐ My favorites:'},favAdd:{fr:'Ajouter aux favoris',en:'Add to favorites'},favDel:{fr:'Retirer des favoris',en:'Remove from favorites'},kph:{fr:'Tape une commande… (Échap pour fermer)',en:'Type a command… (Esc to close)'},kfuzzy:{fr:'Résultats approchés (faute de frappe ?)',en:'Close matches (typo?)'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulNo:{fr:'👎 Non',en:'👎 No'},voteHint:{fr:'re-clique pour retirer · clique l’autre pour changer',en:'click again to remove · click the other to switch'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -2075,62 +2062,6 @@ function kOpen(){if(document.getElementById('kov'))return;
   if(e.key==='Enter'&&__kList[__kSel]){/* preventDefault : sinon l'action par défaut d'Entrée « clique » le ✕ que openSim vient de focaliser → modale refermée aussitôt */e.preventDefault();var c=__kList[__kSel];kClose();openSim(c);}});
  box.appendChild(inp);box.appendChild(res);ov.appendChild(box);document.body.appendChild(ov);inp.focus();}
 document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&(e.key==='k'||e.key==='K')){e.preventDefault();kOpen();}});
-// ═══ 🧭 GUIDE « J'AI BESOIN DE… » (BÊTA — bloc autonome, facile à retirer). Recettes : situations →
-// commandes dans l'ordre. Les commandes absentes du site (renommées côté bot) sont sautées automatiquement.
-var NEEDS=[
- {fr:'🚨 On me raid, là maintenant',en:'🚨 I\u2019m being raided right now',steps:[
-  ['panic',{fr:'verrouille tout le serveur d\u2019un coup',en:'lock the whole server at once'}],
-  ['lockdown',{fr:'ferme les salons sensibles restants',en:'close remaining sensitive channels'}],
-  ['scan',{fr:'analyse la sécurité et les comptes à risque',en:'analyze security and risky accounts'}],
-  ['undo',{fr:'répare les dégâts de l\u2019attaquant (débans, rôles)',en:'undo the attacker\u2019s damage'}]]},
- {fr:'🛡️ Installer et sécuriser le bot',en:'🛡️ Set up and secure the bot',steps:[
-  ['setup',{fr:'configuration guidée de base',en:'guided base setup'}],
-  ['antiraid',{fr:'active les protections antiraid',en:'enable antiraid protections'}],
-  ['automod',{fr:'active la modération automatique',en:'enable automoderation'}],
-  ['setlogs',{fr:'choisis le salon des journaux',en:'pick the logs channel'}],
-  ['scan',{fr:'vérifie la posture finale',en:'verify the final posture'}]]},
- {fr:'👋 Accueillir les nouveaux',en:'👋 Welcome newcomers',steps:[
-  ['setwelcome',{fr:'message de bienvenue',en:'welcome message'}],
-  ['setverify',{fr:'vérification à l\u2019arrivée',en:'verification on join'}],
-  ['rolemenu',{fr:'menu de rôles en autonomie',en:'self-serve role menu'}]]},
- {fr:'🔨 Sanctionner proprement',en:'🔨 Sanction cleanly',steps:[
-  ['warn',{fr:'avertis d\u2019abord',en:'warn first'}],
-  ['tempsmute',{fr:'réduis au silence temporairement',en:'temporary mute'}],
-  ['tempban',{fr:'bannis temporairement si récidive',en:'temp ban on repeat'}],
-  ['sanctions',{fr:'consulte le casier du membre',en:'check the member\u2019s record'}]]},
- {fr:'🎉 Animer mon serveur',en:'🎉 Liven up my server',steps:[
-  ['giveaway',{fr:'lance un giveaway',en:'start a giveaway'}],
-  ['autoevents',{fr:'événements automatiques réguliers',en:'regular automatic events'}],
-  ['drops',{fr:'caisses surprises dans les salons',en:'surprise crates in channels'}],
-  ['tournoi',{fr:'organise un tournoi',en:'run a tournament'}]]},
- {fr:'🧹 Nettoyer après une attaque',en:'🧹 Clean up after an attack',steps:[
-  ['undo',{fr:'annule les actions de l\u2019attaquant',en:'undo the attacker\u2019s actions'}],
-  ['quarantine',{fr:'isole les comptes suspects',en:'quarantine suspicious accounts'}],
-  ['bl',{fr:'blackliste les responsables',en:'blacklist the culprits'}],
-  ['backup',{fr:'restaure la sauvegarde si besoin',en:'restore the backup if needed'}]]}];
-(function(){var cn=document.getElementById('catnav');if(!cn)return;
- var box=document.createElement('div');box.className='needs';box.id='needs';
- var L=curLang();
- var h2=document.createElement('h2');h2.innerHTML='<span data-i18n="needsT">'+tr('needsT')+'</span><span class="beta">BÊTA</span>';box.appendChild(h2);
- var sub=document.createElement('div');sub.className='nsub';sub.setAttribute('data-i18n','needsSub');sub.textContent=tr('needsSub');box.appendChild(sub);
- var chips=document.createElement('div');chips.className='nchips';box.appendChild(chips);
- var list=document.createElement('ol');list.className='nsteps';list.hidden=true;box.appendChild(list);
- NEEDS.forEach(function(sc){var ch=document.createElement('button');ch.type='button';ch.className='nchip';
-  ch.textContent=curLang()==='en'?sc.en:sc.fr;ch.setAttribute('data-fr',sc.fr);ch.setAttribute('data-en',sc.en);
-  ch.addEventListener('click',function(){
-   var was=ch.classList.contains('on');
-   chips.querySelectorAll('.nchip').forEach(function(x){x.classList.remove('on');});
-   list.innerHTML='';if(was){list.hidden=true;return;}
-   ch.classList.add('on');var i=1;
-   sc.steps.forEach(function(st){var card=document.querySelector('.cmd[data-n="'+st[0]+'"]');if(!card)return;
-    var li=document.createElement('li');
-    li.innerHTML='<span class="num">'+(i++)+'.</span><code>+'+st[0]+'</code><span data-fr="'+st[1].fr.replace(/"/g,'&quot;')+'" data-en="'+st[1].en.replace(/"/g,'&quot;')+'">'+(curLang()==='en'?st[1].en:st[1].fr)+'</span>';
-    li.querySelector('code').addEventListener('click',function(){openSim(card);});
-    list.appendChild(li);});
-   list.hidden=false;});
-  chips.appendChild(ch);});
- var fb=document.getElementById('favbar');
- cn.parentNode.insertBefore(box,fb||cn);})();
 // ═══ 🏷️ CHIPS DES FILTRES ACTIFS : ce qui filtre les résultats est visible et retirable d'un clic.
 (function(){var rc=document.getElementById('rescount');if(!rc)return;
  var bar=document.createElement('div');bar.className='achips';bar.id='achips';
