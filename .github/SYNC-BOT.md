@@ -119,3 +119,15 @@ le template local.
     changelog » pour les visiteurs de retour (rejet mémorisé par signature).
     Les deux workflows publient sur la branche `uptime` en préservant
     mutuellement leurs fichiers.
+
+15. **Nouveautés v2 + audit (PR #23)** : bandeau des nouveautés avec les
+    commandes elles-mêmes en puces cliquables (max 5 + « +N »), garde
+    anti-bruit (retour après > 60 j → pas de badges, localStorage `seenAt`),
+    badge NOUVEAU aussi dans les résultats de la palette Ctrl+K. Audit
+    sécurité : hlText/escH vérifiés sains (pas de XSS via ?q=, hash ou
+    recherche — testé avec payloads réels) ; widget top.gg ressuscité
+    (il était triplement mort : image bloquée par img-src 'self', onload
+    inline bloqué par la CSP à hash, et loading="lazy" dans un conteneur
+    display:none qui ne charge jamais → img-src += https://top.gg,
+    révélation via listener JS, lazy retiré) ; labels des chips de filtres
+    échappés (durcissement).

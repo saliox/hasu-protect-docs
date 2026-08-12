@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-jSV8RACDpZzpiQSoYn4UEuZMM0ZizhTn0NfJiVKJfkE='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-p2jLlpoKy5G1dCr5PRqwiFO/YcxGchNwJmrq2smjjyA='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -373,7 +373,7 @@ section{animation:fadeIn .5s ease backwards}
   <p data-i18n="tagline">Documentation des commandes — bot de modération &amp; sécurité Discord</p>
   <div class="badges"><span class="badge"><b id="bCmds">189</b> <span data-i18n="cmds">commandes</span></span><span class="badge"><b id="bCats">7</b> <span data-i18n="cats">catégories</span></span><span class="badge">🛡️ <b id="bServers">18</b> <span data-i18n="serv">serveurs protégés</span></span><span class="badge">👥 <b id="bMembers">4 379</b> <span data-i18n="prot">membres protégés</span></span><span class="badge vbadge" id="visits-badge" hidden></span></div>
   <div class="cta-row"><a class="cta" data-i18n="addbot" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer">➕ Ajouter le bot</a><a class="cta cta-vote" data-i18n="vote" href="https://top.gg/bot/1141214226862575678/vote" target="_blank" rel="noopener noreferrer">⭐ Voter sur top.gg</a></div>
-  <div class="topgg-badge"><a href="https://top.gg/bot/1141214226862575678" target="_blank" rel="noopener noreferrer"><img src="https://top.gg/api/widget/1141214226862575678.svg" alt="top.gg" loading="lazy" onload="var b=this.closest('.topgg-badge');if(b)b.style.display='block'"></a></div>
+  <div class="topgg-badge"><a href="https://top.gg/bot/1141214226862575678" target="_blank" rel="noopener noreferrer"><img src="https://top.gg/api/widget/1141214226862575678.svg" alt="top.gg"></a></div>
 </header>
 <div class="layout">
   <aside class="side"><div class="gpanel" id="gpanel">
@@ -1851,11 +1851,13 @@ document.addEventListener('keydown',function(e){
 // ── Badge « NOUVEAU » : commandes absentes lors de la visite précédente de CE visiteur (localStorage).
 // Première visite : rien (pas de référence). La liste vue est re-mémorisée à chaque passage.
 (function(){var names=[].slice.call(document.querySelectorAll('.cmd[data-n]')).map(function(c){return c.dataset.n;});
- var seen=null;try{seen=JSON.parse(localStorage.getItem('seenCmds')||'null');}catch(e){}
- if(Array.isArray(seen)&&seen.length){var set={};seen.forEach(function(n){set[n]=1;});
+ var seen=null,seenAt=0;try{seen=JSON.parse(localStorage.getItem('seenCmds')||'null');seenAt=parseInt(localStorage.getItem('seenAt')||'0',10)||0;}catch(e){}
+ // Garde anti-bruit : après plus de 60 jours d'absence, quasi tout serait « nouveau » — on ne badge pas.
+ var tooOld=seenAt&&(Date.now()-seenAt>60*24*3600000);
+ if(Array.isArray(seen)&&seen.length&&!tooOld){var set={};seen.forEach(function(n){set[n]=1;});
   names.forEach(function(n){if(!set[n]){var el=document.querySelector('.cmd[data-n="'+n+'"] .name');
    if(el){var b=document.createElement('span');b.className='newb';b.setAttribute('data-i18n','newBadge');b.textContent=tr('newBadge');el.appendChild(b);}}});}
- try{localStorage.setItem('seenCmds',JSON.stringify(names));}catch(e){}})();
+ try{localStorage.setItem('seenCmds',JSON.stringify(names));localStorage.setItem('seenAt',String(Date.now()));}catch(e){}})();
 // ── Modale enrichie : bouton Partager (Web Share API, mobile) + vote « utile » anonyme (compteur Abacus
 // par commande, même service que le compteur de visites ; un vote par commande et par navigateur).
 var __openSim0=openSim;
@@ -1978,7 +1980,7 @@ function kRender(q){var res=document.getElementById('kres');res.innerHTML='';__k
  __kList.forEach(function(c,i){var d=document.createElement('div');d.className='ki'+(i===0?' sel':'');
   var kn=document.createElement('span');kn.className='kn';kn.textContent='+'+c.dataset.n;
   var kd=document.createElement('span');kd.className='kd';kd.textContent=(curLang()==='en'&&c.getAttribute('data-d-en'))?c.getAttribute('data-d-en'):c.dataset.d;
-  d.appendChild(kn);d.appendChild(kd);
+  d.appendChild(kn);if(c.querySelector('.newb')){var nb=document.createElement('span');nb.className='newb';nb.textContent=tr('newBadge');d.appendChild(nb);}d.appendChild(kd);
   d.addEventListener('click',function(){kClose();openSim(c);});
   res.appendChild(d);});}
 function kOpen(){if(document.getElementById('kov'))return;
@@ -2063,9 +2065,9 @@ var NEEDS=[
  window.updateChips=function(){bar.innerHTML='';var q=curQ(),n=0;
   if(q){chip('🔍 '+escH(q),function(){var s=document.getElementById('search');s.value='';filt('');});n++;}
   if(__fCat!=='all'){var b=document.querySelector('#catnav .navf[data-cat="'+__fCat+'"]');
-   if(b)chip(b.childNodes[0].textContent.trim(),function(){setCat('all');});n++;}
+   if(b)chip(escH(b.childNodes[0].textContent.trim()),function(){setCat('all');});n++;}
   if(__fAcc){var a=document.querySelector('#accnav .accf[data-acc="'+__fAcc+'"]');
-   if(a)chip(a.childNodes[0].textContent.trim(),function(){setAcc(__fAcc);});n++;}
+   if(a)chip(escH(a.childNodes[0].textContent.trim()),function(){setAcc(__fAcc);});n++;}
   if(n>1)chip(tr('clearAll'),function(){var s=document.getElementById('search');if(s)s.value='';__fAcc=null;setCat('all');document.querySelectorAll('#accnav .accf').forEach(function(x){x.classList.remove('active');});filt('');},'clr');
   bar.classList.toggle('show',n>0);};})();
 // ═══ 🔗 URL PARTAGEABLE : la recherche et les filtres vivent dans l'URL (?q=…&cat=…&acc=…).
@@ -2165,11 +2167,16 @@ function renderNet(){var aside=document.querySelector('.side');if(!aside)return;
   .then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.votes&&Object.keys(d.votes).length){__netV=d;renderNet();}}).catch(function(){});})();
 // ═══ 🔔 BANDEAU « la doc a changé » pour les visiteurs qui reviennent : compte les cartes marquées
 // NOUVEAU (déjà calculées) et propose d'ouvrir le changelog. Rejeté d'un ✕ jusqu'aux prochaines nouveautés.
-(function(){var badges=document.querySelectorAll('.newb').length;if(!badges)return;
- var sig='';try{sig=[].slice.call(document.querySelectorAll('.cmd .newb')).map(function(b){return b.closest('.cmd').dataset.n;}).sort().join(',');
+(function(){var newCards=[].slice.call(document.querySelectorAll('.cmd .newb')).map(function(b){return b.closest('.cmd');});
+ if(!newCards.length)return;
+ var sig='';try{sig=newCards.map(function(c){return c.dataset.n;}).sort().join(',');
   if(localStorage.getItem('newsDismiss')===sig)return;}catch(e){}
  var bar=document.createElement('div');bar.className='newsbar';bar.setAttribute('role','status');
- bar.innerHTML='✨ <b>'+badges+'</b> <span>'+tr('newsSeen')+'</span>';
+ bar.innerHTML='✨ <b>'+newCards.length+'</b> <span>'+tr('newsSeen')+'</span>';
+ // les nouvelles commandes elles-mêmes, cliquables (max 5), puis « +N » le cas échéant
+ newCards.slice(0,5).forEach(function(card){var c=document.createElement('button');c.type='button';c.className='favchip';
+  c.textContent='+'+card.dataset.n;c.addEventListener('click',function(){openSim(card);});bar.appendChild(c);});
+ if(newCards.length>5){var more=document.createElement('span');more.className='vhint';more.textContent='+'+(newCards.length-5);bar.appendChild(more);}
  var go=document.createElement('button');go.type='button';go.className='go';go.textContent=tr('newsGo');
  go.addEventListener('click',function(){var cl=document.querySelector('.changelog');
   if(cl&&cl.classList.contains('m-collapsed')){var mb2=cl.querySelector('.m-clbtn');if(mb2)mb2.click();}
@@ -2179,6 +2186,11 @@ function renderNet(){var aside=document.querySelector('.side');if(!aside)return;
  bar.appendChild(go);bar.appendChild(x);
  var anchor2=document.getElementById('needs')||document.getElementById('catnav');
  anchor2.parentNode.insertBefore(bar,anchor2);})();
+// ── Widget top.gg : révélé quand l'image charge (le onload inline d'origine était bloqué par la CSP à
+// hash, et l'image par img-src 'self' — le badge restait invisible pour tout le monde).
+(function(){var img=document.querySelector('.topgg-badge img');if(!img)return;
+ function show(){var b=img.closest('.topgg-badge');if(b)b.style.display='block';}
+ if(img.complete&&img.naturalWidth>0)show();else img.addEventListener('load',show);})();
 // ═══ 📱 PWA : enregistrement du service worker (fichier séparé, jamais touché par les maj du bot)
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 (function(){var h=decodeURIComponent((location.hash||'').replace(/^#/,'')).toLowerCase();if(!h)return;var card=[].slice.call(document.querySelectorAll('.cmd')).filter(function(c){return c.dataset.n.toLowerCase()===h;})[0];if(card)openSim(card);})();</script>
