@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-rO4YQzSPGQjhew1Et4F9LqQb+DvGidYCzDM/HdjpaTc='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wfdXf9ISfgr3LPE2he/RGJZlp/50CQh5DeJedmXFgok='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -277,6 +277,23 @@ section{animation:fadeIn .5s ease backwards}
 .rescount{color:var(--mut);font-size:.83rem;margin:-14px 0 16px;display:none}
 .cmd:focus-visible,.cpy:focus-visible,.m-cpy:focus-visible,.nav a:focus-visible,#search:focus-visible,.more:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* ── Badge « NOUVEAU » : commandes apparues depuis la dernière visite du visiteur (stockage local) */
+.newb{display:inline-block;background:#57F287;color:#0b0b12;font-size:.62rem;font-weight:800;border-radius:999px;padding:1px 7px;margin-left:7px;vertical-align:2px;letter-spacing:.04em}
+/* ── Filtres flottants (mobile) : bouton rond à gauche + feuille coulissante en bas */
+.fabf{position:fixed;left:18px;bottom:18px;width:40px;height:40px;border-radius:50%;background:var(--card);color:var(--txt);border:1px solid var(--line);font-size:1.05rem;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:55}
+.fabf.show{display:flex}
+@media(min-width:641px){.fabf{display:none!important}}
+.fback{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:59}
+.fsheet{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);border-radius:16px 16px 0 0;padding:16px 16px 22px;z-index:60;max-height:72vh;overflow:auto}
+.fsheet .navlbl{display:block;margin:2px 0 8px}
+.fsheet .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}
+.fsheet .navf,.fsheet .accf{width:100%;text-align:left;padding:9px 10px;font-size:.88rem}
+/* ── Vote « utile » dans la modale */
+.m-vote{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}
+.m-vote button{background:var(--card2,rgba(127,127,160,.12));border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:6px 14px;cursor:pointer;font-weight:700}
+.m-vote button:hover{border-color:#57F287;color:#57F287}
+.m-vote .voted{color:#57F287;font-weight:700}
 </style></head><body>
 <header>
   <div class="bstat unk" id="botstatus" role="status"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
@@ -1342,7 +1359,9 @@ document.querySelectorAll('.cl-toggle').forEach(function(b){b.addEventListener('
 var hs=document.getElementById('histSearch');var __ht=0;if(hs)hs.addEventListener('input',function(e){clearTimeout(__ht);__ht=setTimeout(function(){var q=e.target.value.trim().toLowerCase(),sh=0;document.querySelectorAll('#hist .hentry').forEach(function(en){var m=!q||en.textContent.toLowerCase().indexOf(q)>=0;en.style.display=m?'':'none';if(m)sh++;});var hn=document.getElementById('histNone');if(hn)hn.hidden=!(q&&sh===0);},150);});
 var __lb=document.getElementById('lang');if(__lb)__lb.addEventListener('click',function(){setLang(curLang()==='fr'?'en':'fr');});
 // Thème clair/sombre : persisté (localStorage), sombre par défaut. Le bouton montre l'icône de la cible.
-function curTheme(){try{return localStorage.getItem('theme')==='light'?'light':'dark';}catch(e){return 'dark';}}
+function curTheme(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')return t;}catch(e){}
+ // pas de choix mémorisé → on suit le thème du système (le choix manuel reste prioritaire et persisté)
+ return (window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';}
 function applyTheme(t){if(t==='light')document.documentElement.setAttribute('data-theme','light');else document.documentElement.removeAttribute('data-theme');var b=document.getElementById('theme');if(b)b.textContent=(t==='light'?'🌙':'☀️');}
 applyTheme(curTheme());
 var __tb=document.getElementById('theme');if(__tb)__tb.addEventListener('click',function(){var t=curTheme()==='light'?'dark':'light';try{localStorage.setItem('theme',t);}catch(e){}applyTheme(t);});
@@ -1389,7 +1408,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
 var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1713,5 +1732,53 @@ document.addEventListener('keydown',function(e){
  if(e.key==='Tab'&&document.getElementById('ov').classList.contains('open'))trapFocus(e);
 });
 // Lien direct partageable : …/#nomcommande ouvre la simulation correspondante au chargement.
+// ── Badge « NOUVEAU » : commandes absentes lors de la visite précédente de CE visiteur (localStorage).
+// Première visite : rien (pas de référence). La liste vue est re-mémorisée à chaque passage.
+(function(){var names=[].slice.call(document.querySelectorAll('.cmd[data-n]')).map(function(c){return c.dataset.n;});
+ var seen=null;try{seen=JSON.parse(localStorage.getItem('seenCmds')||'null');}catch(e){}
+ if(Array.isArray(seen)&&seen.length){var set={};seen.forEach(function(n){set[n]=1;});
+  names.forEach(function(n){if(!set[n]){var el=document.querySelector('.cmd[data-n="'+n+'"] .name');
+   if(el){var b=document.createElement('span');b.className='newb';b.setAttribute('data-i18n','newBadge');b.textContent=tr('newBadge');el.appendChild(b);}}});}
+ try{localStorage.setItem('seenCmds',JSON.stringify(names));}catch(e){}})();
+// ── Modale enrichie : bouton Partager (Web Share API, mobile) + vote « utile » anonyme (compteur Abacus
+// par commande, même service que le compteur de visites ; un vote par commande et par navigateur).
+var __openSim0=openSim;
+openSim=function(card){__openSim0(card);
+ var mc=document.getElementById('mc'),n=card.dataset.n;if(!mc)return;
+ var row=mc.querySelector('.m-cpyrow');
+ if(row&&navigator.share&&!row.querySelector('.m-share')){var sb=el('button','m-cpy m-share',tr('shareBtn'));sb.type='button';
+  sb.addEventListener('click',function(){navigator.share({title:'+'+n+' — Hasu Protect',url:location.origin+location.pathname+'#'+n}).catch(function(){});});
+  row.appendChild(sb);}
+ var note=mc.querySelector('.m-note');if(!note||mc.querySelector('.m-vote'))return;
+ var v=el('div','m-vote'),q=el('span',null,tr('helpful'));v.appendChild(q);
+ var voted=false;try{voted=!!localStorage.getItem('voted_'+n);}catch(e){}
+ if(voted){v.appendChild(el('span','voted','✔ '+tr('helpfulThanks')));}
+ else{var b=el('button',null,tr('helpfulYes'));b.type='button';
+  b.addEventListener('click',function(){b.disabled=true;
+   fetch('https://abacus.jasoncameron.dev/hit/hasu-protect-docs/cmd-'+encodeURIComponent(n),{cache:'no-store'})
+   .then(function(r){return r.ok?r.json():null;}).then(function(d){try{localStorage.setItem('voted_'+n,'1');}catch(e){}
+    var m=el('span','voted','✔ '+tr('helpfulThanks')+(d&&d.value?' ('+d.value+')':''));v.replaceChild(m,b);})
+   .catch(function(){b.disabled=false;});});
+  v.appendChild(b);}
+ mc.insertBefore(v,note);};
+// ── Filtres flottants (mobile) : bouton rond en bas à gauche après un écran de scroll → feuille avec les
+// mêmes filtres que la barre du haut (catégories + accès, compteurs inclus). Choisir applique le filtre,
+// ferme la feuille et remonte aux résultats.
+(function(){var fab=document.createElement('button');fab.type='button';fab.className='fabf';fab.textContent='🗂️';
+ fab.setAttribute('aria-label',tr('filtersTitle'));document.body.appendChild(fab);
+ window.addEventListener('scroll',function(){fab.classList.toggle('show',window.scrollY>900);},{passive:true});
+ function close(){var s=document.getElementById('fsheet'),k=document.getElementById('fback');if(s)s.remove();if(k)k.remove();}
+ fab.addEventListener('click',function(){if(document.getElementById('fsheet')){close();return;}
+  var back=document.createElement('div');back.className='fback';back.id='fback';back.addEventListener('click',close);
+  var sh=document.createElement('div');sh.className='fsheet';sh.id='fsheet';sh.setAttribute('role','dialog');
+  function grp(sel,lbl){var l=document.createElement('span');l.className='navlbl';l.textContent=lbl;sh.appendChild(l);
+   var g=document.createElement('div');g.className='fgrid';
+   document.querySelectorAll(sel).forEach(function(src){var b=src.cloneNode(true);
+    b.addEventListener('click',function(){src.click();close();
+     var t=document.getElementById('catnav');if(t)t.scrollIntoView({behavior:__rm?'auto':'smooth'});});
+    g.appendChild(b);});
+   sh.appendChild(g);}
+  grp('#catnav .navf',tr('catLabel'));grp('#accnav .accf',(I18N.accLabel?tr('accLabel'):'Accès :'));
+  document.body.appendChild(back);document.body.appendChild(sh);});})();
 (function(){var h=decodeURIComponent((location.hash||'').replace(/^#/,'')).toLowerCase();if(!h)return;var card=[].slice.call(document.querySelectorAll('.cmd')).filter(function(c){return c.dataset.n.toLowerCase()===h;})[0];if(card)openSim(card);})();</script>
 </body></html>

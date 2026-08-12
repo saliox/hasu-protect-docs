@@ -74,3 +74,13 @@ le template local.
     (langue appliquée, échec géré). Consigne de scission côté générateur :
     voir `CONSIGNES-BOT.md` à la racine + le commentaire en tête d'index.html.
     Tant que l'historique reste inline, le chargeur est strictement no-op.
+
+11. **Lot UX (PR #17)** : filtres flottants mobile (bouton 🗂️ bas-gauche après
+    un écran de scroll → feuille avec catégories + accès, compteurs inclus),
+    vote « utile » anonyme par commande dans la modale (Abacus, clé
+    `cmd-<nom>`, un vote par navigateur), thème qui suit le système tant
+    qu'aucun choix manuel n'est mémorisé, badge « NOUVEAU » sur les commandes
+    apparues depuis la dernière visite du visiteur (localStorage `seenCmds`),
+    bouton 📤 Partager (Web Share API) dans la modale. Blocs : CSS `.newb`/
+    `.fabf`/`.fsheet`/`.m-vote`, clés I18N correspondantes, wrapper openSim,
+    et curTheme() basé sur prefers-color-scheme.
