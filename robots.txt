@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+
 Sitemap: https://saliox.github.io/hasu-protect-docs/sitemap.xml

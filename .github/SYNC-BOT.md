@@ -178,3 +178,17 @@ le template local.
     I18N `demo*` et tout le CSS associé (`.cta-demo`, `.m-dchat`, `.m-sys`,
     `.m-join`, `.m-typing`, `.m-efields`, `.mdel`…) ont été supprimés à la
     demande — ne PAS les réintroduire depuis un vieux template.
+
+20. **Lot données vraies + hygiène (PR #36)** : nombres des badges héros ET
+    date du pied de page formatés selon la langue (`fmtN`/`setDT`, re-rendus
+    à la bascule — les badges étaient déjà branchés sur le heartbeat via
+    `setBadges`, désormais mémorisé dans `__hbData`) ; **préchargement de
+    l'historique à l'inactivité** (`requestIdleCallback`, respect de
+    `saveData`, variable `__histPre` consommée par `loadHist`) ; images de
+    partage converties en **JPEG** (`assets/og-banner.jpg` 275→45 Ko,
+    `assets/capture-securite.jpg` 112→68 Ko — les métas og:image/twitter et
+    le JSON-LD pointent vers les .jpg, ne plus déployer les .png) ;
+    `sitemap.xml` + `robots.txt` + `404.html` à la racine (à ne pas
+    supprimer) ; badge de disponibilité 7 j dans le README (`badge.json`
+    publié sur la branche uptime par build-uptime.js).
+

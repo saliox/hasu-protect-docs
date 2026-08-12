@@ -1,5 +1,7 @@
 # Documentation de Hasu Protect
 
+[![Disponibilité du bot](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsaliox%2Fhasu-protect-docs%2Fuptime%2Fbadge.json)](https://saliox.github.io/hasu-protect-docs/)
+
 Le site de documentation du bot Discord **Hasu Protect** — protection anti-raid, anti-nuke et
 modération.
 
