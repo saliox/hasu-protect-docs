@@ -51,6 +51,10 @@ if (require.main === module) {
     const total = hours.reduce((s, x) => s + x[1], 0);
     const out = { generated: now, days: 7, expectedPerHour: 30, hours };
     require('fs').writeFileSync('uptime.json', JSON.stringify(out));
+    // Badge shields.io (endpoint) pour le README : couverture 7 j, plafonnée à 100.
+    const pct = Math.min(100, total / (hours.length * 30) * 100);
+    const color = pct >= 99 ? 'brightgreen' : pct >= 95 ? 'green' : pct >= 80 ? 'yellow' : pct > 0 ? 'orange' : 'red';
+    require('fs').writeFileSync('badge.json', JSON.stringify({ schemaVersion: 1, label: 'uptime 7 j', message: (pct >= 99.95 ? '100' : pct.toFixed(1)) + '%', color }));
     console.log(`uptime.json : ${beats.length} battements sur ${hours.length} h (couverture ${(total / (hours.length * 30) * 100).toFixed(1)} %)`);
   })().catch(e => { console.error(e.message); process.exit(1); });
 }

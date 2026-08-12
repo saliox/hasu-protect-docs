@@ -30,7 +30,7 @@ const MARKERS = [
   ['§12 PWA — enregistrement du service worker', 'serviceWorker'],
   ['§13 Lot polish — chips de filtres actifs (achips)', 'achips'],
   ['§13 Lot polish — mini-tour de bienvenue (tourDone)', 'tourDone'],
-  ['§14 Analytics — bannière de partage og-banner', 'og-banner.png'],
+  ['§14 Analytics — bannière de partage og-banner', 'og-banner.jpg'],
   ['§14 Analytics — panneau Réseau (renderNet)', 'renderNet'],
   ['§15 Nouveautés v2 — garde anti-bruit (seenAt)', 'seenAt'],
   ['§15 Widget top.gg — badge (topgg-badge)', 'topgg-badge'],
@@ -47,8 +47,11 @@ const FILES = [
   'sw.js',
   'assets/icon-192.png',
   'assets/icon-512.png',
-  'assets/og-banner.png',
+  'assets/og-banner.jpg',
   'CONSIGNES-BOT.md',
+  'sitemap.xml',
+  'robots.txt',
+  '404.html',
 ];
 
 const missing = MARKERS.filter(([, needle]) => !html.includes(needle));

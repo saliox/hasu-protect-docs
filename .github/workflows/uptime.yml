@@ -30,6 +30,6 @@ jobs:
           git config user.name "uptime-bot"
           git config user.email "actions@github.com"
           git switch --orphan uptime
-          git add uptime.json growth.json votes.json
+          git add uptime.json growth.json votes.json badge.json
           git commit -m "uptime $(date -u +%Y-%m-%dT%H:%M)"
           git push -f origin uptime
