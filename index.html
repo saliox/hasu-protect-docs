@@ -1,6 +1,6 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-gq/oMNItV307GbezHY5zgn4s+q0p9MwoAZ5i5HH0p3U='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-nscol7Tkq3EVudWxV3WjN4TDj9FcUOzEiQDk9xg55Bw='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -43,6 +43,18 @@ header{position:relative;padding:42px 22px 26px;text-align:center;background:rad
 .bstat.off{color:#ED4245;border-color:#ED4245}.bstat.off .bdot{background:#ED4245}
 .bstat.upd{color:#E67E22;border-color:#E67E22}.bstat.upd .bdot{background:#E67E22}
 .bstat.unk{color:var(--mut);border-color:var(--line)}.bstat.unk .bdot{background:var(--mut)}
+.bstat{cursor:pointer}
+/* ── Panneau de disponibilité 7 jours (clic sur le badge de statut) */
+.uppop{position:absolute;top:60px;right:22px;z-index:60;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 10px 34px rgba(0,0,0,.45);width:330px;max-width:calc(100vw - 30px);text-align:left}
+.uppop h3{margin:0 0 2px;font-size:.92rem}
+.uppop .upsub{color:var(--mut);font-size:.74rem;margin-bottom:10px}
+.upgrid{display:grid;grid-template-columns:repeat(24,1fr);gap:2px}
+.upgrid i{display:block;height:10px;border-radius:2px;background:var(--line)}
+.upgrid i.u{background:#57F287}.upgrid i.p{background:#E67E22}.upgrid i.d{background:#ED4245}
+.uplegend{display:flex;gap:12px;margin-top:10px;color:var(--mut);font-size:.7rem;align-items:center}
+.uplegend b{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:-1px;margin-right:4px}
+.uppct{font-weight:800;color:#57F287}
+@media(max-width:640px){.uppop{position:fixed;left:50%;transform:translateX(-50%);right:auto;top:74px}}
 :root[data-theme="light"] .bstat{background:rgba(255,255,255,.6)} /* même fond clair que .langbtn */
 @media(max-width:640px){.bstat{position:static;margin:0 auto 12px;font-size:.88rem}}
 header h1{margin:0;font-size:2.05rem}header h1 .b{color:var(--purple)}
@@ -1353,7 +1365,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
 var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1490,6 +1502,36 @@ function pollAPI(gap){var n=Date.now();if(n-__apiLast<gap)return;__apiLast=n;
  fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content){fail();return;}var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){fail();return;}applyHB(j,true);}).catch(fail);}
 function pollHB(){fetch(__rawURL,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){applyHB(j,false);})
  .catch(function(){pollAPI(240000);});}
+// ── Disponibilité 7 jours : clic sur le badge de statut → panneau. Données : uptime.json publié toutes
+// les heures sur la branche \u00ab uptime \u00bb par l'Action GitHub (reconstruit depuis les commits heartbeat de
+// la branche status — aucun changement côté bot). Battements attendus : 30/h ; ≥27 = vert, 1-26 = orange,
+// 0 = rouge, hors données = gris. Repli : panneau avec message si le fichier est injoignable.
+var __upURL='https://raw.githubusercontent.com/saliox/hasu-protect-docs/uptime/uptime.json';
+var __upData=null,__upAt=0;
+function renderUp(pop){pop.innerHTML='';
+ var h3=document.createElement('h3');h3.setAttribute('data-i18n','upTitle');h3.textContent=tr('upTitle');pop.appendChild(h3);
+ var sub=document.createElement('div');sub.className='upsub';sub.setAttribute('data-i18n','upSub');sub.textContent=tr('upSub');pop.appendChild(sub);
+ if(!__upData||!__upData.hours||!__upData.hours.length){var p=document.createElement('div');p.className='upsub';p.textContent=tr('upNone');pop.appendChild(p);return;}
+ var grid=document.createElement('div');grid.className='upgrid';var tot=0,exp=__upData.expectedPerHour||30;
+ __upData.hours.forEach(function(x){var i=document.createElement('i');var c=x[1];tot+=Math.min(c,exp);
+  i.className=c>=exp*0.9?'u':(c>0?'p':'d');
+  i.title=new Date(x[0]).toLocaleString(curLang()==='en'?'en-GB':'fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit'})+' — '+c+'/'+exp;
+  grid.appendChild(i);});
+ pop.appendChild(grid);
+ var pct=(tot/(__upData.hours.length*exp)*100);
+ var leg=document.createElement('div');leg.className='uplegend';
+ leg.innerHTML='<span><b style="background:#57F287"></b>'+tr('upOk')+'</span><span><b style="background:#E67E22"></b>'+tr('upPart')+'</span><span><b style="background:#ED4245"></b>'+tr('upDown')+'</span><span style="margin-left:auto"><span class="uppct">'+(pct>=99.95?'100':pct.toFixed(1).replace('.',curLang()==='en'?'.':','))+'%</span></span>';
+ pop.appendChild(leg);}
+function toggleUp(){var pop=document.getElementById('uppop');
+ if(pop){pop.remove();return;}
+ pop=document.createElement('div');pop.id='uppop';pop.className='uppop';pop.setAttribute('role','dialog');
+ renderUp(pop);document.querySelector('header').appendChild(pop);
+ if(!__upData||Date.now()-__upAt>300000){
+  fetch(__upURL,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){__upAt=Date.now();__upData=d;var p=document.getElementById('uppop');if(p)renderUp(p);}).catch(function(){});}}
+(function(){var b=document.getElementById('botstatus');if(!b)return;b.setAttribute('tabindex','0');
+ b.addEventListener('click',toggleUp);
+ b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleUp();}});
+ document.addEventListener('click',function(e){var p=document.getElementById('uppop');if(p&&!p.contains(e.target)&&!b.contains(e.target))p.remove();});})();
 // Onglet remis au premier plan (retour de veille, changement d'onglet) → re-vérifie tout de suite.
 document.addEventListener('visibilitychange',function(){if(!document.hidden)pollHB();});
 // Compteur ALIGNÉ SUR L'HORLOGE (fenêtres glissantes de 120 s) → reste cohérent après un refresh de la

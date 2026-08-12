@@ -59,3 +59,11 @@ le template local.
    `/get` seul si le stockage est bloqué (navigation privée), seuil de
    fraîcheur unifié 270 s, CSS `.gex` mort supprimé. Tests unitaires du
    parseur dans `.github/unit-tests.js`, exécutés par le workflow CI.
+
+9. **Disponibilité 7 jours (PR #15)** : clic sur le badge de statut → panneau
+   avec 168 cases horaires (vert ≥ 27 battements/h, orange partiel, rouge 0)
+   et pourcentage global. Données : `uptime.json` publié toutes les heures sur
+   la branche `uptime` par `.github/workflows/uptime.yml` (reconstruit depuis
+   les commits heartbeat de la branche `status` — RIEN à changer côté bot).
+   À porter dans le template : le bloc CSS `.uppop`/`.upgrid`, les clés I18N
+   `up*`, et le bloc JS `renderUp`/`toggleUp`.

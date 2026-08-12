@@ -1,0 +1,28 @@
+# Disponibilité du bot : toutes les heures, reconstruit uptime.json (7 jours, seaux horaires)
+# depuis les commits heartbeat de la branche `status`, et le publie sur la branche `uptime`
+# (orpheline, un seul commit, réécrite à chaque run : ni main ni status ne sont touchées).
+# Le site le lit sur raw.githubusercontent.com/…/uptime/uptime.json (déjà autorisé par la CSP).
+name: Uptime du bot
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construire uptime.json depuis les heartbeats
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node .github/build-uptime.js
+      - name: Publier sur la branche uptime
+        run: |
+          git config user.name "uptime-bot"
+          git config user.email "actions@github.com"
+          git switch --orphan uptime
+          git add uptime.json
+          git commit -m "uptime $(date -u +%Y-%m-%dT%H:%M)"
+          git push -f origin uptime
