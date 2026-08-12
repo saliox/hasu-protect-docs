@@ -1,0 +1,16 @@
+{
+  "name": "Hasu Protect — Documentation",
+  "short_name": "Hasu Protect",
+  "description": "Documentation des commandes du bot Discord Hasu Protect : antiraid, modération, jeux — consultable hors-ligne.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0b12",
+  "theme_color": "#5865F2",
+  "lang": "fr",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

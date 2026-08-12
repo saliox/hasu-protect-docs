@@ -12,11 +12,11 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-wfdXf9ISfgr3LPE2he/RGJZlp/50CQh5DeJedmXFgok='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-6MRVexcKcE0CyCmyVqF9an/yCYQo2zTdOh73FTO/DP8='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
-<meta name="theme-color" content="#5865F2">
+<meta name="theme-color" content="#5865F2"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://saliox.github.io/hasu-protect-docs/">
 <link rel="alternate" hreflang="fr" href="https://saliox.github.io/hasu-protect-docs/?lang=fr">
@@ -294,6 +294,38 @@ section{animation:fadeIn .5s ease backwards}
 .m-vote button{background:var(--card2,rgba(127,127,160,.12));border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:6px 14px;cursor:pointer;font-weight:700}
 .m-vote button:hover{border-color:#57F287;color:#57F287}
 .m-vote .voted{color:#57F287;font-weight:700}
+
+/* ── Favoris : étoile sur chaque carte + barre de puces en tête */
+.favb{position:absolute;top:8px;right:10px;background:none;border:none;font-size:1rem;cursor:pointer;color:var(--mut);opacity:.55;padding:4px;line-height:1;z-index:2}
+.favb:hover{opacity:1;color:#F1C40F}.favb.on{opacity:1;color:#F1C40F}
+.cmd{position:relative}
+.favbar{display:none;flex-wrap:wrap;gap:7px;align-items:center;margin:0 0 18px;padding:12px 14px;background:var(--card);border:1px solid var(--gold);border-radius:12px}
+.favbar.show{display:flex}
+.favbar .navlbl{margin-right:4px}
+.favchip{background:var(--card2,rgba(127,127,160,.12));border:1px solid var(--line);color:var(--gold);border-radius:999px;padding:5px 13px;font-size:.86rem;font-weight:700;cursor:pointer;font-family:ui-monospace,monospace}
+.favchip:hover{border-color:var(--gold)}
+/* ── Palette Ctrl+K */
+.kov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:70;display:flex;align-items:flex-start;justify-content:center;padding:12vh 14px 0}
+.kbox{background:var(--card);border:1px solid var(--line);border-radius:14px;width:560px;max-width:100%;box-shadow:0 18px 60px rgba(0,0,0,.5);overflow:hidden}
+.kbox input{width:100%;box-sizing:border-box;background:transparent;border:none;border-bottom:1px solid var(--line);color:var(--txt);font-size:1.02rem;padding:14px 16px;outline:none}
+.kres{max-height:46vh;overflow:auto}
+.kres .ki{display:flex;gap:10px;align-items:baseline;padding:10px 16px;cursor:pointer;border-left:3px solid transparent}
+.kres .ki .kn{font-family:ui-monospace,monospace;font-weight:700;color:var(--gold);white-space:nowrap}
+.kres .ki .kd{color:var(--mut);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kres .ki.sel,.kres .ki:hover{background:rgba(88,101,242,.14);border-left-color:var(--purple)}
+.kres .kfuzzy{padding:8px 16px;color:var(--mut);font-size:.76rem}
+/* ── Guide « J'ai besoin de… » (bêta) */
+.needs{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 18px}
+.needs h2{font-size:1rem;margin:0 0 4px}.needs .beta{font-size:.62rem;font-weight:800;background:#E67E22;color:#0b0b12;border-radius:999px;padding:1px 7px;vertical-align:2px;margin-left:6px}
+.needs .nsub{color:var(--mut);font-size:.78rem;margin-bottom:10px}
+.nchips{display:flex;flex-wrap:wrap;gap:7px}
+.nchip{background:var(--card2,rgba(127,127,160,.12));border:1px solid var(--line);color:var(--txt);border-radius:999px;padding:6px 13px;font-size:.86rem;cursor:pointer}
+.nchip:hover,.nchip.on{border-color:var(--purple);color:var(--purple)}
+.nsteps{margin:12px 0 0;padding:0;list-style:none}
+.nsteps li{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-top:1px solid var(--line);font-size:.88rem}
+.nsteps .num{color:var(--mut);font-weight:800;min-width:18px}
+.nsteps code{cursor:pointer;color:var(--gold);font-weight:700}
+.nsteps code:hover{text-decoration:underline}
 </style></head><body>
 <header>
   <div class="bstat unk" id="botstatus" role="status"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
@@ -1408,7 +1440,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
 var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},favLabel:{fr:'⭐ Mes favoris :',en:'⭐ My favorites:'},favAdd:{fr:'Ajouter aux favoris',en:'Add to favorites'},favDel:{fr:'Retirer des favoris',en:'Remove from favorites'},kph:{fr:'Tape une commande… (Échap pour fermer)',en:'Type a command… (Esc to close)'},kfuzzy:{fr:'Résultats approchés (faute de frappe ?)',en:'Close matches (typo?)'},needsT:{fr:'🧭 J’ai besoin de…',en:'🧭 I need to…'},needsSub:{fr:'Choisis ta situation → les commandes dans le bon ordre. Clique une commande pour sa fiche.',en:'Pick your situation → the right commands in order. Click a command for details.'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1780,5 +1812,143 @@ openSim=function(card){__openSim0(card);
    sh.appendChild(g);}
   grp('#catnav .navf',tr('catLabel'));grp('#accnav .accf',(I18N.accLabel?tr('accLabel'):'Accès :'));
   document.body.appendChild(back);document.body.appendChild(sh);});})();
+// ═══ ⭐ FAVORIS : étoile sur chaque carte (localStorage), barre de puces cliquables en tête des résultats.
+function favGet(){try{var f=JSON.parse(localStorage.getItem('favCmds')||'[]');return Array.isArray(f)?f:[];}catch(e){return [];}}
+function favSet(f){try{localStorage.setItem('favCmds',JSON.stringify(f));}catch(e){}}
+function favBar(){var bar=document.getElementById('favbar');
+ if(!bar){bar=document.createElement('div');bar.id='favbar';bar.className='favbar';
+  var cn=document.getElementById('catnav');cn.parentNode.insertBefore(bar,cn);}
+ var f=favGet();bar.innerHTML='';
+ if(!f.length){bar.classList.remove('show');return;}
+ var l=document.createElement('span');l.className='navlbl';l.setAttribute('data-i18n','favLabel');l.textContent=tr('favLabel');bar.appendChild(l);
+ f.forEach(function(n){var card=document.querySelector('.cmd[data-n="'+n+'"]');if(!card)return;
+  var c=document.createElement('button');c.type='button';c.className='favchip';c.textContent='+'+n;
+  c.addEventListener('click',function(){openSim(card);});bar.appendChild(c);});
+ bar.classList.add('show');}
+(function(){var f=favGet();
+ document.querySelectorAll('.cmd[data-n]').forEach(function(card){
+  var b=document.createElement('button');b.type='button';b.className='favb'+(f.indexOf(card.dataset.n)>=0?' on':'');
+  b.textContent=f.indexOf(card.dataset.n)>=0?'★':'☆';b.setAttribute('aria-label',tr(f.indexOf(card.dataset.n)>=0?'favDel':'favAdd'));
+  b.addEventListener('click',function(e){e.stopPropagation();e.preventDefault();
+   var cur=favGet(),i=cur.indexOf(card.dataset.n);
+   if(i>=0){cur.splice(i,1);b.classList.remove('on');b.textContent='☆';b.setAttribute('aria-label',tr('favAdd'));}
+   else{cur.push(card.dataset.n);b.classList.add('on');b.textContent='★';b.setAttribute('aria-label',tr('favDel'));}
+   favSet(cur);favBar();});
+  b.addEventListener('keydown',function(e){e.stopPropagation();});
+  card.appendChild(b);});
+ favBar();})();
+// ═══ 🔤 DISTANCE D'ÉDITION (tolérance aux fautes) — utilisée par la palette et la recherche principale.
+function lev(a,b){if(a===b)return 0;var m=a.length,n=b.length;if(!m)return n;if(!n)return m;
+ var row=[],i,j;for(j=0;j<=n;j++)row[j]=j;
+ for(i=1;i<=m;i++){var prev=row[0];row[0]=i;
+  for(j=1;j<=n;j++){var cur=row[j];row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(a[i-1]===b[j-1]?0:1));prev=cur;}}
+ return row[n];}
+function fuzzyCards(q){q=q.toLowerCase();var out=[];
+ document.querySelectorAll('.cmd[data-n]').forEach(function(c){var n=c.dataset.n.toLowerCase();
+  var d=lev(q,n);if(d<=(q.length>5?2:1))out.push({c:c,d:d});});
+ out.sort(function(a,b){return a.d-b.d;});return out.map(function(x){return x.c;});}
+// Recherche principale : zéro résultat exact → repli approché sur les noms de commandes.
+(function(){var f0=filt;filt=function(q){f0(q);
+ q=(q==null?curQ():String(q).trim().toLowerCase());
+ var rc=document.getElementById('rescount');
+ if(q.length>2&&document.getElementById('empty').style.display==='block'){
+  var near=fuzzyCards(q);if(near.length){
+   near.forEach(function(c){c.style.display='';});
+   sects().forEach(function(s){var vis=[].slice.call(s.querySelectorAll('.cmd')).some(function(c){return c.style.display!=='none';});s.style.display=vis?'':'none';});
+   document.getElementById('empty').style.display='none';
+   if(rc){rc.textContent=tr('kfuzzy');rc.style.display='';}}}};})();
+// ═══ ⌨️ PALETTE Ctrl+K : recherche instantanée par-dessus la page, Entrée ouvre la simulation.
+var __kSel=0,__kList=[];
+function kClose(){var o=document.getElementById('kov');if(o)o.remove();}
+function kRender(q){var res=document.getElementById('kres');res.innerHTML='';__kSel=0;__kList=[];
+ q=q.trim().toLowerCase();if(!q)return;
+ var all=[].slice.call(document.querySelectorAll('.cmd[data-n]'));
+ var hits=all.filter(function(c){return c.dataset.n.toLowerCase().indexOf(q)===0;});
+ all.forEach(function(c){if(hits.indexOf(c)<0&&c.dataset.s.indexOf(q)>=0)hits.push(c);});
+ var fuzzy=false;
+ if(!hits.length){hits=fuzzyCards(q);fuzzy=true;}
+ __kList=hits.slice(0,8);
+ if(fuzzy&&__kList.length){var fz=document.createElement('div');fz.className='kfuzzy';fz.textContent=tr('kfuzzy');res.appendChild(fz);}
+ __kList.forEach(function(c,i){var d=document.createElement('div');d.className='ki'+(i===0?' sel':'');
+  var kn=document.createElement('span');kn.className='kn';kn.textContent='+'+c.dataset.n;
+  var kd=document.createElement('span');kd.className='kd';kd.textContent=(curLang()==='en'&&c.getAttribute('data-d-en'))?c.getAttribute('data-d-en'):c.dataset.d;
+  d.appendChild(kn);d.appendChild(kd);
+  d.addEventListener('click',function(){kClose();openSim(c);});
+  res.appendChild(d);});}
+function kOpen(){if(document.getElementById('kov'))return;
+ var ov=document.createElement('div');ov.id='kov';ov.className='kov';
+ ov.addEventListener('click',function(e){if(e.target===ov)kClose();});
+ var box=document.createElement('div');box.className='kbox';
+ var inp=document.createElement('input');inp.type='text';inp.setAttribute('placeholder',tr('kph'));inp.setAttribute('aria-label',tr('kph'));
+ var res=document.createElement('div');res.id='kres';res.className='kres';
+ inp.addEventListener('input',function(){kRender(inp.value);});
+ inp.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){kClose();return;}
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();
+   var items=res.querySelectorAll('.ki');if(!items.length)return;
+   items[__kSel].classList.remove('sel');
+   __kSel=(__kSel+(e.key==='ArrowDown'?1:items.length-1))%items.length;
+   items[__kSel].classList.add('sel');items[__kSel].scrollIntoView({block:'nearest'});return;}
+  if(e.key==='Enter'&&__kList[__kSel]){/* preventDefault : sinon l'action par défaut d'Entrée « clique » le ✕ que openSim vient de focaliser → modale refermée aussitôt */e.preventDefault();var c=__kList[__kSel];kClose();openSim(c);}});
+ box.appendChild(inp);box.appendChild(res);ov.appendChild(box);document.body.appendChild(ov);inp.focus();}
+document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&(e.key==='k'||e.key==='K')){e.preventDefault();kOpen();}});
+// ═══ 🧭 GUIDE « J'AI BESOIN DE… » (BÊTA — bloc autonome, facile à retirer). Recettes : situations →
+// commandes dans l'ordre. Les commandes absentes du site (renommées côté bot) sont sautées automatiquement.
+var NEEDS=[
+ {fr:'🚨 On me raid, là maintenant',en:'🚨 I\u2019m being raided right now',steps:[
+  ['panic',{fr:'verrouille tout le serveur d\u2019un coup',en:'lock the whole server at once'}],
+  ['lockdown',{fr:'ferme les salons sensibles restants',en:'close remaining sensitive channels'}],
+  ['scan',{fr:'analyse la sécurité et les comptes à risque',en:'analyze security and risky accounts'}],
+  ['undo',{fr:'répare les dégâts de l\u2019attaquant (débans, rôles)',en:'undo the attacker\u2019s damage'}]]},
+ {fr:'🛡️ Installer et sécuriser le bot',en:'🛡️ Set up and secure the bot',steps:[
+  ['setup',{fr:'configuration guidée de base',en:'guided base setup'}],
+  ['antiraid',{fr:'active les protections antiraid',en:'enable antiraid protections'}],
+  ['automod',{fr:'active la modération automatique',en:'enable automoderation'}],
+  ['setlogs',{fr:'choisis le salon des journaux',en:'pick the logs channel'}],
+  ['scan',{fr:'vérifie la posture finale',en:'verify the final posture'}]]},
+ {fr:'👋 Accueillir les nouveaux',en:'👋 Welcome newcomers',steps:[
+  ['setwelcome',{fr:'message de bienvenue',en:'welcome message'}],
+  ['setverify',{fr:'vérification à l\u2019arrivée',en:'verification on join'}],
+  ['rolemenu',{fr:'menu de rôles en autonomie',en:'self-serve role menu'}]]},
+ {fr:'🔨 Sanctionner proprement',en:'🔨 Sanction cleanly',steps:[
+  ['warn',{fr:'avertis d\u2019abord',en:'warn first'}],
+  ['tempsmute',{fr:'réduis au silence temporairement',en:'temporary mute'}],
+  ['tempban',{fr:'bannis temporairement si récidive',en:'temp ban on repeat'}],
+  ['sanctions',{fr:'consulte le casier du membre',en:'check the member\u2019s record'}]]},
+ {fr:'🎉 Animer mon serveur',en:'🎉 Liven up my server',steps:[
+  ['giveaway',{fr:'lance un giveaway',en:'start a giveaway'}],
+  ['autoevents',{fr:'événements automatiques réguliers',en:'regular automatic events'}],
+  ['drops',{fr:'caisses surprises dans les salons',en:'surprise crates in channels'}],
+  ['tournoi',{fr:'organise un tournoi',en:'run a tournament'}]]},
+ {fr:'🧹 Nettoyer après une attaque',en:'🧹 Clean up after an attack',steps:[
+  ['undo',{fr:'annule les actions de l\u2019attaquant',en:'undo the attacker\u2019s actions'}],
+  ['quarantine',{fr:'isole les comptes suspects',en:'quarantine suspicious accounts'}],
+  ['bl',{fr:'blackliste les responsables',en:'blacklist the culprits'}],
+  ['backup',{fr:'restaure la sauvegarde si besoin',en:'restore the backup if needed'}]]}];
+(function(){var cn=document.getElementById('catnav');if(!cn)return;
+ var box=document.createElement('div');box.className='needs';box.id='needs';
+ var L=curLang();
+ var h2=document.createElement('h2');h2.innerHTML='<span data-i18n="needsT">'+tr('needsT')+'</span><span class="beta">BÊTA</span>';box.appendChild(h2);
+ var sub=document.createElement('div');sub.className='nsub';sub.setAttribute('data-i18n','needsSub');sub.textContent=tr('needsSub');box.appendChild(sub);
+ var chips=document.createElement('div');chips.className='nchips';box.appendChild(chips);
+ var list=document.createElement('ol');list.className='nsteps';list.hidden=true;box.appendChild(list);
+ NEEDS.forEach(function(sc){var ch=document.createElement('button');ch.type='button';ch.className='nchip';
+  ch.textContent=curLang()==='en'?sc.en:sc.fr;ch.setAttribute('data-fr',sc.fr);ch.setAttribute('data-en',sc.en);
+  ch.addEventListener('click',function(){
+   var was=ch.classList.contains('on');
+   chips.querySelectorAll('.nchip').forEach(function(x){x.classList.remove('on');});
+   list.innerHTML='';if(was){list.hidden=true;return;}
+   ch.classList.add('on');var i=1;
+   sc.steps.forEach(function(st){var card=document.querySelector('.cmd[data-n="'+st[0]+'"]');if(!card)return;
+    var li=document.createElement('li');
+    li.innerHTML='<span class="num">'+(i++)+'.</span><code>+'+st[0]+'</code><span data-fr="'+st[1].fr.replace(/"/g,'&quot;')+'" data-en="'+st[1].en.replace(/"/g,'&quot;')+'">'+(curLang()==='en'?st[1].en:st[1].fr)+'</span>';
+    li.querySelector('code').addEventListener('click',function(){openSim(card);});
+    list.appendChild(li);});
+   list.hidden=false;});
+  chips.appendChild(ch);});
+ var fb=document.getElementById('favbar');
+ cn.parentNode.insertBefore(box,fb||cn);})();
+// ═══ 📱 PWA : enregistrement du service worker (fichier séparé, jamais touché par les maj du bot)
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 (function(){var h=decodeURIComponent((location.hash||'').replace(/^#/,'')).toLowerCase();if(!h)return;var card=[].slice.call(document.querySelectorAll('.cmd')).filter(function(c){return c.dataset.n.toLowerCase()===h;})[0];if(card)openSim(card);})();</script>
 </body></html>
