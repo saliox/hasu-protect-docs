@@ -25,7 +25,6 @@ const MARKERS = [
   ['§11 Lot UX — filtres flottants mobile (fsheet)', 'fsheet'],
   ['§12 Lot découverte — favoris (favCmds)', 'favCmds'],
   ['§12 Lot découverte — palette Ctrl+K (kOpen)', 'kOpen'],
-  ['§12 Lot découverte — guide « J\'ai besoin de… »', 'var NEEDS='],
   ['§12 PWA — <link rel="manifest">', 'rel="manifest"'],
   ['§12 PWA — worker-src \'self\' dans la CSP', "worker-src 'self'"],
   ['§12 PWA — enregistrement du service worker', 'serviceWorker'],
