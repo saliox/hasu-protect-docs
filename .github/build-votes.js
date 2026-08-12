@@ -17,8 +17,9 @@ async function get(key) {
   await Promise.all(Array.from({ length: 8 }, async () => {
     while (queue.length) {
       const n = queue.pop();
-      const [yes, no] = await Promise.all([get('cmd-' + n), get('cmd-' + n + '-no')]);
-      if (yes || no) out[n] = [yes, no];
+      const [y, ry, no, rn] = await Promise.all([get('cmd-' + n), get('cmd-' + n + '-ry'), get('cmd-' + n + '-no'), get('cmd-' + n + '-rn')]);
+      const yes = Math.max(0, y - ry), non = Math.max(0, no - rn); // NET : votes posés − votes retirés
+      if (yes || non) out[n] = [yes, non];
     }
   }));
   fs.writeFileSync('votes.json', JSON.stringify({ generated: Date.now(), votes: out }));

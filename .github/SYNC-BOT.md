@@ -77,9 +77,11 @@ le template local.
 
 11. **Lot UX (PR #17)** : filtres flottants mobile (bouton 🗂️ bas-gauche après
     un écran de scroll → feuille avec catégories + accès, compteurs inclus),
-    vote « utile » Oui/Non par commande dans la modale (Abacus : Oui = clé
-    `cmd-<nom>`, Non = `cmd-<nom>-no`, un vote par navigateur, totaux
-    affichés après le vote), thème qui suit le système tant
+    vote « utile » par commande dans la modale : pilules 👍/👎 avec scores
+    NETS, vote retirable (re-clic) et changeable (clic sur l'autre) —
+    Abacus n'incrémentant que vers le haut, les retraits vivent sur des
+    compteurs de rétractation (`cmd-<nom>-ry` / `-rn`) et le net =
+    posés − retirés (clés posées : `cmd-<nom>` / `cmd-<nom>-no`), thème qui suit le système tant
     qu'aucun choix manuel n'est mémorisé, badge « NOUVEAU » sur les commandes
     apparues depuis la dernière visite du visiteur (localStorage `seenCmds`),
     bouton 📤 Partager (Web Share API) dans la modale. Blocs : CSS `.newb`/
