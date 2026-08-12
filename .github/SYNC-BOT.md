@@ -84,3 +84,14 @@ le template local.
     bouton 📤 Partager (Web Share API) dans la modale. Blocs : CSS `.newb`/
     `.fabf`/`.fsheet`/`.m-vote`, clés I18N correspondantes, wrapper openSim,
     et curTheme() basé sur prefers-color-scheme.
+
+12. **Lot découverte (PR #18)** : ⭐ favoris (étoile sur chaque carte,
+    localStorage `favCmds`, barre de puces au-dessus des filtres), palette
+    Ctrl+K (recherche instantanée, flèches + Entrée, tolérance aux fautes
+    via distance d'édition — aussi branchée sur la recherche principale en
+    repli « résultats approchés »), guide « 🧭 J'ai besoin de… » BÊTA (6
+    recettes situation → commandes, bloc autonome `#needs` facile à
+    retirer), PWA (manifest.webmanifest + sw.js + icônes assets/icon-*.png
+    — fichiers séparés que le bot ne touche pas ; index.html doit garder le
+    <link rel="manifest">, l'apple-touch-icon, l'enregistrement du SW et
+    `worker-src 'self'` dans la CSP).
