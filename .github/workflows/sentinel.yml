@@ -1,0 +1,21 @@
+# Sentinelle anti-écrasement : vérifie à chaque push sur main que les blocs greffés
+# (sections de SYNC-BOT.md) sont toujours dans index.html et que les fichiers annexes
+# (PWA, bannière) existent. Si une « maj site » du bot écrase les correctifs, le commit
+# reçoit une croix rouge et GitHub envoie un mail — au lieu de le découvrir des jours après.
+# Ne tourne PAS sur les branches status/uptime (heartbeats toutes les 2 min).
+name: Sentinelle anti-écrasement
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sentinel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier la présence des blocs greffés
+        run: node .github/sentinel.js
