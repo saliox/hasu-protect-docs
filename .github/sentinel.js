@@ -59,7 +59,7 @@ const gone = FILES.filter((f) => !fs.existsSync(f));
 // Équilibre des <div> dans le bloc changelog : un </div> manquant a déjà fait avaler toute la
 // page par la boîte dorée (bug du contour, 12/08). On vérifie la zone changelog → quickstart.
 const clStart = html.indexOf('<div class="changelog">');
-const clEnd = html.indexOf('class="quickstart"', clStart);
+const clEnd = html.indexOf('<div class="quickstart"', clStart);
 if (clStart >= 0 && clEnd > clStart) {
   const zone = html.slice(clStart, clEnd);
   const opens = (zone.match(/<div[\s>]/g) || []).length;
