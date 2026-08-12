@@ -4,6 +4,11 @@
 > correctifs ci-dessous (re-greffés depuis). Tant que le template local ne les
 > intègre pas, chaque déploiement du bot les supprime.
 
+> 🛡️ **Sentinelle** : depuis, chaque push sur `main` est vérifié par
+> `.github/workflows/sentinel.yml` (`sentinel.js`) — si un déploiement écrase
+> un des blocs ci-dessous, le commit reçoit une croix rouge et GitHub envoie
+> un mail, avec la liste exacte des sections à re-greffer.
+
 Le déploiement auto du bot (« état local = référence ») a déjà écrasé une fois
 les correctifs fusionnés sur `main` (commit `04e80b70`, réconciliation du 23/07).
 Tant que la copie locale du site sur le PC du bot n'intègre pas les correctifs
