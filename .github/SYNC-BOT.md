@@ -95,3 +95,13 @@ le template local.
     — fichiers séparés que le bot ne touche pas ; index.html doit garder le
     <link rel="manifest">, l'apple-touch-icon, l'enregistrement du SW et
     `worker-src 'self'` dans la CSP).
+
+13. **Lot polish (PR #19)** : botReply enrichi (~30 familles — 145 commandes
+    tombaient sur le générique « Action effectuée », désormais 0), chips des
+    filtres actifs au-dessus des résultats (`#achips`, retirables + « Tout
+    effacer »), URL partageable (?q=&cat=&acc= synchronisée par filt() et
+    appliquée au chargement), bouton « 🎮 Ouvrir Discord » dans la modale
+    (copie + discord://), accessibilité (role=dialog + aria-modal + piège du
+    focus dans la modale, Échap ferme feuille de filtres et panneau uptime),
+    mini-tour de bienvenue 3 étapes (première visite seulement, jamais sur
+    lien profond, localStorage `tourDone`).
