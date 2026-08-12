@@ -148,3 +148,23 @@ le template local.
     `.m-sim.demo`), **rappel de vote top.gg** (clic sur « Voter » →
     localStorage `votedTgAt` ; au retour 12 h+ → bouton pulsé `.revote-on`
     + libellé `revote`).
+
+17. **Audit perf + EN (PR #30)** : **historique scindé** — les `.hentry` vivent
+    dans `history.html` à la racine (chargées au clic par `loadHist()`, déjà
+    en place) ; `#hist` ne garde que `#histSearch` + `#histNone` ; le
+    générateur doit produire `history.html` et NE PLUS inliner les entrées
+    (consigne détaillée dans `CONSIGNES-BOT.md` §1 — page 652 → 411 Ko).
+    **Délégation d'événements** : plus AUCUN écouteur individuel sur les
+    cartes (clic/clavier/copier/étoile) — 2 écouteurs délégués sur `<main>`.
+    **applyLang économe** : n'écrit dans le DOM que si la valeur change
+    (`data-fr0` mémorisé au premier passage EN seulement). **CSP** :
+    `frame-ancestors` retiré (ignoré en `<meta>`, ne faisait que du bruit
+    console). **Démo réaliste v2** : arrivées `.m-join`, horodatages `.m-ts`,
+    indicateur « écrit… » `.m-typing`, spam barré par `+undo` (`.raidmsg`/
+    `.del`), pied d'embed `.m-efoot`, déroulé en chaîne avec pause onglet
+    caché, relance au changement de langue (bloc `runDemo`). **Widget top.gg**
+    lisible : `.topgg-badge img{width:min(340px,88%);height:auto}`.
+    **EN complet** : clé `showhist` (bouton historique), aria-labels traduits
+    (`ariaSim` sur les 189 cartes, `ariaTop`, `ariaTheme`, `ariaModal`,
+    `ariaHist`) appliqués par `applyLang`. Tests : `.github/unit-tests.js`
+    passe à 48 cas (md, escH, lev, sparkline).

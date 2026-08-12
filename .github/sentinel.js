@@ -44,6 +44,7 @@ const MARKERS = [
 
 // Fichiers annexes que le déploiement du bot ne doit ni supprimer ni omettre.
 const FILES = [
+  'history.html', // historique scindé (§17) — sans lui, « Voir tout l'historique » échoue
   'manifest.webmanifest',
   'sw.js',
   'assets/icon-192.png',
