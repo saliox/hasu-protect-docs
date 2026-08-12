@@ -12,11 +12,11 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-WdLyDiET+XQU2dWXlnedmVPoZ4Ja4+DCJnu60Nqt45Y='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-JvPycQBOWlWhyoK/MY8EroI5NXk9j8lzjXtHZljJ7vY='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
-<meta name="theme-color" content="#5865F2"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icon-192.png">
+<meta property="og:image" content="https://saliox.github.io/hasu-protect-docs/assets/og-banner.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:image" content="https://saliox.github.io/hasu-protect-docs/assets/og-banner.png"><meta name="theme-color" content="#5865F2"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://saliox.github.io/hasu-protect-docs/">
 <link rel="alternate" hreflang="fr" href="https://saliox.github.io/hasu-protect-docs/?lang=fr">
@@ -28,7 +28,7 @@
 <meta property="og:description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
 <meta property="og:url" content="https://saliox.github.io/hasu-protect-docs/">
 <!-- Pas de og:image / twitter:image : on NE veut PAS de capture d'écran dans l'aperçu Discord (juste titre + description). -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="[+] Hasu Protect — Documentation">
 <meta name="twitter:description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"[+] Hasu Protect","applicationCategory":"SecurityApplication","operatingSystem":"Discord","inLanguage":"fr","description":"Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.","url":"https://saliox.github.io/hasu-protect-docs/","image":"https://saliox.github.io/hasu-protect-docs/assets/capture-securite.png","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"featureList":["🛡️ Sécurité & Antiraid","🔨 Modération","⚙️ Configuration","🎮 Jeux & Fun","📈 Profil & Classements","🏘️ Communauté & Utilitaires","👑 Owner du bot"]}</script>
@@ -342,6 +342,18 @@ section{animation:fadeIn .5s ease backwards}
 .tourb button{border-radius:8px;padding:5px 12px;font-size:.8rem;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--mut)}
 .tourb button.next{background:var(--purple);border-color:var(--purple);color:#fff;font-weight:700}
 .tourhl{outline:2px solid var(--purple);outline-offset:3px;border-radius:10px}
+
+/* ── Panneau 📈 Réseau (barre latérale) + bandeau nouveautés */
+.netchart{margin:8px 0 2px}
+.netchart .nl{display:flex;justify-content:space-between;font-size:.74rem;color:var(--mut)}
+.netchart .nl b{color:var(--txt)}
+.netchart svg{width:100%;height:56px;display:block;background:rgba(127,127,160,.06);border-radius:8px}
+.netvotes{margin-top:10px}
+.netvotes .nv{display:flex;justify-content:space-between;font-size:.8rem;padding:3px 0;border-top:1px solid var(--line)}
+.netvotes .nv code{color:var(--gold)}
+.newsbar{display:flex;align-items:center;gap:10px;background:rgba(87,242,135,.09);border:1px solid #57F287;border-radius:12px;padding:10px 14px;margin:0 0 18px;font-size:.9rem}
+.newsbar button.go{background:transparent;border:none;color:#57F287;font-weight:800;cursor:pointer;text-decoration:underline;font-size:.9rem}
+.newsbar button.x{margin-left:auto;background:none;border:none;color:var(--mut);cursor:pointer;font-size:1rem}
 </style></head><body>
 <header>
   <div class="bstat unk" id="botstatus" role="status"><span class="bdot"></span><span id="bstxt">Vérification…</span></div>
@@ -1456,7 +1468,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
 var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},clearAll:{fr:'Tout effacer',en:'Clear all'},tryDiscord:{fr:'🎮 Ouvrir Discord',en:'🎮 Open Discord'},tourSkip:{fr:'Passer',en:'Skip'},tourNext:{fr:'Suivant',en:'Next'},tourDone:{fr:'C’est parti !',en:'Let’s go!'},tour1t:{fr:'🔍 Recherche',en:'🔍 Search'},tour1x:{fr:'Tape un nom ou un mot-clé — les fautes de frappe sont tolérées.',en:'Type a name or keyword — typos are forgiven.'},tour2t:{fr:'🗂️ Filtres',en:'🗂️ Filters'},tour2x:{fr:'Filtre par catégorie ou par niveau d’accès. Sur mobile, le bouton 🗂️ en bas à gauche te suit partout.',en:'Filter by category or access level. On mobile the 🗂️ button follows you.'},tour3t:{fr:'⚡ Astuce pro',en:'⚡ Pro tip'},tour3x:{fr:'Ctrl+K ouvre la recherche rapide depuis n’importe où. Clique une carte pour voir la commande en action, et ⭐ pour la garder sous la main.',en:'Ctrl+K opens quick search anywhere. Click a card to see the command in action, ⭐ to keep it handy.'},favLabel:{fr:'⭐ Mes favoris :',en:'⭐ My favorites:'},favAdd:{fr:'Ajouter aux favoris',en:'Add to favorites'},favDel:{fr:'Retirer des favoris',en:'Remove from favorites'},kph:{fr:'Tape une commande… (Échap pour fermer)',en:'Type a command… (Esc to close)'},kfuzzy:{fr:'Résultats approchés (faute de frappe ?)',en:'Close matches (typo?)'},needsT:{fr:'🧭 J’ai besoin de…',en:'🧭 I need to…'},needsSub:{fr:'Choisis ta situation → les commandes dans le bon ordre. Clique une commande pour sa fiche.',en:'Pick your situation → the right commands in order. Click a command for details.'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulNo:{fr:'👎 Non',en:'👎 No'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},netT:{fr:'📈 Réseau',en:'📈 Network'},netSub:{fr:'Relevés horaires — 30 derniers jours',en:'Hourly samples — last 30 days'},netWait:{fr:'Collecte en cours… premières courbes d’ici quelques heures.',en:'Collecting… first curves within a few hours.'},netServers:{fr:'Serveurs protégés',en:'Protected servers'},netMembers:{fr:'Membres protégés',en:'Protected members'},votesT:{fr:'📊 Avis sur la doc',en:'📊 Doc feedback'},votesTop:{fr:'Les plus utiles',en:'Most helpful'},votesFlop:{fr:'À améliorer',en:'Needs work'},newsSeen:{fr:'nouveautés depuis ta dernière visite —',en:'new since your last visit —'},newsGo:{fr:'voir le changelog',en:'see the changelog'},clearAll:{fr:'Tout effacer',en:'Clear all'},tryDiscord:{fr:'🎮 Ouvrir Discord',en:'🎮 Open Discord'},tourSkip:{fr:'Passer',en:'Skip'},tourNext:{fr:'Suivant',en:'Next'},tourDone:{fr:'C’est parti !',en:'Let’s go!'},tour1t:{fr:'🔍 Recherche',en:'🔍 Search'},tour1x:{fr:'Tape un nom ou un mot-clé — les fautes de frappe sont tolérées.',en:'Type a name or keyword — typos are forgiven.'},tour2t:{fr:'🗂️ Filtres',en:'🗂️ Filters'},tour2x:{fr:'Filtre par catégorie ou par niveau d’accès. Sur mobile, le bouton 🗂️ en bas à gauche te suit partout.',en:'Filter by category or access level. On mobile the 🗂️ button follows you.'},tour3t:{fr:'⚡ Astuce pro',en:'⚡ Pro tip'},tour3x:{fr:'Ctrl+K ouvre la recherche rapide depuis n’importe où. Clique une carte pour voir la commande en action, et ⭐ pour la garder sous la main.',en:'Ctrl+K opens quick search anywhere. Click a card to see the command in action, ⭐ to keep it handy.'},favLabel:{fr:'⭐ Mes favoris :',en:'⭐ My favorites:'},favAdd:{fr:'Ajouter aux favoris',en:'Add to favorites'},favDel:{fr:'Retirer des favoris',en:'Remove from favorites'},kph:{fr:'Tape une commande… (Échap pour fermer)',en:'Type a command… (Esc to close)'},kfuzzy:{fr:'Résultats approchés (faute de frappe ?)',en:'Close matches (typo?)'},needsT:{fr:'🧭 J’ai besoin de…',en:'🧭 I need to…'},needsSub:{fr:'Choisis ta situation → les commandes dans le bon ordre. Clique une commande pour sa fiche.',en:'Pick your situation → the right commands in order. Click a command for details.'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulNo:{fr:'👎 Non',en:'👎 No'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1481,6 +1493,7 @@ function setLang(L){__lang=L;try{localStorage.setItem('lang',L);}catch(e){}
  try{var u=new URL(location.href);u.searchParams.set('lang',L);history.replaceState(null,'',u);}catch(e){} // l'URL reflète la langue → liens partagés OK
  applyLang();
  if(__gLast&&typeof renderG==='function')renderG(__gLast); // valeurs formatées (milliers, décimales) re-rendues dans la nouvelle langue
+ if(typeof renderNet==='function')renderNet();
  var _ov=document.getElementById('ov');if(_ov&&_ov.classList.contains('open')&&__simCard)openSim(__simCard);} // B3/B4 : modale ouverte → re-render dans la nouvelle langue
 function tr(k){var e=I18N[k];return e?(e[curLang()]||e.fr):k;}
 function applyLang(){var L=curLang();document.documentElement.lang=L;
@@ -2092,6 +2105,60 @@ document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;
   b.style.top=(r.bottom+scrollY+10)+'px';b.style.left=Math.max(10,Math.min(r.left+scrollX,innerWidth-290))+'px';
   document.body.appendChild(b);next.focus();}
  setTimeout(show,1600);})();
+// ═══ 📈 PANNEAU RÉSEAU : courbes 30 j (serveurs/membres, relevés horaires de l'Action uptime) +
+// avis 👍/👎 agrégés (relevé quotidien). Données sur la branche uptime ; panneau masqué sans données.
+var __netG=null,__netV=null;
+function sparkline(pts,get){var vals=pts.map(get).filter(function(v){return v!=null&&isFinite(v);});
+ if(vals.length<2)return null;
+ var min=Math.min.apply(null,vals),max=Math.max.apply(null,vals),span=(max-min)||1;
+ var W=260,H=56,step=W/(vals.length-1);
+ var d=vals.map(function(v,i){return (i?'L':'M')+(i*step).toFixed(1)+','+(H-6-((v-min)/span)*(H-14)).toFixed(1);}).join(' ');
+ return {d:d,first:vals[0],last:vals[vals.length-1],W:W,H:H};}
+function renderNet(){var aside=document.querySelector('.side');if(!aside)return;
+ var p=document.getElementById('netpanel');
+ if(!__netG&&!__netV){if(p)p.remove();return;}
+ if(!p){p=document.createElement('div');p.className='gpanel';p.id='netpanel';p.style.marginTop='14px';aside.appendChild(p);}
+ var h='<h2>'+tr('netT')+'</h2><div class="gsub">'+tr('netSub')+'</div>';
+ var pts=(__netG&&__netG.points)||[];
+ if(pts.length>=2){
+  [['s',tr('netServers')],['m',tr('netMembers')]].forEach(function(cfg){
+   var sp=sparkline(pts,function(x){return x[cfg[0]];});if(!sp)return;
+   var delta=sp.last-sp.first,ds=(delta>0?'+':'')+delta.toLocaleString(curLang()==='en'?'en-GB':'fr-FR');
+   h+='<div class="netchart"><div class="nl"><span>'+cfg[1]+'</span><span><b>'+sp.last.toLocaleString(curLang()==='en'?'en-GB':'fr-FR')+'</b> ('+ds+')</span></div>'
+    +'<svg viewBox="0 0 '+sp.W+' '+sp.H+'" preserveAspectRatio="none"><path d="'+sp.d+'" fill="none" stroke="#57F287" stroke-width="2"/></svg></div>';});
+ } else h+='<div class="gsub">'+tr('netWait')+'</div>';
+ var V=(__netV&&__netV.votes)||{};var keys=Object.keys(V).filter(function(k){return V[k][0]+V[k][1]>=3;});
+ if(keys.length){
+  var byTop=keys.slice().sort(function(a,b){return (V[b][0]/(V[b][0]+V[b][1]))-(V[a][0]/(V[a][0]+V[a][1]))||V[b][0]-V[a][0];}).slice(0,3);
+  var byFlop=keys.slice().sort(function(a,b){return (V[b][1]/(V[b][0]+V[b][1]))-(V[a][1]/(V[a][0]+V[a][1]))||V[b][1]-V[a][1];}).filter(function(k){return V[k][1]>0;}).slice(0,3);
+  h+='<div class="netvotes"><div class="gsec">'+tr('votesT')+'</div>';
+  h+='<div class="nl" style="font-size:.72rem;color:var(--mut)">'+tr('votesTop')+'</div>';
+  byTop.forEach(function(k){h+='<div class="nv"><code>+'+escH(k)+'</code><span>👍 '+V[k][0]+' / 👎 '+V[k][1]+'</span></div>';});
+  if(byFlop.length){h+='<div class="nl" style="font-size:.72rem;color:var(--mut);margin-top:6px">'+tr('votesFlop')+'</div>';
+   byFlop.forEach(function(k){h+='<div class="nv"><code>+'+escH(k)+'</code><span>👍 '+V[k][0]+' / 👎 '+V[k][1]+'</span></div>';});}
+  h+='</div>';}
+ p.innerHTML=h;}
+(function(){
+ fetch('https://raw.githubusercontent.com/saliox/hasu-protect-docs/uptime/growth.json',{cache:'no-store'})
+  .then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.points&&d.points.length){__netG=d;renderNet();}}).catch(function(){});
+ fetch('https://raw.githubusercontent.com/saliox/hasu-protect-docs/uptime/votes.json',{cache:'no-store'})
+  .then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.votes&&Object.keys(d.votes).length){__netV=d;renderNet();}}).catch(function(){});})();
+// ═══ 🔔 BANDEAU « la doc a changé » pour les visiteurs qui reviennent : compte les cartes marquées
+// NOUVEAU (déjà calculées) et propose d'ouvrir le changelog. Rejeté d'un ✕ jusqu'aux prochaines nouveautés.
+(function(){var badges=document.querySelectorAll('.newb').length;if(!badges)return;
+ var sig='';try{sig=[].slice.call(document.querySelectorAll('.cmd .newb')).map(function(b){return b.closest('.cmd').dataset.n;}).sort().join(',');
+  if(localStorage.getItem('newsDismiss')===sig)return;}catch(e){}
+ var bar=document.createElement('div');bar.className='newsbar';bar.setAttribute('role','status');
+ bar.innerHTML='✨ <b>'+badges+'</b> <span>'+tr('newsSeen')+'</span>';
+ var go=document.createElement('button');go.type='button';go.className='go';go.textContent=tr('newsGo');
+ go.addEventListener('click',function(){var cl=document.querySelector('.changelog');
+  if(cl&&cl.classList.contains('m-collapsed')){var mb2=cl.querySelector('.m-clbtn');if(mb2)mb2.click();}
+  if(cl)cl.scrollIntoView({behavior:__rm?'auto':'smooth'});});
+ var x=document.createElement('button');x.type='button';x.className='x';x.textContent='✕';x.setAttribute('aria-label','OK');
+ x.addEventListener('click',function(){bar.remove();try{localStorage.setItem('newsDismiss',sig);}catch(e){}});
+ bar.appendChild(go);bar.appendChild(x);
+ var anchor2=document.getElementById('needs')||document.getElementById('catnav');
+ anchor2.parentNode.insertBefore(bar,anchor2);})();
 // ═══ 📱 PWA : enregistrement du service worker (fichier séparé, jamais touché par les maj du bot)
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 (function(){var h=decodeURIComponent((location.hash||'').replace(/^#/,'')).toLowerCase();if(!h)return;var card=[].slice.call(document.querySelectorAll('.cmd')).filter(function(c){return c.dataset.n.toLowerCase()===h;})[0];if(card)openSim(card);})();</script>

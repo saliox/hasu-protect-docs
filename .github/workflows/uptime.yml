@@ -14,15 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Récupérer l'état précédent de la branche uptime (growth + votes à préserver)
+        run: |
+          git fetch origin uptime || true
+          git show origin/uptime:growth.json > growth.json 2>/dev/null || echo '{"points":[]}' > growth.json
+          git show origin/uptime:votes.json  > votes.json  2>/dev/null || echo '{"votes":{}}' > votes.json
       - name: Construire uptime.json depuis les heartbeats
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node .github/build-uptime.js
+      - name: Relevé de croissance (point horaire serveurs/membres/commandes)
+        run: node .github/build-growth.js
       - name: Publier sur la branche uptime
         run: |
           git config user.name "uptime-bot"
           git config user.email "actions@github.com"
           git switch --orphan uptime
-          git add uptime.json
+          git add uptime.json growth.json votes.json
           git commit -m "uptime $(date -u +%Y-%m-%dT%H:%M)"
           git push -f origin uptime

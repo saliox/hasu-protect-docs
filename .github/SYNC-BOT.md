@@ -106,3 +106,14 @@ le template local.
     focus dans la modale, Échap ferme feuille de filtres et panneau uptime),
     mini-tour de bienvenue 3 étapes (première visite seulement, jamais sur
     lien profond, localStorage `tourDone`).
+
+14. **Lot analytics (PR #21)** : meta og:image/twitter (bannière
+    `assets/og-banner.png`, 1200×630 — les partages Discord ont un visuel),
+    panneau « 📈 Réseau » dans la barre latérale (courbes 30 j
+    serveurs/membres depuis `growth.json` — point horaire ajouté par
+    uptime.yml quand le heartbeat est frais — + avis 👍/👎 agrégés depuis
+    `votes.json`, relevé quotidien par votes.yml ; panneau masqué sans
+    données), bandeau « ✨ N nouveautés depuis ta dernière visite → voir le
+    changelog » pour les visiteurs de retour (rejet mémorisé par signature).
+    Les deux workflows publient sur la branche `uptime` en préservant
+    mutuellement leurs fichiers.
