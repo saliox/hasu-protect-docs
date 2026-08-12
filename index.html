@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-Dt41m4NUxqYLFfjWuOskkuHHtMy1swz0KLvTlveQr2E='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-WdLyDiET+XQU2dWXlnedmVPoZ4Ja4+DCJnu60Nqt45Y='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -1456,7 +1456,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
 var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},clearAll:{fr:'Tout effacer',en:'Clear all'},tryDiscord:{fr:'🎮 Ouvrir Discord',en:'🎮 Open Discord'},tourSkip:{fr:'Passer',en:'Skip'},tourNext:{fr:'Suivant',en:'Next'},tourDone:{fr:'C’est parti !',en:'Let’s go!'},tour1t:{fr:'🔍 Recherche',en:'🔍 Search'},tour1x:{fr:'Tape un nom ou un mot-clé — les fautes de frappe sont tolérées.',en:'Type a name or keyword — typos are forgiven.'},tour2t:{fr:'🗂️ Filtres',en:'🗂️ Filters'},tour2x:{fr:'Filtre par catégorie ou par niveau d’accès. Sur mobile, le bouton 🗂️ en bas à gauche te suit partout.',en:'Filter by category or access level. On mobile the 🗂️ button follows you.'},tour3t:{fr:'⚡ Astuce pro',en:'⚡ Pro tip'},tour3x:{fr:'Ctrl+K ouvre la recherche rapide depuis n’importe où. Clique une carte pour voir la commande en action, et ⭐ pour la garder sous la main.',en:'Ctrl+K opens quick search anywhere. Click a card to see the command in action, ⭐ to keep it handy.'},favLabel:{fr:'⭐ Mes favoris :',en:'⭐ My favorites:'},favAdd:{fr:'Ajouter aux favoris',en:'Add to favorites'},favDel:{fr:'Retirer des favoris',en:'Remove from favorites'},kph:{fr:'Tape une commande… (Échap pour fermer)',en:'Type a command… (Esc to close)'},kfuzzy:{fr:'Résultats approchés (faute de frappe ?)',en:'Close matches (typo?)'},needsT:{fr:'🧭 J’ai besoin de…',en:'🧭 I need to…'},needsSub:{fr:'Choisis ta situation → les commandes dans le bon ordre. Clique une commande pour sa fiche.',en:'Pick your situation → the right commands in order. Click a command for details.'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},clearAll:{fr:'Tout effacer',en:'Clear all'},tryDiscord:{fr:'🎮 Ouvrir Discord',en:'🎮 Open Discord'},tourSkip:{fr:'Passer',en:'Skip'},tourNext:{fr:'Suivant',en:'Next'},tourDone:{fr:'C’est parti !',en:'Let’s go!'},tour1t:{fr:'🔍 Recherche',en:'🔍 Search'},tour1x:{fr:'Tape un nom ou un mot-clé — les fautes de frappe sont tolérées.',en:'Type a name or keyword — typos are forgiven.'},tour2t:{fr:'🗂️ Filtres',en:'🗂️ Filters'},tour2x:{fr:'Filtre par catégorie ou par niveau d’accès. Sur mobile, le bouton 🗂️ en bas à gauche te suit partout.',en:'Filter by category or access level. On mobile the 🗂️ button follows you.'},tour3t:{fr:'⚡ Astuce pro',en:'⚡ Pro tip'},tour3x:{fr:'Ctrl+K ouvre la recherche rapide depuis n’importe où. Clique une carte pour voir la commande en action, et ⭐ pour la garder sous la main.',en:'Ctrl+K opens quick search anywhere. Click a card to see the command in action, ⭐ to keep it handy.'},favLabel:{fr:'⭐ Mes favoris :',en:'⭐ My favorites:'},favAdd:{fr:'Ajouter aux favoris',en:'Add to favorites'},favDel:{fr:'Retirer des favoris',en:'Remove from favorites'},kph:{fr:'Tape une commande… (Échap pour fermer)',en:'Type a command… (Esc to close)'},kfuzzy:{fr:'Résultats approchés (faute de frappe ?)',en:'Close matches (typo?)'},needsT:{fr:'🧭 J’ai besoin de…',en:'🧭 I need to…'},needsSub:{fr:'Choisis ta situation → les commandes dans le bon ordre. Clique une commande pour sa fiche.',en:'Pick your situation → the right commands in order. Click a command for details.'},newBadge:{fr:'NOUVEAU',en:'NEW'},shareBtn:{fr:'📤 Partager',en:'📤 Share'},helpful:{fr:'Cette page t’a aidé ?',en:'Was this helpful?'},helpfulYes:{fr:'👍 Oui',en:'👍 Yes'},helpfulNo:{fr:'👎 Non',en:'👎 No'},helpfulThanks:{fr:'Merci !',en:'Thanks!'},filtersTitle:{fr:'Filtres',en:'Filters'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
@@ -1843,15 +1843,28 @@ openSim=function(card){__openSim0(card);
   row.appendChild(sb);}
  var note=mc.querySelector('.m-note');if(!note||mc.querySelector('.m-vote'))return;
  var v=el('div','m-vote'),q=el('span',null,tr('helpful'));v.appendChild(q);
- var voted=false;try{voted=!!localStorage.getItem('voted_'+n);}catch(e){}
- if(voted){v.appendChild(el('span','voted','✔ '+tr('helpfulThanks')));}
- else{var b=el('button',null,tr('helpfulYes'));b.type='button';
-  b.addEventListener('click',function(){b.disabled=true;
-   fetch('https://abacus.jasoncameron.dev/hit/hasu-protect-docs/cmd-'+encodeURIComponent(n),{cache:'no-store'})
-   .then(function(r){return r.ok?r.json():null;}).then(function(d){try{localStorage.setItem('voted_'+n,'1');}catch(e){}
-    var m=el('span','voted','✔ '+tr('helpfulThanks')+(d&&d.value?' ('+d.value+')':''));v.replaceChild(m,b);})
-   .catch(function(){b.disabled=false;});});
-  v.appendChild(b);}
+ // Oui = clé historique cmd-<n> (les votes déjà enregistrés sont conservés) · Non = cmd-<n>-no.
+ var KY='hasu-protect-docs/cmd-'+encodeURIComponent(n),KN=KY+'-no';
+ var voted=null;try{voted=localStorage.getItem('voted_'+n);}catch(e){}
+ function showVoted(kind,mine,other){ // mine/other : compteurs si connus (juste après le vote)
+  var t='✔ '+tr('helpfulThanks')+' '+(kind==='no'?'👎':'👍');
+  if(mine!=null&&other!=null)t+='  ·  👍 '+(kind==='no'?other:mine)+' / 👎 '+(kind==='no'?mine:other);
+  v.appendChild(el('span','voted',t));}
+ if(voted){showVoted(voted==='no'?'no':'yes');}
+ else{var by=el('button',null,tr('helpfulYes')),bn=el('button',null,tr('helpfulNo'));by.type='button';bn.type='button';
+  function vote(kind){by.disabled=true;bn.disabled=true;
+   var hitK=kind==='no'?KN:KY,getK=kind==='no'?KY:KN;
+   fetch('https://abacus.jasoncameron.dev/hit/'+hitK,{cache:'no-store'})
+   .then(function(r){if(!r.ok)throw 0;return r.json();})
+   .then(function(d){try{localStorage.setItem('voted_'+n,kind);}catch(e){}
+    // l'autre compteur, en lecture seule, pour afficher le tableau complet (échec → on affiche sans totaux)
+    return fetch('https://abacus.jasoncameron.dev/get/'+getK,{cache:'no-store'})
+     .then(function(r2){return r2.ok?r2.json():null;}).catch(function(){return null;})
+     .then(function(o){by.remove();bn.remove();showVoted(kind,d&&d.value,o&&isFinite(o.value)?o.value:0);});})
+   .catch(function(){by.disabled=false;bn.disabled=false;});}
+  by.addEventListener('click',function(){vote('yes');});
+  bn.addEventListener('click',function(){vote('no');});
+  v.appendChild(by);v.appendChild(bn);}
  mc.insertBefore(v,note);};
 // ── Filtres flottants (mobile) : bouton rond en bas à gauche après un écran de scroll → feuille avec les
 // mêmes filtres que la barre du haut (catégories + accès, compteurs inclus). Choisir applique le filtre,
