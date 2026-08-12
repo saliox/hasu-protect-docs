@@ -157,10 +157,17 @@ le template local.
     **applyLang économe** : n'écrit dans le DOM que si la valeur change
     (`data-fr0` mémorisé au premier passage EN seulement). **CSP** :
     `frame-ancestors` retiré (ignoré en `<meta>`, ne faisait que du bruit
-    console). **Démo réaliste v2** : arrivées `.m-join`, horodatages `.m-ts`,
-    indicateur « écrit… » `.m-typing`, spam barré par `+undo` (`.raidmsg`/
-    `.del`), pied d'embed `.m-efoot`, déroulé en chaîne avec pause onglet
-    caché, relance au changement de langue (bloc `runDemo`). **Widget top.gg**
+    console). **Démo réaliste v3** (bloc `runDemo` + CSS `.m-dchat`/`.m-chbar`/
+    `.m-inbar`/`.m-divider`/`.m-btag`/`.m-efields`/`.m-ebtns`/`.m-edited`/
+    `.mdel`) : chrome façon Discord (barre `#général` + compteur de membres
+    vivant 247→259→247, barre d'écriture qui passe en « 🔒 lecture seule »
+    pendant le shield), avatars ronds à initiales, tag ✓ APP, messages
+    groupés par auteur, séparateurs de date, vie avant/après le raid
+    (Luna/Max), embeds à champs + boutons factices, embed shield **édité en
+    direct** « (modifié) », spam **retiré du DOM** (animation `.mdel`) par
+    `+undo`, pause onglet caché, relance au changement de langue. Le
+    mini-tour est fermé par l'ouverture de toute modale (`window.__tourEnd`
+    + garde `done` contre le `setTimeout(show,1600)`). **Widget top.gg**
     lisible et accordé au thème : `.topgg-badge img{width:min(340px,88%);
     height:auto}` + cadre arrondi/ombre/hover, et le SVG est demandé avec les
     paramètres de couleurs officiels (`topcolor`, `middlecolor`,
