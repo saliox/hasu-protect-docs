@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-5twQqZYmg7CetfxrpVC91viliA38+ScFGqQtQJJW6to='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-t+CD0nzl4zciWLExGwr0e+eiuV53Jff5F5bKSdIlCvg='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -391,8 +391,31 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .m-typing::after{content:'…';animation:tdots 1.2s steps(4,end) infinite}
 @keyframes tdots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'…'}}
 .m-efoot{color:var(--mut);font-size:.66rem;margin-top:6px}
-.m-msg.del{opacity:.22;transition:opacity .6s}
-.m-msg.del .m-cmd{text-decoration:line-through}
+/* Chrome façon Discord : barre du salon, barre d'écriture, séparateur de date */
+.m-dchat{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0e0e18}
+.m-dchat .m-sim{border:0;border-radius:0}
+.m-chbar{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line);background:#12121d}
+.m-chname{font-weight:800;font-size:.9rem}.m-chname::first-letter{color:var(--mut)}
+.m-chmembers{margin-left:auto;color:var(--mut);font-size:.78rem}
+.m-inbar{padding:9px 12px;border-top:1px solid var(--line);background:#12121d;color:var(--mut);font-size:.82rem;border-radius:0 0 12px 12px}
+.m-inbar.locked{color:#ED4245}
+.m-divider{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:.68rem;margin:8px 0;text-transform:uppercase;letter-spacing:.05em}
+.m-divider::before,.m-divider::after{content:'';flex:1;border-top:1px solid var(--line)}
+/* Avatars ronds à initiales + pseudos colorés + tag APP */
+.m-av.u2{background:linear-gradient(135deg,#e91e8c,#9B59B6);color:#fff;font-weight:800}
+.m-av.u3{background:linear-gradient(135deg,#3ba55d,#1ABC9C);color:#fff;font-weight:800}
+.m-av.r{background:linear-gradient(135deg,#57323c,#2d1a22);color:#ffb3c0;font-weight:800}
+.m-btag{background:#5865F2;color:#fff;font-size:.58rem;font-weight:800;border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:1px}
+/* Embeds riches : grille de champs + boutons factices + mention (modifié) */
+.m-efields{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:8px}
+.m-efield .fl{color:var(--mut);font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.m-efield .fv{font-size:.84rem;font-weight:700}
+.m-ebtns{display:flex;gap:8px;margin-top:9px}
+.m-ebtn{background:#232433;border:1px solid var(--line);border-radius:7px;padding:4px 11px;font-size:.76rem;font-weight:700}
+.m-edited{color:var(--mut);font-size:.64rem;font-weight:400;margin-left:6px}
+/* Spam réellement supprimé par +undo : fondu + repli puis retrait du DOM */
+.m-msg.mdel,.m-join.mdel{opacity:0;transition:opacity .45s ease,max-height .55s ease .1s,margin .55s ease .1s;overflow:hidden;max-height:0!important;margin-top:0;margin-bottom:0}
+.raidline{color:#ffb3c0}
 /* ── Rappel de vote top.gg : halo pulsé quand les 12 h sont écoulées */
 .cta-vote.revote-on{animation:rvpulse 1.8s ease-in-out infinite}
 @keyframes rvpulse{0%,100%{box-shadow:0 4px 18px rgba(255,51,102,.35)}50%{box-shadow:0 0 0 9px rgba(255,51,102,0),0 4px 22px rgba(255,51,102,.65)}}
@@ -1883,7 +1906,7 @@ function openSim(card){__simCard=card;var name=card.dataset.n,desc=(curLang()===
  var emb=el('div','m-embed');emb.appendChild(el('div','m-etitle',r[0]+' '+r[1]));emb.appendChild(elH('div','m-edesc',md(r[2])));bb.appendChild(emb);bm.appendChild(bb);sim.appendChild(bm);
  mc.appendChild(sim);
  mc.appendChild(el('div','m-note',EN?'⚠️ Simulated preview for illustration — the values (@Jean, 10m, …) are examples.':'⚠️ Aperçu simulé à titre indicatif — les valeurs (@Jean, 10m, …) sont des exemples.'));
- __lastFocus=document.activeElement;document.getElementById('ov').classList.add('open');try{history.replaceState(null,'','#'+name);}catch(e){}x.focus();}
+ if(window.__tourEnd)window.__tourEnd();__lastFocus=document.activeElement;document.getElementById('ov').classList.add('open');try{history.replaceState(null,'','#'+name);}catch(e){}x.focus();}
 function closeSim(){var ovEl=document.getElementById('ov');if(!ovEl.classList.contains('open'))return;ovEl.classList.remove('open');try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}if(__lastFocus&&__lastFocus.focus)__lastFocus.focus();}
 // Cartes : clic OU clavier (Entrée / Espace) ouvrent la simulation (navigables sans souris).
 // DÉLÉGATION : 2 écouteurs sur <main> au lieu de ~950 individuels (189 cartes × clic/clavier
@@ -2115,9 +2138,10 @@ document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;
  var first=false;try{first=!localStorage.getItem('visits')||localStorage.getItem('visits')==='1';}catch(e){return;}
  if(!first){try{localStorage.setItem('tourDone','1');}catch(e){}return;} // visiteur existant : pas de tour
  var steps=[{sel:'#search',t:'tour1t',x:'tour1x'},{sel:'#catnav',t:'tour2t',x:'tour2x'},{sel:'#search',t:'tour3t',x:'tour3x'}];
- var i=0,b=null,hl=null;
- function end(){if(b)b.remove();if(hl)hl.classList.remove('tourhl');try{localStorage.setItem('tourDone','1');}catch(e){}}
- function show(){if(b)b.remove();if(hl)hl.classList.remove('tourhl');
+ var i=0,b=null,hl=null,done=false;
+ function end(){done=true;if(b)b.remove();if(hl)hl.classList.remove('tourhl');try{localStorage.setItem('tourDone','1');}catch(e){}}
+ window.__tourEnd=end; // les modales (fiche, démo) ferment le tour pour ne pas s'afficher par-dessus
+ function show(){if(done)return;if(b)b.remove();if(hl)hl.classList.remove('tourhl');
   if(i>=steps.length){end();return;}
   var s=steps[i],t=document.querySelector(s.sel);if(!t){i++;show();return;}
   hl=t;t.classList.add('tourhl');
@@ -2224,52 +2248,98 @@ function runDemo(){var EN=curLang()==='en',mc=document.getElementById('mc');if(!
  mc.innerHTML='';mc.style.setProperty('--cc','#ED4245');
  var h=el('div','m-head'),t=el('div');t.appendChild(el('span','m-name',tr('demoTitle')));h.appendChild(t);
  var x=el('button','m-x','\u2715');x.setAttribute('aria-label',EN?'Close':'Fermer');x.addEventListener('click',closeSim);h.appendChild(x);mc.appendChild(h);
- var sim=el('div','m-sim demo');mc.appendChild(sim);
+ // \u2500\u2500 Chrome fa\u00e7on Discord : barre du salon (nom + compteur de membres vivant) + barre d'\u00e9criture.
+ var bar=el('div','m-chbar');bar.appendChild(el('span','m-chname','#\u2009g\u00e9n\u00e9ral'));
+ var mcount=el('span','m-chmembers','\uD83D\uDC65 247');bar.appendChild(mcount);
+ var sim=el('div','m-sim demo');
+ var inbar=el('div','m-inbar'),inTxt=el('span',null,EN?'Message #general':'Envoyer un message dans #g\u00e9n\u00e9ral');inbar.appendChild(inTxt);
+ var wrap=el('div','m-dchat');wrap.appendChild(bar);wrap.appendChild(sim);wrap.appendChild(inbar);mc.appendChild(wrap);
  mc.appendChild(el('div','m-note',tr('demoNote')));
  var row=el('div','m-cpyrow'),rb=el('button','m-cpy',tr('demoReplay'));rb.type='button';rb.addEventListener('click',runDemo);row.appendChild(rb);mc.appendChild(row);
+ if(window.__tourEnd)window.__tourEnd();
  document.getElementById('ov').classList.add('open');try{history.replaceState(null,'','#demo');}catch(e){}x.focus();
- // Scène façon Discord : horodatages, lignes d'arrivée, indicateur « écrit… », spam réellement
- // barré/estompé quand +undo passe. Le déroulé est une CHAÎNE (chaque étape programme la
- // suivante) : onglet caché → pause propre, retour → reprise, fermeture/replay → jeton invalide.
- var TS=EN?'10:41 PM':'22:41',TS2=EN?'10:42 PM':'22:42';
- function join(who){var d=el('div','m-join pop');d.appendChild(el('span',null,'\u2192'));var b2=el('b',null,who);d.appendChild(b2);d.appendChild(el('span',null,(EN?' just joined the server':' vient de rejoindre le serveur')));d.appendChild(el('span','m-ts',TS));sim.appendChild(d);}
- function sys(txt){sim.appendChild(el('div','m-sys pop',txt));}
- function raider(who,txt){var m=el('div','m-msg pop raidmsg');m.appendChild(el('div','m-av r','\uD83D\uDC7F'));var b2=el('div','m-bub'),w=el('div','m-who',who);w.appendChild(el('span','m-ts',TS));b2.appendChild(w);b2.appendChild(el('div','m-cmd',txt));m.appendChild(b2);sim.appendChild(m);}
+ function members(n){mcount.textContent='\uD83D\uDC65 '+n;}
+ function lockbar(on){inbar.classList.toggle('locked',on);inTxt.textContent=on?(EN?'\uD83D\uDD12 Channel locked \u2014 read only':'\uD83D\uDD12 Salon verrouill\u00e9 \u2014 lecture seule'):(EN?'Message #general':'Envoyer un message dans #g\u00e9n\u00e9ral');}
+ function divider(txt){var d=el('div','m-divider pop');d.appendChild(el('span',null,txt));sim.appendChild(d);}
+ var lastAuthor=null;
+ // Message fa\u00e7on Discord : avatar rond (initiale color\u00e9e ou \uD83D\uDEE1\uFE0F), pseudo color\u00e9 + tag APP pour
+ // le bot + horodatage ; les messages cons\u00e9cutifs du m\u00eame auteur sont group\u00e9s (pas d'en-t\u00eate r\u00e9p\u00e9t\u00e9).
+ function msg(o,line){ // o={who,av,cls,color,bot,ts,raid}
+  if(lastAuthor===o.who&&sim.lastElementChild&&sim.lastElementChild.classList.contains('m-msg')){
+   var bb=sim.lastElementChild.querySelector('.m-bub');if(bb){var c2=el('div','m-cmd pop',line);if(o.raid)c2.classList.add('raidline');bb.appendChild(c2);return sim.lastElementChild;}}
+  var m=el('div','m-msg pop'+(o.raid?' raidmsg':''));
+  var av=el('div','m-av '+(o.cls||''),o.av);m.appendChild(av);
+  var b2=el('div','m-bub'),w=el('div','m-who');var nm=el('span','m-uname',o.who);if(o.color)nm.style.color=o.color;w.appendChild(nm);
+  if(o.bot)w.appendChild(el('span','m-btag','\u2713 APP'));
+  w.appendChild(el('span','m-ts',o.ts));b2.appendChild(w);
+  if(line!=null)b2.appendChild(el('div','m-cmd',line));
+  m.appendChild(b2);sim.appendChild(m);lastAuthor=o.who;return m;}
+ function join(who,ts){lastAuthor=null;var d=el('div','m-join pop');d.appendChild(el('span',null,'\u2192'));d.appendChild(el('b',null,who));d.appendChild(el('span',null,EN?' just landed.':' vient d\u2019arriver.'));d.appendChild(el('span','m-ts',ts));sim.appendChild(d);}
  function typing(){var d=el('div','m-typing pop');d.id='mtyping';d.textContent='[+] Hasu Protect '+(EN?'is typing':'est en train d\u2019\u00e9crire');sim.appendChild(d);}
- function bot(emo,title,desc){var ty=document.getElementById('mtyping');if(ty)ty.remove();
-  var m=el('div','m-msg pop');m.appendChild(el('div','m-av b','\uD83D\uDEE1\uFE0F'));var b2=el('div','m-bub'),w=el('div','m-who','[+] Hasu Protect \u2022 BOT');w.appendChild(el('span','m-ts',TS2));b2.appendChild(w);
-  var e2=el('div','m-embed');e2.appendChild(el('div','m-etitle',emo+' '+title));e2.appendChild(elH('div','m-edesc',md(desc)));e2.appendChild(el('div','m-efoot','Hasu Protect \u2022 '+TS2));b2.appendChild(e2);m.appendChild(b2);sim.appendChild(m);}
- function purge(){[].slice.call(sim.querySelectorAll('.raidmsg')).forEach(function(m){m.classList.add('del');});}
+ var BOT={who:'[+] Hasu Protect',av:'\uD83D\uDEE1\uFE0F',cls:'b',color:'#7d8cff',bot:true,ts:EN?'10:41 PM':'22:41'};
+ // Embed riche : barre de couleur + description + grille de champs + boutons factices + pied.
+ function bot(color,emo,title,desc,fields,btns){var ty=document.getElementById('mtyping');if(ty)ty.remove();
+  lastAuthor=null;var m=msg(BOT,null),bb=m.querySelector('.m-bub');
+  var e2=el('div','m-embed');e2.style.borderLeftColor=color;
+  e2.appendChild(el('div','m-etitle',emo+' '+title));
+  if(desc)e2.appendChild(elH('div','m-edesc',md(desc)));
+  if(fields){var fg=el('div','m-efields');fields.forEach(function(f){var c=el('div','m-efield');c.appendChild(el('div','fl',f[0]));c.appendChild(el('div','fv',f[1]));fg.appendChild(c);});e2.appendChild(fg);}
+  if(btns){var bg=el('div','m-ebtns');btns.forEach(function(b3){bg.appendChild(el('span','m-ebtn',b3));});e2.appendChild(bg);}
+  e2.appendChild(el('div','m-efoot','Hasu Protect \u2022 '+(EN?'Today at 10:42 PM':'Aujourd\u2019hui \u00e0 22:42')));
+  bb.appendChild(e2);return e2;}
+ var shieldEmbed=null;
+ function editShield(){if(!shieldEmbed)return;var d=shieldEmbed.querySelector('.m-edesc');
+  if(d){d.innerHTML=md(EN?'Joins frozen \u00b7 channels **read-only** \u00b7 accounts frozen: **12/12**':'Arriv\u00e9es gel\u00e9es \u00b7 salons en **lecture seule** \u00b7 comptes gel\u00e9s : **12/12**');
+   var t2=shieldEmbed.querySelector('.m-etitle');if(t2&&!t2.querySelector('.m-edited'))t2.appendChild(el('span','m-edited',EN?'(edited)':'(modifi\u00e9)'));}}
+ function purge(){[].slice.call(sim.querySelectorAll('.raidmsg, .m-join')).forEach(function(m2){
+  m2.style.maxHeight=m2.offsetHeight+'px';m2.classList.add('mdel');
+  setTimeout(function(){if(m2.parentNode)m2.parentNode.removeChild(m2);},650);});lastAuthor=null;}
+ var TS=EN?'10:41 PM':'22:41';
+ var LUNA={who:'Luna',av:'L',cls:'u2',color:'#e91e8c',ts:EN?'10:37 PM':'22:37'};
+ var MAX={who:'Max',av:'M',cls:'u3',color:'#3ba55d',ts:EN?'10:39 PM':'22:39'};
+ var R1={who:'DarkNitro77',av:'D',cls:'r',ts:TS,raid:true},R2={who:'DarkNitro82',av:'D',cls:'r',ts:TS,raid:true},R3={who:'DarkNitro91',av:'D',cls:'r',ts:TS,raid:true};
  var S=EN?[
-  [500,sys,'\uD83C\uDF19 #general \u2014 10:41 PM. All quiet, the staff is asleep.'],
-  [900,join,'DarkNitro77'],[500,join,'DarkNitro78'],[400,join,'DarkNitro82'],
-  [600,sys,'\uD83D\uDCE5 +9 more joins in 18 seconds\u2026'],
-  [800,raider,'DarkNitro77','@everyone FREE NITRO \uD83C\uDF81 discord-glft.xyz/free'],
-  [500,raider,'DarkNitro82','@everyone FREE NITRO \uD83C\uDF81 discord-glft.xyz/free'],
-  [450,raider,'DarkNitro91','\uD83C\uDF81 @everyone grab it fast \u2192 discord-glft.xyz/free'],
+  [400,divider,EN?'Today':'Today'],
+  [500,msg,LUNA,'gg for tonight\u2019s event \uD83D\uDE04'],
+  [700,msg,MAX,'good night everyone \uD83D\uDC4B'],
+  [900,join,'DarkNitro77',TS],[450,join,'DarkNitro78',TS],[350,join,'DarkNitro82',TS],
+  [400,function(){members(259);}],
+  [600,msg,R1,'@everyone FREE NITRO \uD83C\uDF81 discord-glft.xyz/free'],
+  [350,msg,R1,'HURRY UP \u23F0 only 1h left @everyone'],
+  [450,msg,R2,'@everyone FREE NITRO \uD83C\uDF81 discord-glft.xyz/free'],
+  [400,msg,R3,'\uD83C\uDF81 grab it fast \u2192 discord-glft.xyz/free'],
   [500,typing],
-  [900,bot,'\uD83D\uDEA8','Guardian AI \u2014 raid detected','12 accounts created **less than 48h ago** \u00b7 usernames **93% similar** \u00b7 3\u00d7 @everyone in 11s'],
-  [900,bot,'\uD83D\uDEE1\uFE0F','+shield smart \u2014 shield raised','Joins frozen \u00b7 channels switched to **read-only** \u00b7 staff notified'],
-  [900,bot,'\uD83D\uDD2C','VirusTotal \u2014 link scanned','discord-glft.xyz \u2192 **malicious (phishing, 19/94 engines)** \u00b7 blocked everywhere'],
-  [900,bot,'\uD83D\uDEAB','+quarantine \u2014 accounts isolated','12 accounts quarantined \u00b7 reported to the **ThreatNet** network'],
-  [1000,function(){purge();bot('\uD83E\uDDF9','+undo \u2014 damage reverted','3 spam messages **deleted** \u00b7 permissions restored');}],
-  [1000,bot,'\u2705','Raid neutralized in 9 seconds','0 legitimate members hit \u00b7 full report: +postmortem'],
-  [900,sys,'\u2600\uFE0F 8 AM \u2014 the staff wakes up: nothing to do, everything was already handled.']
+  [900,function(){bot('#ED4245','\uD83D\uDEA8','Guardian AI \u2014 raid detected',null,[['Accounts','12'],['Similarity','93%'],['Created','< 48h'],['@everyone','4\u00d7 in 11s']],['\uD83D\uDEE1 Shield','\uD83D\uDCC4 Report']);}],
+  [900,function(){shieldEmbed=bot('#5865F2','\uD83D\uDEE1\uFE0F','+shield smart \u2014 shield raised','Joins frozen \u00b7 channels **read-only** \u00b7 accounts frozen: **4/12**');lockbar(true);}],
+  [1100,editShield],
+  [900,function(){bot('#E67E22','\uD83D\uDD2C','VirusTotal \u2014 link scanned','discord-glft.xyz \u2192 **malicious (phishing, 19/94 engines)** \u00b7 blocked everywhere');}],
+  [900,function(){bot('#9B59B6','\uD83D\uDEAB','+quarantine \u2014 accounts isolated','12 accounts quarantined \u00b7 reported to **ThreatNet**');members(247);}],
+  [1000,function(){purge();bot('#1ABC9C','\uD83E\uDDF9','+undo \u2014 damage reverted','**47** spam messages deleted \u00b7 permissions restored');}],
+  [1000,function(){bot('#57F287','\u2705','Raid neutralized in 9 seconds',null,[['Members hit','0'],['Accounts banned','12'],['Report','+postmortem']]);lockbar(false);}],
+  [900,divider,'8:02 AM'],
+  [700,msg,{who:'Luna',av:'L',cls:'u2',color:'#e91e8c',ts:'8:02 AM'},'what happened tonight?? \uD83D\uDE33'],
+  [900,msg,{who:'Max',av:'M',cls:'u3',color:'#3ba55d',ts:'8:03 AM'},'a raid. the bot handled everything on its own \uD83D\uDEE1\uFE0F']
  ]:[
-  [500,sys,'\uD83C\uDF19 #g\u00e9n\u00e9ral \u2014 22 h 41. Tout est calme, le staff dort.'],
-  [900,join,'DarkNitro77'],[500,join,'DarkNitro78'],[400,join,'DarkNitro82'],
-  [600,sys,'\uD83D\uDCE5 +9 autres arriv\u00e9es en 18 secondes\u2026'],
-  [800,raider,'DarkNitro77','@everyone NITRO GRATUIT \uD83C\uDF81 discord-glft.xyz/free'],
-  [500,raider,'DarkNitro82','@everyone NITRO GRATUIT \uD83C\uDF81 discord-glft.xyz/free'],
-  [450,raider,'DarkNitro91','\uD83C\uDF81 @everyone r\u00e9cup\u00e9rez vite \u2192 discord-glft.xyz/free'],
+  [400,divider,'Aujourd\u2019hui'],
+  [500,msg,LUNA,'gg pour l\u2019event de ce soir \uD83D\uDE04'],
+  [700,msg,MAX,'bonne nuit tout le monde \uD83D\uDC4B'],
+  [900,join,'DarkNitro77',TS],[450,join,'DarkNitro78',TS],[350,join,'DarkNitro82',TS],
+  [400,function(){members(259);}],
+  [600,msg,R1,'@everyone NITRO GRATUIT \uD83C\uDF81 discord-glft.xyz/free'],
+  [350,msg,R1,'D\u00c9P\u00caCHEZ-VOUS \u23F0 plus qu\u2019 1h @everyone'],
+  [450,msg,R2,'@everyone NITRO GRATUIT \uD83C\uDF81 discord-glft.xyz/free'],
+  [400,msg,R3,'\uD83C\uDF81 r\u00e9cup\u00e9rez vite \u2192 discord-glft.xyz/free'],
   [500,typing],
-  [900,bot,'\uD83D\uDEA8','Guardian AI \u2014 raid d\u00e9tect\u00e9','12 comptes cr\u00e9\u00e9s **il y a moins de 48 h** \u00b7 pseudos **similaires \u00e0 93 %** \u00b7 3\u00d7 @everyone en 11 s'],
-  [900,bot,'\uD83D\uDEE1\uFE0F','+shield smart \u2014 bouclier lev\u00e9','Arriv\u00e9es gel\u00e9es \u00b7 salons pass\u00e9s en **lecture seule** \u00b7 staff pr\u00e9venu'],
-  [900,bot,'\uD83D\uDD2C','VirusTotal \u2014 lien analys\u00e9','discord-glft.xyz \u2192 **malveillant (phishing, 19/94 moteurs)** \u00b7 bloqu\u00e9 partout'],
-  [900,bot,'\uD83D\uDEAB','+quarantine \u2014 comptes isol\u00e9s','12 comptes en quarantaine \u00b7 signal\u00e9s au r\u00e9seau **ThreatNet**'],
-  [1000,function(){purge();bot('\uD83E\uDDF9','+undo \u2014 d\u00e9g\u00e2ts r\u00e9par\u00e9s','3 messages de spam **supprim\u00e9s** \u00b7 permissions r\u00e9tablies');}],
-  [1000,bot,'\u2705','Raid neutralis\u00e9 en 9 secondes','0 membre l\u00e9gitime touch\u00e9 \u00b7 rapport complet : +postmortem'],
-  [900,sys,'\u2600\uFE0F 8 h \u2014 le staff se r\u00e9veille : rien \u00e0 faire, tout \u00e9tait d\u00e9j\u00e0 r\u00e9gl\u00e9.']
+  [900,function(){bot('#ED4245','\uD83D\uDEA8','Guardian AI \u2014 raid d\u00e9tect\u00e9',null,[['Comptes','12'],['Similarit\u00e9','93 %'],['Cr\u00e9\u00e9s','< 48 h'],['@everyone','4\u00d7 en 11 s']],['\uD83D\uDEE1 Shield','\uD83D\uDCC4 Rapport']);}],
+  [900,function(){shieldEmbed=bot('#5865F2','\uD83D\uDEE1\uFE0F','+shield smart \u2014 bouclier lev\u00e9','Arriv\u00e9es gel\u00e9es \u00b7 salons en **lecture seule** \u00b7 comptes gel\u00e9s : **4/12**');lockbar(true);}],
+  [1100,editShield],
+  [900,function(){bot('#E67E22','\uD83D\uDD2C','VirusTotal \u2014 lien analys\u00e9','discord-glft.xyz \u2192 **malveillant (phishing, 19/94 moteurs)** \u00b7 bloqu\u00e9 partout');}],
+  [900,function(){bot('#9B59B6','\uD83D\uDEAB','+quarantine \u2014 comptes isol\u00e9s','12 comptes en quarantaine \u00b7 signal\u00e9s au r\u00e9seau **ThreatNet**');members(247);}],
+  [1000,function(){purge();bot('#1ABC9C','\uD83E\uDDF9','+undo \u2014 d\u00e9g\u00e2ts r\u00e9par\u00e9s','**47** messages de spam supprim\u00e9s \u00b7 permissions r\u00e9tablies');}],
+  [1000,function(){bot('#57F287','\u2705','Raid neutralis\u00e9 en 9 secondes',null,[['Membres touch\u00e9s','0'],['Comptes bannis','12'],['Rapport','+postmortem']]);lockbar(false);}],
+  [900,divider,'8 h 02'],
+  [700,msg,{who:'Luna',av:'L',cls:'u2',color:'#e91e8c',ts:'8:02'},'il s\u2019est pass\u00e9 quoi cette nuit ?? \uD83D\uDE33'],
+  [900,msg,{who:'Max',av:'M',cls:'u3',color:'#3ba55d',ts:'8:03'},'un raid. le bot a tout g\u00e9r\u00e9 tout seul \uD83D\uDEE1\uFE0F']
  ];
  var run=++__demoRun,i=0;
  function step(){
