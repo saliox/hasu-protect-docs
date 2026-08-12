@@ -140,10 +140,7 @@ le template local.
     `qs1`–`qs5`/`qsInvite`, CSS `.qn`/`.qsc`), section **FAQ** statique en bas
     de `<main>` (6 `<details class="fq">` bilingues via `data-lang` + second
     bloc JSON-LD `FAQPage` dans le `<head>` — inerte, pas de hash CSP),
-    **démo de raid** (bouton héro `#demoBtn` + fonction `runDemo` : scène
-    scriptée 11 messages dans la modale, jeton anti-fuite de timers, lien
-    profond `#demo`, clés I18N `demo*`, CSS `.cta-demo`/`.m-sys`/`.m-av.r`/
-    `.m-sim.demo`), **rappel de vote top.gg** (clic sur « Voter » →
+    **rappel de vote top.gg** (clic sur « Voter » →
     localStorage `votedTgAt` ; au retour 12 h+ → bouton pulsé `.revote-on`
     + libellé `revote`).
 
@@ -157,17 +154,9 @@ le template local.
     **applyLang économe** : n'écrit dans le DOM que si la valeur change
     (`data-fr0` mémorisé au premier passage EN seulement). **CSP** :
     `frame-ancestors` retiré (ignoré en `<meta>`, ne faisait que du bruit
-    console). **Démo réaliste v3** (bloc `runDemo` + CSS `.m-dchat`/`.m-chbar`/
-    `.m-inbar`/`.m-divider`/`.m-btag`/`.m-efields`/`.m-ebtns`/`.m-edited`/
-    `.mdel`) : chrome façon Discord (barre `#général` + compteur de membres
-    vivant 247→259→247, barre d'écriture qui passe en « 🔒 lecture seule »
-    pendant le shield), avatars ronds à initiales, tag ✓ APP, messages
-    groupés par auteur, séparateurs de date, vie avant/après le raid
-    (Luna/Max), embeds à champs + boutons factices, embed shield **édité en
-    direct** « (modifié) », spam **retiré du DOM** (animation `.mdel`) par
-    `+undo`, pause onglet caché, relance au changement de langue. Le
-    mini-tour est fermé par l'ouverture de toute modale (`window.__tourEnd`
-    + garde `done` contre le `setTimeout(show,1600)`). **Widget top.gg**
+    console). **Mini-tour** : fermé par
+    l'ouverture de toute modale (`window.__tourEnd` + garde `done` contre le
+    `setTimeout(show,1600)`) — il ne s'affiche plus par-dessus une fiche. **Widget top.gg**
     lisible et accordé au thème : `.topgg-badge img{width:min(340px,88%);
     height:auto}` + cadre arrondi/ombre/hover, et le SVG est demandé avec les
     paramètres de couleurs officiels (`topcolor`, `middlecolor`,
@@ -183,3 +172,9 @@ le template local.
     (CSS `.needs`/`.nchip`/`.nsteps`, JS `var NEEDS=` + injection, clés I18N
     `needsT`/`needsSub`) a été supprimé à la demande — ne PAS le réintroduire
     depuis un vieux template.
+
+19. **Démo de raid RETIRÉE (12/08, PR #35)** : le bouton héro « 🎬 Voir le
+    bot en action », la fonction `runDemo`, le lien profond `#demo`, les clés
+    I18N `demo*` et tout le CSS associé (`.cta-demo`, `.m-dchat`, `.m-sys`,
+    `.m-join`, `.m-typing`, `.m-efields`, `.mdel`…) ont été supprimés à la
+    demande — ne PAS les réintroduire depuis un vieux template.
