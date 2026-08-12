@@ -67,3 +67,10 @@ le template local.
    les commits heartbeat de la branche `status` — RIEN à changer côté bot).
    À porter dans le template : le bloc CSS `.uppop`/`.upgrid`, les clés I18N
    `up*`, et le bloc JS `renderUp`/`toggleUp`.
+
+10. **Historique à la demande (PR #16)** : le site contient un chargeur
+    `loadHist()` — si `#hist` ne contient aucune `.hentry`, le clic sur
+    `#moreBtn` va chercher `history.html` à la racine et injecte les entrées
+    (langue appliquée, échec géré). Consigne de scission côté générateur :
+    voir `CONSIGNES-BOT.md` à la racine + le commentaire en tête d'index.html.
+    Tant que l'historique reste inline, le chargeur est strictement no-op.

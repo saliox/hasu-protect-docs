@@ -1,6 +1,18 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
+<!doctype html><html lang="fr"><head><!--
+  ═══ MESSAGE POUR LE GÉNÉRATEUR DU SITE (bot Hasu Protect) — à appliquer au prochain déploiement ═══
+  L'historique du changelog pèse 43 % de cette page et presque personne ne l'ouvre. Le site est DÉJÀ
+  prêt à le charger à la demande. Il te suffit de :
+    1. Générer un fichier « history.html » à la racine, contenant UNIQUEMENT les blocs
+       <div class="hentry">…</div> (exactement le HTML aujourd'hui à l'intérieur de #hist),
+       sans <html>/<head>/<body>.
+    2. Dans index.html, laisser #hist SANS aucune .hentry (garder #histSearch et #histNone),
+       et garder le bouton #moreBtn tel quel.
+    3. C'est tout : le chargeur loadHist() déjà présent détecte l'absence d'entrées et va chercher
+       history.html au premier clic. Détails et autres consignes : CONSIGNES-BOT.md à la racine.
+  ═══════════════════════════════════════════════════════════════════════════════════════════════
+--><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-nscol7Tkq3EVudWxV3WjN4TDj9FcUOzEiQDk9xg55Bw='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-rO4YQzSPGQjhew1Et4F9LqQb+DvGidYCzDM/HdjpaTc='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -1302,7 +1314,19 @@ function renderVisits(){var en=curLang()==='en',ord=(__visits===1?'ʳᵉ':'ᵉ')
  .then(function(r){if(!r.ok)throw 0;return r.json();})
  .then(function(d){if(d&&isFinite(d.value)&&d.value>0){__gvisits=d.value;try{localStorage.setItem('gvisits',String(d.value));}catch(e){}if(inc)try{sessionStorage.setItem('gcounted','1');}catch(e){}renderVisits();}})
  .catch(function(){});})();
-var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent=tr('hidehist');}else{mb.textContent=mb.dataset.label;}});
+// ── Historique à la demande (prêt pour la scission côté bot — voir CONSIGNES-BOT.md) : si le bot cesse
+// d'inclure les .hentry dans index.html et publie history.html, le site les charge au premier clic.
+// Tant que l'historique est encore inline : strictement no-op.
+var __histLoaded=false;
+function loadHist(){var hi=document.getElementById('hist');if(!hi||__histLoaded||hi.querySelector('.hentry'))return;
+ __histLoaded=true;
+ var ph=document.createElement('p');ph.className='histnone';ph.textContent=tr('histLoading');hi.appendChild(ph);
+ fetch('history.html',{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+  ph.remove();var tmp=document.createElement('div');tmp.innerHTML=t;
+  var frag=document.createDocumentFragment();[].slice.call(tmp.querySelectorAll('.hentry')).forEach(function(e){frag.appendChild(e);});
+  hi.appendChild(frag);if(typeof applyLang==='function')applyLang(); // applique la langue courante aux entrées injectées
+ }).catch(function(){__histLoaded=false;ph.textContent=tr('histFail');setTimeout(function(){ph.remove();},4000);});}
+var mb=document.getElementById('moreBtn');if(mb)mb.addEventListener('click',function(){var hi=document.getElementById('hist');if(hi.classList.toggle('open')){mb.textContent=tr('hidehist');loadHist();}else{mb.textContent=mb.dataset.label;}});
 // ── Mobile : le changelog occupait plusieurs écrans avant d'arriver aux commandes → replié par défaut
 // (titre + date), déplié/replié via un bouton flèche. Le bouton n'apparaît qu'à ≤640px (CSS) ; sur
 // desktop la classe m-collapsed n'a aucun effet. Créé en JS car le HTML du changelog est régénéré par le bot.
@@ -1365,7 +1389,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
  p.querySelectorAll('[data-en]').forEach(function(el){var en=el.getAttribute('data-en');if(el.dataset.fr0===undefined)el.dataset.fr0=el.textContent;el.textContent=(curLang()==='en'&&en)?en:el.dataset.fr0;});}
 var __gAt=0,__gLast=null,__hbApi=0,__hbStats=0,__bs='online';
 // ── i18n (FR/EN) : bascule l'INTERFACE (le contenu auto-généré — descriptions, catégories — reste tel quel). Persisté.
-var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
+var I18N={online:{fr:'En ligne',en:'Online'},offline:{fr:'Hors ligne',en:'Offline'},updating:{fr:'En mise à jour',en:'Updating'},checking:{fr:'Vérification…',en:'Checking…'},catLabel:{fr:'Catégories :',en:'Categories:'},histLoading:{fr:'Chargement de l’historique…',en:'Loading history…'},histFail:{fr:'Impossible de charger l’historique — réessaie.',en:'Could not load history — try again.'},upTitle:{fr:'Disponibilité — 7 derniers jours',en:'Uptime — last 7 days'},upSub:{fr:'1 case = 1 heure · reconstruit depuis les battements du bot',en:'1 cell = 1 hour · rebuilt from the bot’s heartbeats'},upOk:{fr:'en ligne',en:'up'},upPart:{fr:'partiel',en:'partial'},upDown:{fr:'hors ligne',en:'down'},upNone:{fr:'Disponibilité indisponible pour le moment.',en:'Uptime data unavailable right now.'},
  tagline:{fr:'Documentation des commandes — bot de modération & sécurité Discord',en:'Command documentation — Discord moderation & security bot'},
  cmds:{fr:'commandes',en:'commands'},cats:{fr:'catégories',en:'categories'},prot:{fr:'membres protégés',en:'protected members'},serv:{fr:'serveurs protégés',en:'protected servers'},
  addbot:{fr:'➕ Ajouter le bot',en:'➕ Add the bot'},vote:{fr:'⭐ Voter sur top.gg',en:'⭐ Vote on top.gg'},lastup:{fr:'📰 Dernière mise à jour —',en:'📰 Latest update —'},
