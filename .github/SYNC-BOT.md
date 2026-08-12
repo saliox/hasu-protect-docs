@@ -137,7 +137,7 @@ le template local.
     révélation via listener JS, lazy retiré) ; labels des chips de filtres
     échappés (durcissement).
 
-16. **Lot « prêt pour top.gg » (PR #27)** : encart « 🚀 Premiers pas » v2
+16. **Lot « prêt pour top.gg » (PR #28)** : encart « 🚀 Premiers pas » v2
     (5 étapes numérotées, puces `+commande` cliquables → fiche, clés I18N
     `qs1`–`qs5`/`qsInvite`, CSS `.qn`/`.qsc`), section **FAQ** statique en bas
     de `<main>` (6 `<details class="fq">` bilingues via `data-lang` + second
