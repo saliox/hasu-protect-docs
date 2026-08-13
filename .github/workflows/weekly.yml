@@ -1,0 +1,29 @@
+# Rapport hebdo : chaque lundi matin (07:00 Paris = 05:00 UTC en été), poste une issue
+# résumant la semaine à partir des données réelles de la branche uptime (dispo, croissance,
+# votes de la doc, visites). Une seule issue ouverte à la fois (label rapport-hebdo) :
+# la nouvelle édition remplace l'ancienne (fermée automatiquement).
+name: Rapport hebdo
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construire le rapport depuis les relevés
+        run: node .github/build-report.js
+      - name: Publier l'issue (et fermer l'édition précédente)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          TZ: Europe/Paris
+        run: |
+          gh label create rapport-hebdo --color 1ABC9C --description "Rapport hebdomadaire automatique" --force || true
+          OLD=$(gh issue list --label rapport-hebdo --state open --json number --jq '.[].number')
+          gh issue create --title "📊 Rapport hebdo — semaine du $(date '+%d/%m/%Y')" --label rapport-hebdo --body-file report.md
+          for n in $OLD; do gh issue close "$n" -c "Remplacé par l'édition suivante." || true; done

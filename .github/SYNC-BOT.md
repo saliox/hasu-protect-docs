@@ -192,3 +192,15 @@ le template local.
     supprimer) ; badge de disponibilité 7 j dans le README (`badge.json`
     publié sur la branche uptime par build-uptime.js).
 
+
+21. **Lot blindage (PR #37)** : panneau raccourcis **discret** (aucune UI
+    permanente — touche « ? » hors champ de saisie et hors modale → panneau
+    `.kbov`/`.kbbox`, Échap/clic ferme ; bloc JS « PANNEAU RACCOURCIS » +
+    CSS `.kb*`). Côté dépôt uniquement (rien à porter dans le template,
+    mais ne pas les effacer) : smoke test E2E Chromium sur chaque push/PR
+    (`.github/smoke-test.js` + `workflows/smoke.yml` — erreurs JS, modale,
+    historique, mobile, boîte changelog saine), **sauvegarde quotidienne du
+    compteur de visites** dans `votes.json` (`site-visits`, via
+    build-votes.js), rapport hebdo en issue chaque lundi
+    (`build-report.js` + `weekly.yml`, label `rapport-hebdo`), contrôle
+    hebdo des liens externes (`linkcheck.yml`, label `lien-mort`).

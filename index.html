@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-+L10JKVT+ehp4O1gjkB3iUAWfKSuCmwrZqiQF0cxiWQ='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-d/PqsLlKF+CC8a1PbV/jTDxt1Fg29kvXBv6LW7E84Pc='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -377,6 +377,13 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .fqa{padding:0 0 12px;color:#cfcfe0;font-size:.9rem;line-height:1.55}
 :root[data-theme="light"] .fqa{color:#2c2d3a}
 .fqa code{background:rgba(88,101,242,.14);border-radius:6px;padding:1px 6px;font-size:.85em}
+/* ── Panneau raccourcis (ouvert par « ? », aucune UI permanente) */
+.kbov{position:fixed;inset:0;background:rgba(5,5,12,.62);z-index:60;display:flex;align-items:center;justify-content:center}
+.kbbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;min-width:260px;box-shadow:0 18px 50px rgba(0,0,0,.45);outline:none}
+.kbt{font-weight:800;margin-bottom:12px}
+.kbrow{display:flex;align-items:center;gap:12px;margin:7px 0;font-size:.88rem;color:var(--mut)}
+.kbrow kbd{background:#232433;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:2px 8px;font-family:inherit;font-size:.8rem;font-weight:700;color:var(--txt);min-width:34px;text-align:center}
+:root[data-theme="light"] .kbrow kbd{background:#e8eaf3}
 /* ── Rappel de vote top.gg : halo pulsé quand les 12 h sont écoulées */
 .cta-vote.revote-on{animation:rvpulse 1.8s ease-in-out infinite}
 @keyframes rvpulse{0%,100%{box-shadow:0 4px 18px rgba(255,51,102,.35)}50%{box-shadow:0 0 0 9px rgba(255,51,102,0),0 4px 22px rgba(255,51,102,.65)}}
@@ -2213,6 +2220,23 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
 // ═══ 🎬 DÉMO DE RAID : rejoue dans la modale un raid scripté et la riposte du bot, message par message.
 // Réutilise l'overlay/les styles du simulateur. Timers annulés au replay et neutralisés à la fermeture
 // (jeton de run + test de l'overlay), donc aucune fuite si on ferme en plein milieu.
+// ═══ ⌨️ PANNEAU RACCOURCIS (discret : aucune UI permanente — « ? » l'ouvre, Échap/clic ferme).
+(function(){var ov2=null;
+ function close(){if(ov2){ov2.remove();ov2=null;}}
+ function open(){if(ov2)return;var EN=curLang()==='en';
+  ov2=el('div','kbov');var box=el('div','kbbox');box.setAttribute('role','dialog');box.setAttribute('aria-modal','true');box.setAttribute('aria-label',EN?'Keyboard shortcuts':'Raccourcis clavier');
+  box.appendChild(el('div','kbt',EN?'⌨️ Keyboard shortcuts':'⌨️ Raccourcis clavier'));
+  [[('/'),EN?'focus the search':'aller à la recherche'],
+   ['Ctrl+K',EN?'quick command palette':'palette de commandes rapide'],
+   ['Échap'+(EN?' / Esc':''),EN?'close panels · clear the search':'fermer les panneaux · vider la recherche'],
+   ['Entrée',EN?'open the focused card':'ouvrir la carte sélectionnée'],
+   ['?',EN?'this panel':'ce panneau']].forEach(function(r){
+   var l=el('div','kbrow');l.appendChild(el('kbd',null,r[0]));l.appendChild(el('span',null,r[1]));box.appendChild(l);});
+  ov2.appendChild(box);ov2.addEventListener('click',function(e){if(e.target===ov2)close();});
+  document.body.appendChild(ov2);box.tabIndex=-1;box.focus();}
+ document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){close();return;}
+  if(e.key==='?'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!/^(input|textarea|select)$/i.test((e.target&&e.target.tagName)||'')&&!document.getElementById('ov').classList.contains('open')){e.preventDefault();open();}});})();
 // Lien profond : #nomcommande ouvre la fiche correspondante.
 (function(){var h=decodeURIComponent((location.hash||'').replace(/^#/,'')).toLowerCase();if(!h)return;var card=[].slice.call(document.querySelectorAll('.cmd')).filter(function(c){return c.dataset.n.toLowerCase()===h;})[0];if(card)openSim(card);})();</script>
 </body></html>

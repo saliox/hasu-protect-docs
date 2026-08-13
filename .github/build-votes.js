@@ -13,6 +13,9 @@ async function get(key) {
 }
 (async () => {
   const out = {};
+  // Sauvegarde du compteur de visites global : Abacus est un service tiers sans garantie —
+  // ce relevé quotidien permet de restaurer (ou au pire de connaître) le total en cas de reset.
+  const visits = await get('site-visits');
   const queue = [...names];
   await Promise.all(Array.from({ length: 8 }, async () => {
     while (queue.length) {
@@ -22,6 +25,6 @@ async function get(key) {
       if (yes || non) out[n] = [yes, non];
     }
   }));
-  fs.writeFileSync('votes.json', JSON.stringify({ generated: Date.now(), votes: out }));
-  console.log('votes.json :', Object.keys(out).length, 'commandes avec votes /', names.length, 'commandes');
+  fs.writeFileSync('votes.json', JSON.stringify({ generated: Date.now(), visits, votes: out }));
+  console.log('votes.json :', Object.keys(out).length, 'commandes avec votes /', names.length, 'commandes ·', visits, 'visites');
 })();

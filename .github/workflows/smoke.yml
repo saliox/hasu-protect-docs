@@ -1,0 +1,30 @@
+# Smoke test E2E : un vrai Chromium ouvre le site sur chaque push/PR vers main et vérifie
+# ce que les contrôles statiques ne voient pas (erreurs JS, modale, historique, layout mobile,
+# boîte du changelog saine). Hôtes externes bouchés → hermétique. ~2 min par run.
+name: Smoke E2E
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Installer Playwright + Chromium
+        run: |
+          npm init -y >/dev/null
+          npm i --no-save playwright >/dev/null
+          npx playwright install --with-deps chromium
+      - name: Servir le site et lancer le smoke test
+        run: |
+          python3 -m http.server 8901 &
+          sleep 1
+          node .github/smoke-test.js

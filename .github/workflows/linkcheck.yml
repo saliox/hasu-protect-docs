@@ -1,0 +1,43 @@
+# Vérificateur de liens : chaque lundi (06:00 UTC), contrôle que les liens externes du site
+# répondent encore (invitation Discord, top.gg, …). Un lien d'invitation mort = zéro conversion
+# silencieuse pendant des semaines. En cas d'échec, ouvre/complète une issue (label lien-mort).
+name: Liens externes
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tester chaque lien externe d'index.html
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          LINKS=$(grep -o 'href="https://[^"]*"' index.html | sed 's/href="//;s/"$//' | sort -u)
+          echo "Liens à tester :"; echo "$LINKS"
+          FAILS=""
+          for u in $LINKS; do
+            code=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 25 -A "Mozilla/5.0 (linkcheck hasu-protect-docs)" "$u" || echo 000)
+            # 2e essai pour les ratés transitoires
+            if [ "$code" -ge 400 ] || [ "$code" = 000 ]; then
+              sleep 3
+              code=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 25 -A "Mozilla/5.0 (linkcheck hasu-protect-docs)" "$u" || echo 000)
+            fi
+            echo "$code  $u"
+            if [ "$code" -ge 400 ] || [ "$code" = 000 ]; then FAILS="$FAILS- \`$u\` → HTTP $code"$'\n'; fi
+          done
+          if [ -z "$FAILS" ]; then echo "Tous les liens répondent ✅"; exit 0; fi
+          gh label create lien-mort --color ED4245 --description "Lien externe du site qui ne répond plus" --force || true
+          N=$(gh issue list --label lien-mort --state open --json number --jq '.[0].number')
+          BODY="@saliox — le contrôle hebdomadaire a trouvé des liens externes qui ne répondent plus :
+
+          $FAILS
+          _Contrôle automatique (linkcheck.yml). Corrige le lien dans index.html (et dans le template du bot), puis ferme cette issue._"
+          if [ -n "$N" ]; then gh issue comment "$N" --body "$BODY"; else gh issue create --title "🔗 Lien(s) externe(s) mort(s) sur le site" --label lien-mort --body "$BODY"; fi
+          exit 1
