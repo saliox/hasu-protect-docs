@@ -9,6 +9,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: uptime-branch-writes
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest

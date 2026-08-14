@@ -10,6 +10,8 @@ on:
     paths: [index.html, .github/check-csp.js, .github/unit-tests.js, .github/workflows/check-csp.yml]
   pull_request:
     paths: [index.html, .github/check-csp.js, .github/unit-tests.js, .github/workflows/check-csp.yml]
+permissions:
+  contents: read
 jobs:
   check:
     runs-on: ubuntu-latest
