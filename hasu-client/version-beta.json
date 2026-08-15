@@ -1,6 +1,6 @@
 ﻿{
-    "sha256":  "fc374682e70b90dee2e485eb3c6ee5cdd8090b7a3c62a57e1a7e00f7dd6e8c60",
+    "sha256":  "f693130c073884da120dd2171cabc98950b7ec83c71dcf54a188bf451d225ff8",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.68.0",
-    "notes":  "1.20.1 : les casques (15 formes 3D dont 3 cubes HD textures) et les ailes (7, qui battent) s\u0027affichent enfin sur ton joueur, comme sur les autres versions. Le bouton Cosmetiques ouvre un hub Capes/Casques/Ailes. Rendu procedural 1.8.9/1.16.5 reecrit en API moderne (PoseStack + shaders). Beta : visible sur ton joueur (pas encore synchro entre joueurs)."
+    "version":  "1.69.0",
+    "notes":  "Lot qualite 1.20.1 (audit, 16 corrections) : 2 bugs de menu repares (Quitter hors ecran / clic pastille qui quittait le jeu ; menu Capes qui figeait a la fermeture), menu Mods qui tient a l\u0027ecran, cape custom qui ne relit plus le disque par frame, optimisations de rendu, code mort/imports supprimes. + 1re suite de tests unitaires (29 tests, 100% de la logique pure). Aucun changement visible voulu."
 }
