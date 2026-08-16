@@ -1,6 +1,6 @@
-{
-    "sha256":  "f693130c073884da120dd2171cabc98950b7ec83c71dcf54a188bf451d225ff8",
+﻿{
+    "sha256":  "245421a79a8ee7ed0192bb15836415009a26bf7448805eae03274701390c304b",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.69.0",
-    "notes":  "Lot qualite 1.20.1 (audit, 16 corrections) : 2 bugs de menu repares (Quitter hors ecran / clic pastille qui quittait le jeu ; menu Capes qui figeait a la fermeture), menu Mods qui tient a l\u0027ecran, cape custom qui ne relit plus le disque par frame, optimisations de rendu, code mort/imports supprimes. + 1re suite de tests unitaires (29 tests, 100% de la logique pure). Aucun changement visible voulu."
+    "version":  "1.70.0",
+    "notes":  "Menu principal 1.20.1 mal affiche corrige : le logo ne chevauche plus le titre HASU CLIENT aux resolutions/GUI scale courants (854x480, 720p, 1080p) grace a un header compact automatique en petite fenetre. Verifie sans overlap de 240 a 540 px."
 }
