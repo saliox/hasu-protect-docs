@@ -1,6 +1,6 @@
-{
-    "sha256":  "245421a79a8ee7ed0192bb15836415009a26bf7448805eae03274701390c304b",
+﻿{
+    "sha256":  "6e236c2dd88d30cc53260f06f59545b48c96e97e60a20b06b0d5e3d8792dbf91",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.70.0",
-    "notes":  "Menu principal 1.20.1 mal affiche corrige : le logo ne chevauche plus le titre HASU CLIENT aux resolutions/GUI scale courants (854x480, 720p, 1080p) grace a un header compact automatique en petite fenetre. Verifie sans overlap de 240 a 540 px."
+    "version":  "1.71.0",
+    "notes":  "2e lot qualite 1.20.1 (audit, 12 corrections) : fix tags d\u0027equipe absents 10 min si demarrage hors-ligne (retry 15s), fuites connexion reseau colmatees, perf HUD/modules/halo memoises, et surtout TOUTE la geometrie des menus centralisee + verrouillee par tests d\u0027invariants (plus de bug d\u0027affichage silencieux). Code mort/duplications supprimes. 47 tests, 100% logique pure. Aucun changement visible voulu."
 }
