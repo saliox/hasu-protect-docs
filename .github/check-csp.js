@@ -4,7 +4,9 @@
 // éviter tout échappement shell (un node -e entre quotes bash avait rendu le
 // test toujours faux).
 const fs = require('fs'), crypto = require('crypto');
-const html = fs.readFileSync('index.html', 'utf8');
+// Le parseur HTML normalise CRLF en LF avant d'évaluer le script. GitHub Pages sert
+// aussi la version Git en LF ; normaliser ici évite un faux négatif sur Windows.
+const html = fs.readFileSync('index.html', 'utf8').replace(/\r\n/g, '\n');
 const m = html.match(/script-src ([^;]+);/);
 if (!m) { console.error('Pas de directive script-src trouvée'); process.exit(1); }
 const csp = m[1];

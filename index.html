@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-ykE5UwPXWeRYlU8EEwMXMjU6Bu8sLzDpExWlc3PnuH4='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-JuBASbqFC58iK/uz0BryVK5WHX1LXpJwYwHUWIRXH3g='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://142-93-164-47.sslip.io; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -1658,7 +1658,7 @@ function setBadges(d){if(!d)return;__hbData=d;
 // Heartbeat lu en PRIORITÉ sur raw.githubusercontent.com : CORS ouvert, pas de quota. L'API contents
 // (60 req/h par IP sans token) ne sert plus que de lecture exacte ponctuelle : à 1 requête/2 min en
 // continu, le quota sautait (rechargements + onglets multiples + IP partagées) et le badge mourait en 403.
-var __rawURL='https://raw.githubusercontent.com/saliox/hasu-protect-docs/status/heartbeat.json';
+var __rawURL=location.protocol==='http:'?'/heartbeat.json':'https://142-93-164-47.sslip.io/heartbeat.json';
 var __hbURL='https://api.github.com/repos/saliox/hasu-protect-docs/contents/heartbeat.json?ref=status';
 var __apiLast=0,__exactUntil=0,__lastC='';
 // Math.max : un timestamp de battement ne peut qu'avancer — une copie CDN périmée resservie après une
@@ -2207,7 +2207,7 @@ function renderNet(){var aside=document.querySelector('.side');if(!aside)return;
  paint();
  var _at=applyTheme;applyTheme=function(t){_at(t);paint();};})();
 // ═══ 📱 PWA : enregistrement du service worker (fichier séparé, jamais touché par les maj du bot)
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=20260821-live2',{updateViaCache:'none'}).catch(function(){});}
 // ═══ 🚀 PREMIERS PAS : les puces +commande de l'encart ouvrent la fiche correspondante.
 document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addEventListener('click',function(){var card=document.querySelector('.cmd[data-n="'+ch.getAttribute('data-cmd')+'"]');if(card)openSim(card);});});
 // ═══ ⭐ RAPPEL DE VOTE top.gg : un clic sur « Voter » mémorise l'heure ; au retour 12 h+ plus tard,
