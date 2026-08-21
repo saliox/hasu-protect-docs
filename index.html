@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-d/PqsLlKF+CC8a1PbV/jTDxt1Fg29kvXBv6LW7E84Pc='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-ykE5UwPXWeRYlU8EEwMXMjU6Bu8sLzDpExWlc3PnuH4='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 189 commandes — documentation complète et interactive.">
@@ -1444,11 +1444,11 @@ var __histPre=null;
 (function(){try{if(navigator.connection&&navigator.connection.saveData)return;}catch(e){}
  var idle=window.requestIdleCallback||function(f){setTimeout(f,3500);};
  idle(function(){var hi=document.getElementById('hist');if(!hi||__histPre||__histLoaded||hi.querySelector('.hentry'))return;
-  fetch('history.html').then(function(r){return r.ok?r.text():null;}).then(function(t){if(t)__histPre=t;}).catch(function(){});});})();
+  fetch('history.html?v=20260821-security-ux',{cache:'no-store'}).then(function(r){return r.ok?r.text():null;}).then(function(t){if(t)__histPre=t;}).catch(function(){});});})();
 function loadHist(){var hi=document.getElementById('hist');if(!hi||__histLoaded||hi.querySelector('.hentry'))return;
  __histLoaded=true;
  var ph=document.createElement('p');ph.className='histnone';ph.textContent=tr('histLoading');hi.appendChild(ph);
- (__histPre?Promise.resolve(__histPre):fetch('history.html',{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text();})).then(function(t){
+ (__histPre?Promise.resolve(__histPre):fetch('history.html?v=20260821-security-ux',{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text();})).then(function(t){
   ph.remove();var tmp=document.createElement('div');tmp.innerHTML=t;
   var frag=document.createDocumentFragment();[].slice.call(tmp.querySelectorAll('.hentry')).forEach(function(e){frag.appendChild(e);});
   hi.appendChild(frag);if(typeof applyLang==='function')applyLang(); // applique la langue courante aux entrées injectées
