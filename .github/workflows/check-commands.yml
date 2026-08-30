@@ -1,0 +1,49 @@
+# Le catalogue du site doit dire la vérité sur les commandes du bot.
+#
+# Contexte : le site a documenté 189 commandes sur 238 pendant des mois sans que rien ne le signale,
+# et une carte « +meme » a survécu à la suppression de la commande — la doc faisait taper une
+# commande morte. Aucun contrôle ne comparait la doc au bot ; c'est ce que ce workflow ajoute.
+#
+# ⚠ Le dépôt du BOT n'existe PAS sur GitHub Actions. Le contrôle ne le lit donc pas : il vérifie la
+# chaîne d'attestation qui vit ENTIÈREMENT dans ce dépôt (stats.json → manifeste → cartes → prose).
+# Le maillon qui lit réellement commands/ est LOCAL et s'invoque à la main :
+#     node .github/check-commands.js --bot .. --write
+# Tout est expliqué dans l'en-tête de .github/check-commands.js, y compris ce qui n'est PAS couvert.
+#
+# Le `schedule` n'est pas décoratif : le filet horaire de l'attestation (180 jours) ne peut expirer
+# que si quelque chose s'exécute. Sans passage hebdomadaire, un dépôt qui ne reçoit plus de push
+# n'apprendrait jamais que son manifeste a vieilli.
+name: Catalogue des commandes
+on:
+  push:
+    paths:
+      - index.html
+      - stats.json
+      - .github/check-commands.js
+      - .github/commands.manifest.json
+      - .github/mutants-commands.js
+      - .github/html-scripts.js
+      - .github/workflows/check-commands.yml
+  pull_request:
+    paths:
+      - index.html
+      - stats.json
+      - .github/check-commands.js
+      - .github/commands.manifest.json
+      - .github/mutants-commands.js
+      - .github/html-scripts.js
+      - .github/workflows/check-commands.yml
+  schedule:
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+jobs:
+  catalogue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # D'abord la preuve que le garde mord : un garde qui ne trouve jamais rien est indiscernable
+      # d'un garde cassé. La campagne joue un témoin sain (qui DOIT passer) puis 15 mutations.
+      - name: Le garde mord-il encore ? (campagne de mutation)
+        run: node .github/mutants-commands.js
+      - name: Le site documente-t-il toutes les commandes attestées ?
+        run: node .github/check-commands.js

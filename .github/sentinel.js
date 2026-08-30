@@ -73,6 +73,13 @@ const FILES = [
   'assets/icon-512.png',
   'assets/og-banner.jpg',
   'CONSIGNES-BOT.md',
+  // Le garde qui compare le catalogue du site aux commandes du bot, et ce dont il dépend. Sans le
+  // manifeste attesté il ne peut plus rien dire ; sans la campagne de mutation, plus personne ne
+  // vérifie qu'il mord. Les trois sont donc surveillés comme le reste — un garde supprimé en
+  // silence est exactement le trou qu'il ferme. (Voir .github/check-commands.js pour le détail.)
+  '.github/check-commands.js',
+  '.github/commands.manifest.json',
+  '.github/mutants-commands.js',
   'sitemap.xml',
   'robots.txt',
   '404.html',
