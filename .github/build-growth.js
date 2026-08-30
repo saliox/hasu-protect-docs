@@ -1,13 +1,20 @@
 // Relevé de croissance du réseau : ajoute un point horaire {t, s(erveurs), m(embres), c(ommandes)}
 // à growth.json si le heartbeat est frais (< 10 min). Fenêtre glissante de 30 jours.
 // Lancé par uptime.yml après build-uptime.js ; growth.json précédent récupéré depuis la branche uptime.
+//
+// ⚠️ Il lisait le heartbeat de la branche `status`, que le bot n'alimente plus depuis le 26/08 : le
+// battement avait des JOURS d'avance sur le seuil de 10 min, donc plus aucun point n'était ajouté.
+// La courbe est restée gelée au 21/08 (19 serveurs / 4 357 membres) sous un titre « 30 derniers
+// jours », à côté de badges qui affichaient 20 / 4 340 — et la fenêtre glissante l'aurait VIDÉE le
+// 20/09, faisant disparaître le panneau sans un bruit. On lit maintenant la source réellement vivante.
 const fs = require('fs');
+const HB_URL = process.env.HEARTBEAT_URL || 'https://142-93-164-47.sslip.io/heartbeat.json';
 (async () => {
   let g = { points: [] };
   try { const p = JSON.parse(fs.readFileSync('growth.json', 'utf8')); if (p && Array.isArray(p.points)) g = p; } catch (e) {}
   const now = Date.now();
   try {
-    const r = await fetch('https://raw.githubusercontent.com/saliox/hasu-protect-docs/status/heartbeat.json', { cache: 'no-store' });
+    const r = await fetch(HB_URL, { cache: 'no-store' });
     if (r.ok) {
       const hb = await r.json();
       if (hb && hb.at && now - hb.at < 600000) {

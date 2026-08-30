@@ -12,11 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Récupérer l'état précédent de la branche uptime (uptime + growth à préserver)
+      # La branche uptime est ORPHELINE et réécrite en entier (push -f) : tout fichier non réajouté
+      # ici DISPARAÎT. badge.json manquait → le badge de disponibilité du README (shields.io lit
+      # raw…/uptime/badge.json) tombait en 404 chaque jour de 05:47 UTC jusqu'au prochain uptime.yml
+      # (:23), soit ~36 min quotidiennes. .github/unit-tests.js vérifie maintenant que les deux
+      # workflows publient EXACTEMENT le même jeu de fichiers.
+      - name: Récupérer l'état précédent de la branche uptime (uptime + growth + badge à préserver)
         run: |
           git fetch origin uptime || true
           git show origin/uptime:uptime.json > uptime.json 2>/dev/null || echo '{"hours":[]}' > uptime.json
           git show origin/uptime:growth.json > growth.json 2>/dev/null || echo '{"points":[]}' > growth.json
+          git show origin/uptime:badge.json  > badge.json  2>/dev/null || echo '{"schemaVersion":1,"label":"uptime 7 j","message":"n/a","color":"lightgrey"}' > badge.json
       - name: Relever les compteurs de votes
         run: node .github/build-votes.js
       - name: Publier sur la branche uptime
@@ -24,7 +30,7 @@ jobs:
           git config user.name "uptime-bot"
           git config user.email "actions@github.com"
           git switch --orphan uptime2
-          git add uptime.json growth.json votes.json
+          git add uptime.json growth.json votes.json badge.json
           git commit -m "votes $(date -u +%Y-%m-%d)"
           git branch -M uptime2 uptime
           git push -f origin uptime

@@ -8,11 +8,35 @@ const fs = require('fs');
 
 const html = fs.readFileSync('index.html', 'utf8');
 
+// ── Zones de recherche.
+// Audit 30/08 : trois marqueurs « CSP » n'étaient PAS SCOPÉS. « https://raw.githubusercontent.com »
+// surveillait le connect-src… mais la même chaîne apparaît 5 fois ailleurs dans la page (__upURL,
+// liens). Supprimer l'hôte de la CSP laissait donc la sentinelle VERTE alors que le heartbeat ne
+// pouvait plus être lu. Idem pour abacus (4 occurrences) et top.gg (5). Un marqueur qui surveille
+// une directive doit être cherché DANS cette directive, pas n'importe où dans le fichier.
+const CSP = (() => {
+  const tag = html.match(/<meta[^>]*http-equiv=["']Content-Security-Policy["'][^>]*>/i);
+  if (!tag) return {};
+  const c = tag[0].match(/content="([^"]*)"/i) || tag[0].match(/content='([^']*)'/i);
+  if (!c) return {};
+  const out = {};
+  for (const part of c[1].split(';')) { const t = part.trim(); const sp = t.indexOf(' '); if (sp > 0) out[t.slice(0, sp).toLowerCase()] = t.slice(sp + 1); }
+  return out;
+})();
+
+// zone === undefined  → tout index.html
+// zone === 'csp:<directive>' → uniquement la valeur de cette directive de la meta CSP
+function present(needle, zone) {
+  if (!zone) return html.includes(needle);
+  const d = zone.slice(4);
+  return (CSP[d] || '').includes(needle);
+}
+
 // Un marqueur par bloc : chaîne introduite par nos correctifs, absente du vieux template du bot.
 // (§n = section de SYNC-BOT.md à recopier dans le template local pour réparer.)
 const MARKERS = [
-  ['§1 CSP — connect-src raw.githubusercontent (heartbeat)', 'https://raw.githubusercontent.com'],
-  ['§6 CSP — connect-src abacus (compteurs visites/votes)', 'https://abacus.jasoncameron.dev'],
+  ['§1 CSP — connect-src raw.githubusercontent (heartbeat)', 'https://raw.githubusercontent.com', 'csp:connect-src'],
+  ['§6 CSP — connect-src abacus (compteurs visites/votes)', 'https://abacus.jasoncameron.dev', 'csp:connect-src'],
   ['§2 Badge de statut — logique 3 zones', '__exactUntil'],
   ['§3 Parseur de paramètres — splitTop', 'splitTop'],
   ['§4 Panneau Guardian — précision décimale', 'Précision réelle'],
@@ -26,7 +50,7 @@ const MARKERS = [
   ['§12 Lot découverte — favoris (favCmds)', 'favCmds'],
   ['§12 Lot découverte — palette Ctrl+K (kOpen)', 'kOpen'],
   ['§12 PWA — <link rel="manifest">', 'rel="manifest"'],
-  ['§12 PWA — worker-src \'self\' dans la CSP', "worker-src 'self'"],
+  ['§12 PWA — worker-src \'self\' dans la CSP', "'self'", 'csp:worker-src'],
   ['§12 PWA — enregistrement du service worker', 'serviceWorker'],
   ['§13 Lot polish — chips de filtres actifs (achips)', 'achips'],
   ['§13 Lot polish — mini-tour de bienvenue (tourDone)', 'tourDone'],
@@ -34,7 +58,7 @@ const MARKERS = [
   ['§14 Analytics — panneau Réseau (renderNet)', 'renderNet'],
   ['§15 Nouveautés v2 — garde anti-bruit (seenAt)', 'seenAt'],
   ['§15 Widget top.gg — badge (topgg-badge)', 'topgg-badge'],
-  ['§15 Widget top.gg — img-src https://top.gg dans la CSP', 'https://top.gg'],
+  ['§15 Widget top.gg — img-src https://top.gg dans la CSP', 'https://top.gg', 'csp:img-src'],
   ['§16 Premiers pas v2 — puces cliquables (data-cmd)', 'data-cmd'],
   ['§16 FAQ statique + JSON-LD FAQPage', 'FAQPage'],
   ['§16 Rappel de vote top.gg (votedTgAt)', 'votedTgAt'],
@@ -54,7 +78,7 @@ const FILES = [
   '404.html',
 ];
 
-const missing = MARKERS.filter(([, needle]) => !html.includes(needle));
+const missing = MARKERS.filter(([, needle, zone]) => !present(needle, zone));
 const gone = FILES.filter((f) => !fs.existsSync(f));
 
 // Équilibre des <div> dans le bloc changelog : un </div> manquant a déjà fait avaler toute la

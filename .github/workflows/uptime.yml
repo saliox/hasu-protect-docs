@@ -1,7 +1,10 @@
-# Disponibilité du bot : toutes les heures, reconstruit uptime.json (7 jours, seaux horaires)
-# depuis les commits heartbeat de la branche `status`, et le publie sur la branche `uptime`
+# Disponibilité du bot : toutes les heures, une OBSERVATION du heartbeat vivant de l'hébergeur est
+# ajoutée au registre uptime.json (7 jours d'heures glissantes), publié sur la branche `uptime`
 # (orpheline, un seul commit, réécrite à chaque run : ni main ni status ne sont touchées).
 # Le site le lit sur raw.githubusercontent.com/…/uptime/uptime.json (déjà autorisé par la CSP).
+# ⚠️ uptime.json s'ACCUMULE désormais (avant, il était reconstruit de zéro depuis les commits d'une
+# branche morte) : il doit être restauré ci-dessous au même titre que growth.json, sinon chaque
+# exécution repart avec une seule heure observée.
 name: Uptime du bot
 on:
   schedule:
@@ -14,14 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Récupérer l'état précédent de la branche uptime (growth + votes à préserver)
+      - name: Récupérer l'état précédent de la branche uptime (uptime + growth + votes à préserver)
         run: |
           git fetch origin uptime || true
+          git show origin/uptime:uptime.json > uptime.json 2>/dev/null || echo '{"hours":[]}' > uptime.json
           git show origin/uptime:growth.json > growth.json 2>/dev/null || echo '{"points":[]}' > growth.json
           git show origin/uptime:votes.json  > votes.json  2>/dev/null || echo '{"votes":{}}' > votes.json
-      - name: Construire uptime.json depuis les heartbeats
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Observer le heartbeat vivant et mettre à jour le registre de disponibilité
         run: node .github/build-uptime.js
       - name: Relevé de croissance (point horaire serveurs/membres/commandes)
         run: node .github/build-growth.js
