@@ -40,7 +40,23 @@ const ICI = __dirname;
 const NOMS = ['alpha', 'beta', 'gamma', ...Array.from({ length: 120 }, (_, i) => 'cmd' + String(i + 1).padStart(3, '0'))];
 const DATE_SITE = 'Publié le 1 janvier 2026 à 00:00';
 
-const carte = (n) => '<div class="cmd" tabindex="0" role="button" data-s="' + n + ' description" data-n="' + n + '" data-u="+' + n + '" data-cat="0"><h3>+' + n + '</h3></div>';
+// ── Le niveau d'accès de la fixture. Les quatre paliers sont représentés largement : le garde refuse
+//    d'attester une répartition où l'un d'eux serait anecdotique, et le témoin doit passer.
+const LBL = { owner: '👑 Owner', admin: '🛡️ Admin', staff: '🔨 Staff', all: '👥 Tous' };
+const ACCK = { owner: 'accOwner', admin: 'accAdmin', staff: 'accStaff', all: 'accAll' };
+const PALIERS = ['all', 'staff', 'admin', 'owner'];
+// Une commande hors fixture (`meme`, `pm2`…) retombe sur « all » : elle n'est de toute façon pas dans
+// le manifeste, donc le contrôle d'accès la saute — ce sont les AUTRES mutants qui doivent la voir.
+const TIER = (n) => (/^cmd\d{3}$/.test(n) ? PALIERS[Number(n.slice(3)) % 4] : ({ alpha: 'owner', beta: 'admin', gamma: 'staff' }[n] || 'all'));
+
+// Le gabarit reprend celui d'index.html : `data-acc` sur la carte, badge `.accb` (classe + clé i18n +
+// libellé) dans le titre. Les deux doivent dire la même chose, et dire la vérité du manifeste.
+const badge = (t) => '<span class="accb acc-' + t + '" data-i18n="' + ACCK[t] + '">' + LBL[t] + '</span>';
+const carte = (n, tier) => {
+  const t = tier || TIER(n);
+  return '<div class="cmd" tabindex="0" role="button" data-s="' + n + ' description" data-n="' + n + '" data-u="+' + n + '" data-cat="0" data-acc="' + t + '">'
+    + '<div class="name">+' + n + ' ' + badge(t) + '</div></div>';
+};
 
 function pageFictive() {
   return [
@@ -49,9 +65,14 @@ function pageFictive() {
     '<div class="changelog"><h2>Dernière mise à jour</h2><div class="ver">' + DATE_SITE + '</div>',
     '<ul><li>Le site documentait 999 commandes de moins qu\'il ne fallait — fait daté, pas une promesse.</li></ul></div>',
     '<div class="quickstart"><h3>Premiers pas</h3></div>',
-    '<div class="grid">' + NOMS.map(carte).join('') + '</div>',
+    // `(n) => carte(n)` et NON `carte` : `map` passe l'INDEX en 2e argument, qui deviendrait le
+    // palier de la carte — 122 badges `acc-1`, `acc-2`… et une fixture morte dès le témoin.
+    '<div class="grid">' + NOMS.map((n) => carte(n)).join('') + '</div>',
     '<details><summary>Gratuit ?</summary><div class="fqa"><span data-lang="en">Yes — all ' + NOMS.length + ' commands are free.</span></div></details>',
     '<script>/* Familles ajoutées (PR #19) : 145 commandes tombaient sur le générique */',
+    // Le dictionnaire des libellés d'accès, à l'identique d'index.html : le garde y relit les quatre
+    // textes au lieu de les recopier, donc la fixture doit le porter aussi.
+    "var I18N={accOwner:{fr:'" + LBL.owner + "',en:'👑 Owner'},accAdmin:{fr:'" + LBL.admin + "',en:'🛡️ Admin'},accStaff:{fr:'" + LBL.staff + "',en:'🔨 Staff'},accAll:{fr:'" + LBL.all + "',en:'👥 Everyone'}};",
     'function md(s){return s;}</script>',
   ].join('\n');
 }
@@ -66,6 +87,7 @@ function manifesteFictif() {
       nombre: NOMS.length,
     },
     commandes: [...NOMS].sort(),
+    acces: Object.fromEntries([...NOMS].sort().map((n) => [n, TIER(n)])),
     nonDocumentees: [{ nom: 'pm2', fichier: 'pm2.js', raison: 'description vide' }],
     horsCatalogue: [],
   };
@@ -182,6 +204,48 @@ const MUTANTS = [
     muter: () => {},
     args: ['--write'],
     attendu: ['--write sans --bot'],
+  },
+
+  // ── NIVEAU D'ACCÈS — le contrôle ajouté le 30/08/2026. Sept mutants, un par façon de mentir.
+  {
+    nom: 'accès — une carte d\'owner se présente comme accessible à tous (le défaut « +lockdown »)',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace(carte('alpha'), carte('alpha', 'all'))),
+    attendu: ['+alpha', "NIVEAU D'ACCÈS FAUX", 'owner'],
+  },
+  {
+    nom: 'accès — une carte d\'admin se présente comme accessible à tous (le défaut « +guide »)',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace(carte('beta'), carte('beta', 'all'))),
+    attendu: ['+beta', "NIVEAU D'ACCÈS FAUX", 'admin'],
+  },
+  {
+    nom: 'accès — la classe du badge contredit data-acc (couleur ≠ filtre)',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace(carte('gamma'), carte('gamma').replace('acc-staff"', 'acc-owner"'))),
+    attendu: ['+gamma', 'se contredit LUI-MÊME'],
+  },
+  {
+    nom: 'accès — le TEXTE du badge contredit sa classe (l\'œil et le filtre racontent deux histoires)',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace(carte('gamma'), carte('gamma').replace('>' + LBL.staff + '<', '>' + LBL.all + '<'))),
+    attendu: ['+gamma', 'se contredit LUI-MÊME'],
+  },
+  {
+    nom: 'accès — une carte perd son badge visible : data-acc seul ne se voit pas',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace(carte('beta'), carte('beta').replace(badge('admin'), ''))),
+    attendu: ['+beta', 'aucun badge'],
+  },
+  {
+    nom: 'accès — un manifeste antérieur au contrôle (sans `acces`) ne doit pas le rendre INERTE',
+    muter: (d) => patchJson(d, '.github/commands.manifest.json', (o) => { delete o.acces; }),
+    attendu: ["n'atteste AUCUN niveau d'accès"],
+  },
+  {
+    nom: 'accès — le manifeste oublie le palier d\'une commande (retouche à la main)',
+    muter: (d) => patchJson(d, '.github/commands.manifest.json', (o) => { delete o.acces.gamma; }),
+    attendu: ['+gamma', 'niveaux d\'accès'],
+  },
+  {
+    nom: 'accès — les libellés disparaissent du dictionnaire de la page',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace("accOwner:{fr:'" + LBL.owner + "'", "accCouronne:{fr:'" + LBL.owner + "'")),
+    attendu: ['libellés de niveau d\'accès ont disparu'],
   },
 ];
 
