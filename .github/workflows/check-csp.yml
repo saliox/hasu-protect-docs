@@ -5,11 +5,15 @@
 # Ce workflow refuse le commit fautif au lieu de laisser le site casser en silence.
 # La logique vit dans .github/check-csp.js (script séparé : pas d'échappement shell).
 name: Vérifier les hash CSP
+# ⚠ Tout fichier dont dépend un des deux scripts doit figurer ici, sinon le garde ne tourne pas sur
+# le commit qui le casse : html-scripts.js (recensement des <script> + extraction, partagé par les
+# deux), sw.js et build-uptime.js (couverts par unit-tests.js), et les workflows uptime/votes dont
+# unit-tests.js vérifie qu'ils publient le même jeu de fichiers sur la branche uptime.
 on:
   push:
-    paths: [index.html, .github/check-csp.js, .github/unit-tests.js, .github/workflows/check-csp.yml]
+    paths: [index.html, history.html, sw.js, stats.json, README.md, .github/check-csp.js, .github/unit-tests.js, .github/html-scripts.js, .github/build-uptime.js, .github/workflows/check-csp.yml, .github/workflows/uptime.yml, .github/workflows/votes.yml]
   pull_request:
-    paths: [index.html, .github/check-csp.js, .github/unit-tests.js, .github/workflows/check-csp.yml]
+    paths: [index.html, history.html, sw.js, stats.json, README.md, .github/check-csp.js, .github/unit-tests.js, .github/html-scripts.js, .github/build-uptime.js, .github/workflows/check-csp.yml, .github/workflows/uptime.yml, .github/workflows/votes.yml]
 jobs:
   check:
     runs-on: ubuntu-latest
