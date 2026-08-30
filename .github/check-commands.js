@@ -21,8 +21,9 @@
 //
 //        dépôt du bot  ──(1)──▶  stats.json   ──(2)──▶  manifeste   ──(3)──▶  cartes   ──(4)──▶  prose
 //        commands/*.js          "commands":N          les 238 NOMS         data-n=""        « N commandes »
-//        (hors CI)              (voix du bot,         (.github/…json)      (index.html)     (meta, JSON-LD,
-//                                déjà dans CE dépôt)                                          FAQ fr+en)
+//        (hors CI)              (voix du bot,         + leur NIVEAU        + data-acc       (meta, JSON-LD,
+//                                déjà dans CE dépôt)   D'ACCÈS RÉEL         + badge .accb      FAQ fr+en)
+//                                                     (.github/…json)      (index.html)
 //
 //   Maillons (2), (3) et (4) sont contrôlés EN CI, sans le dépôt du bot : les trois fichiers sont
 //   ici. Maillon (1) est le seul qui exige le dépôt du bot ; il est contrôlé par le mode LOCAL
@@ -42,14 +43,49 @@
 //       committé ici : si le bot gagne ou perd une commande et que quelqu'un republie stats.json,
 //       le manifeste est déclaré périmé AVANT même qu'on ait le dépôt du bot sous la main.
 //
+// ── LE NIVEAU D'ACCÈS — AJOUTÉ LE 30/08/2026, ET C'EST UN ÉLARGISSEMENT DE PORTÉE ASSUMÉ
+//   Ce garde ne comparait QUE l'ensemble des noms ; son en-tête le disait, et c'est précisément par
+//   ce trou qu'est passé le défaut suivant : 63 des 238 cartes annonçaient un niveau d'accès FAUX,
+//   dans les deux sens. `+guide`, `+setup`, `+guardian`, `+trust`, `+ticket`… affichaient « 👥 Tous »
+//   alors qu'il faut Administrateur (un membre essaie et se fait refuser sans comprendre) ;
+//   `+antiraid`, `+lockdown`, `+punish`, `+backup`, `+nuke`, `+addrole`, `+delrole` affichaient
+//   « 🛡️ Admin » ou « 👥 Tous » alors qu'ils sont au palier owner — un administrateur croyait
+//   disposer d'un levier qu'il n'a pas, ce qui est pire : il peut compter dessus au mauvais moment.
+//   Cause : tools/docs-build.js déduisait le badge de la seule PRÉSENCE dans `COMMAND_PERMS`
+//   (`absente → 👥 Tous`), alors que systems/permissions.js fait retomber toute commande ABSENTE de
+//   cette table au palier 2 (admin). La branche « absente → Tous » était fausse par construction.
+//
+//   LA PORTE RÉELLE, telle qu'elle est désormais attestée (mode `--bot`) :
+//     ownerOnly du fichier de commande            → owner   (le répartiteur refuse avant `canUse`)
+//     branche spéciale du répartiteur (index.js)  → owner   (`nuke`/`addrole`/`delrole` : owner du
+//                                                            serveur ou liste `nuke_allowed`)
+//     sinon `commandLevel(nom)` de permissions.js → 3 owner · 2 admin · 1 staff · 0 all
+//   Ces valeurs ne sont pas RECOPIÉES : `systems/permissions.js` du dépôt du bot est exécuté tel
+//   quel (base et owners stubés, aucune écriture, aucune ouverture de base), donc `PUBLIC`,
+//   `JEUX_PUBLICS`, `COMMAND_PERMS` et `LEVEL_OVERRIDE` sont lus à la source. La seule règle
+//   recopiée est la branche `nuke/addrole/delrole` du répartiteur : elle est donc ASSERTÉE dans
+//   index.js à chaque attestation, et son absence est un échec nommé, pas un silence.
+//
+//   Le niveau attesté est comparé en CI à DEUX choses par carte, qui doivent s'accorder entre elles :
+//   l'attribut `data-acc` (celui que lisent les puces de filtre) et le badge VISIBLE `.accb`
+//   (classe `acc-*`, clé `data-i18n`, et le libellé lui-même, relu dans le dictionnaire de la page).
+//   Une carte dont la classe dit « admin » et le texte « 👥 Tous » est refusée : c'est le cas où le
+//   filtre et l'œil racontent deux histoires différentes.
+//
 // ── CE QUE CE GARDE NE COUVRE PAS (à dire honnêtement, sinon il ment par omission)
 //   • Une commande AJOUTÉE au bot alors que ni stats.json ni le manifeste ne sont republiés, et que
 //     le site ne publie aucun changelog : invisible en CI. C'est irréductible — la CI ne peut pas
 //     lire un dépôt qui n'est pas là. Seul `--bot` la voit. Les trois signaux ci-dessus rendent ce
 //     scénario coûteux à atteindre, pas impossible.
-//   • Le CONTENU des cartes : usage, description, alias, catégorie, niveau d'accès, traduction EN.
-//     Ce garde ne compare que l'ENSEMBLE DES NOMS. Une carte au nom juste et au mode d'emploi faux
-//     passe ici sans bruit.
+//   • Le RESTE du contenu des cartes : usage, description, alias, catégorie, traduction EN. Ce garde
+//     compare l'ENSEMBLE DES NOMS et le NIVEAU D'ACCÈS, rien d'autre. Une carte au nom juste, au
+//     badge juste et au mode d'emploi faux passe ici sans bruit.
+//   • Le niveau d'accès EFFECTIF sur un serveur donné : `+customperm` peut surcharger le palier
+//     serveur par serveur, et un Administrateur Discord passe partout (`canUse` court-circuite sur
+//     `Administrator`). Le badge annonce le palier PAR DÉFAUT du bot, pas l'état d'un serveur — et
+//     pour les quatre commandes `LEVEL_OVERRIDE = 3` sans `ownerOnly` (`antiraid`, `backup`,
+//     `lockdown`, `punish`) il est donc CONSERVATEUR : il annonce owner alors qu'un Administrateur
+//     Discord passerait. Se tromper dans ce sens ne promet pas un levier qu'on n'a pas.
 //   • history.html et le site de doc secondaire : seul index.html est examiné.
 //   • Les commandes délibérément non documentées sont listées par NOM ET PAR RAISON dans le
 //     manifeste (`nonDocumentees`), et le mode `--bot` vérifie que chacune existe TOUJOURS et est
@@ -67,6 +103,8 @@
 
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
+const Module = require('module');
 const H = require('./html-scripts.js');
 
 const PAGE = 'index.html';
@@ -83,17 +121,54 @@ const JOURS_FILET = 180; // filet horaire, quand même le changelog du site ne b
 // seraient comptés comme des cartes — 378 « cartes » au lieu de 189, et le garde compare n'importe quoi.
 const RX_CARTE = /<div\s+class="cmd(?:\s[^"]*)?"[^>]*>/g;
 
+// Le badge VISIBLE d'une carte, tel que le générateur le pose :
+//   <span class="accb acc-admin" data-i18n="accAdmin">🛡️ Admin</span>
+// Trois informations qui doivent dire la MÊME chose que `data-acc` : la classe (elle donne la
+// couleur), la clé i18n (elle donne le texte après changement de langue), et le texte lui-même
+// (c'est ce que lit le visiteur tant qu'applyLang n'est pas passé).
+const RX_BADGE = /<span class="accb acc-([a-z]+)" data-i18n="(acc[A-Za-z]+)">([^<]*)<\/span>/;
+const ACCK = { owner: 'accOwner', admin: 'accAdmin', staff: 'accStaff', all: 'accAll' };
+
 function cartesDe(html) {
   const noms = [];
+  const detail = [];
   let balises = 0, sansNom = 0;
   RX_CARTE.lastIndex = 0;
   let m;
-  while ((m = RX_CARTE.exec(html))) {
+  const bornes = [];
+  while ((m = RX_CARTE.exec(html))) bornes.push({ tag: m[0], index: m.index });
+  for (let i = 0; i < bornes.length; i++) {
     balises++;
-    const t = m[0].match(/data-n="([^"]*)"/);
-    if (t) noms.push(t[1]); else sansNom++;
+    const b = bornes[i];
+    const t = b.tag.match(/data-n="([^"]*)"/);
+    if (t) noms.push(t[1]); else { sansNom++; continue; }
+    // Le badge est cherché DANS la carte courante seulement : borné par le début de la carte
+    // suivante. Sans cette borne, une carte sans badge « emprunterait » celui de sa voisine et le
+    // contrôle deviendrait creux exactement là où il doit mordre.
+    const fin = i + 1 < bornes.length ? bornes[i + 1].index : html.length;
+    const seg = html.slice(b.index + b.tag.length, fin);
+    const badge = seg.match(RX_BADGE);
+    detail.push({
+      nom: t[1],
+      acc: (b.tag.match(/data-acc="([^"]*)"/) || [])[1] || null,
+      badgeClasse: badge ? badge[1] : null,
+      badgeCle: badge ? badge[2] : null,
+      badgeTexte: badge ? badge[3] : null,
+    });
   }
-  return { noms, balises, sansNom };
+  return { noms, balises, sansNom, detail };
+}
+
+// Les quatre libellés de niveau d'accès, RELUS DANS LA PAGE (dictionnaire du script inline) plutôt
+// que recopiés ici : si le site renomme « 👥 Tous », le garde suit au lieu de rougir à tort.
+function libellesAcces(html) {
+  const out = {};
+  for (const [tier, cle] of Object.entries(ACCK)) {
+    const m = html.match(new RegExp(cle + ":\\{fr:'((?:[^'\\\\]|\\\\.)*)'"));
+    if (!m) return null;
+    out[tier] = m[1].replace(/\\'/g, "'");
+  }
+  return out;
 }
 
 // Le repère de fraîcheur : la date de publication du changelog affichée par la page. C'est le seul
@@ -147,6 +222,47 @@ function promessesChiffrees(zone) {
 // mérite une carte. Recopier, c'est risquer de diverger — d'où le contrôle croisé obligatoire
 // ci-dessous : on demande AUSSI son compte au générateur lui-même, et on refuse d'attester si les
 // deux ne tombent pas d'accord.
+// LA PORTE RÉELLE D'UNE COMMANDE — exécutée, pas recopiée.
+//
+// `systems/permissions.js` du bot est évalué TEL QUEL dans un bac à sable : ses quatre tables
+// (`PUBLIC`, `JEUX_PUBLICS`, `COMMAND_PERMS`, `LEVEL_OVERRIDE`) et sa fonction `commandLevel` sont
+// donc lues à la source. Recopier ces tables ici, c'est exactement le défaut qu'on répare :
+// docs-build.js avait recopié la moitié d'une règle et publiait un badge faux depuis des mois.
+//
+// `./database` et `./owners` sont stubés : le premier ouvrirait la base SQLite du bot (ce garde ne
+// doit RIEN toucher dans le dépôt du bot), le second n'intervient qu'à l'exécution d'une commande.
+// Tout autre `require` inattendu LÈVE : si permissions.js change de dépendances, on l'apprend par un
+// échec nommé, jamais par un badge silencieusement faux.
+const RANG_ACCES = { all: 0, staff: 1, admin: 2, owner: 3 };
+const TIER_PAR_NIVEAU = { 3: 'owner', 2: 'admin', 1: 'staff', 0: 'all' };
+// Seule règle RECOPIÉE depuis le répartiteur — donc assertée mot pour mot dans index.js ci-dessous.
+const MOTIF_PORTE_OWNER = "commandName === 'nuke' || commandName === 'addrole' || commandName === 'delrole'";
+const PORTE_OWNER_REPARTITEUR = ['nuke', 'addrole', 'delrole'];
+
+function paliersDuBot(racineBot) {
+  // `path.resolve` et non `path.join` : createRequire exige un chemin ABSOLU, et `--bot ..` en donne
+  // un relatif. Sans ça le garde plante au lieu d'attester — un garde qui plante ne dit rien.
+  const fichier = path.resolve(racineBot, 'systems', 'permissions.js');
+  if (!fs.existsSync(fichier)) throw new Error('systems/permissions.js introuvable dans le dépôt du bot — impossible d\'attester le niveau d\'accès des cartes.');
+  const req = Module.createRequire(fichier);
+  const faux = (id) => {
+    if (id === './database') return { getJSON: () => ({}) };          // jamais de base ouverte
+    if (id === './owners') return { isBotOwner: () => false, isGuildOwner: () => false };
+    if (id === 'discord.js' || id === './gamehub') return req(id);     // vrais modules, sans effet de bord
+    throw new Error('systems/permissions.js require désormais « ' + id + ' » : ce bac à sable ne le connaît pas. Complète-le avant d\'attester.');
+  };
+  const mod = { exports: {} };
+  vm.runInNewContext(fs.readFileSync(fichier, 'utf8'), { require: faux, module: mod, exports: mod.exports, console, process });
+  if (typeof mod.exports.commandLevel !== 'function') throw new Error('systems/permissions.js n\'exporte plus `commandLevel` — la règle du badge a changé de forme, adapte ce garde.');
+
+  const idx = path.join(racineBot, 'index.js');
+  if (!fs.existsSync(idx)) throw new Error('index.js introuvable dans le dépôt du bot — la branche owner du répartiteur ne peut pas être vérifiée.');
+  if (!fs.readFileSync(idx, 'utf8').includes(MOTIF_PORTE_OWNER)) {
+    throw new Error('la branche « ' + MOTIF_PORTE_OWNER + ' » a disparu d\'index.js : +nuke/+addrole/+delrole n\'ont peut-être plus la porte owner que les cartes annoncent. Relis le répartiteur et corrige PORTE_OWNER_REPARTITEUR avant d\'attester.');
+  }
+  return mod.exports.commandLevel;
+}
+
 function commandesDuBot(racineBot) {
   const CMD = path.join(racineBot, 'commands');
   if (!fs.existsSync(CMD)) throw new Error('« ' + racineBot + ' » ne contient pas commands/ — ce n\'est pas la racine du dépôt du bot.');
@@ -156,6 +272,7 @@ function commandesDuBot(racineBot) {
   const vivantes = [];
   const muettes = [];       // un nom, mais aucune description → volontairement non documentées
   const sansMetadonnees = []; // pas de `name:` littéral → ce n'est pas un module de commande
+  const ownerOnly = new Set(); // `ownerOnly: true` → le répartiteur refuse AVANT d'appeler canUse
 
   for (const f of fs.readdirSync(CMD).filter((x) => x.endsWith('.js') && x !== 'help.js')) {
     const full = fs.readFileSync(path.join(CMD, f), 'utf8');
@@ -166,6 +283,7 @@ function commandesDuBot(racineBot) {
     if (!nom) { sansMetadonnees.push({ fichier: f, raison: 'aucun `name:` littéral — module utilitaire, pas une commande' }); continue; }
     const descKey = (src.match(/descKey:[ ]*'([^']+)'/) || [])[1];
     const desc = descKey ? String(FR[descKey] || '') : (src.match(/description:\s*'((?:[^'\\]|\\.)*)'/) || [])[1];
+    if (/ownerOnly:\s*true/.test(src)) ownerOnly.add(nom);
     if (!desc) { muettes.push({ nom, fichier: f, raison: 'description vide → commande secrète, volontairement absente du site' }); continue; }
     vivantes.push(nom);
   }
@@ -184,7 +302,34 @@ function commandesDuBot(racineBot) {
   if (compteGenerateur !== vivantes.length) {
     throw new Error('nos règles d\'extraction ont DIVERGÉ de celles de tools/docs-build.js : ' + vivantes.length + ' ici, ' + compteGenerateur + ' chez lui. Réaligne commandesDuBot() avant d\'attester.');
   }
-  return { vivantes, muettes, sansMetadonnees, compteGenerateur };
+
+  // ── LE NIVEAU D'ACCÈS RÉEL, commande par commande.
+  const commandLevel = paliersDuBot(racineBot);
+  const acces = {};
+  for (const n of vivantes) {
+    let tier = ownerOnly.has(n) ? 'owner' : (TIER_PAR_NIVEAU[commandLevel(n)] || null);
+    if (!tier) throw new Error('commandLevel(\'' + n + '\') a rendu une valeur hors des paliers 0/1/2/3 — la règle du bot a changé, adapte ce garde avant d\'attester.');
+    if (PORTE_OWNER_REPARTITEUR.includes(n) && RANG_ACCES[tier] < RANG_ACCES.owner) tier = 'owner';
+    acces[n] = tier;
+  }
+  // `help` est posé à la main par docs-build (il décrit les autres) : il n'a pas de fichier, donc pas
+  // de `ownerOnly`, et `commandLevel` le classe déjà public via PUBLIC. On vérifie plutôt qu'on ne
+  // l'annonce pas privilégié par accident.
+  if (acces.help !== 'all') throw new Error('+help n\'est plus classé « tous » (' + acces.help + ') — vérifie PUBLIC dans systems/permissions.js avant d\'attester.');
+
+  // Plancher de plausibilité — le même garde-fou que RX_CARTE, pour la même raison. Si le bac à
+  // sable rendait des tables VIDES, `commandLevel` renverrait 2 pour tout le monde : 238 cartes
+  // « admin », zéro divergence, et un garde qui a l'air content. Les quatre paliers doivent exister
+  // et aucun ne doit être anecdotique.
+  const parTier = {};
+  for (const t of Object.values(acces)) parTier[t] = (parTier[t] || 0) + 1;
+  const maigres = Object.keys(RANG_ACCES).filter((t) => (parTier[t] || 0) < 3);
+  if (maigres.length) {
+    throw new Error('répartition des paliers implausible (' + JSON.stringify(parTier) + ') : ' + maigres.join(', ')
+      + ' compte(nt) moins de 3 commandes. Les tables de systems/permissions.js n\'ont probablement pas été lues — on n\'atteste pas un niveau d\'accès qu\'on n\'a pas vraiment calculé.');
+  }
+
+  return { vivantes, muettes, sansMetadonnees, compteGenerateur, acces };
 }
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -203,7 +348,7 @@ function verifier(opts) {
   };
 
   const html = fs.readFileSync(PAGE, 'utf8');
-  const { noms, balises, sansNom } = cartesDe(html);
+  const { noms, balises, sansNom, detail } = cartesDe(html);
 
   // — Garde-fou du garde lui-même. Si le balisage des cartes change, le motif ne reconnaît plus rien
   //   et TOUS les contrôles qui suivent deviennent creux : « 0 carte, 0 divergence, tout va bien ».
@@ -250,6 +395,62 @@ function verifier(opts) {
     // Les commandes volontairement muettes ne doivent surtout pas réapparaître en carte.
     const trahies = (man.nonDocumentees || []).map((x) => x.nom).filter((n) => cartes.includes(n));
     if (trahies.length) ko('Commande volontairement non documentée, pourtant présente sur le site', ...trahies.map((n) => '  ✗ +' + n));
+
+    // ── Maillon (3 bis) : LE NIVEAU D'ACCÈS ANNONCÉ PAR CHAQUE CARTE.
+    //   Le badge dit au visiteur QUI PEUT LANCER la commande. Faux dans un sens, un membre essaie et
+    //   se fait refuser ; faux dans l'autre, un administrateur croit tenir un levier qu'il n'a pas.
+    const acces = man.acces;
+    if (!acces || typeof acces !== 'object') {
+      ko('Le manifeste n\'atteste AUCUN niveau d\'accès',
+        'Ce manifeste est antérieur au contrôle des badges (`acces` absent). Le laisser passer rendrait ce contrôle INERTE — précisément le défaut qu\'il ferme.',
+        'Ré-atteste : node .github/check-commands.js --bot .. --write');
+    } else {
+      const sansPalier = attendues.filter((n) => !acces[n]);
+      const enTrop = Object.keys(acces).filter((n) => !attendues.includes(n));
+      if (sansPalier.length || enTrop.length) {
+        ko('Manifeste incohérent avec lui-même (niveaux d\'accès)',
+          ...(sansPalier.length ? ['  ✗ ' + sansPalier.length + ' commande(s) sans palier attesté : ' + sansPalier.slice(0, 12).map((n) => '+' + n).join(' ')] : []),
+          ...(enTrop.length ? ['  ✗ ' + enTrop.length + ' palier(s) pour une commande absente de la liste : ' + enTrop.slice(0, 12).map((n) => '+' + n).join(' ')] : []),
+          'Un manifeste retouché à la main ne prouve plus rien : ré-atteste-le depuis le dépôt du bot.');
+      }
+
+      const LBL = libellesAcces(html);
+      if (!LBL) {
+        ko('Les libellés de niveau d\'accès ont disparu du dictionnaire de la page',
+          'Aucun `accOwner:{fr:…}` / `accAdmin` / `accStaff` / `accAll` dans index.html : impossible de vérifier que le TEXTE du badge dit la même chose que sa classe.',
+          'Répare le dictionnaire du script inline, ou change d\'ancre dans .github/check-commands.js — mais ne la retire pas sans la remplacer.');
+      }
+
+      const menteurs = [];   // le badge annonce un palier ≠ de la porte réelle
+      const bancals = [];    // data-acc, classe, clé i18n et texte ne disent pas tous la même chose
+      for (const c of detail) {
+        const vrai = acces[c.nom];
+        if (!vrai) continue;                       // commande hors manifeste : déjà signalée plus haut
+        if (!c.badgeClasse) { bancals.push('  ✗ +' + c.nom + ' — aucun badge <span class="accb …"> dans la carte'); continue; }
+        const coherente = c.acc === c.badgeClasse && ACCK[c.acc] === c.badgeCle
+          && (!LBL || c.badgeTexte === LBL[c.acc]);
+        if (!coherente) {
+          bancals.push('  ✗ +' + c.nom + ' — data-acc="' + c.acc + '", classe acc-' + c.badgeClasse
+            + ', clé ' + c.badgeCle + ', texte « ' + c.badgeTexte + ' »' + (LBL ? ' (attendu « ' + LBL[c.acc] + ' »)' : ''));
+        } else if (c.acc !== vrai) {
+          menteurs.push('  ✗ +' + c.nom + ' — la carte annonce « ' + (LBL ? LBL[c.acc] : c.acc) + ' », la porte réelle est « ' + (LBL ? LBL[vrai] : vrai) + ' » (' + c.acc + ' → ' + vrai + ')');
+        }
+      }
+      if (bancals.length) {
+        ko(bancals.length + ' carte(s) dont le badge se contredit LUI-MÊME',
+          ...bancals.slice(0, 40),
+          ...(bancals.length > 40 ? ['  … et ' + (bancals.length - 40) + ' autre(s)'] : []),
+          'La classe donne la couleur, la clé i18n donne le texte après changement de langue, `data-acc` pilote les puces de filtre : les quatre doivent dire la même chose, sinon le filtre et l\'œil racontent deux histoires.');
+      }
+      if (menteurs.length) {
+        ko(menteurs.length + ' carte(s) annoncent un NIVEAU D\'ACCÈS FAUX',
+          ...menteurs.slice(0, 40),
+          ...(menteurs.length > 40 ? ['  … et ' + (menteurs.length - 40) + ' autre(s)'] : []),
+          'Le badge dit qui peut lancer la commande. Annoncer « 👥 Tous » sur une commande d\'admin fait essayer un membre pour rien ;',
+          'annoncer « 🛡️ Admin » sur une commande d\'owner fait croire à un administrateur qu\'il tient un levier — au mauvais moment.',
+          'Le palier attesté vient de systems/permissions.js (commandLevel + LEVEL_OVERRIDE), des `ownerOnly` de commands/, et de la branche owner du répartiteur.');
+      }
+    }
 
     // ── Maillon (2) : le compte du manifeste face à la voix du bot déjà présente dans ce dépôt.
     let stats = null;
@@ -298,7 +499,10 @@ function verifier(opts) {
   // ── Maillon (1), local seulement.
   if (opts.bot) {
     const b = commandesDuBot(opts.bot);
+    const rep = {}; for (const t of Object.values(b.acces)) rep[t] = (rep[t] || 0) + 1;
     console.log('   (local) dépôt du bot lu : ' + b.vivantes.length + ' commandes documentables, ' + b.muettes.length + ' muettes, ' + b.sansMetadonnees.length + ' fichier(s) hors catalogue. Compte confirmé par tools/docs-build.js.');
+    console.log('   (local) portes réelles (systems/permissions.js exécuté, `ownerOnly` relus, branche owner du répartiteur assertée) : '
+      + ['owner', 'admin', 'staff', 'all'].map((t) => (rep[t] || 0) + ' ' + t).join(' · ') + '.');
     if (man && Array.isArray(man.commandes)) {
       const nouvelles = b.vivantes.filter((n) => !man.commandes.includes(n));
       const disparues = man.commandes.filter((n) => !b.vivantes.includes(n));
@@ -324,6 +528,9 @@ function verifier(opts) {
           nombre: b.vivantes.length,
         },
         commandes: b.vivantes,
+        // Niveau d'accès RÉEL, calculé en exécutant systems/permissions.js du bot (jamais recopié) :
+        // owner · admin · staff · all. C'est ce que le badge de chaque carte doit annoncer.
+        acces: b.acces,
         nonDocumentees: b.muettes,
         horsCatalogue: b.sansMetadonnees,
       };
@@ -356,7 +563,8 @@ function main(argv) {
   }
   if (r.ecrit) return 0;
   if (!r.erreurs.length) {
-    console.log('✅ Catalogue : ' + r.cartes.length + ' cartes, une par commande du manifeste attesté, et la page annonce le même chiffre.');
+    console.log('✅ Catalogue : ' + r.cartes.length + ' cartes, une par commande du manifeste attesté, la page annonce le même chiffre,');
+    console.log('   et chaque carte annonce le niveau d\'accès RÉEL de sa commande (data-acc + badge visible).');
     return 0;
   }
   console.error('❌ LE SITE NE DIT PAS LA VÉRITÉ SUR LES COMMANDES DU BOT — ' + r.erreurs.length + ' point(s) :');
@@ -364,11 +572,11 @@ function main(argv) {
     console.error('\n• ' + e.titre);
     for (const l of e.lignes) console.error('  ' + l);
   }
-  console.error('\nRappel : ce contrôle ne juge que l\'ENSEMBLE DES NOMS. Le contenu des cartes (usage, alias,');
-  console.error('traduction) n\'est couvert par aucun garde de ce dépôt.');
+  console.error('\nRappel : ce contrôle juge l\'ENSEMBLE DES NOMS et le NIVEAU D\'ACCÈS. Le reste du contenu des');
+  console.error('cartes (usage, description, alias, catégorie, traduction EN) n\'est couvert par aucun garde de ce dépôt.');
   return 1;
 }
 
-module.exports = { cartesDe, zoneProse, promessesChiffrees, dateChangelog, commandesDuBot, verifier, main };
+module.exports = { cartesDe, libellesAcces, zoneProse, promessesChiffrees, dateChangelog, paliersDuBot, commandesDuBot, verifier, main };
 
 if (require.main === module) process.exit(main(process.argv.slice(2)));

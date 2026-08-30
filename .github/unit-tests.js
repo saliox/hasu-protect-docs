@@ -50,6 +50,7 @@ const assembler = () => [
   ...['nrm'].filter((f) => { try { extract(f); return true; } catch (e) { return false; } }).map(extract),
   extract('exFor'), extract('hintFor'),
   extract('splitTop'), extract('splitForms'), extract('parseParams'),
+  H.extractVar(SCRIPT, '__UG'), extract('trUsage'), extract('usageEN'),
   extract('md'), extract('escH'), extract('lev'), extract('sparkline'),
   extract('hlText'), extract('fmtN'), extract('animTo'), extract('botReply'),
 ].join('\n');
@@ -62,7 +63,7 @@ try {
   SCRIPT = H.theInlineScript(html);
   const SRC = assembler();
   new Function('ctx', SRC + '\n' +
-    ['parseParams', 'splitTop', 'splitForms', 'exFor', 'hintFor', 'md', 'escH', 'lev', 'sparkline', 'hlText', 'fmtN', 'animTo', 'botReply']
+    ['parseParams', 'splitTop', 'splitForms', 'exFor', 'hintFor', 'md', 'escH', 'lev', 'sparkline', 'hlText', 'fmtN', 'animTo', 'botReply', 'trUsage', 'usageEN']
       .map((k) => 'ctx.' + k + '=' + k + ';').join('') +
     'ctx.setLang=function(L){__L=L;};ctx.setRM=function(v){__rm=v;};ctx.raf=__raf;ctx.tmo=__tmo;')(ctx);
 } catch (e) {
@@ -73,7 +74,7 @@ try {
   console.error('\n0/1 tests OK');
   process.exit(1);
 }
-const { parseParams, splitTop, splitForms, exFor, hintFor, hlText, fmtN, animTo, botReply } = ctx;
+const { parseParams, splitTop, splitForms, exFor, hintFor, hlText, fmtN, animTo, botReply, trUsage, usageEN } = ctx;
 
 let n = 0, ko = 0;
 function t(name, fn) { n++; try { fn(); console.log('ok', n, '-', name); } catch (e) { ko++; console.error('NOT ok', n, '-', name, ':', e.message); } }
@@ -1209,6 +1210,85 @@ t('index.html — plus aucune carte ne documente la commande morte +meme', () =>
   const page = fs.readFileSync('index.html', 'utf8');
   assert.ok(!/data-n="meme"/.test(page), 'la carte fantôme +meme fait taper une commande qui ne répond plus');
   assert.ok(/data-n="makeitmeme"/.test(page), 'la commande qui l\'a remplacée doit être documentée');
+});
+
+// ── LA LIGNE D'USAGE EN ANGLAIS — `data-en` d'abord, glossaire en repli.
+//   Le mécanisme `<div class="usage" data-en="…">` existait déjà et était MORT : la passe .usage
+//   d'applyLang écrasait systématiquement par trUsage(fr0), donc l'attribut n'était jamais lu. Les
+//   tests ci-dessous couvrent le lecteur ET le fait qu'il soit RÉELLEMENT branché aux deux endroits
+//   qui affichent un usage (la carte et la simulation) — une fonction juste mais débranchée serait
+//   exactement la panne qu'on vient de corriger.
+const fauxUsage = (dataEn, texte) => ({ getAttribute: (k) => (k === 'data-en' ? dataEn : null), dataset: {}, textContent: texte });
+
+t('usage EN — non-régression : sans data-en, le glossaire traduit toujours mot à mot', () => {
+  assert.strictEqual(trUsage('+tempban @membre/ID <durée> [raison]'), '+tempban @member/ID <duration> [reason]');
+  assert.strictEqual(usageEN(fauxUsage(null, ''), '+tempban @membre/ID <durée> [raison]'), '+tempban @member/ID <duration> [reason]');
+});
+
+t('usage EN — data-en gagne sur le mot-à-mot (c\'est tout l\'objet du mécanisme)', () => {
+  const fr = '+ticketai [on|off|salon|ajouter|retirer|liste|essai|parler]';
+  const en = '+ticketai [on|off|channel|add|remove|list|test|resume]';
+  assert.strictEqual(usageEN(fauxUsage(en, fr), fr), en);
+  assert.notStrictEqual(trUsage(fr), en, 'si le mot-à-mot suffisait, ce test ne prouverait rien');
+});
+
+t('usage EN — un data-en vide ne doit pas écraser le repli par du vide', () => {
+  const fr = '+course [mise]';
+  assert.strictEqual(usageEN(fauxUsage('', fr), fr), trUsage(fr));
+});
+
+t('usage EN — sans élément du tout (carte sans .usage), on ne rend jamais undefined', () => {
+  assert.strictEqual(usageEN(null, '+ping'), '+ping');
+  assert.strictEqual(usageEN(undefined, undefined), '');
+});
+
+t('usage EN — sans second argument, le texte de l\'élément sert de source (fr0 mémorisé d\'abord)', () => {
+  const el = fauxUsage(null, '+remind <durée> <texte>');
+  assert.strictEqual(usageEN(el), '+remind <duration> <text>');
+  el.dataset.fr0 = '+remind <durée: 10m> <texte>';
+  assert.strictEqual(usageEN(el), '+remind <duration: 10m> <text>');
+});
+
+t('usage EN — la passe .usage d\'applyLang passe par usageEN, pas par trUsage', () => {
+  // Assertion de source SCOPÉE : on n'interroge que la ligne qui traite les .usage, à l'intérieur
+  // d'applyLang. Chercher « usageEN » dans toute la page passerait au vert grâce à la définition
+  // de la fonction elle-même, même si la passe était revenue au mot-à-mot.
+  const corps = H.extractFunction(SCRIPT, 'applyLang');
+  const ligne = corps.split('\n').filter((l) => l.includes("querySelectorAll('.usage')"));
+  assert.strictEqual(ligne.length, 1, 'une seule passe .usage attendue dans applyLang, trouvé ' + ligne.length);
+  assert.ok(ligne[0].includes('usageEN('), 'la passe .usage n\'appelle plus usageEN : data-en redevient mort');
+  assert.ok(!/trUsage\(/.test(ligne[0]), 'la passe .usage rappelle trUsage directement : data-en serait écrasé');
+});
+
+t('usage EN — la simulation (openSim) passe par usageEN, pas par trUsage', () => {
+  const corps = H.extractFunction(SCRIPT, 'openSim');
+  const ligne = corps.split('\n').filter((l) => l.includes("'m-usage'"));
+  assert.strictEqual(ligne.length, 1, 'une seule ligne m-usage attendue dans openSim, trouvé ' + ligne.length);
+  assert.ok(ligne[0].includes('usageEN('), 'la modale retraduit mot à mot alors que la carte lit data-en : deux anglais pour la même commande');
+  assert.ok(!/trUsage\(/.test(ligne[0]), 'la modale rappelle trUsage directement : data-en serait ignoré');
+});
+
+t('index.html — chaque data-en documente BIEN la commande de sa carte, et n\'est pas vide', () => {
+  const page = fs.readFileSync('index.html', 'utf8');
+  const RXC = /<div\s+class="cmd(?:\s[^"]*)?"[^>]*>/g;
+  const bornes = []; let m;
+  while ((m = RXC.exec(page))) bornes.push({ tag: m[0], index: m.index });
+  assert.ok(bornes.length > 100, 'le balisage des cartes a changé : ' + bornes.length + ' carte(s) — ce test deviendrait creux');
+  let vus = 0;
+  for (let i = 0; i < bornes.length; i++) {
+    const nom = (bornes[i].tag.match(/data-n="([^"]*)"/) || [])[1];
+    const fin = i + 1 < bornes.length ? bornes[i + 1].index : page.length;
+    const seg = page.slice(bornes[i].index + bornes[i].tag.length, fin);
+    const u = seg.match(/<div class="usage"([^>]*)>/);
+    if (!u) continue;
+    const en = (u[1].match(/data-en="([^"]*)"/) || [])[1];
+    if (en === undefined) continue;
+    vus++;
+    assert.ok(en.trim(), '+' + nom + ' : data-en vide — le repli glossaire serait préférable à du vide');
+    assert.ok(en.startsWith('+' + nom), '+' + nom + ' : son usage anglais annonce « ' + en.slice(0, 24) + '… » — une AUTRE commande');
+    assert.ok(!/\ball les \b/.test(en), '+' + nom + ' : « all les … » est un artefact de traduction automatique, pas de l\'anglais');
+  }
+  assert.ok(vus >= 10, 'seulement ' + vus + ' carte(s) portent data-en — le mécanisme est-il encore alimenté ?');
 });
 
 
