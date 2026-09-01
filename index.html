@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://142-93-164-47.sslip.io" crossorigin><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-D6hdvfUUyd5n0Go1qolbeeEBgrq/nScGH1Hw6Zsngzo='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://142-93-164-47.sslip.io; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-/pLPy+xt7Fkc7T4i55hQqQGR56o4JOhLc7D/TB3+Ob8='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://142-93-164-47.sslip.io; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 260 commandes — documentation complète et interactive.">
@@ -126,10 +126,10 @@ header p{color:var(--mut);margin:.5rem 0 0}
 .navlbl{font-size:.82rem;color:var(--mut);align-self:center;margin-right:2px}
 .navf,.accf{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--cc,var(--line));border-radius:8px;padding:6px 12px;font-size:.9rem;color:var(--txt);cursor:pointer;font-family:inherit;line-height:1.2}
 .navf:hover,.accf:hover{border-color:var(--cc,var(--gold));border-left-color:var(--cc,var(--gold))}
-.navf.active{background:var(--cc,var(--gold));color:#0b0b12;border-color:var(--cc,var(--gold));font-weight:700}
+.navf.active{background:var(--cc,var(--gold));color:#000000;border-color:var(--cc,var(--gold));font-weight:700}
 /* ── Compteur de commandes sur chaque filtre (posé en JS depuis les cartes) */
-.navcnt{font-size:.72rem;font-weight:700;color:var(--mut);background:rgba(127,127,160,.16);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
-.navf.active .navcnt,.accf.active .navcnt{color:inherit;background:rgba(0,0,0,.18)}
+.navcnt{font-size:.72rem;font-weight:700;color:var(--mut);background:rgba(127,127,160,.16);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}.navf.active[data-cat="3"] .navcnt{background:rgba(255,255,255,.18)}
+.navf.active .navcnt,.accf.active .navcnt{color:inherit;background:rgba(0,0,0,.18)}.navf.active[data-cat="1"],.navf.active[data-cat="6"]{color:#ffffff}
 /* Pastille dont l'intersection avec l'autre rangée est vide : éteinte, pour qu'on ne la clique pas dans le vide. */
 .navf.vide,.accf.vide{opacity:.42}
 /* ── Mobile : fini le zigzag — grille alignée. « Tout » en pleine largeur, catégories sur 2 colonnes,
@@ -2134,14 +2134,14 @@ function gFams(list){var fam={},ord=[],connu=false;
   fam[l]+=Number(x&&x.count)||0;});
  if(!connu)return [];
  return ord.map(function(l){return{label:l,count:fam[l]};}).sort(function(a,b){return b.count-a.count;});}
-// ── Recatégorisation de 6 commandes (référence pour le template du bot — SYNC-BOT.md §7) :
+// ── Recatégorisation de 4 commandes (référence pour le template du bot — SYNC-BOT.md §7) :
 // say / embed / dm (messagerie) et close (clôture de ticket, dont le reste du flux est en Communauté)
-// → Communauté & Utilitaires ; massrole / delrole (gestion de rôles du quotidien, non verrouillées
-// contrairement à addrole) → Modération. Fait au chargement : déplace la carte dans la bonne section
+// → Communauté & Utilitaires. massrole / delrole ne sont PAS déplacées : le bot les garde en
+// Sécurité & Antiraid (liste fermée). Fait au chargement : déplace la carte dans la bonne section
 // (elle hérite la couleur --cc de sa section), aligne data-cat (filtres/compteurs) et l'accent de la
 // modale, puis recale les « (N) » des en-têtes. No-op automatique quand le bot rangera ces commandes.
 (function(){
- var MOVES={say:'5',embed:'5',dm:'5',close:'5',massrole:'1',delrole:'1'};
+ var MOVES={say:'5',embed:'5',dm:'5',close:'5'};
  Object.keys(MOVES).forEach(function(n){
   var card=document.querySelector('.cmd[data-n="'+n+'"]');if(!card)return;
   var to=MOVES[n];if(card.dataset.cat===to)return;
