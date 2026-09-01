@@ -54,13 +54,13 @@ le template local.
    inclure `https://abacus.jasoncameron.dev` ET
    `https://raw.githubusercontent.com` (heartbeat du badge de statut).
 
-7. **Recatégorisation de 6 commandes** (appliquée côté site en JS au chargement —
-   le bloc devient no-op dès que le bot range ces commandes dans ses définitions) :
+7. **Recatégorisation de 4 commandes** (appliquée côté site en JS au chargement —
+   le bloc reste NÉCESSAIRE tant qu'index.html n'est pas régénéré — ses data-cat sont figés) :
    | Commande | Ancienne catégorie | Nouvelle catégorie | Raison |
    |---|---|---|---|
    | `say`, `embed`, `dm` | Modération | Communauté & Utilitaires | messagerie/annonces, comme `announce`/`sticky` |
    | `close` | Modération | Communauté & Utilitaires | clôture de ticket — `ticket` y est déjà |
-   | `massrole`, `delrole` | Sécurité & Antiraid | Modération | gestion de rôles du quotidien (contrairement à `addrole`, verrouillée façon nuke) |
+   | ~~`massrole`, `delrole`~~ | — | **non déplacées** | retirées de MOVES : les deux sont dans `CATEGORIES_FERMEES` (bot, systems/permissions.js:260), et `delrole` partage la branche owner de `nuke`/`addrole` (bot, index.js:1839, même liste `nuke_allowed`) — la raison « gestion de rôles du quotidien » était fausse, le manifeste du site l'atteste déjà (`"delrole": "owner"`) |
 
 8. **Perf & robustesse (PR #13)** : `content-visibility:auto` sur `.cmd` et
    `.hentry` (rendu différé hors écran), debounce des deux recherches,
