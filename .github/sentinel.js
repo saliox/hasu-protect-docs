@@ -37,7 +37,7 @@ function present(needle, zone) {
 const MARKERS = [
   ['§1 CSP — connect-src raw.githubusercontent (heartbeat)', 'https://raw.githubusercontent.com', 'csp:connect-src'],
   ['§6 CSP — connect-src abacus (compteurs visites/votes)', 'https://abacus.jasoncameron.dev', 'csp:connect-src'],
-  ['§2 Badge de statut — logique 3 zones', '__exactUntil'],
+  ['§2 Badge de statut — quatre issues, sans source de secours', '__hbSeen'],
   ['§3 Parseur de paramètres — splitTop', 'splitTop'],
   ['§4 Panneau Guardian — précision décimale', 'Précision réelle'],
   ['§6 Compteur de visites global (gvisits)', 'gvisits'],

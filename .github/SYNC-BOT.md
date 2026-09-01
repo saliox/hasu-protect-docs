@@ -19,11 +19,16 @@ ci-dessous, chaque « maj site » du bot les fera disparaître à nouveau.
 1. **CSP** : `connect-src` doit inclure `https://raw.githubusercontent.com` ;
    le hash `script-src` doit être recalculé à chaque modification du script
    inline (le workflow `check-csp.yml` le vérifie à chaque push).
-2. **Badge de statut** : démarre gris « Vérification… » (`bstat unk`), logique
-   à trois zones (< 4 min 30 en ligne · ≥ 10 min hors ligne · entre les deux :
-   état conservé + confirmation via API `contents`, throttlée). Heartbeat lu
-   en priorité sur raw.githubusercontent (pas de quota), API en lecture exacte
-   ponctuelle seulement.
+2. **Badge de statut** : démarre gris « Vérification… » (`bstat unk`), quatre
+   issues — < 4 min 30 : en ligne · lecture EN ÉCHEC : « Vérification… », on ne
+   conclut pas · ≥ 10 min APRÈS une lecture réussie : hors ligne, panne prouvée ·
+   entre les deux : état conservé. Le heartbeat est lu sur la seule source
+   vivante (`__rawURL`, l'hôte de production) ; `__hbSeen` retient la dernière
+   lecture RÉUSSIE et sépare « on ne sait pas » de « le bot est tombé ».
+   Plus aucune source de secours : le repli sur la branche `status` de ce dépôt
+   a été retiré le 01/09/2026 — il servait un battement figé au 26/08 qui, sur un
+   chargement à froid, écrasait les compteurs (19 serveurs / 4354 membres au lieu
+   de 20 / 4328) et faisait reculer le panneau Guardian.
 3. **Parseur de paramètres** (`parseParams` + `splitTop`) : les groupes
    `[a | b | c]` / `<a|b>` sont des choix de valeurs, pas des formes
    alternatives — sinon 22 commandes (ex. `+shield [smart | off | reset]`)
