@@ -42,7 +42,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       # D'abord la preuve que le garde mord : un garde qui ne trouve jamais rien est indiscernable
-      # d'un garde cassé. La campagne joue un témoin sain (qui DOIT passer) puis 15 mutations.
+      # d'un garde cassé. La campagne joue un témoin sain (qui DOIT passer) puis toutes les mutations
+      # déclarées (noms, accès, catégorie, MOVES) — et un auto-contrôle qui refuse qu'un cas soit sauté.
       - name: Le garde mord-il encore ? (campagne de mutation)
         run: node .github/mutants-commands.js
       - name: Le site documente-t-il toutes les commandes attestées ?

@@ -49,12 +49,22 @@ const PALIERS = ['all', 'staff', 'admin', 'owner'];
 // le manifeste, donc le contrôle d'accès la saute — ce sont les AUTRES mutants qui doivent la voir.
 const TIER = (n) => (/^cmd\d{3}$/.test(n) ? PALIERS[Number(n.slice(3)) % 4] : ({ alpha: 'owner', beta: 'admin', gamma: 'staff' }[n] || 'all'));
 
+// ── La CATÉGORIE de la fixture : TROIS sections, là où la page réelle en a sept. Une seule ne
+//    prouverait rien (toute carte serait « au bon endroit » par construction), et le garde refuse
+//    d'ailleurs une page qui en montre moins de trois.
+const CC = ['#F1C40F', '#5865F2', '#2ECC71'];
+const LIBCAT = ['🛡️ Fixture · sécurité', '🔨 Fixture · modération', '🏘️ Fixture · communauté'];
+const CAT = (n) => (/^cmd\d{3}$/.test(n) ? (Number(n.slice(3)) > 80 ? 2 : (Number(n.slice(3)) > 40 ? 1 : 0)) : 0);
+
 // Le gabarit reprend celui d'index.html : `data-acc` sur la carte, badge `.accb` (classe + clé i18n +
 // libellé) dans le titre. Les deux doivent dire la même chose, et dire la vérité du manifeste.
 const badge = (t) => '<span class="accb acc-' + t + '" data-i18n="' + ACCK[t] + '">' + LBL[t] + '</span>';
-const carte = (n, tier) => {
+// `cat` explicite = on FORCE la catégorie annoncée par la carte, pour les mutants ; sinon c'est celle
+// de la fixture. `data-c` reprend la couleur de la section : le garde vérifie aussi cet accord-là.
+const carte = (n, tier, cat) => {
   const t = tier || TIER(n);
-  return '<div class="cmd" tabindex="0" role="button" data-s="' + n + ' description" data-n="' + n + '" data-u="+' + n + '" data-cat="0" data-acc="' + t + '">'
+  const c = cat === undefined ? CAT(n) : cat;
+  return '<div class="cmd" tabindex="0" role="button" data-s="' + n + ' description" data-n="' + n + '" data-u="+' + n + '" data-c="' + CC[c] + '" data-cat="' + c + '" data-acc="' + t + '">'
     + '<div class="name">+' + n + ' ' + badge(t) + '</div></div>';
 };
 
@@ -67,7 +77,11 @@ function pageFictive() {
     '<div class="quickstart"><h3>Premiers pas</h3></div>',
     // `(n) => carte(n)` et NON `carte` : `map` passe l'INDEX en 2e argument, qui deviendrait le
     // palier de la carte — 122 badges `acc-1`, `acc-2`… et une fixture morte dès le témoin.
-    '<div class="grid">' + NOMS.map((n) => carte(n)).join('') + '</div>',
+    // Trois sections écrites comme docs-build.js les écrit : `<section id="cN">`, `--cc` porté par la
+    // section, cartes dans un `.grid`. Le garde confronte `data-cat` AU MANIFESTE **et** à la section
+    // qui contient physiquement la carte.
+    ...CC.map((cc, i) => '<section id="c' + i + '" style="--cc:' + cc + '"><h2 class="cat"><span>' + LIBCAT[i] + '</span> <span style="color:var(--mut);font-size:.8rem">(' + NOMS.filter((n) => CAT(n) === i).length + ')</span></h2>'
+      + '<div class="grid">' + NOMS.filter((n) => CAT(n) === i).map((n) => carte(n)).join('') + '</div></section>'),
     '<details><summary>Gratuit ?</summary><div class="fqa"><span data-lang="en">Yes — all ' + NOMS.length + ' commands are free.</span></div></details>',
     '<script>/* Familles ajoutées (PR #19) : 145 commandes tombaient sur le générique */',
     // Le dictionnaire des libellés d'accès, à l'identique d'index.html : le garde y relit les quatre
@@ -84,10 +98,15 @@ function manifesteFictif() {
       source: 'fixture de mutation',
       compteConfirmeParLeGenerateur: NOMS.length,
       changelogDuSite: DATE_SITE,
+      ordreCategories: LIBCAT,
+      // Aucun déplacement déclaré : la fixture n'a pas de table MOVES. C'est l'état NORMAL d'un site
+      // dont help.js range déjà tout — et c'est ce qui rend les trois mutants MOVES ci-dessous parlants.
+      deplacementsDuSite: {},
       nombre: NOMS.length,
     },
     commandes: [...NOMS].sort(),
     acces: Object.fromEntries([...NOMS].sort().map((n) => [n, TIER(n)])),
+    categories: Object.fromEntries([...NOMS].sort().map((n) => [n, CAT(n)])),
     nonDocumentees: [{ nom: 'pm2', fichier: 'pm2.js', raison: 'description vide' }],
     horsCatalogue: [],
   };
@@ -246,6 +265,86 @@ const MUTANTS = [
     nom: 'accès — les libellés disparaissent du dictionnaire de la page',
     muter: (d) => patch(d, 'index.html', (s) => s.replace("accOwner:{fr:'" + LBL.owner + "'", "accCouronne:{fr:'" + LBL.owner + "'")),
     attendu: ['libellés de niveau d\'accès ont disparu'],
+  },
+
+  // ── CATÉGORIE — le contrôle ajouté par le chantier 2. Un mutant par façon de se tromper de rangement.
+  //    Sans eux, un garde de catégorie qui ne trouve jamais rien serait indiscernable d'un garde cassé —
+  //    et c'est très exactement comme ça que la recatégorisation du 11/08/2026 a pu dériver.
+  {
+    nom: 'catégorie — une carte est déplacée COMPLÈTEMENT dans une autre section (la dérive du 11/08)',
+    muter: (d) => patch(d, 'index.html', (s) => s
+      .replace(carte('beta'), '')
+      .replace(carte('cmd081'), carte('beta', 'admin', 2) + carte('cmd081'))),
+    attendu: ['+beta', 'CATÉGORIE FAUSSE'],
+  },
+  {
+    nom: 'catégorie — seul data-cat est retouché : le filtre et l\'œil racontent deux histoires',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace(carte('gamma'), carte('gamma').replace('data-cat="0"', 'data-cat="1"'))),
+    attendu: ['+gamma', 'se contredit ELLE-MÊME'],
+  },
+  {
+    nom: 'catégorie — la couleur d\'accent de la carte ne suit plus sa section',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace(carte('alpha'), carte('alpha').replace('data-c="' + CC[0] + '"', 'data-c="' + CC[2] + '"'))),
+    attendu: ['+alpha', 'se contredit ELLE-MÊME'],
+  },
+  {
+    nom: 'catégorie — un manifeste antérieur au contrôle (sans `categories`) ne doit pas le rendre INERTE',
+    muter: (d) => patchJson(d, '.github/commands.manifest.json', (o) => { delete o.categories; }),
+    attendu: ["n'atteste AUCUNE catégorie"],
+  },
+  {
+    nom: 'catégorie — le manifeste oublie la catégorie d\'une commande (retouche à la main)',
+    muter: (d) => patchJson(d, '.github/commands.manifest.json', (o) => { delete o.categories.gamma; }),
+    attendu: ['+gamma', 'incohérent avec lui-même (catégories)'],
+  },
+  {
+    nom: 'catégorie — les sections disparaissent de la page : le garde doit crier, pas compter zéro écart',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace(/<section id="c\d+"[^>]*>/g, '<div>')),
+    attendu: ['sections de catégorie ne reconnaît plus la page'],
+  },
+
+  // ── MOVES — la recatégorisation appliquée AU CHARGEMENT, qui contredit help.js par construction.
+  //    C'est le point dur : le garde ne la compare pas à help.js, il l'ATTESTE. Ces trois mutants sont
+  //    la preuve que l'attestation mord — sans eux, « on atteste MOVES » serait une phrase, pas un garde.
+  {
+    nom: 'MOVES — un déplacement est AJOUTÉ au site sans ré-attestation (recatégorisation invisible)',
+    muter: (d) => patch(d, 'index.html', (s) => s.replace('function md(s){return s;}', "var MOVES={gamma:'2'};\nfunction md(s){return s;}")),
+    attendu: ['recatégorisation appliquée par le site a changé', 'gamma→c2'],
+  },
+  {
+    nom: 'MOVES — un déplacement devenu inutile reste dans la table (l\'exclusion qui ne se plaint pas)',
+    muter: (d) => {
+      patch(d, 'index.html', (s) => s.replace('function md(s){return s;}', "var MOVES={beta:'0'};\nfunction md(s){return s;}"));
+      patchJson(d, '.github/commands.manifest.json', (o) => { o.attestation.deplacementsDuSite = { beta: 0 }; });
+    },
+    attendu: ['+beta', 'Déplacement MORT'],
+  },
+  {
+    nom: 'MOVES — un déplacement vise une section absente : la carte reste où elle est, en silence',
+    muter: (d) => {
+      patch(d, 'index.html', (s) => s.replace('function md(s){return s;}', "var MOVES={alpha:'9'};\nfunction md(s){return s;}"));
+      patchJson(d, '.github/commands.manifest.json', (o) => { o.attestation.deplacementsDuSite = { alpha: 9 }; });
+    },
+    attendu: ['+alpha', 'Déplacement IMPOSSIBLE'],
+  },
+  {
+    nom: 'MOVES — la table est RÉ-ATTESTÉE mais CONTREDIT help.js : ré-attester ne doit pas suffire',
+    muter: (d) => {
+      patch(d, 'index.html', (s) => s.replace('function md(s){return s;}', "var MOVES={gamma:'2'};\nfunction md(s){return s;}"));
+      patchJson(d, '.github/commands.manifest.json', (o) => { o.attestation.deplacementsDuSite = { gamma: 2 }; });
+    },
+    attendu: ['+gamma', 'CATÉGORIE FAUSSE', 'MOVES la range dans'],
+  },
+  {
+    nom: 'catégorie — MOVES couvre UNE carte, une AUTRE est retouchée à la main : le crédit ne déborde pas de sa clé',
+    muter: (d) => {
+      patch(d, 'index.html', (s) => s
+        .replace('function md(s){return s;}', "var MOVES={beta:'2'};\nfunction md(s){return s;}")
+        .replace(carte('gamma'), '')
+        .replace(carte('cmd041'), carte('gamma', 'staff', 1) + carte('cmd041')));
+      patchJson(d, '.github/commands.manifest.json', (o) => { o.attestation.deplacementsDuSite = { beta: 2 }; o.categories.beta = 2; });
+    },
+    attendu: ['1 carte(s) sont rangées dans une CATÉGORIE FAUSSE', '+gamma'],
   },
 ];
 
