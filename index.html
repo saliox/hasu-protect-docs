@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://142-93-164-47.sslip.io" crossorigin><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-alKktYKEJTTyK4z/pDrybjdfMSccOm1XzepET/I/I6I='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://142-93-164-47.sslip.io; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-RIJTz1l3s1wwhcikfBrj9Em1Pd/hSM//YORWQf46Fpo='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://142-93-164-47.sslip.io; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 260 commandes — documentation complète et interactive.">
@@ -2110,18 +2110,18 @@ function gFams(list){var fam={},ord=[],connu=false;
 // Premier rendu i18n : APRÈS la définition de I18N (var assigné plus haut) — sinon applyLang() lèverait
 // une exception qui avorterait tout le reste du script (toggle de langue + polling live morts).
 applyLang();
-// Badge de statut — machine à TROIS ZONES, sans lecture d'en-têtes HTTP (Age/Date ne sont pas exposés
-// en CORS par raw.githubusercontent — vérifié — donc l'âge du cache CDN est invisible côté JS) :
-//   < 4 min 30 → En ligne · ≥ 10 min → Hors ligne · entre les 2 → zone grise du cache : on GARDE l'état
-//   affiché (pas de clignotement) et pollAPI (lecture exacte, throttlée) tranche. Après une réponse API,
-//   le « at » est exact 2 min 30 (__exactUntil) → la règle des 4 min 30 s'applique directement.
-// Premier chargement dans la zone grise → « Vérification… » jusqu'au verdict API. Jamais de faux vert.
+// Badge de statut — QUATRE issues. Le seul juge est __rawURL (l'hote de prod) : il n'y a plus de
+// « lecture exacte » de secours, donc plus aucune source figee capable de FABRIQUER un etat.
+//   < 4 min 30 → En ligne · lecture EN ECHEC → Vérification… (on ne sait pas) · >= 10 min avec une
+//   lecture REUSSIE → Hors ligne (panne prouvee) · entre les deux → on GARDE l'etat affiche.
+// La distinction porte tout : un fetch qui echoue parle du TRANSPORT, pas du bot. En conclure
+// « Hors ligne » serait inventer un etat. Jamais de faux vert, et jamais de faux rouge non plus.
 function setStatus(){var el=document.getElementById('botstatus');if(!el)return;var hb=Math.max(__hbApi,__hbStats),t,c,age=Date.now()-hb;
  if(__bs==='updating'&&hb&&age<600000){t=tr('updating');c='upd';} // updating honoré SEULEMENT si heartbeat < 10 min — sinon un bot mort pendant sa maj resterait orange pour toujours
  else if(!hb){t=tr('checking');c='unk';}
  else if(age<270000){t=tr('online');c='on';}
- else if(age>=600000||Date.now()<__exactUntil){t=tr('offline');c='off';}
- else{if(typeof pollAPI==='function')pollAPI(300000);
+ else if(!__hbSeen){t=tr('checking');c='unk';} // source vivante en ECHEC : « Hors ligne » serait une conclusion sur le BOT tiree d'une panne de TRANSPORT
+ else if(age>=600000){t=tr('offline');c='off';} /* battement effectivement LU, mais vieux de 10 min : la panne est prouvee */ else{
   if(__lastC==='on'||__lastC==='off'){c=__lastC;t=tr(c==='on'?'online':'offline');}
   else{t=tr('checking');c='unk';}}
  __lastC=c;el.className='bstat '+c;var x=document.getElementById('bstxt');if(x)x.textContent=t;}
@@ -2158,24 +2158,24 @@ function setBadges(d){if(!d)return;__hbData=d;
 // (60 req/h par IP sans token) ne sert plus que de lecture exacte ponctuelle : à 1 requête/2 min en
 // continu, le quota sautait (rechargements + onglets multiples + IP partagées) et le badge mourait en 403.
 var __rawURL=location.protocol==='http:'?'/heartbeat.json':'https://142-93-164-47.sslip.io/heartbeat.json';
-var __hbURL='https://api.github.com/repos/saliox/hasu-protect-docs/contents/heartbeat.json?ref=status';
-var __apiLast=0,__exactUntil=0,__lastC='';
+// __hbURL supprime : il lisait l'API GitHub sur la branche « status », morte depuis le 26/08/2026.
+var __hbSeen=0,__lastC=''; // __hbSeen = date de la derniere LECTURE REUSSIE de la source vivante (0 = injoignable : on ne SAIT pas, on ne conclut pas)
 // Math.max : un timestamp de battement ne peut qu'avancer — une copie CDN périmée resservie après une
 // lecture API fraîche ne doit pas faire reculer l'horloge (faux « Hors ligne » sinon).
-function applyHB(j,exact){if(!j)return;
+function applyHB(j){if(!j)return;
  // Un battement PLUS ANCIEN que le meilleur déjà appliqué ne repeint RIEN. Sans ce garde, une coupure
  // de l'hébergeur faisait basculer pollHB sur le repli API (branche `status`, figée au 26/08) et les
  // badges RECULAIENT de quatre jours — 20 serveurs redevenaient 19 sous les yeux du visiteur.
  // Math.max protégeait déjà l'horloge du statut ; il ne protégeait pas les compteurs.
  if(j.at&&__hbApi&&j.at<__hbApi)return;
- if(j.at){__hbApi=Math.max(__hbApi,j.at);if(exact)__exactUntil=Date.now()+150000;if(j.status)__bs=j.status;setStatus();}setBadges(j);if(j.guardian&&j.guardian.at&&j.guardian.at>__gAt){__gAt=j.guardian.at;renderG(j.guardian);}}
-// Lecture EXACTE (sans cache) via l'API GitHub — tranche la zone grise du cache CDN, ou secourt un CDN
-// raw en panne. gap = intervalle minimal entre deux appels. Un échec ne brûle pas la fenêtre (retry ~60 s).
-function pollAPI(gap){var n=Date.now();if(n-__apiLast<gap)return;__apiLast=n;
- var fail=function(){__apiLast=n-Math.max(0,gap-60000);};
- fetch(__hbURL,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(!d||!d.content){fail();return;}var j;try{j=JSON.parse(atob(d.content.replace(/\s/g,'')));}catch(e){fail();return;}applyHB(j,true);}).catch(fail);}
-function pollHB(){fetch(__rawURL,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){applyHB(j,false);})
- .catch(function(){pollAPI(240000);});}
+ if(j.at){__hbApi=Math.max(__hbApi,j.at);if(j.status)__bs=j.status;setStatus();}setBadges(j);if(j.guardian&&j.guardian.at&&j.guardian.at>__gAt){__gAt=j.guardian.at;renderG(j.guardian);}}
+// Plus de « lecture exacte » de secours : elle lisait la branche « status », morte depuis le
+// 26/08/2026. Sur un chargement A FROID __hbApi valait 0, le garde anti-recul juste au-dessus ne
+// se declenchait donc pas, et ce battement de six jours ECRASAIT les compteurs : 20 serveurs
+// redevenaient 19 et 4328 membres 4354, jusqu'a ce que stats.json les recorrige — un aller-retour
+// visible toutes les deux minutes tant que l'hote de prod restait injoignable.
+function pollHB(){fetch(__rawURL,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){__hbSeen=Date.now();applyHB(j);})
+ .catch(function(){__hbSeen=0;setStatus();});} // injoignable → on repasse en etat INCONNU au lieu de conclure d'un vieux battement
 // ── Disponibilité 7 jours : clic sur le badge de statut → panneau. Données : uptime.json publié toutes
 // les heures sur la branche « uptime » par l'Action GitHub, qui MESURE le heartbeat vivant de
 // l'hébergeur — une observation par heure. Avant le 30/08 elle comptait les commits d'une branche que
