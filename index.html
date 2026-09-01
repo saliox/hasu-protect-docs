@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://142-93-164-47.sslip.io" crossorigin><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-RIJTz1l3s1wwhcikfBrj9Em1Pd/hSM//YORWQf46Fpo='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://142-93-164-47.sslip.io; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-D6hdvfUUyd5n0Go1qolbeeEBgrq/nScGH1Hw6Zsngzo='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://142-93-164-47.sslip.io; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 260 commandes — documentation complète et interactive.">
@@ -41,6 +41,26 @@
 :root[data-theme="light"]{--bg:#eef0f7;--card:#ffffff;--card2:#e8eaf3;--txt:#1b1c26;--mut:#56586c;--line:#d8dae6}
 :root[data-theme="light"] .cmd .desc,:root[data-theme="light"] .changelog li,:root[data-theme="light"] .m-desc,:root[data-theme="light"] .m-edesc,:root[data-theme="light"] .gprot,:root[data-theme="light"] .hentry li{color:#2c2d3a}
 :root[data-theme="light"] .cmd:hover{box-shadow:0 6px 22px rgba(40,40,80,.14)}
+/* Thème CLAIR — encres sombres. Les teintes d'accent sont calibrées pour un fond SOMBRE : posées telles
+   quelles sur --card:#ffffff, la pastille Owner active tombait à 1,53:1 et son compteur à 1,01:1 — soit
+   exactement la luminance du fond, un « 43 » jaune sur jaune. Et 200 des 260 noms de commandes passaient
+   sous 4,5:1. On ne change pas la palette : on lui donne une encre sombre quand le fond est clair.
+   Contre l'intuition, le jaune et le turquoise ne sont pas les coupables en thème sombre — ils y sont les
+   MEILLEURES pastilles (texte sombre sur fond vif). Le problème est strictement le thème clair. */
+:root[data-theme="light"] .accf.active[data-acc="owner"]{color:#6b5500}
+:root[data-theme="light"] .accf.active[data-acc="admin"]{color:#b52427}
+:root[data-theme="light"] .accf.active[data-acc="staff"]{color:#3a45c9}
+:root[data-theme="light"] .accf.active[data-acc="all"]{color:#1a6b38}
+:root[data-theme="light"] .accf.active .navcnt{background:rgba(0,0,0,.10)}
+:root[data-theme="light"] .cmd[data-cat="0"] .name{color:#8a6d00}
+:root[data-theme="light"] .cmd[data-cat="2"] .name{color:#14804a}
+:root[data-theme="light"] .cmd[data-cat="3"] .name{color:#b01550}
+:root[data-theme="light"] .cmd[data-cat="4"] .name{color:#a3521a}
+:root[data-theme="light"] .cmd[data-cat="5"] .name{color:#0f7a66}
+:root[data-theme="light"] .acc-owner{color:#6b5500;border-color:#c9a412}
+:root[data-theme="light"] .acc-admin{color:#b52427;border-color:#e08b8c}
+:root[data-theme="light"] .acc-staff{color:#3a45c9;border-color:#9aa3f0}
+:root[data-theme="light"] .acc-all{color:#1a6b38;border-color:#7ec99a}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;overflow-wrap:break-word}
 a{color:var(--gold);text-decoration:none}
 header{position:relative;padding:42px 22px 26px;text-align:center;background:radial-gradient(900px 320px at 50% -60px,rgba(88,101,242,.22),transparent),var(--bg);border-bottom:1px solid var(--line)}
@@ -110,6 +130,8 @@ header p{color:var(--mut);margin:.5rem 0 0}
 /* ── Compteur de commandes sur chaque filtre (posé en JS depuis les cartes) */
 .navcnt{font-size:.72rem;font-weight:700;color:var(--mut);background:rgba(127,127,160,.16);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
 .navf.active .navcnt,.accf.active .navcnt{color:inherit;background:rgba(0,0,0,.18)}
+/* Pastille dont l'intersection avec l'autre rangée est vide : éteinte, pour qu'on ne la clique pas dans le vide. */
+.navf.vide,.accf.vide{opacity:.42}
 /* ── Mobile : fini le zigzag — grille alignée. « Tout » en pleine largeur, catégories sur 2 colonnes,
    filtres d'accès sur 2 colonnes, libellés en tête de bloc. Desktop : inchangé (flex d'origine). */
 @media(max-width:640px){
@@ -280,7 +302,7 @@ section{animation:fadeIn .5s ease backwards}
 .ov.open .modal{animation:pop .26s cubic-bezier(.2,.7,.3,1.1) backwards}
 .totop{transition:transform .15s,filter .15s,opacity .2s}
 .rescount{color:var(--mut);font-size:.83rem;margin:-14px 0 16px;display:none}
-.cmd:focus-visible,.cpy:focus-visible,.m-cpy:focus-visible,.nav a:focus-visible,#search:focus-visible,.more:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.cmd:focus-visible,.cpy:focus-visible,.m-cpy:focus-visible,.navf:focus-visible,.accf:focus-visible,#search:focus-visible,.more:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 /* ── Badge « NOUVEAU » : commandes apparues depuis la dernière visite du visiteur (stockage local) */
@@ -1777,16 +1799,41 @@ function idxOf(c){
  if(c.__sfr===undefined)c.__sfr=nrm(c.dataset.s||'');
  return c.__sfr;}
 function curQ(){var s=document.getElementById('search');return s?s.value.trim().toLowerCase():'';}
+// Chaque rangée de pastilles compte SOUS le filtre de l'autre. Sans ça, « Jeux & Fun 49 » et « Owner 43 »
+// s'affichaient côte à côte alors que leur intersection est VIDE : 7 des 28 combinaisons promettaient des
+// dizaines de résultats et en donnaient zéro, sans le moindre avertissement avant le clic. L'axe que l'on
+// compte est exclu de son propre filtre — sinon toute pastille non sélectionnée tomberait à 0.
+function majCompteurs(qn){
+ var byCat={},byAcc={},tot=0;
+ cards().forEach(function(c){
+  if(qn&&idxOf(c).indexOf(qn)<0)return;
+  if(!__fAcc||c.dataset.acc===__fAcc){byCat[c.dataset.cat]=(byCat[c.dataset.cat]||0)+1;tot++;}
+  if((__fCat==='all'||c.dataset.cat===__fCat)&&c.dataset.acc){byAcc[c.dataset.acc]=(byAcc[c.dataset.acc]||0)+1;}});
+ function pose(b,n){var s=b.querySelector('.navcnt');if(!s)return;s.textContent=n;
+  var vide=(n===0)&&!b.classList.contains('active');
+  b.classList.toggle('vide',vide);b.setAttribute('aria-disabled',vide?'true':'false');}
+ document.querySelectorAll('#catnav .navf').forEach(function(b){pose(b,b.dataset.cat==='all'?tot:(byCat[b.dataset.cat]||0));});
+ document.querySelectorAll('#accnav .accf').forEach(function(b){pose(b,byAcc[b.dataset.acc]||0);});}
 function filt(q){q=(q==null?curQ():String(q).trim().toLowerCase());var qn=nrm(q),shown=0;
 cards().forEach(function(c){var ok=(!qn||idxOf(c).indexOf(qn)>=0)&&(!__fAcc||c.dataset.acc===__fAcc)&&(__fCat==='all'||c.dataset.cat===__fCat);c.style.display=ok?'':'none';var nm=c.querySelector('.name'),ds=c.querySelector('.desc');if(ok&&qn&&qn.length>1){hl(nm,qn);hl(ds,qn);}else{clearHL(nm);clearHL(ds);}if(ok)shown++;}); /* P2 : pas de surlignage pour 1 seul caractère */
-secCards().forEach(function(p){var vis=p[1].some(function(c){return c.style.display!=='none';}),d=vis?'':'none';if(p[0].style.display!==d)p[0].style.display=d;});
+var __filtre=!!(qn||__fAcc||__fCat!=='all');
+secCards().forEach(function(p){var nv=0;p[1].forEach(function(c){if(c.style.display!=='none')nv++;});var d=nv?'':'none';if(p[0].style.display!==d)p[0].style.display=d;
+ // Le « (N) » du titre restait le total absolu sous filtre : « Modération (37) » au-dessus d'UNE carte.
+ var h=p[0].querySelector('h2.cat span:last-child');if(h&&/^\(\d+\)$/.test(h.textContent.trim()))h.textContent='('+(__filtre?nv:p[1].length)+')';});
 document.getElementById('empty').style.display=shown?'none':'block';
-var rc=document.getElementById('rescount');if(rc){var act=q||__fAcc||__fCat!=='all';rc.textContent=act?(shown+' '+tr('results')):'';rc.style.display=act?'':'none';}}
+var rc=document.getElementById('rescount');if(rc){var act=q||__fAcc||__fCat!=='all';rc.textContent=act?(shown+' '+tr('results')):'';rc.style.display=act?'block':'none';}
+ // 'block' et non '' : la chaîne vide EFFACE le style inline et rend la main à .rescount{display:none},
+ // si bien que ce compteur — le seul élément qui dit au visiteur que les deux rangées se cumulent — n'a
+ // jamais été visible une seule fois. Son aria-live ne pouvait rien annoncer non plus : display:none
+ // retire le nœud de l'arbre d'accessibilité.
+ majCompteurs(qn);}
 // Puce cliquée = (dé)sélection : recliquer la puce active la désactive → retour à « Tout » / « tous niveaux ».
-function setCat(v){__fCat=v;document.querySelectorAll('#catnav .navf').forEach(function(b){b.classList.toggle('active',b.dataset.cat===v);});filt();}
-function setAcc(v){__fAcc=v;document.querySelectorAll('#accnav .accf').forEach(function(b){b.classList.toggle('active',b.dataset.acc===v);});filt();}
+function setCat(v){__fCat=v;document.querySelectorAll('#catnav .navf').forEach(function(b){var a=b.dataset.cat===v;b.classList.toggle('active',a);b.setAttribute('aria-pressed',String(a));});filt();}
+function setAcc(v){__fAcc=v;document.querySelectorAll('#accnav .accf').forEach(function(b){var a=b.dataset.acc===v;b.classList.toggle('active',a);b.setAttribute('aria-pressed',String(a));});filt();}
 document.querySelectorAll('#catnav .navf').forEach(function(b){b.addEventListener('click',function(){setCat(__fCat===b.dataset.cat?'all':b.dataset.cat);});});
 document.querySelectorAll('#accnav .accf').forEach(function(b){b.addEventListener('click',function(){setAcc(__fAcc===b.dataset.acc?null:b.dataset.acc);});});
+// État initial : sans ça, un lecteur d'écran annonce les 12 pastilles à l'identique, actives ou non.
+document.querySelectorAll('#catnav .navf,#accnav .accf').forEach(function(b){b.setAttribute('aria-pressed',String(b.classList.contains('active')));});
 var sb=document.getElementById('search');var __ft=0;if(sb)sb.addEventListener('input',function(e){clearTimeout(__ft);__ft=setTimeout(function(){filt(e.target.value);},120);}); // debounce : filt() coûte ~20 ms sur mobile lent, inutile de le payer à chaque frappe
 // Navigation des résultats au CLAVIER : ↑/↓ déplacent la sélection, Entrée ouvre la simulation.
 var __sel=-1;
