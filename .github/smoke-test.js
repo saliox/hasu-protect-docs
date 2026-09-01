@@ -5,12 +5,29 @@
 // Les hôtes externes sont bouchés : le test est hermétique et rapide.
 const { chromium } = require('playwright');
 let fails = 0;
+// ── Fixture du battement (le 404 qui rougissait « zéro erreur JS ») ────────────────────────────
+// index.html:2160 : en https: la page lit le heartbeat de l'hébergeur ; en http: — le serveur local
+// du smoke — elle bascule volontairement sur '/heartbeat.json' RELATIF, que python3 -m http.server
+// ne sert pas. 404 → console error → assertion rouge, alors que le site n'a aucun défaut.
+// On le BOUCHE ici, comme les hôtes externes le sont déjà juste en dessous : le dépôt ne gagne AUCUN
+// fichier. Sa racine EST la racine publiée (Pages main/root) — un heartbeat.json commité serait servi
+// en clair sur https://saliox.github.io/hasu-protect-docs/heartbeat.json : un faux état du bot à une
+// URL publique de la doc, et une cible d'ingestion pour build-uptime.js / build-growth.js.
+// « at » CALCULÉ à chaque requête, jamais figé : un horodatage en dur franchirait le seuil des 10 min
+// de setStatus et ferait rougir le test tout seul. HB() est appelée, pas capturée.
+const HB = () => JSON.stringify({ at: Date.now(), status: 'online', servers: 20, members: 4340, commands: 260, categories: 7 });
 const ok = (c, l) => { console.log((c ? 'ok - ' : 'NOT OK - ') + l); if (!c) fails++; };
 
 (async () => {
   // CHROME_PATH : exécution locale avec un Chromium déjà présent (le CI installe le sien).
   const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
   const ctx = await browser.newContext({ locale: 'fr-FR', colorScheme: 'dark' });
+  // Le $ final attrape '/heartbeat.json' (serveur local) ET celui de l'hébergeur en https:, mais PAS
+  // '…/contents/heartbeat.json?ref=status' de l'API GitHub, qui doit rester sur son propre stub.
+  // Route posée sur le CONTEXTE et non sur la page : index.html enregistre sw.js, et seul
+  // context.route() couvre aussi le trafic qui transite par un service worker. Ne pas déplacer.
+  await ctx.route(/\/heartbeat\.json$/, (r) =>
+    r.fulfill({ status: 200, contentType: 'application/json', body: HB() }));
   await ctx.route(/abacus|raw\.githubusercontent|api\.github|top\.gg/, (r) =>
     r.fulfill({ status: 200, contentType: 'application/json', body: '{"value":1}' }));
   const page = await ctx.newPage();
@@ -44,8 +61,18 @@ const ok = (c, l) => { console.log((c ? 'ok - ' : 'NOT OK - ') + l); if (!c) fai
   await page.waitForTimeout(400);
   ok((await page.evaluate(() => document.querySelectorAll('.cmd').length - [...document.querySelectorAll('.cmd')].filter((c) => c.style.display === 'none').length)) > 0, 'la recherche filtre');
 
+  // Chemin NOMINAL du badge, que rien ne couvrait jusqu'ici : battement frais → « En ligne » (classe
+  // `on`). Sans la fixture ci-dessus il n'était même pas atteignable — le 404 partait sur le repli API,
+  // puis stats.json (heartbeat du build, vieux de plusieurs jours en CI) laissait le badge finir en
+  // « Hors ligne » sans que personne ne le voie. pollHB part à t+1500 ms : on ATTEND l'état au lieu de
+  // dormir, et l'échec d'attente retombe en NOT OK lisible plutôt qu'en exception.
+  await page.waitForFunction(() => document.getElementById('botstatus').classList.contains('on'), null, { timeout: 8000 }).catch(() => { });
+  ok(await page.evaluate(() => document.getElementById('botstatus').classList.contains('on')), 'badge de statut : battement frais → « En ligne »');
+
   // Mobile : pas de scroll horizontal.
   const mob = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, locale: 'fr-FR' });
+  await mob.route(/\/heartbeat\.json$/, (r) =>
+    r.fulfill({ status: 200, contentType: 'application/json', body: HB() }));
   await mob.route(/abacus|raw\.githubusercontent|api\.github|top\.gg/, (r) =>
     r.fulfill({ status: 200, contentType: 'application/json', body: '{"value":1}' }));
   const mp = await mob.newPage();
