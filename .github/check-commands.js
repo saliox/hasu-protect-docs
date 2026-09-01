@@ -72,14 +72,71 @@
 //   Une carte dont la classe dit « admin » et le texte « 👥 Tous » est refusée : c'est le cas où le
 //   filtre et l'œil racontent deux histoires différentes.
 //
+// ── LA CATÉGORIE — AJOUTÉE PAR LE CHANTIER 2, SUR LE MODÈLE EXACT DU NIVEAU D'ACCÈS
+//   `check-commands.js` excluait NOMMÉMENT la catégorie de sa portée. Conséquence mesurée : une carte
+//   qui change de `data-cat`, une commande nouvellement mal rangée, une retouche du bloc MOVES — la CI
+//   restait verte. La recatégorisation du 11/08/2026 a dérivé pour exactement cette raison.
+//
+//   La catégorie n'est PAS un rangement d'affichage. `systems/permissions.js` require `commands/help.js`
+//   et ferme TOUS les noms de « 🛡️ Sécurité & Antiraid » et « 👑 Owner du bot » (`CATEGORIES_FERMEES`) :
+//   89 commandes qu'aucun `+customperm` ne peut rouvrir. Ranger une carte hors de ces deux catégories
+//   laisse croire qu'on peut en déléguer l'accès ; l'y ranger par erreur promet un verrou inexistant.
+//
+//   CE QUI EST ATTESTÉ : `categories` = { nom → index 0..6 }. L'index n'est écrit nulle part dans
+//   help.js — il naît de la RÈGLE de `tools/docs-build.js:119-130`, rejouée ici à l'identique (ordre
+//   d'insertion de la table → catégories vides écartées → « Autres » en queue → tri par CAT_ORDER).
+//
+//   CE QUI EST COMPARÉ EN CI, trois choses qui doivent s'accorder, exactement comme `data-acc` et le
+//   badge `.accb` pour l'accès :
+//     • la catégorie ATTESTÉE (help.js) ;
+//     • `data-cat` — ce que lisent les puces de filtre `.navf` et les compteurs ;
+//     • la `<section id="cN">` qui contient PHYSIQUEMENT la carte — le titre sous lequel l'œil la
+//       trouve, et la couleur d'accent (`--cc` → `data-c`) qu'elle en hérite.
+//   Une carte dont `data-cat` et la section divergent s'affiche sous un titre ET disparaît quand on
+//   clique sur ce même titre : le filtre et l'œil racontent deux histoires, le défaut déjà nommé.
+//
+//   LE POINT DUR — LA TABLE `MOVES`, ET LE CHOIX QU'ELLE IMPOSE
+//   Le script inline d'index.html déplace 4 cartes AU CHARGEMENT — `say`, `embed`, `dm`, `close` vers
+//   « 🏘️ Communauté & Utilitaires ». Il réécrit `dataset.cat`, réaligne `data-c` sur le `--cc` de la
+//   section d'arrivée, et y déplace le nœud. Le fichier STATIQUE garde donc légitimement l'ancien rangement,
+//   et la catégorie que voit le visiteur n'est pas `data-cat`. D'où deux comparaisons distinctes :
+//     • CONTRE commands/help.js : la catégorie EFFECTIVE, soit `MOVES[nom]` quand l'entrée existe ET que sa
+//       section de destination existe (sinon le script sort sur `if(!grid)return` et rien ne bouge),
+//       soit `data-cat`. MOVES est donc CRÉDITÉ, pas ignoré : une carte qu'il range là où help.js la range
+//       est acceptée, `data-cat` périmé compris — c'est tout le rôle de la table pendant qu'index.html
+//       attend d'être régénéré. Mais il n'ACHÈTE rien : un déplacement vers une catégorie que help.js refuse
+//       reste ROUGE, et aucune ré-attestation ne l'éteint — `--bot --write` refige la table, il ne demande
+//       pas son avis à help.js. C'est ce qui rend coûteux de recatégoriser une commande aux yeux du visiteur
+//       sans toucher au bot : la dérive du 11/08 refaite ne passe plus, même ATTESTÉE.
+//     • ENTRE EUX : `data-cat` et la `<section id="cN">` qui contient la carte, qui doivent rester ÉGAUX
+//       dans le fichier — docs-build.js les écrit avec le même `i`, et MOVES les déplace ENSEMBLE. C'est
+//       ce contrôle-là, et non celui de help.js, qui voit un `data-cat` retouché à la main.
+//   La table reste ATTESTÉE par ailleurs (`attestation.deplacementsDuSite`), et chaque entrée doit rester
+//       VIVANTE : carte existante, destination existante, et déplacement qui déplace vraiment.
+//   Ce que ça coûte à qui dérive : ajouter un déplacement — c'est-à-dire recatégoriser une commande AUX
+//   YEUX DU VISITEUR sans toucher au bot — rougit la CI tant que personne n'a rouvert commands/help.js.
+//   Ce que ça coûte à qui répare : ranger la commande dans help.js rend le déplacement MORT, et le garde
+//   le dit par son nom au lieu de laisser l'exception pourrir dans la table. C'est le reproche fait à
+//   la liste d'exclusions de cmdtests.js, qu'on ne reproduit pas ici non plus.
+//
 // ── CE QUE CE GARDE NE COUVRE PAS (à dire honnêtement, sinon il ment par omission)
 //   • Une commande AJOUTÉE au bot alors que ni stats.json ni le manifeste ne sont republiés, et que
 //     le site ne publie aucun changelog : invisible en CI. C'est irréductible — la CI ne peut pas
 //     lire un dépôt qui n'est pas là. Seul `--bot` la voit. Les trois signaux ci-dessus rendent ce
 //     scénario coûteux à atteindre, pas impossible.
-//   • Le RESTE du contenu des cartes : usage, description, alias, catégorie, traduction EN. Ce garde
-//     compare l'ENSEMBLE DES NOMS et le NIVEAU D'ACCÈS, rien d'autre. Une carte au nom juste, au
-//     badge juste et au mode d'emploi faux passe ici sans bruit.
+//   • Le RESTE du contenu des cartes : usage, description, alias, traduction EN. Ce garde compare
+//     l'ENSEMBLE DES NOMS, le NIVEAU D'ACCÈS et la CATÉGORIE, rien d'autre. Une carte au nom juste, au
+//     badge juste, à la bonne place et au mode d'emploi faux passe ici sans bruit.
+//   • Le compteur « (N) » des en-têtes de section : le script qui applique MOVES le RECALCULE dans le
+//     navigateur, donc un chiffre figé faux n'est visible que sans JavaScript. Délibérément non couvert :
+//     le vérifier ferait rougir deux fois chaque ajout ou retrait de carte, pour un défaut invisible.
+//   • L'ORIGINE d'une carte que MOVES déplace. Sa catégorie EFFECTIVE est jugée contre help.js, et son
+//     `data-cat` contre sa `<section>` ; mais rien n'atteste D'OÙ elle part, et le script réécrit de toute
+//     façon les trois (cat, couleur, nœud) au chargement. Reloger COHÉREMMENT une de ces cartes dans une
+//     autre section passe donc ici : le défaut n'existe que sans JavaScript, comme le « (N) » ci-dessus.
+//     Retoucher un SEUL des trois reste vu (contradiction interne), et une carte SANS entrée MOVES est
+//     jugée sur son `data-cat` comme avant. Fermer ce dernier trou demanderait d'attester l'origine du
+//     déplacement (`{nom: {de, vers}}`) : coût réel, pour un défaut invisible au visiteur.
 //   • Le niveau d'accès EFFECTIF sur un serveur donné : `+customperm` peut surcharger le palier
 //     serveur par serveur, et un Administrateur Discord passe partout (`canUse` court-circuite sur
 //     `Administrator`). Le badge annonce le palier PAR DÉFAUT du bot, pas l'état d'un serveur — et
@@ -129,6 +186,17 @@ const RX_CARTE = /<div\s+class="cmd(?:\s[^"]*)?"[^>]*>/g;
 const RX_BADGE = /<span class="accb acc-([a-z]+)" data-i18n="(acc[A-Za-z]+)">([^<]*)<\/span>/;
 const ACCK = { owner: 'accOwner', admin: 'accAdmin', staff: 'accStaff', all: 'accAll' };
 
+// La SECTION de catégorie qui contient physiquement une carte : <section id="c3" style="--cc:#E91E63">.
+// C'est ce que voit l'ŒIL (le titre au-dessus, la couleur d'accent héritée) ; `data-cat`, lui, pilote
+// les puces de filtre `.navf[data-cat]` et les compteurs. Même partage que `data-acc` et le badge
+// `.accb`, donc même exigence : les deux doivent désigner la même catégorie.
+const RX_SECTION = /<section id="c(\d+)"([^>]*)>/g;
+
+// La table `MOVES` du script inline : la recatégorisation que le site applique AU CHARGEMENT, après
+// coup, sur des cartes déjà écrites. Elle contredit commands/help.js par construction — c'est sa raison
+// d'être — donc on ne la compare pas à help.js : on l'ATTESTE. Cf. l'en-tête, « LE POINT DUR ».
+const RX_MOVES = /var\s+MOVES\s*=\s*\{([^}]*)\}\s*;/;
+
 function cartesDe(html) {
   const noms = [];
   const detail = [];
@@ -137,6 +205,17 @@ function cartesDe(html) {
   let m;
   const bornes = [];
   while ((m = RX_CARTE.exec(html))) bornes.push({ tag: m[0], index: m.index });
+  // Les sections de catégorie, dans l'ordre du fichier. docs-build.js écrit `<section id="cN">` et
+  // `data-cat="N"` dans le MÊME `map`, avec le même `i` : dans un fichier généré, la section qui
+  // contient une carte EST sa catégorie. Toute divergence est donc une retouche à la main.
+  RX_SECTION.lastIndex = 0;
+  const sections = [];
+  let s;
+  while ((s = RX_SECTION.exec(html))) sections.push({ idx: Number(s[1]), index: s.index, cc: ((s[2].match(/--cc:\s*([^;"]+)/) || [])[1] || '').trim() });
+  // Section CONTENANTE d'une position : la dernière ouverte avant elle. Les sections de docs-build sont
+  // sœurs et jamais imbriquées, donc « la dernière ouverte » est exact. Une carte écrite AVANT la
+  // première section rend `null` — un signal, pas un repli silencieux.
+  const sectionDe = (pos) => { let trouvee = null; for (const x of sections) { if (x.index < pos) trouvee = x; else break; } return trouvee; };
   for (let i = 0; i < bornes.length; i++) {
     balises++;
     const b = bornes[i];
@@ -148,15 +227,20 @@ function cartesDe(html) {
     const fin = i + 1 < bornes.length ? bornes[i + 1].index : html.length;
     const seg = html.slice(b.index + b.tag.length, fin);
     const badge = seg.match(RX_BADGE);
+    const sec = sectionDe(b.index);
     detail.push({
       nom: t[1],
       acc: (b.tag.match(/data-acc="([^"]*)"/) || [])[1] || null,
+      cat: (b.tag.match(/data-cat="([^"]*)"/) || [])[1] || null,
+      couleur: (b.tag.match(/data-c="([^"]*)"/) || [])[1] || null,
+      section: sec ? sec.idx : null,
+      sectionCouleur: sec ? sec.cc : null,
       badgeClasse: badge ? badge[1] : null,
       badgeCle: badge ? badge[2] : null,
       badgeTexte: badge ? badge[3] : null,
     });
   }
-  return { noms, balises, sansNom, detail };
+  return { noms, balises, sansNom, detail, sections };
 }
 
 // Les quatre libellés de niveau d'accès, RELUS DANS LA PAGE (dictionnaire du script inline) plutôt
@@ -179,6 +263,25 @@ function dateChangelog(html) {
   if (!m) return null;
   return m[1].replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
 }
+
+// Lecture de la table MOVES. TROIS issues, distinctes exprès :
+//   {}    → aucun déplacement déclaré. C'est l'état NORMAL une fois que help.js range tout lui-même
+//           (le site l'écrit : « No-op automatique quand le bot rangera ces commandes »). Pas une anomalie.
+//   objet → les déplacements lus : nom → index de destination.
+//   null  → `var MOVES={…}` est bien là, mais aucune paire n'a pu en être lue. Le navigateur, lui,
+//           continue de déplacer : croire « aucun déplacement » serait valider une page qu'on ne
+//           comprend plus. Panne nommée, pas silence.
+function deplacementsDuSite(html) {
+  const m = html.match(RX_MOVES);
+  if (!m) return {};
+  const out = {};
+  for (const p of m[1].matchAll(/(\w+)\s*:\s*'(\d+)'/g)) out[p[1]] = Number(p[2]);
+  return Object.keys(out).length ? out : null;
+}
+
+// Signature stable d'une table de déplacements : comparer le LU et l'ATTESTÉ sans dépendre de l'ordre
+// des clés ni du type (le site écrit '5', le manifeste 5).
+const signatureDeplacements = (o) => Object.keys(o || {}).sort().map((n) => n + '→c' + Number(o[n])).join(' ') || '(aucun)';
 
 // Zone où une mention « N commandes » est une PROMESSE FAITE AU LECTEUR (meta description, JSON-LD,
 // FAQ), par opposition aux mentions HISTORIQUES qui doivent rester telles quelles.
@@ -263,6 +366,60 @@ function paliersDuBot(racineBot) {
   return mod.exports.commandLevel;
 }
 
+// LA CATÉGORIE D'UNE COMMANDE — lue à la source, et son INDEX recalculé par la règle du générateur.
+//
+// `commands/help.js` porte la table `CATEGORIES`. Ce n'est pas un rangement d'affichage : `systems/
+// permissions.js` require ce même fichier et ferme TOUS les noms de « 🛡️ Sécurité & Antiraid » et
+// « 👑 Owner du bot » (`CATEGORIES_FERMEES`) — 89 commandes qu'aucun `+customperm` ne rouvre. Une carte
+// mal rangée ne se contente pas de mal s'afficher : elle raconte la mauvaise porte.
+//
+// L'INDEX 0..6 n'est écrit NULLE PART dans help.js. Il naît de la règle de tools/docs-build.js:119-130,
+// rejouée ici à l'identique. Recopier une numérotation à la main, c'est le défaut réparé le 30/08 sur
+// les badges d'accès. Le bloc est extrait par le MÊME motif que docs-build.js puis évalué comme littéral
+// statique de notre propre code — dans un contexte `vm` plutôt qu'avec `eval`, seule différence.
+const CAT_ORDER_DOCS_BUILD = ['Sécurité & Antiraid', 'Configuration', 'Owner du bot', 'Modération', 'Automod', 'Général', 'Niveaux', 'Communauté', 'Fun', 'Autres'];
+
+function categoriesDuBot(racineBot, vivantes) {
+  const fichier = path.resolve(racineBot, 'commands', 'help.js');
+  if (!fs.existsSync(fichier)) throw new Error('commands/help.js introuvable dans le dépôt du bot — impossible d\'attester la catégorie des cartes.');
+  const bloc = (fs.readFileSync(fichier, 'utf8').match(/const CATEGORIES = (\{[\s\S]*?\n\});/) || [])[1];
+  if (!bloc) throw new Error('la table « const CATEGORIES = {…}; » a changé de forme dans commands/help.js : tools/docs-build.js ne la lira plus non plus (il l\'extrait avec le MÊME motif, et le site retomberait à une seule carte). Adapte les deux avant d\'attester.');
+  let CATEGORIES;
+  try { CATEGORIES = vm.runInNewContext('(' + bloc + ')'); }
+  catch (e) { throw new Error('la table CATEGORIES de commands/help.js ne s\'évalue plus comme un littéral statique (' + e.message + ') — un appel de fonction en position de clé ferait planter tools/docs-build.js de la même façon.'); }
+
+  // ── Rejeu EXACT de tools/docs-build.js:119-130 : ordre d'insertion, catégories vides écartées,
+  //    « Autres » en queue, puis le tri par CAT_ORDER.
+  const connues = new Set(vivantes);
+  const used = new Set();
+  const sections = [];
+  for (const [cat, noms] of Object.entries(CATEGORIES)) {
+    const list = noms.filter((n) => connues.has(n));
+    for (const n of list) used.add(n);
+    if (list.length) sections.push({ cat, list });
+  }
+  const autres = vivantes.filter((n) => !used.has(n));
+  if (autres.length) sections.push({ cat: 'Autres', list: autres });
+  sections.sort((a, b) => { const ia = CAT_ORDER_DOCS_BUILD.indexOf(a.cat), ib = CAT_ORDER_DOCS_BUILD.indexOf(b.cat); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
+
+  // ── Planchers de plausibilité — même rôle que `maigres` pour les paliers : transformer une panne
+  //    silencieuse en échec nommé, plutôt qu'attester une numérotation qu'on n'a pas calculée.
+  if (sections.length < 5) {
+    throw new Error('seulement ' + sections.length + ' catégorie(s) extraites de commands/help.js — la table n\'a pas été lue telle qu\'elle est. On n\'atteste pas une catégorie qu\'on n\'a pas vraiment calculée.');
+  }
+  if (autres.length) {
+    throw new Error(autres.length + ' commande(s) documentables ne sont dans AUCUNE catégorie de commands/help.js : '
+      + autres.slice(0, 12).map((n) => '+' + n).join(' ') + (autres.length > 12 ? ' …' : '')
+      + '. tools/docs-build.js les rangerait dans « Autres » — or « Autres » est le SEUL nom encore reconnu par son CAT_ORDER (les sept autres ont pris un emoji et n\'y sont plus trouvés), donc le tri le remonterait EN TÊTE : la section c0 deviendrait « Autres » et les sept index glisseraient d\'un cran, invalidant d\'un coup les ' + vivantes.length + ' `data-cat` de la page. Range-les dans help.js avant d\'attester.');
+  }
+
+  const index = {};
+  sections.forEach((s, i) => { for (const n of s.list) index[n] = i; });
+  const sansIndex = vivantes.filter((n) => !Number.isInteger(index[n]));
+  if (sansIndex.length) throw new Error(sansIndex.length + ' commande(s) sans index de catégorie après le rejeu de docs-build.js (' + sansIndex.slice(0, 8).map((n) => '+' + n).join(' ') + ') — la règle d\'ordre a divergé, adapte categoriesDuBot() avant d\'attester.');
+  return { index, ordre: sections.map((s) => s.cat) };
+}
+
 function commandesDuBot(racineBot) {
   const CMD = path.join(racineBot, 'commands');
   if (!fs.existsSync(CMD)) throw new Error('« ' + racineBot + ' » ne contient pas commands/ — ce n\'est pas la racine du dépôt du bot.');
@@ -329,7 +486,10 @@ function commandesDuBot(racineBot) {
       + ' compte(nt) moins de 3 commandes. Les tables de systems/permissions.js n\'ont probablement pas été lues — on n\'atteste pas un niveau d\'accès qu\'on n\'a pas vraiment calculé.');
   }
 
-  return { vivantes, muettes, sansMetadonnees, compteGenerateur, acces };
+  // ── LA CATÉGORIE, commande par commande, et l'ORDRE des sections qui lui donne son index.
+  const { index: categories, ordre: ordreCategories } = categoriesDuBot(racineBot, vivantes);
+
+  return { vivantes, muettes, sansMetadonnees, compteGenerateur, acces, categories, ordreCategories };
 }
 
 // ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -348,7 +508,7 @@ function verifier(opts) {
   };
 
   const html = fs.readFileSync(PAGE, 'utf8');
-  const { noms, balises, sansNom, detail } = cartesDe(html);
+  const { noms, balises, sansNom, detail, sections } = cartesDe(html);
 
   // — Garde-fou du garde lui-même. Si le balisage des cartes change, le motif ne reconnaît plus rien
   //   et TOUS les contrôles qui suivent deviennent creux : « 0 carte, 0 divergence, tout va bien ».
@@ -360,6 +520,14 @@ function verifier(opts) {
       'Tant que ce point est rouge, aucun autre contrôle de ce fichier n\'a de valeur.');
   }
   if (sansNom) ko(sansNom + ' carte(s) sans attribut data-n', 'Une carte sans nom est invisible pour ce garde comme pour la recherche du site.');
+  // — Même plancher, pour les sections. Sans elles, `section` vaut `null` sur toutes les cartes et le
+  //   contrôle de catégorie bascule soit en centaines de reproches, soit — pire — en silence.
+  if (sections.length < 3) {
+    ko('Le motif de reconnaissance des sections de catégorie ne reconnaît plus la page',
+      sections.length + ' balise(s) <section id="cN"> trouvée(s) — le catalogue en compte une par catégorie.',
+      'Soit les sections ont changé de balisage, soit elles ont disparu : adapte RX_SECTION dans .github/check-commands.js.',
+      'Tant que ce point est rouge, le contrôle des catégories ne vaut rien.');
+  }
   const doublons = [...new Set(noms.filter((n, i) => noms.indexOf(n) !== i))];
   if (doublons.length) ko('Commande documentée par PLUSIEURS cartes', ...doublons.map((n) => '  ✗ +' + n));
 
@@ -452,6 +620,111 @@ function verifier(opts) {
       }
     }
 
+    // ── Maillon (3 ter) : LA CATÉGORIE DE CHAQUE CARTE.
+    //   Trois choses doivent s'accorder, et aucune n'était regardée : la catégorie ATTESTÉE (celle de
+    //   commands/help.js, index recalculé par la règle de docs-build.js), l'attribut `data-cat` (puces
+    //   de filtre et compteurs), et la `<section id="cN">` qui contient PHYSIQUEMENT la carte (le titre
+    //   sous lequel l'œil la trouve, et la couleur d'accent qu'elle en hérite).
+    //   Pour la table MOVES et le choix qu'elle impose, voir « LE POINT DUR » dans l'en-tête.
+    const cats = man.categories;
+    if (!cats || typeof cats !== 'object') {
+      ko('Le manifeste n\'atteste AUCUNE catégorie',
+        'Ce manifeste est antérieur au contrôle des catégories (`categories` absent). Le laisser passer rendrait ce contrôle INERTE — précisément le défaut qu\'il ferme.',
+        'Ré-atteste : node .github/check-commands.js --bot .. --write');
+    } else {
+      const ordreCat = Array.isArray(att.ordreCategories) ? att.ordreCategories : null;
+      const nomCat = (i) => (ordreCat && ordreCat[i] ? '« ' + ordreCat[i] + ' » (c' + i + ')' : 'c' + i);
+
+      const sansCat = attendues.filter((n) => !Number.isInteger(cats[n]));
+      const catEnTrop = Object.keys(cats).filter((n) => !attendues.includes(n));
+      if (sansCat.length || catEnTrop.length) {
+        ko('Manifeste incohérent avec lui-même (catégories)',
+          ...(sansCat.length ? ['  ✗ ' + sansCat.length + ' commande(s) sans catégorie attestée : ' + sansCat.slice(0, 12).map((n) => '+' + n).join(' ')] : []),
+          ...(catEnTrop.length ? ['  ✗ ' + catEnTrop.length + ' catégorie(s) pour une commande absente de la liste : ' + catEnTrop.slice(0, 12).map((n) => '+' + n).join(' ')] : []),
+          'Un manifeste retouché à la main ne prouve plus rien : ré-atteste-le depuis le dépôt du bot.');
+      }
+
+      // ── La table MOVES : lue dans la page, confrontée à l'attestation, et tenue de rester UTILE.
+      const mvLus = deplacementsDuSite(html);
+      const mvAtt = (att.deplacementsDuSite && typeof att.deplacementsDuSite === 'object') ? att.deplacementsDuSite : {};
+      if (mvLus === null) {
+        ko('La table MOVES du site est présente mais ILLISIBLE',
+          'Un `var MOVES={…}` est bien dans index.html, mais aucune paire nom/index n\'a pu en être lue.',
+          'Le navigateur, lui, continue de déplacer des cartes : ce garde croirait « aucun déplacement » et validerait une page qu\'il ne comprend plus.',
+          'Adapte RX_MOVES dans .github/check-commands.js, ou répare la table.');
+      } else {
+        if (signatureDeplacements(mvLus) !== signatureDeplacements(mvAtt)) {
+          ko('La recatégorisation appliquée par le site a changé sans ré-attestation',
+            'index.html applique : ' + signatureDeplacements(mvLus),
+            'le manifeste atteste  : ' + signatureDeplacements(mvAtt),
+            'MOVES change la catégorie que voit le VISITEUR sans toucher à `data-cat`. La modifier sans rouvrir commands/help.js,',
+            'c\'est la dérive du 11/08/2026 refaite : ré-atteste — ou mieux, range la commande dans help.js et supprime le déplacement.',
+            '  node .github/check-commands.js --bot .. --write');
+        }
+        for (const [n, vers] of Object.entries(mvLus)) {
+          const c = detail.find((x) => x.nom === n);
+          if (!c) {
+            ko('Déplacement FANTÔME : MOVES déplace +' + n + ', qui n\'a aucune carte',
+              'Le script tourne dans le vide à chaque chargement. C\'est le défaut de la liste d\'exclusions par noms de cmdtests.js :',
+              'elle ne se plaint pas quand sa cible disparaît, puis agit sur autre chose le jour où le nom revit.');
+          } else if (Number(c.cat) === vers) {
+            ko('Déplacement MORT : MOVES envoie +' + n + ' vers ' + nomCat(vers) + ', où la carte est DÉJÀ',
+              'Le site l\'annonce lui-même : « No-op automatique quand le bot rangera ces commandes ». C\'est fait — retire l\'entrée de MOVES',
+              'et ré-atteste, sinon la liste des exceptions grossit et plus personne ne sait lesquelles servent encore.');
+          }
+          if (!sections.some((x) => x.idx === vers)) {
+            ko('Déplacement IMPOSSIBLE : MOVES envoie +' + n + ' vers c' + vers + ', section absente de la page',
+              'Le script sort sur son `if(!grid)return` : la carte reste où elle est, en silence, et le visiteur voit une catégorie que personne n\'a voulue.');
+          }
+        }
+      }
+
+      const mauvaises = [];   // help.js ≠ ce que le générateur a écrit
+      const bancalesCat = []; // `data-cat`, section physique et couleur ne disent pas tous la même chose
+      for (const c of detail) {
+        const vraie = cats[c.nom];
+        // ── LE CRÉDIT DE MOVES. La catégorie EFFECTIVE d'une carte n'est pas `data-cat` : c'est celle
+        //    que voit le VISITEUR une fois le script de recatégorisation passé (il réécrit `dataset.cat`,
+        //    réaligne `data-c` sur le `--cc` d'arrivée et déplace le nœud). MOVES existe pour COMPENSER un
+        //    `data-cat` périmé pendant que commands/help.js, lui, a déjà rangé la commande ailleurs :
+        //    confronter `data-cat` BRUT à help.js rougissait donc les cartes que MOVES met précisément
+        //    D'ACCORD avec help.js — un rouge à perpétuité que personne ne peut éteindre, donc un garde mort.
+        //    Le déplacement n'est crédité que s'il a lieu POUR DE VRAI : le script sort sur son `if(!grid)return`
+        //    quand la section de destination manque, et la carte reste alors sur son `data-cat`.
+        const dest = (mvLus && Object.prototype.hasOwnProperty.call(mvLus, c.nom)) ? mvLus[c.nom] : null;
+        const deplacee = dest !== null && sections.some((x) => x.idx === dest);
+        const catEff = deplacee ? dest : Number(c.cat);
+        if (!Number.isInteger(vraie)) continue;      // commande hors manifeste : déjà signalée plus haut
+        if (c.cat === null) { bancalesCat.push('  ✗ +' + c.nom + ' — aucun attribut data-cat : la carte échappe à toutes les puces de filtre'); continue; }
+        if (c.section === null) { bancalesCat.push('  ✗ +' + c.nom + ' — carte écrite en dehors de toute <section id="cN"> : elle s\'affiche sans titre de catégorie'); continue; }
+        if (Number(c.cat) !== c.section) {
+          bancalesCat.push('  ✗ +' + c.nom + ' — data-cat="' + c.cat + '" (' + nomCat(Number(c.cat)) + ') mais la carte est écrite dans c' + c.section + ' (' + nomCat(c.section) + ')');
+        } else if (c.couleur && c.sectionCouleur && c.couleur !== c.sectionCouleur) {
+          bancalesCat.push('  ✗ +' + c.nom + ' — data-c="' + c.couleur + '" alors que ' + nomCat(c.section) + ' porte --cc:' + c.sectionCouleur);
+        } else if (catEff !== vraie) {
+          mauvaises.push('  ✗ +' + c.nom + ' — ' + (deplacee ? 'MOVES la range dans ' + nomCat(catEff) + ' (data-cat="' + c.cat + '")' : 'la carte la range dans ' + nomCat(catEff)) + ', commands/help.js la range dans ' + nomCat(vraie));
+        }
+      }
+      if (bancalesCat.length) {
+        ko(bancalesCat.length + ' carte(s) dont la catégorie se contredit ELLE-MÊME',
+          ...bancalesCat.slice(0, 40),
+          ...(bancalesCat.length > 40 ? ['  … et ' + (bancalesCat.length - 40) + ' autre(s)'] : []),
+          '`data-cat` pilote les puces de filtre et les compteurs, la <section> donne le titre et la couleur d\'accent :',
+          'une carte dont les deux divergent s\'affiche sous un titre et disparaît quand on clique sur ce même titre.');
+      }
+      if (mauvaises.length) {
+        ko(mauvaises.length + ' carte(s) sont rangées dans une CATÉGORIE FAUSSE',
+          ...mauvaises.slice(0, 40),
+          ...(mauvaises.length > 40 ? ['  … et ' + (mauvaises.length - 40) + ' autre(s)'] : []),
+          'La catégorie n\'est pas un rangement d\'affichage : systems/permissions.js require commands/help.js et ferme TOUS les noms de',
+          '« Sécurité & Antiraid » et « Owner du bot » — 89 commandes qu\'aucun +customperm ne peut rouvrir. Sortir une carte de ces deux',
+          'catégories laisse croire qu\'on peut en déléguer l\'accès ; l\'y faire entrer promet un verrou qui n\'existe pas.',
+          'Si le déplacement est VOULU côté site, il passe par la table MOVES d\'index.html — elle est CRÉDITÉE ici : une carte',
+          'que MOVES range là où help.js la range est acceptée, `data-cat` périmé compris. Mais MOVES n\'ACHÈTE pas une',
+          'catégorie que help.js refuse : ici, ré-attester la table ne suffit pas — il faut rouvrir commands/help.js.');
+      }
+    }
+
     // ── Maillon (2) : le compte du manifeste face à la voix du bot déjà présente dans ce dépôt.
     let stats = null;
     try { stats = JSON.parse(fs.readFileSync(STATS, 'utf8')); } catch (e) { ko('stats.json illisible', e.message); }
@@ -503,6 +776,8 @@ function verifier(opts) {
     console.log('   (local) dépôt du bot lu : ' + b.vivantes.length + ' commandes documentables, ' + b.muettes.length + ' muettes, ' + b.sansMetadonnees.length + ' fichier(s) hors catalogue. Compte confirmé par tools/docs-build.js.');
     console.log('   (local) portes réelles (systems/permissions.js exécuté, `ownerOnly` relus, branche owner du répartiteur assertée) : '
       + ['owner', 'admin', 'staff', 'all'].map((t) => (rep[t] || 0) + ' ' + t).join(' · ') + '.');
+    console.log('   (local) catégories (table CATEGORIES de commands/help.js, ordre rejoué depuis tools/docs-build.js) : '
+      + b.ordreCategories.map((c, i) => 'c' + i + ' ' + c).join(' · ') + '.');
     if (man && Array.isArray(man.commandes)) {
       const nouvelles = b.vivantes.filter((n) => !man.commandes.includes(n));
       const disparues = man.commandes.filter((n) => !b.vivantes.includes(n));
@@ -518,6 +793,10 @@ function verifier(opts) {
       }
     }
     if (opts.write) {
+      // La table MOVES est SITE-side : elle vit dans ce dépôt, mais on la fige au moment de
+      // l'attestation pour qu'on ne puisse pas en ajouter une sans rouvrir le dépôt du bot.
+      const mvEcrire = deplacementsDuSite(html);
+      if (mvEcrire === null) throw new Error('la table MOVES d\'index.html est présente mais illisible (RX_MOVES n\'y trouve aucune paire) : on n\'atteste pas une recatégorisation qu\'on ne sait pas lire.');
       const contenu = {
         _lisezMoi: 'Manifeste ATTESTÉ des commandes du bot Hasu Protect. Produit UNIQUEMENT par « node .github/check-commands.js --bot <racine du bot> --write », qui lit réellement commands/ et croise son compte avec tools/docs-build.js. Ne le retouche pas à la main : le contrôle .github/check-commands.js compare `commandes.length` à `attestation.nombre` et à stats.json, et une retouche se voit.',
         attestation: {
@@ -525,12 +804,23 @@ function verifier(opts) {
           source: 'commands/*.js + i18n/fr.json du dépôt du bot, règles d\'extraction de tools/docs-build.js',
           compteConfirmeParLeGenerateur: b.compteGenerateur,
           changelogDuSite: dateChangelog(html),
+          // L'ORDRE des sections au moment de l'attestation : il donne un NOM aux index 0..6 dans les
+          // messages d'erreur, et un renumérotage devient visible dans le diff du manifeste.
+          ordreCategories: b.ordreCategories,
+          // La recatégorisation appliquée par le site AU CHARGEMENT, figée ici. C'est la seule table
+          // autorisée à contredire help.js ; l'attester rend impossible d'en ajouter une en silence.
+          deplacementsDuSite: mvEcrire,
           nombre: b.vivantes.length,
         },
         commandes: b.vivantes,
         // Niveau d'accès RÉEL, calculé en exécutant systems/permissions.js du bot (jamais recopié) :
         // owner · admin · staff · all. C'est ce que le badge de chaque carte doit annoncer.
         acces: b.acces,
+        // Catégorie RÉELLE (index 0..6), obtenue en rejouant la règle d'ordre de tools/docs-build.js sur
+        // la table CATEGORIES de commands/help.js. C'est ce que `data-cat` et la <section id="cN"> de
+        // chaque carte doivent dire — la catégorie n'étant pas un rangement mais la liste dont
+        // systems/permissions.js se sert pour fermer 89 commandes.
+        categories: b.categories,
         nonDocumentees: b.muettes,
         horsCatalogue: b.sansMetadonnees,
       };
@@ -564,7 +854,8 @@ function main(argv) {
   if (r.ecrit) return 0;
   if (!r.erreurs.length) {
     console.log('✅ Catalogue : ' + r.cartes.length + ' cartes, une par commande du manifeste attesté, la page annonce le même chiffre,');
-    console.log('   et chaque carte annonce le niveau d\'accès RÉEL de sa commande (data-acc + badge visible).');
+    console.log('   chaque carte annonce le niveau d\'accès RÉEL de sa commande (data-acc + badge visible),');
+    console.log('   et sa catégorie RÉELLE (data-cat + <section id="cN">), aux déplacements MOVES attestés près.');
     return 0;
   }
   console.error('❌ LE SITE NE DIT PAS LA VÉRITÉ SUR LES COMMANDES DU BOT — ' + r.erreurs.length + ' point(s) :');
@@ -572,11 +863,12 @@ function main(argv) {
     console.error('\n• ' + e.titre);
     for (const l of e.lignes) console.error('  ' + l);
   }
-  console.error('\nRappel : ce contrôle juge l\'ENSEMBLE DES NOMS et le NIVEAU D\'ACCÈS. Le reste du contenu des');
-  console.error('cartes (usage, description, alias, catégorie, traduction EN) n\'est couvert par aucun garde de ce dépôt.');
+  console.error('\nRappel : ce contrôle juge l\'ENSEMBLE DES NOMS, le NIVEAU D\'ACCÈS et la CATÉGORIE (data-cat, section');
+  console.error('physique, table MOVES attestée). Le reste du contenu des cartes (usage, description, alias, traduction EN)');
+  console.error('n\'est couvert par aucun garde de ce dépôt.');
   return 1;
 }
 
-module.exports = { cartesDe, libellesAcces, zoneProse, promessesChiffrees, dateChangelog, paliersDuBot, commandesDuBot, verifier, main };
+module.exports = { cartesDe, libellesAcces, zoneProse, promessesChiffrees, dateChangelog, deplacementsDuSite, paliersDuBot, categoriesDuBot, commandesDuBot, verifier, main };
 
 if (require.main === module) process.exit(main(process.argv.slice(2)));
