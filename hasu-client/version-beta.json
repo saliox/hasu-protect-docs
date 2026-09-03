@@ -1,6 +1,6 @@
-{
-    "sha256":  "6e236c2dd88d30cc53260f06f59545b48c96e97e60a20b06b0d5e3d8792dbf91",
+﻿{
+    "sha256":  "029f9156d0abbb1c7593481a2ca5b4147b27b02032c8020caab6f64ff85a9821",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.71.0",
-    "notes":  "2e lot qualite 1.20.1 (audit, 12 corrections) : fix tags d\u0027equipe absents 10 min si demarrage hors-ligne (retry 15s), fuites connexion reseau colmatees, perf HUD/modules/halo memoises, et surtout TOUTE la geometrie des menus centralisee + verrouillee par tests d\u0027invariants (plus de bug d\u0027affichage silencieux). Code mort/duplications supprimes. 47 tests, 100% logique pure. Aucun changement visible voulu."
+    "version":  "1.72.0",
+    "notes":  "1.20.1 : fix rendu des cosmetiques TRANSLUCIDES (ailes fee/papillon/dragon, halo) - ils etaient dessines avant l\u0027affichage du corps du joueur (Tesselator immediat pendant que le joueur est encore bufferise a RenderPlayerEvent.Post) -\u003e on voyait le decor au travers + occlusion fausse. Flush du buffer avant nos dessins. Opaques inchanges (deja corrects). Cause racine + correctif cible."
 }
