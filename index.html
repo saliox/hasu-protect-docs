@@ -117,13 +117,13 @@ header p{color:var(--mut);margin:.5rem 0 0}
 .gnext{font-size:.72rem;color:var(--mut);text-align:center;margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
 #search{width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:16px;margin:8px 0 22px}
 #search:focus{outline:none;border-color:var(--purple)}
-.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:26px;align-items:stretch}@media(max-width:640px){.nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .nav a{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--cc,var(--line));border-radius:8px;padding:6px 12px;font-size:.9rem;color:var(--txt)}
 .nav a:hover{border-color:var(--cc,var(--gold));border-left-color:var(--cc,var(--gold))}
 /* Puces de filtre : catégorie (une à la fois) + niveau d'accès. Actives = pleines / teintées à la couleur du filtre. */
 #catnav{margin-bottom:10px}
 .accnav{align-items:center}
-.navlbl{font-size:.82rem;color:var(--mut);align-self:center;margin-right:2px}
+.navlbl{grid-column:1/-1;font-size:.82rem;color:var(--mut);margin:0 0 2px}
 .navf,.accf{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--cc,var(--line));border-radius:8px;padding:6px 12px;font-size:.9rem;color:var(--txt);cursor:pointer;font-family:inherit;line-height:1.2}
 .navf:hover,.accf:hover{border-color:var(--cc,var(--gold));border-left-color:var(--cc,var(--gold))}
 .navf.active{background:var(--cc,var(--gold));color:#000000;border-color:var(--cc,var(--gold));font-weight:700}
