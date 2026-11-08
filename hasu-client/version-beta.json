@@ -1,6 +1,6 @@
-{
-    "sha256":  "e51621aad3e65d30c45f2277f14ecbd49d891307a2eca81a7fed1dc3786721ad",
+﻿{
+    "sha256":  "253c1ff2bd4f4347e28fef88902bd4cae90ede509933c10f669cc26b0beccc76",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.73.0",
-    "notes":  "Durcissement securite (audit du launcher) : auto-update exige TOUJOURS l\u0027empreinte SHA-256 avant d\u0027installer (plus d\u0027installeur admin non verifie) ; extraction des natifs protegee Zip Slip. Auth MS (PKCE), token (DPAPI), telechargements Mojang (SHA-1) verifies deja solides. Aucun changement visible."
+    "version":  "1.74.0",
+    "notes":  "Suite audit launcher : (1) SharedConfigSync - les modules changes en 1.20.1 ne sont plus ecrases par la 1.8.9 (newest-wins, dev-only) ; (2) ForgeInstaller verifie la SHA-1 des libs Forge quand le manifeste en fournit une. Durcissement, aucun changement visible."
 }
