@@ -1,6 +1,6 @@
-{
-    "sha256":  "029f9156d0abbb1c7593481a2ca5b4147b27b02032c8020caab6f64ff85a9821",
+﻿{
+    "sha256":  "e51621aad3e65d30c45f2277f14ecbd49d891307a2eca81a7fed1dc3786721ad",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.72.0",
-    "notes":  "1.20.1 : fix rendu des cosmetiques TRANSLUCIDES (ailes fee/papillon/dragon, halo) - ils etaient dessines avant l\u0027affichage du corps du joueur (Tesselator immediat pendant que le joueur est encore bufferise a RenderPlayerEvent.Post) -\u003e on voyait le decor au travers + occlusion fausse. Flush du buffer avant nos dessins. Opaques inchanges (deja corrects). Cause racine + correctif cible."
+    "version":  "1.73.0",
+    "notes":  "Durcissement securite (audit du launcher) : auto-update exige TOUJOURS l\u0027empreinte SHA-256 avant d\u0027installer (plus d\u0027installeur admin non verifie) ; extraction des natifs protegee Zip Slip. Auth MS (PKCE), token (DPAPI), telechargements Mojang (SHA-1) verifies deja solides. Aucun changement visible."
 }
