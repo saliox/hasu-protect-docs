@@ -1,6 +1,6 @@
 {
-    "sha256":  "029f9156d0abbb1c7593481a2ca5b4147b27b02032c8020caab6f64ff85a9821",
+    "sha256":  "253c1ff2bd4f4347e28fef88902bd4cae90ede509933c10f669cc26b0beccc76",
     "url":  "https://github.com/saliox/hasu-client/releases/latest/download/HasuLauncher-Setup.exe",
-    "version":  "1.72.0",
-    "notes":  "1.20.1 : fix rendu des cosmetiques TRANSLUCIDES (ailes fee/papillon/dragon, halo) - ils etaient dessines avant l\u0027affichage du corps du joueur (Tesselator immediat pendant que le joueur est encore bufferise a RenderPlayerEvent.Post) -\u003e on voyait le decor au travers + occlusion fausse. Flush du buffer avant nos dessins. Opaques inchanges (deja corrects). Cause racine + correctif cible."
+    "version":  "1.74.0",
+    "notes":  "Suite audit launcher : (1) SharedConfigSync - les modules changes en 1.20.1 ne sont plus ecrases par la 1.8.9 (newest-wins, dev-only) ; (2) ForgeInstaller verifie la SHA-1 des libs Forge quand le manifeste en fournit une. Durcissement, aucun changement visible."
 }
