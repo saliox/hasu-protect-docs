@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://rapid-sound-6a32.teamfunnysgames.workers.dev" crossorigin><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-kGhWh5ue5Rrg0zReNStiO5TXZYgBTbXcbT2qSOXxC4c='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://rapid-sound-6a32.teamfunnysgames.workers.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-mDS8xuIGwwi/j7TKbTc/n4hc0SZ0qAjFgn6Jk/kITPQ='; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://rapid-sound-6a32.teamfunnysgames.workers.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 262 commandes — documentation complète et interactive.">
@@ -1754,7 +1754,7 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
       <div class="usage">+watchdog [add &lt;nom&gt;|remove &lt;nom&gt;]</div>
       <div class="cmd-foot"><span class="tap" data-i18n="simhint">👆 Clique pour voir une simulation</span><button class="cpy" type="button" data-i18n="copy" aria-label="Copier la commande">⧉ Copier</button></div>
     </div></div></section>
-  <div class="empty" id="empty" data-i18n="empty">Aucune commande ne correspond. 🤷</div>
+  <div class="empty" id="empty" role="status" aria-live="polite" data-i18n="empty">Aucune commande ne correspond. 🤷</div>
   <section id="faq" class="faq"><h2 class="cat"><span data-i18n="faqT">❓ Questions fréquentes</span></h2>
    <details class="fq"><summary><span data-lang="fr">Quelles permissions faut-il donner au bot ?</span><span data-lang="en">Which permissions does the bot need?</span></summary><div class="fqa"><span data-lang="fr">Le lien d’invitation demande « Administrateur » : pour stopper un nuke, le bot doit pouvoir agir sur les rôles, salons, webhooks et bannissements <b>plus vite que l’attaquant</b>, sans jamais être bloqué par une permission manquante. Après l’installation, <code>+scan</code> te dit si quelque chose cloche.</span><span data-lang="en">The invite link asks for “Administrator”: to stop a nuke, the bot must act on roles, channels, webhooks and bans <b>faster than the attacker</b>, without ever being blocked by a missing permission. After setup, <code>+scan</code> tells you if anything is off.</span></div></details>
    <details class="fq"><summary><span data-lang="fr">Le bot est-il gratuit ?</span><span data-lang="en">Is the bot free?</span></summary><div class="fqa"><span data-lang="fr">Oui — les 262 commandes sont accessibles gratuitement. Pour soutenir le bot, tu peux voter sur top.gg (<code>+vote</code>, gratuit, toutes les 12 h).</span><span data-lang="en">Yes — all 262 commands are free to use. To support the bot, you can vote on top.gg (<code>+vote</code>, free, every 12h).</span></div></details>
@@ -2256,7 +2256,7 @@ function upVerdict(d,now){
  if(d.generated&&now-d.generated>21600000)return{ok:false,why:'stale'};
  var exp=d.expectedPerHour||30,cells=[],tot=0,obs=0;
  for(var i=0;i<d.hours.length;i++){
-  var t=d.hours[i][0],c=d.hours[i][1];
+  var row=d.hours[i]||[],t=row[0],c=row[1];
   if(c==null){cells.push({t:t,c:null,cls:''});continue;}
   obs++;tot+=Math.min(c,exp);
   cells.push({t:t,c:c,cls:c>=exp*0.9?'u':(c>0?'p':'d')});}
@@ -2643,7 +2643,7 @@ function favGet(){try{var f=JSON.parse(localStorage.getItem('favCmds')||'[]');re
 function favSet(f){try{localStorage.setItem('favCmds',JSON.stringify(f));}catch(e){}}
 function favBar(){var bar=document.getElementById('favbar');
  if(!bar){bar=document.createElement('div');bar.id='favbar';bar.className='favbar';
-  var cn=document.getElementById('catnav');cn.parentNode.insertBefore(bar,cn);}
+  var cn=document.getElementById('catnav');if(!cn)return;cn.parentNode.insertBefore(bar,cn);}
  var f=favGet();bar.innerHTML='';
  if(!f.length){bar.classList.remove('show');return;}
  var l=document.createElement('span');l.className='navlbl';l.setAttribute('data-i18n','favLabel');l.textContent=tr('favLabel');bar.appendChild(l);
@@ -2808,7 +2808,7 @@ document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;
 // ═══ 📈 PANNEAU RÉSEAU : courbes 30 j (serveurs/membres, relevés horaires de l'Action uptime) +
 // avis 👍/👎 agrégés (relevé quotidien). Données sur la branche uptime ; panneau masqué sans données.
 var __netG=null,__netV=null;
-function sparkline(pts,get){var vals=pts.map(get).filter(function(v){return v!=null&&isFinite(v);});
+function sparkline(pts,get){if(!Array.isArray(pts))return null;var vals=pts.filter(function(x){return x&&typeof x==='object';}).map(get).filter(function(v){return v!=null&&isFinite(v);});
  if(vals.length<2)return null;
  var min=Math.min.apply(null,vals),max=Math.max.apply(null,vals),span=(max-min)||1;
  var W=260,H=56,step=W/(vals.length-1);
@@ -2843,9 +2843,9 @@ function renderNet(){var aside=document.querySelector('.side');if(!aside)return;
   var byFlop=keys.slice().sort(function(a,b){return (V[b][1]/(V[b][0]+V[b][1]))-(V[a][1]/(V[a][0]+V[a][1]))||V[b][1]-V[a][1];}).filter(function(k){return V[k][1]>0;}).slice(0,3);
   h+='<div class="netvotes"><div class="gsec">'+tr('votesT')+'</div>';
   h+='<div class="nl" style="font-size:.72rem;color:var(--mut)">'+tr('votesTop')+'</div>';
-  byTop.forEach(function(k){h+='<div class="nv"><code>+'+escH(k)+'</code><span>👍 '+V[k][0]+' / 👎 '+V[k][1]+'</span></div>';});
+  byTop.forEach(function(k){h+='<div class="nv"><code>+'+escH(k)+'</code><span>👍 '+(V[k][0]|0)+' / 👎 '+(V[k][1]|0)+'</span></div>';});
   if(byFlop.length){h+='<div class="nl" style="font-size:.72rem;color:var(--mut);margin-top:6px">'+tr('votesFlop')+'</div>';
-   byFlop.forEach(function(k){h+='<div class="nv"><code>+'+escH(k)+'</code><span>👍 '+V[k][0]+' / 👎 '+V[k][1]+'</span></div>';});}
+   byFlop.forEach(function(k){h+='<div class="nv"><code>+'+escH(k)+'</code><span>👍 '+(V[k][0]|0)+' / 👎 '+(V[k][1]|0)+'</span></div>';});}
   h+='</div>';}
  if(p.__h!==h){p.__h=h;p.innerHTML=h;}} // Perf : reconstruire le panneau a l'identique ne sert a rien
 // Perf : les deux reponses declenchaient chacune un renderNet() complet -> le panneau etait reconstruit
