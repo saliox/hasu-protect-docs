@@ -286,6 +286,58 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   srv();setTimeout(srv,3000);setTimeout(srv,9000);
 })();
 
+/* ── Guardian AI : un descriptif de chaque statistique au survol (et au clavier, et au toucher) ── */
+(function(){
+  var panel=$('gpanel');if(!panel)return;
+  // clé = libellé français sans emoji ; « Fausses alertes » existe dans deux rubriques, d'où la clé « rubrique|libellé »
+  var D={
+    'maîtrise globale':['Note d’ensemble de Guardian AI, calculée par le bot à partir de tous ses résultats d’entraînement.','Guardian AI’s overall score, computed by the bot from all of its training results.'],
+    'Détection des menaces':['Part des attaques d’entraînement que l’IA a correctement repérées pendant le cycle en cours.','Share of training attacks the AI correctly spotted during the current cycle.'],
+    'Épargne les membres sains':['Part des membres honnêtes que l’IA a laissés tranquilles : 100 % veut dire aucun membre sanctionné à tort.','Share of honest members the AI left alone: 100% means no member was punished by mistake.'],
+    'Généralisation (cas inédits)':['Réussite sur des cas que l’IA n’avait jamais vus : elle montre si l’IA a compris, et pas seulement mémorisé.','Success on cases the AI had never seen: it shows whether it understood rather than just memorised.'],
+    'Exemples étudiés':['Nombre total de situations (attaques et activité normale) sur lesquelles l’IA s’est entraînée.','Total number of situations (attacks and normal activity) the AI has trained on.'],
+    'Solutions mémorisées':['Réponses que l’IA a retenues pour les réutiliser face à des situations semblables.','Answers the AI has kept to reuse when similar situations come up.'],
+    'Erreurs corrigées (ce cycle)':['Erreurs commises puis corrigées par l’IA pendant le cycle en cours.','Mistakes the AI made and then corrected during the current cycle.'],
+    'Règles re-vérifiées':['Règles de sécurité revérifiées à chaque cycle : le premier nombre compte celles qui tiennent toujours.','Security rules re-checked every cycle: the first number counts those that still hold.'],
+    'Difficulté (niveau)':['Niveau des attaques d’entraînement : il monte à mesure que l’IA progresse.','Level of the training attacks: it goes up as the AI improves.'],
+    'Attaques déjouées':['Part des attaques stoppées face à un adversaire simulé qui cherche exprès les failles de l’IA.','Share of attacks stopped against a simulated adversary that deliberately hunts for the AI’s weak spots.'],
+    'adv|Fausses alertes':['Fois où l’IA a cru voir une attaque pendant le jeu adverse alors qu’il n’y en avait pas.','Times the AI thought it saw an attack during the adversarial game when there was none.'],
+    'Angles morts découverts':['Failles trouvées par l’adversaire simulé : autant de cas que l’IA doit encore apprendre à couvrir.','Weak spots found by the simulated adversary: cases the AI still has to learn to cover.'],
+    'Précision réelle':['Réussite sur un lot de cas jamais vus, testé à part de l’entraînement : c’est la mesure la plus honnête.','Success on a batch of never-seen cases, tested apart from training: the most honest measure.'],
+    'Gain vs base initiale':['Points de précision gagnés depuis la toute première version de l’IA.','Accuracy points gained since the very first version of the AI.'],
+    'off|Fausses alertes':['Membres honnêtes que l’IA aurait signalés à tort, sur le lot de test.','Honest members the AI would have flagged by mistake, on the test batch.'],
+    'Menaces ratées':['Attaques que l’IA a laissé passer, sur le lot de test.','Attacks the AI let through, on the test batch.']
+  };
+  var EN2FR={};   // libellés anglais affichés → clé française
+  [['overall mastery','maîtrise globale'],['Threat detection','Détection des menaces'],['Spares legitimate members','Épargne les membres sains'],['Generalization (novel cases)','Généralisation (cas inédits)'],['Examples studied','Exemples étudiés'],['Solutions memorized','Solutions mémorisées'],['Errors fixed (this cycle)','Erreurs corrigées (ce cycle)'],['Rules re-checked','Règles re-vérifiées'],['Difficulty (level)','Difficulté (niveau)'],['Attacks foiled','Attaques déjouées'],['False alarms','Fausses alertes'],['Blind spots found','Angles morts découverts'],['Actual accuracy','Précision réelle'],['Gain vs initial baseline','Gain vs base initiale'],['Missed threats','Menaces ratées']].forEach(function(x){EN2FR[x[0].toLowerCase()]=x[1];});
+  function clean(s){return String(s).replace(/^[^A-Za-zÀ-ÿ]+/,'').trim();}
+  var tip=document.createElement('div');tip.className='hp-gtip';tip.id='hp-gtip';tip.setAttribute('role','tooltip');tip.hidden=true;document.body.appendChild(tip);
+  var cur=null,shownAt=0;
+  function show(el){var t=el.getAttribute('data-tip');if(!t)return;if(cur!==el)shownAt=Date.now();cur=el;tip.textContent=t;tip.hidden=false;el.setAttribute('aria-describedby','hp-gtip');
+    var r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight,x=Math.max(10,Math.min(innerWidth-w-10,r.left+r.width/2-w/2)),y=r.top-h-10,below=y<70;
+    if(below)y=r.bottom+10;tip.classList.toggle('below',below);tip.style.left=x+'px';tip.style.top=y+'px';
+    tip.style.setProperty('--ax',Math.max(14,Math.min(w-14,r.left+r.width/2-x))+'px');}
+  function hide(){if(cur)cur.removeAttribute('aria-describedby');cur=null;tip.hidden=true;}
+  function annotate(){var en=lang()==='en',sec='';
+    [].slice.call(panel.querySelectorAll('.gsec,.gstat,.gbig')).forEach(function(el){
+      if(el.classList.contains('gsec')){var t=el.getAttribute('data-en')||el.textContent;sec=/adverse|Adversarial/i.test(t+el.textContent)?'adv':/hors-ligne|Offline/i.test(t+el.textContent)?'off':'';return;}
+      var lab=el.classList.contains('gbig')?el.querySelector('.l'):el.querySelector('.k');if(!lab)return;
+      var k=clean(lab.textContent);k=EN2FR[k.toLowerCase()]||k;
+      var d=D[sec+'|'+k]||D[k];if(!d){el.removeAttribute('data-tip');return;}
+      el.setAttribute('data-tip',d[en?1:0]);el.classList.add('hp-tipped');if(!el.hasAttribute('tabindex'))el.tabIndex=0;});}
+  panel.addEventListener('mouseover',function(e){var el=e.target.closest&&e.target.closest('.hp-tipped');if(el&&el!==cur)show(el);});
+  panel.addEventListener('mouseleave',hide);
+  panel.addEventListener('mouseout',function(e){var el=e.target.closest&&e.target.closest('.hp-tipped');if(el&&!el.contains(e.relatedTarget))hide();});
+  panel.addEventListener('focusin',function(e){var el=e.target.closest&&e.target.closest('.hp-tipped');if(el)show(el);});
+  panel.addEventListener('focusout',hide);
+  // au toucher, le navigateur envoie un survol PUIS un clic : on n'efface pas ce qui vient de s'ouvrir
+  panel.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('.hp-tipped');if(!el)return;if(cur===el&&Date.now()-shownAt>400)hide();else show(el);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&cur)hide();});
+  addEventListener('scroll',function(){if(cur)hide();},{passive:true});
+  annotate();new MutationObserver(function(){annotate();}).observe(panel,{childList:true,subtree:true});
+  new MutationObserver(function(){annotate();if(cur)show(cur);}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+})();
+
 /* ── fiches : inclinaison + halo qui suit la souris ── */
 (function(){
   if(reduce||!fine)return;var cur=null;
