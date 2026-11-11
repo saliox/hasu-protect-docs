@@ -337,43 +337,35 @@ var R=2.35;
 function injectOut(sh,code){var outA='gl_FragColor = vec4( outgoingLight, diffuseColor.a );';
   if(sh.fragmentShader.indexOf('#include <output_fragment>')>=0)sh.fragmentShader=sh.fragmentShader.replace('#include <output_fragment>',code+'#include <output_fragment>');
   else if(sh.fragmentShader.indexOf(outA)>=0)sh.fragmentShader=sh.fragmentShader.replace(outA,code+outA);}
-// sphère : verre noir, contour lumineux (effet Fresnel) blurple → or
-var rimUni={uRim:{value:1},uRimA:{value:new THREE.Color('#5865F2')},uRimB:{value:new THREE.Color('#F1C40F')},uMix:{value:0}};
-var sphMat=new THREE.MeshPhysicalMaterial({color:0x050507,metalness:.1,roughness:.08,clearcoat:1,clearcoatRoughness:.05,transparent:true,opacity:.5,depthWrite:false,envMapIntensity:1.3});
+// sphère : noire, opaque et brillante ; un fin liseré gris sur le contour la détache du fond
+var rimUni={uRim:{value:.6},uRimA:{value:new THREE.Color('#5d616c')},uRimB:{value:new THREE.Color('#5d616c')},uMix:{value:0}};
+var sphMat=new THREE.MeshPhysicalMaterial({color:0x020203,metalness:0,roughness:.2,clearcoat:1,clearcoatRoughness:.06,envMapIntensity:.9});
 sphMat.onBeforeCompile=function(sh){for(var k in rimUni)sh.uniforms[k]=rimUni[k];
   sh.fragmentShader='uniform float uRim;\nuniform vec3 uRimA;\nuniform vec3 uRimB;\nuniform float uMix;\n'+sh.fragmentShader
-    .replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n float hpFr=pow(1.0-clamp(abs(dot(normalize(normal),normalize(vViewPosition))),0.0,1.0),2.4);\n totalEmissiveRadiance+=mix(uRimA,uRimB,uMix)*hpFr*uRim;');
-  injectOut(sh,'diffuseColor.a=mix(diffuseColor.a,1.0,hpFr*0.85);\n');};
-sphMat.customProgramCacheKey=function(){return 'hp-sph';};
-var sphere=new THREE.Mesh(new THREE.SphereGeometry(R,96,64),sphMat);sphere.renderOrder=2;group.add(sphere);
-// cadenas
-var lock=new THREE.Group();group.add(lock);
-var gold=new THREE.MeshPhysicalMaterial({color:0xF4C24A,normalMap:PL.norm,normalScale:new THREE.Vector2(.12,.12),metalness:.6,roughness:.34,clearcoat:.7,clearcoatRoughness:.1,envMapIntensity:1.6,emissive:0x2a1800,emissiveIntensity:.3});
-gold.toneMapped=false;   // or franc : le rendu tonal le désaturait en kaki
-[PL.col,PL.rough,PL.norm].forEach(function(t){t.repeat.set(1.4,1.4);});
-var chrome=new THREE.MeshStandardMaterial({color:0xdfe2ea,metalness:1,roughness:.16,envMapIntensity:1.4});
-var BW=1.5,BH=1.22,BD=.42;
-var bodyG=(function(){var s=new THREE.Shape(),w=BW/2,h=BH/2,r=.22;s.moveTo(-w+r,-h);s.lineTo(w-r,-h);s.quadraticCurveTo(w,-h,w,-h+r);s.lineTo(w,h-r);s.quadraticCurveTo(w,h,w-r,h);s.lineTo(-w+r,h);s.quadraticCurveTo(-w,h,-w,h-r);s.lineTo(-w,-h+r);s.quadraticCurveTo(-w,-h,-w+r,-h);
-  var g=new THREE.ExtrudeGeometry(s,{depth:BD,bevelEnabled:true,bevelThickness:.07,bevelSize:.07,bevelSegments:5,curveSegments:10});g.center();return g;})();
-var body=new THREE.Mesh(bodyG,gold);lock.add(body);
-var FRONT=BD/2+.07+.003;
-// trou de serrure lumineux + bague
-var keyMat=new THREE.MeshBasicMaterial({color:0x5865F2,toneMapped:false});
-var keyG=(function(){var s=new THREE.Shape();s.absarc(0,.08,.12,0,Math.PI*2,false);var t=new THREE.Shape();t.moveTo(-.055,.04);t.lineTo(.055,.04);t.lineTo(.085,-.26);t.lineTo(-.085,-.26);t.closePath();
-  var a=new THREE.ShapeGeometry(s,24),b=new THREE.ShapeGeometry(t);var m=new THREE.Mesh(a,keyMat),n=new THREE.Mesh(b,keyMat);var gg=new THREE.Group();gg.add(m);gg.add(n);return gg;})();
-keyG.position.set(0,-.05,FRONT);lock.add(keyG);
-var ring=new THREE.Mesh(new THREE.TorusGeometry(.24,.035,16,48),chrome);ring.position.set(0,.03,FRONT);lock.add(ring);
-// anse : U en chrome, pivote autour de sa jambe gauche
-var SA=.44,SH=.62,SR=.11,LEG=.42;            // demi-écart, hauteur au-dessus du corps, rayon du fil, profondeur dans le corps
-var shackleG=(function(){var p=new THREE.CurvePath();
-  p.add(new THREE.LineCurve3(new THREE.Vector3(0,-LEG,0),new THREE.Vector3(0,SH,0)));
-  p.add(new THREE.CubicBezierCurve3(new THREE.Vector3(0,SH,0),new THREE.Vector3(0,SH+SA*1.33,0),new THREE.Vector3(2*SA,SH+SA*1.33,0),new THREE.Vector3(2*SA,SH,0)));
-  p.add(new THREE.LineCurve3(new THREE.Vector3(2*SA,SH,0),new THREE.Vector3(2*SA,-LEG,0)));
-  return new THREE.TubeGeometry(p,160,SR,24,false);})();
-var pivot=new THREE.Group();pivot.position.set(-SA,BH/2,0);lock.add(pivot);
-var shackle=new THREE.Mesh(shackleG,chrome);pivot.add(shackle);
-lock.position.set(0,-.25,.1);
-var lockLight=new THREE.PointLight(0xfff1d6,2.2,9,2);lockLight.position.set(1.2,1.4,3.2);group.add(lockLight);   // lumière chaude face au cadenas : l'or brille même sur fond noir
+    .replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n float hpFr=pow(1.0-clamp(abs(dot(normalize(normal),normalize(vViewPosition))),0.0,1.0),3.0);\n totalEmissiveRadiance+=mix(uRimA,uRimB,uMix)*hpFr*uRim;');};
+sphMat.customProgramCacheKey=function(){return 'hp-sph2';};
+var sphere=new THREE.Mesh(new THREE.SphereGeometry(R,96,64),sphMat);group.add(sphere);
+// cadenas 2D gris, toujours face à l'écran, posé devant la sphère
+var lock=new THREE.Group();scene.add(lock);
+function flat(c){return new THREE.MeshBasicMaterial({color:c,toneMapped:false});}
+function rrect(w,h,r){var s=new THREE.Shape(),x=-w/2,y=-h/2;s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);return s;}
+var BW=1.5,BH=1.2;
+var body=new THREE.Mesh(new THREE.ShapeGeometry(rrect(BW,BH,.2),12),flat('#8d9099'));lock.add(body);
+var bodyHi=new THREE.Mesh(new THREE.ShapeGeometry(rrect(BW,BH*.42,.2),12),flat('#a1a4ac'));bodyHi.position.set(0,BH*.29,.001);lock.add(bodyHi);   // aplat clair en haut : relief d'icône
+var keyMat=flat('#0b0b0d');
+var keyG=new THREE.Group();
+(function(){var c=new THREE.Shape();c.absarc(0,.06,.13,0,Math.PI*2,false);var t=new THREE.Shape();t.moveTo(-.06,.02);t.lineTo(.06,.02);t.lineTo(.09,-.3);t.lineTo(-.09,-.3);t.closePath();
+  keyG.add(new THREE.Mesh(new THREE.ShapeGeometry(c,24),keyMat));keyG.add(new THREE.Mesh(new THREE.ShapeGeometry(t),keyMat));})();
+keyG.position.set(0,-.08,.002);lock.add(keyG);
+// anse en U (aplat gris clair), pivote autour de sa jambe gauche
+var SA=.42,ST=.11,SH=.5,LEG=.36;
+var shackleG=(function(){var s=new THREE.Shape();s.moveTo(-ST,-LEG);s.lineTo(-ST,SH);s.absarc(SA,SH,SA+ST,Math.PI,0,true);s.lineTo(2*SA+ST,-LEG);s.lineTo(2*SA-ST,-LEG);s.lineTo(2*SA-ST,SH);
+  s.absarc(SA,SH,SA-ST,0,Math.PI,false);s.lineTo(ST,-LEG);s.closePath();return new THREE.ShapeGeometry(s,32);})();
+var pivot=new THREE.Group();pivot.position.set(-SA,BH/2,-.002);lock.add(pivot);
+var shackle=new THREE.Mesh(shackleG,flat('#b8bbc3'));pivot.add(shackle);
+lock.children.forEach(function(o){o.renderOrder=5;});shackle.renderOrder=4;
+var camDir=new THREE.Vector3();
 // anneau des serveurs protégés (texte doré qui tourne autour de la sphère)
 var ringCan=canvas2(4096,128),ringTex=new THREE.CanvasTexture(ringCan);ringTex.wrapS=THREE.RepeatWrapping;ringTex.encoding=THREE.sRGBEncoding;ringTex.anisotropy=ANISO;ringTex.wrapT=THREE.RepeatWrapping;ringTex.repeat.set(1,1);
 var band=new THREE.Mesh(new THREE.CylinderGeometry(R*1.2,R*1.2,.34,160,1,true),new THREE.MeshBasicMaterial({map:ringTex,transparent:true,side:THREE.FrontSide,depthWrite:false,toneMapped:false}));
@@ -471,18 +463,16 @@ function frame(now){
   group.position.set(hx*(1-k*.6),hy+k*.4+end*6,-k*6);group.scale.setScalar(narrow?.6:1);
   rotY+=dt*(.22+k*.1);group.rotation.y=rotY+mouse.x*.5;group.rotation.x=-mouse.y*.3+.15;
   group.updateMatrixWorld();
-  // cadenas : s'ouvre dès qu'on descend, se referme quand on remonte en haut
-  var openT=ss(.01,.22,heroOut);lockO+=(openT-lockO)*Math.min(1,dt*5);
-  var lift=ss(0,.45,lockO)*.4,swing=ss(.35,1,lockO);
-  pivot.position.y=BH/2+lift;pivot.rotation.y=-swing*1.75;
-  lock.rotation.y=Math.sin(time*.55)*.22+mouse.x*.35-rotY;lock.rotation.x=-mouse.y*.2+.05;
-  lock.scale.setScalar(1+.06*Math.sin(lockO*Math.PI));
-  var pulse=.5+.5*Math.sin(time*1.6);
-  keyMat.color.setRGB(.42+.18*pulse+.55*lockO,.48+.14*pulse+.32*lockO,1-.85*lockO);   // blurple fermé → or ouvert
-  rimUni.uMix.value=lockO;rimUni.uRim.value=.9+.35*pulse;
+  // cadenas : verrouillé en haut de page, se déverrouille dès qu'on descend, se reverrouille en remontant
+  var openT=ss(.01,.2,heroOut);lockO+=(openT-lockO)*Math.min(1,dt*6);
+  pivot.position.y=BH/2+.46*ss(0,.55,lockO);pivot.rotation.z=.34*ss(.45,1,lockO);
   band.rotation.y=time*.18;band.material.opacity=1-ss(.2,.7,heroOut);
   var out=ss(.55,1,heroOut),appear=introStart===null?0:ease(clamp((now-introStart)/1400));
   group.scale.multiplyScalar(Math.max(.0001,(1-out)*(.6+.4*appear)*(1-end)));
+  // le cadenas suit la sphère mais reste à plat, face à l'écran, juste devant elle
+  var gs=group.scale.x;camDir.copy(camera.position).sub(group.position).normalize();
+  lock.position.copy(group.position).addScaledVector(camDir,R*gs*1.03);lock.quaternion.copy(camera.quaternion);
+  lock.rotateZ(Math.sin(time*.7)*.04);lock.scale.setScalar(gs*(1+.05*Math.sin(lockO*Math.PI)));lock.visible=gs>.001;
   P.phase=time*.45;P.amp=.9-gMix*.3;P.tilt=.32*(1-ss(.6,1.4,y/vh))+.06;P.y=(1-ease(chainIn))*10-end*12+(narrow?.8:0);P.depth=1.2+gMix*.6;
   chain.visible=chainIn>0&&end<1;if(chain.visible)layoutChain(y*.006+time*.35);
   chainMat.color.copy(silver).lerp(blueTint,gMix*.6);
