@@ -558,3 +558,6 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 .totop:hover,.totop:focus-visible{background:#1d1d25!important;box-shadow:0 12px 26px -14px rgba(0,0,0,.95),inset 0 0 0 1px rgba(255,255,255,.14)!important;filter:none!important}
 .totop::after{background:conic-gradient(#F5C451 0,#F08A4B calc(var(--p) * 360deg),rgba(255,255,255,.08) calc(var(--p) * 360deg))}
 .totop::before{border-color:#EDEDF2}
+/* invitation : commande en ligne et petite ligne d'atouts */
+#hp-invite p code{font-family:var(--hp-mono);font-size:.88em;padding:2px 7px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--hp-line2);color:var(--hp-txt)}
+#hp-invite .hp-perks{margin:14px auto 0;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--hp-mut)}

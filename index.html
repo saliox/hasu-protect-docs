@@ -973,6 +973,9 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 .totop:hover,.totop:focus-visible{background:#1d1d25!important;box-shadow:0 12px 26px -14px rgba(0,0,0,.95),inset 0 0 0 1px rgba(255,255,255,.14)!important;filter:none!important}
 .totop::after{background:conic-gradient(#F5C451 0,#F08A4B calc(var(--p) * 360deg),rgba(255,255,255,.08) calc(var(--p) * 360deg))}
 .totop::before{border-color:#EDEDF2}
+/* invitation : commande en ligne et petite ligne d'atouts */
+#hp-invite p code{font-family:var(--hp-mono);font-size:.88em;padding:2px 7px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--hp-line2);color:var(--hp-txt)}
+#hp-invite .hp-perks{margin:14px auto 0;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--hp-mut)}
 
 </style><!--/hp:head-->
 </head><body>
@@ -2702,10 +2705,11 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 <div class="hp-sec" id="hp-invite">
   <div class="hp-wrap">
     <div class="hp-reveal">
-      <span class="hp-kicker hp-mono" style="color:#FF8A8A"><span data-lang="fr">Invitation</span><span data-lang="en">Invite</span></span>
-      <h2 class="hp-h2"><span data-lang="fr">Prêt à verrouiller ton serveur ?</span><span data-lang="en">Ready to lock down your server?</span></h2>
-      <p data-lang="fr">Le bot demande les droits administrateur : c'est ce qui lui permet d'annuler un raid ou un nuke à ta place, même quand personne du staff n'est connecté.</p>
-      <p data-lang="en">The bot asks for administrator rights: that's what lets it undo a raid or a nuke for you, even when no staff member is online.</p>
+      <span class="hp-kicker hp-mono" style="color:#FF8A8A"><span data-lang="fr">Passe à l'action</span><span data-lang="en">Get started</span></span>
+      <h2 class="hp-h2"><span data-lang="fr">Ajoute Hasu,<br>et dors tranquille.</span><span data-lang="en">Add Hasu,<br>and sleep soundly.</span></h2>
+      <p data-lang="fr">Une invitation, puis <code>+setup</code> : l'assistant t'accompagne dans les premiers réglages. Le bot demande les droits administrateur, car c'est ce qui lui permet d'arrêter un raid ou d'annuler un nuke à ta place, même quand personne du staff n'est en ligne.</p>
+      <p data-lang="en">One invite, then <code>+setup</code>: the assistant walks you through the first settings. The bot asks for administrator rights, because that's what lets it stop a raid or undo a nuke for you, even when no staff member is online.</p>
+      <p class="hp-perks hp-mono"><span data-lang="fr">Gratuit · 262 commandes · en français et en anglais</span><span data-lang="en">Free · 262 commands · in French and English</span></p>
       <div class="hp-ctas">
         <a class="hp-btn red" href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer"><span class="dot"></span><span data-lang="fr">Ajouter le bot</span><span data-lang="en">Add the bot</span></a>
         <a class="hp-btn ghost" href="https://top.gg/bot/1141214226862575678/vote" target="_blank" rel="noopener noreferrer"><span data-lang="fr">Voter sur top.gg</span><span data-lang="en">Vote on top.gg</span></a>
