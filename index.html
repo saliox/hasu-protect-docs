@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://rapid-sound-6a32.teamfunnysgames.workers.dev" crossorigin><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-mDS8xuIGwwi/j7TKbTc/n4hc0SZ0qAjFgn6Jk/kITPQ=' 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https://top.gg; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://rapid-sound-6a32.teamfunnysgames.workers.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-mDS8xuIGwwi/j7TKbTc/n4hc0SZ0qAjFgn6Jk/kITPQ=' 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://rapid-sound-6a32.teamfunnysgames.workers.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 262 commandes — documentation complète et interactive.">
@@ -411,7 +411,7 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 @keyframes rvpulse{0%,100%{box-shadow:0 4px 18px rgba(255,51,102,.35)}50%{box-shadow:0 0 0 9px rgba(255,51,102,0),0 4px 22px rgba(255,51,102,.65)}}
 @media (prefers-reduced-motion:reduce){.cta-vote.revote-on{animation:none}}
 </style>
-<!--hp:head--><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<!--hp:head--><link rel="stylesheet" href="habillage/fonts.css">
 <style id="hp-skin">
 /* ═══ Habillage Hasu Protect ═══
    Layout: page sombre en chapitres (accueil → chiffres → premiers pas → commandes → Guardian → nouveautés → FAQ → invitation).
@@ -470,7 +470,7 @@ header{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rec
 /* barre du haut */
 .hp-top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:40;transition:transform .7s var(--hp-ease)}
 .hp-top.away{transform:translateY(-110%)}
-.hp-top .bar{max-width:1320px;margin:12px auto 0;padding:10px 12px 10px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;border-radius:14px;border:1px solid transparent;transition:background-color .5s,border-color .5s,backdrop-filter .5s;width:calc(100% - 2 * clamp(12px,3vw,40px))}
+.hp-top .bar{position:relative;max-width:1320px;margin:12px auto 0;padding:10px 12px 10px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;border-radius:14px;border:1px solid transparent;transition:background-color .5s,border-color .5s,backdrop-filter .5s;width:calc(100% - 2 * clamp(12px,3vw,40px))}
 .hp-top.solid .bar{background:rgba(13,13,22,.72);border-color:var(--hp-line);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)}
 .hp-brand{display:flex;align-items:center;gap:10px;font-family:var(--hp-display);font-weight:700;font-size:.95rem;letter-spacing:-.01em;color:var(--hp-txt)!important;white-space:nowrap}
 .hp-logo{width:30px;height:30px;border-radius:8px;background:var(--hp-blurple);display:grid;place-items:center;font-family:var(--hp-mono);font-weight:700;font-size:.72rem;color:#fff;box-shadow:0 0 20px rgba(88,101,242,.55)}
@@ -504,11 +504,11 @@ header{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rec
 .hp-title .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}
 .hp-title .w>span{display:inline-block;transition:transform 1.2s var(--hp-ease)}
 .hp-title em{font-style:normal;color:var(--hp-blurple-l)}
-body:not(.hp-ready) .hp-title .w>span{transform:translateY(110%)}
+.hp-js body:not(.hp-ready) .hp-title .w>span{transform:translateY(110%)}
 .hp-lede{margin:24px 0 0;color:#B9B9CC;font-size:1.08rem;max-width:34rem;line-height:1.65}
 .hp-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .hp-fade{transition:opacity 1s .4s ease,transform 1.2s .4s var(--hp-ease)}
-body:not(.hp-ready) .hp-fade{opacity:0;transform:translateY(22px)}
+.hp-js body:not(.hp-ready) .hp-fade{opacity:0;transform:translateY(22px)}
 .hp-scrollcue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);color:var(--hp-mut);display:flex;flex-direction:column;align-items:center;gap:8px}
 .hp-scrollcue i{width:1px;height:38px;background:linear-gradient(var(--hp-mut),transparent);animation:hp-cue 2.2s var(--hp-ease) infinite}
 @keyframes hp-cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -629,13 +629,51 @@ h2.cat span[style]{font-family:var(--hp-mono);font-size:.78rem!important;color:v
 #hp-news .changelog>h2{font-family:var(--hp-display);font-weight:600;font-size:1.3rem;letter-spacing:-.02em}
 #hp-news .changelog .ver{font-family:var(--hp-mono);font-size:.72rem;color:var(--hp-blurple-l)}
 .changelog code,.cmd code,.hentry code,.fqa code{font-family:var(--hp-mono)!important;border-radius:6px!important}
+/* liste des nouveautés : une ligne = une carte légère, repère blurple, texte aéré */
+#hp-news .changelog ul{list-style:none!important;padding:0!important;margin:18px 0 0!important;display:grid;gap:10px}
+#hp-news .changelog li{position:relative;padding:14px 16px 14px 18px!important;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid var(--hp-line);color:#C4C5D6!important;line-height:1.65;transition:border-color .3s,background-color .3s}
+#hp-news .changelog li::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:2px;border-radius:2px;background:linear-gradient(var(--hp-blurple),transparent)}
+#hp-news .changelog li:hover{border-color:rgba(88,101,242,.35);background:rgba(88,101,242,.04)}
+#hp-news .changelog li strong{color:#fff}
+#hp-news .more,#hp-news .cl-toggle,#hp-news .m-clbtn{border-radius:999px!important;background:rgba(255,255,255,.04)!important;border:1px solid var(--hp-line2)!important;color:var(--hp-txt)!important;padding:9px 16px!important;font-family:var(--hp-body);font-weight:600;transition:border-color .3s,background-color .3s}
+#hp-news .more:hover,#hp-news .cl-toggle:hover{border-color:var(--hp-blurple)!important;background:rgba(88,101,242,.1)!important}
+#hp-news .histsearch{border-radius:12px!important;background:rgba(255,255,255,.03)!important;border:1px solid var(--hp-line2)!important;font-family:var(--hp-mono);padding:12px 14px!important}
+#hp-news .hentry{border-radius:16px!important;background:rgba(255,255,255,.02)!important;border:1px solid var(--hp-line)!important;padding:18px 20px!important;margin-top:12px!important}
+#hp-news .hentry h3{font-family:var(--hp-display);font-weight:600;letter-spacing:-.01em}
+#hp-news .hentry h3 span{font-family:var(--hp-mono);font-size:.72rem;color:var(--hp-blurple-l)}
 
-/* FAQ */
-#hp-faq .faq{margin:0!important}
+/* FAQ : accordéon avec icône qui pivote et réponse qui glisse */
+#hp-faq .faq{margin:0!important;display:grid;gap:10px}
 #hp-faq .faq>h2{display:none}
-.fq{background:var(--hp-panel)!important;border:1px solid var(--hp-line)!important;border-radius:14px!important;margin-bottom:10px!important;transition:border-color .35s}
-.fq[open]{border-color:rgba(88,101,242,.4)!important}
-.fq summary{font-family:var(--hp-display);font-weight:600;font-size:1rem}
+.fq{background:var(--hp-panel)!important;border:1px solid var(--hp-line)!important;border-radius:16px!important;margin:0!important;transition:border-color .35s,background-color .35s;overflow:hidden}
+.fq:hover{border-color:var(--hp-line2)!important}
+.fq[open]{border-color:rgba(88,101,242,.45)!important;background:linear-gradient(180deg,rgba(88,101,242,.06),transparent 70%),var(--hp-panel)!important}
+.fq summary{font-family:var(--hp-display);font-weight:600;font-size:1.02rem;padding:18px 56px 18px 20px!important;position:relative;cursor:pointer;list-style:none}
+.fq summary::after{content:"+"!important;position:absolute;right:18px;top:50%;width:28px;height:28px;margin-top:-14px;border-radius:9px;display:grid;place-items:center;background:rgba(255,255,255,.05);color:var(--hp-blurple-l);font-family:var(--hp-mono);font-size:1rem;transition:transform .45s var(--hp-ease),background-color .3s}
+.fq[open] summary::after{transform:rotate(45deg);background:rgba(88,101,242,.2)}
+.fq .fqa{padding:0 20px 20px!important;color:#C4C5D6!important;line-height:1.7;animation:hp-faqin .5s var(--hp-ease)}
+@keyframes hp-faqin{from{opacity:0;transform:translateY(-6px)}}
+
+/* fenêtre de simulation d'une commande */
+.ov{background:rgba(6,6,12,.62)!important}
+.ov .modal{background:linear-gradient(180deg,rgba(88,101,242,.08),transparent 140px),var(--hp-panel)!important;box-shadow:0 40px 120px -20px rgba(0,0,0,.8),0 0 0 1px rgba(88,101,242,.25)!important}
+.m-name{font-family:var(--hp-mono)!important;font-size:1.25rem!important}
+.m-x{border-radius:10px!important;background:rgba(255,255,255,.05)!important;border:1px solid var(--hp-line2)!important;transition:background-color .3s,border-color .3s}
+.m-x:hover{background:rgba(225,38,45,.15)!important;border-color:rgba(225,38,45,.5)!important}
+.m-usage{font-family:var(--hp-mono)!important;border-radius:10px!important;background:rgba(0,0,0,.35)!important;border:1px solid var(--hp-line)!important}
+.m-sim{border-radius:14px!important;background:#111219!important;border:1px solid var(--hp-line)!important}
+.m-cpy,.m-vote button{border-radius:999px!important}
+.m-lbl{font-family:var(--hp-mono)!important;letter-spacing:.06em;text-transform:uppercase;font-size:.7rem!important;color:var(--hp-blurple-l)!important}
+
+/* pied de page */
+.hp-foot{position:relative;z-index:2;border-top:1px solid var(--hp-line);background:linear-gradient(180deg,rgba(88,101,242,.05),transparent 60%)}
+.hp-foot .hp-wrap{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:32px;padding-top:56px;padding-bottom:40px}
+.hp-foot .about p{color:var(--hp-mut);line-height:1.6;max-width:22rem;margin:14px 0 0}
+.hp-foot h4{margin:0 0 14px;font-family:var(--hp-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--hp-blurple-l);font-weight:500}
+.hp-foot ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.hp-foot a{color:#C4C5D6!important;transition:color .25s}
+.hp-foot a:hover{color:#fff!important}
+@media(max-width:800px){.hp-foot .hp-wrap{grid-template-columns:1fr 1fr}.hp-foot .about{grid-column:1/-1}}
 
 /* invitation */
 #hp-invite{overflow:hidden;background:radial-gradient(60% 55% at 50% 35%,rgba(88,101,242,.22),transparent 70%)}
@@ -646,13 +684,13 @@ h2.cat span[style]{font-family:var(--hp-mono);font-size:.78rem!important;color:v
 #hp-invite p{color:#B9B9CC;max-width:34rem;line-height:1.65;margin:22px 0 0}
 #hp-invite .topgg-badge{margin-top:24px;text-align:center!important}
 
-footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!important;font-family:var(--hp-mono);font-size:.74rem;color:var(--hp-mut)!important;padding:26px var(--hp-gr) 34px var(--hp-gl)!important}
+footer{border-top:1px solid var(--hp-line)!important;background:transparent!important;font-family:var(--hp-mono);font-size:.72rem;color:var(--hp-mut)!important;padding:18px var(--hp-gr) 28px var(--hp-gl)!important;text-align:center}
 .totop{border-radius:12px!important;background:var(--hp-panel2)!important;border:1px solid var(--hp-line2)!important}
 .ov{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .modal{border-radius:18px!important;border:1px solid var(--hp-line2)!important}
 
 /* chargement */
-.hp-loader{position:fixed;inset:0;z-index:95;pointer-events:none;background:var(--hp-night);display:grid;place-items:center;transition:clip-path 1s cubic-bezier(.76,0,.24,1);clip-path:inset(0 0 0 0)}
+.hp-loader{position:fixed;inset:0;z-index:95;pointer-events:none;animation:hp-loader-fallback .4s 3.5s forwards;background:var(--hp-night);display:grid;place-items:center;transition:clip-path 1s cubic-bezier(.76,0,.24,1);clip-path:inset(0 0 0 0)}
 .hp-loader.out{clip-path:inset(0 0 100% 0)}
 .hp-loader .in{display:flex;flex-direction:column;align-items:center;gap:16px}
 .hp-loader .hp-logo{width:58px;height:58px;border-radius:16px;font-size:1.2rem;animation:hp-breathe 1.6s ease-in-out infinite}
@@ -665,8 +703,29 @@ footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!
   .hp-loader{display:none}
   .hp-scrollcue i,.hp-loader .hp-logo,.hp-tile.status.on .st i{animation:none}
   .hp-title .w>span,.hp-fade,.hp-reveal,h2.cat,.cmd,.hp-spark i,.hp-ring .fg{transition:none!important}
-  body:not(.hp-ready) .hp-title .w>span,body:not(.hp-ready) .hp-fade{transform:none;opacity:1}
+  .hp-js body:not(.hp-ready) .hp-title .w>span,.hp-js body:not(.hp-ready) .hp-fade{transform:none;opacity:1}
 }
+
+/* filet de sécurité : si les scripts ne tournent pas, l'écran de chargement s'efface seul */
+@keyframes hp-loader-fallback{to{opacity:0;visibility:hidden}}
+/* barre de progression de lecture, sous la barre du haut */
+.hp-prog{position:absolute;left:14px;right:14px;bottom:-1px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--hp-blurple),#8B95FF,var(--hp-red));transform-origin:left;transform:scaleX(var(--p,0));opacity:0;transition:opacity .4s}
+.hp-top.solid .hp-prog{opacity:1}
+/* focus clavier visible et cohérent partout */
+:focus-visible{outline:2px solid var(--hp-blurple-l)!important;outline-offset:3px!important;border-radius:8px}
+.cmd:focus-visible{outline-offset:2px!important}
+/* bouton retour en haut */
+.totop{width:46px!important;height:46px!important;display:grid!important;place-items:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(19,19,28,.8)!important;transition:transform .4s var(--hp-ease),border-color .3s,opacity .3s!important}
+.totop:hover{transform:translateY(-3px);border-color:var(--hp-blurple)!important}
+/* FAQ : outils (recherche, tout déplier) + numéros */
+.hp-faqtools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 18px}
+.hp-faqtools input{flex:1;min-width:200px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--hp-line2);color:var(--hp-txt);font-family:var(--hp-mono);font-size:14px;padding:12px 16px;transition:border-color .3s,box-shadow .4s var(--hp-ease)}
+.hp-faqtools input:focus{outline:none;border-color:var(--hp-blurple);box-shadow:0 0 0 4px rgba(88,101,242,.18)}
+.hp-faqtools .hp-btn{padding:11px 16px}
+.hp-faqnone{color:var(--hp-mut);font-family:var(--hp-mono);font-size:.8rem;padding:6px 2px}
+#hp-faq .faq{counter-reset:hpq}
+#hp-faq .fq summary::before{counter-increment:hpq;content:counter(hpq,decimal-leading-zero);font-family:var(--hp-mono);font-size:.72rem;color:var(--hp-blurple-l);margin-right:14px;vertical-align:.15em}
+#hp-faq .fq[hidden]{display:none!important}
 
 </style><!--/hp:head-->
 </head><body>
@@ -681,12 +740,14 @@ footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!
   <div class="bar">
     <a class="hp-brand" href="#hp-hero"><span class="hp-logo">[+]</span><span class="t">Hasu Protect</span></a>
     <nav class="hp-links" id="hp-links" aria-label="Sections">
+      <a class="l" href="#hp-hero" data-spy="hp-hero"><span data-lang="fr">Accueil</span><span data-lang="en">Home</span></a>
       <a class="l" href="#hp-docs" data-spy="hp-docs"><span data-lang="fr">Commandes</span><span data-lang="en">Commands</span></a>
       <a class="l" href="#hp-guardian" data-spy="hp-guardian">Guardian AI</a>
       <a class="l" href="#hp-news" data-spy="hp-news"><span data-lang="fr">Nouveautés</span><span data-lang="en">What's new</span></a>
       <a class="l" href="#hp-faq" data-spy="hp-faq">FAQ</a>
       <a class="hp-btn" href="#hp-invite"><span data-lang="fr">Ajouter le bot</span><span data-lang="en">Add the bot</span></a>
     </nav>
+    <i class="hp-prog" id="hp-prog" aria-hidden="true"></i>
   </div>
 </div>
 
@@ -2161,6 +2222,39 @@ footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!
   </div>
 </section>
 
+<div class="hp-foot">
+  <div class="hp-wrap">
+    <div class="about">
+      <a class="hp-brand" href="#hp-hero"><span class="hp-logo">[+]</span><span class="t">Hasu Protect</span></a>
+      <p data-lang="fr">Bot Discord de sécurité et de modération : anti-raid, anti-nuke et Guardian AI.</p>
+      <p data-lang="en">Discord security and moderation bot: anti-raid, anti-nuke and Guardian AI.</p>
+    </div>
+    <div>
+      <h4><span data-lang="fr">Documentation</span><span data-lang="en">Documentation</span></h4>
+      <ul>
+        <li><a href="#hp-start"><span data-lang="fr">Premiers pas</span><span data-lang="en">Getting started</span></a></li>
+        <li><a href="#hp-docs"><span data-lang="fr">Commandes</span><span data-lang="en">Commands</span></a></li>
+        <li><a href="#hp-faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hasu</h4>
+      <ul>
+        <li><a href="#hp-guardian">Guardian AI</a></li>
+        <li><a href="#hp-news"><span data-lang="fr">Nouveautés</span><span data-lang="en">What's new</span></a></li>
+        <li><a href="#hp-stats"><span data-lang="fr">En chiffres</span><span data-lang="en">By the numbers</span></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4><span data-lang="fr">Rejoindre</span><span data-lang="en">Join</span></h4>
+      <ul>
+        <li><a href="https://discord.com/oauth2/authorize?client_id=1141214226862575678&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer"><span data-lang="fr">Ajouter le bot</span><span data-lang="en">Add the bot</span></a></li>
+        <li><a href="https://top.gg/bot/1141214226862575678/vote" target="_blank" rel="noopener noreferrer"><span data-lang="fr">Voter sur top.gg</span><span data-lang="en">Vote on top.gg</span></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <!--/hp:end-->
 <footer>[+] Hasu Protect 🛡️ · <span id="dt"></span><span id="visits" hidden></span></footer>
 <script>if(self!==top){try{top.location=self.location.href;}catch(e){document.documentElement.style.display='none';}}
@@ -3331,6 +3425,6 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
  h=h.toLowerCase();if(!h)return;
  var card=cards().filter(function(c){return c.dataset.n&&c.dataset.n.toLowerCase()===h;})[0];
  if(card)openSim(card);}catch(e){}})();</script>
-<!--hp:js--><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="habillage/hp.js"></script><!--/hp:js-->
+<!--hp:js--><script src="habillage/vendor/three.min.js" defer></script>
+<script src="habillage/hp.js" defer></script><!--/hp:js-->
 </body></html>

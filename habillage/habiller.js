@@ -25,32 +25,34 @@ const redo = h !== before;
 
 const read = f => fs.readFileSync(path.join(here, f), 'utf8');
 const css = read('skin.css'), top = read('top.html'), end = read('end.html');
-const THREE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-const FONTS = 'https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap';
+// three.js et les polices sont servis par le site lui-même (habillage/vendor, habillage/fonts) :
+// aucun CDN autorisé dans la CSP, aucune adresse IP de visiteur envoyée à Google.
 
-// 1. CSP : 'self' pour habillage/hp.js, cdnjs pour three.js, Google Fonts (ajouts sans doublon)
+// 1. CSP : seulement 'self' en plus (habillage/hp.js, three.js) ; on retire les hôtes d'anciennes versions
 const cspRe = /(<meta http-equiv="Content-Security-Policy" content=")([^"]*)(")/;
 must(cspRe.test(h), 'meta Content-Security-Policy');
-const add = (list, extra) => { const have = list.split(/\s+/).filter(Boolean); return have.concat(extra.filter(x => !have.includes(x))).join(' '); };
+const OLD = ['https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
+const add = (list, extra) => { const have = list.split(/\s+/).filter(Boolean).filter(x => !OLD.includes(x)); return have.concat(extra.filter(x => !have.includes(x))).join(' '); };
 h = h.replace(cspRe, (m, a, c, z) => a + c
-  .replace(/script-src ([^;]*)/, (mm, v) => 'script-src ' + add(v, ["'self'", 'https://cdnjs.cloudflare.com']))
-  .replace(/style-src ([^;]*)/, (mm, v) => 'style-src ' + add(v, ['https://fonts.googleapis.com']))
-  .replace(/font-src ([^;]*)/, (mm, v) => 'font-src ' + add(v, ['https://fonts.gstatic.com'])) + z);
+  .replace(/script-src ([^;]*)/, (mm, v) => 'script-src ' + add(v, ["'self'"]))
+  .replace(/style-src ([^;]*)/, (mm, v) => 'style-src ' + add(v, []))
+  .replace(/font-src ([^;]*)/, (mm, v) => 'font-src ' + add(v, [])) + z);
 
 // 2. Polices + feuille d'habillage juste avant </head>
 must(/<\/head>/.test(h), '</head>');
-h = h.replace(/\s*<\/head>/, () => '\n<!--hp:head--><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' +
-  '<link rel="stylesheet" href="' + FONTS + '">\n<style id="hp-skin">\n' + css + '\n</style><!--/hp:head-->\n</head>');
+h = h.replace(/\s*<\/head>/, () => '\n<!--hp:head--><link rel="stylesheet" href="habillage/fonts.css">\n<style id="hp-skin">\n' + css + '\n</style><!--/hp:head-->\n</head>');
 
 // 3. Chapitres d'ouverture avant l'en-tête, chapitres de fin avant le pied de page
 must(/<body>\s*<header>/.test(h), '<body><header>');
 h = h.replace(/<body>\s*<header>/, () => '<body>\n<!--hp:top-->\n' + top + '\n<!--/hp:top-->\n<header>');
-must(h.includes('<footer>'), '<footer>');
-h = h.replace('<footer>', () => '<!--hp:end-->\n' + end + '\n<!--/hp:end-->\n<footer>');
+const foot = h.lastIndexOf('<footer>');   // le DERNIER <footer> : celui de la page, pas un texte qui le citerait plus haut
+must(foot > 0, '<footer>');
+h = h.slice(0, foot) + '<!--hp:end-->\n' + end + '\n<!--/hp:end-->\n' + h.slice(foot);
 
-// 4. Scripts externes en fin de page (aucun nouveau script inline)
+// 4. Scripts externes, différés, en fin de page (aucun nouveau script inline). S'ils ne chargent pas,
+//    la page reste complète : l'écran de chargement s'efface seul en CSS (voir skin.css, .hp-loader).
 must(/<\/body>\s*<\/html>\s*$/.test(h), '</body></html>');
-h = h.replace(/\s*<\/body>\s*<\/html>\s*$/, () => '\n<!--hp:js--><script src="' + THREE_URL + '"></script>\n<script src="habillage/hp.js"></script><!--/hp:js-->\n</body></html>\n');
+h = h.replace(/\s*<\/body>\s*<\/html>\s*$/, () => '\n<!--hp:js--><script src="habillage/vendor/three.min.js" defer></script>\n<script src="habillage/hp.js" defer></script><!--/hp:js-->\n</body></html>\n');
 
 fs.writeFileSync(out, h);
 console.log((redo ? 'Habillage mis à jour -> ' : 'Habillage appliqué -> ') + out, (h.length / 1024).toFixed(0) + ' Ko');

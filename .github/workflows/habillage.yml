@@ -5,8 +5,8 @@
 # repasse les gardes statiques (CSP, tests unitaires, sentinelle) et ne pousse QUE s'ils sont verts.
 # En cas d'échec, la page brute du bot reste en ligne : le site ne casse jamais à cause de l'habillage.
 #
-# Le commit est poussé avec GITHUB_TOKEN : il ne relance aucun workflow (pas de boucle), mais GitHub
-# Pages le publie normalement.
+# Le commit est poussé avec GITHUB_TOKEN : il ne relance aucun workflow (pas de boucle). Pour ne pas
+# dépendre d'un déclenchement implicite de GitHub Pages, le job demande ensuite une publication explicite.
 name: Habillage du site
 on:
   push:
@@ -15,6 +15,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  pages: write
 concurrency:
   group: habillage
   cancel-in-progress: false
@@ -34,11 +35,18 @@ jobs:
           node .github/unit-tests.js
           node .github/sentinel.js
       - name: Publier si la page a changé
+        id: publier
         run: |
-          if git diff --quiet -- index.html; then echo "Déjà habillée, rien à publier."; exit 0; fi
+          if git diff --quiet -- index.html; then echo "Déjà habillée, rien à publier."; echo "pousse=non" >> "$GITHUB_OUTPUT"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
           git add index.html
           git commit -m "chore: réapplique l'habillage du site"
           git pull --rebase origin main
           git push origin HEAD:main
+          echo "pousse=oui" >> "$GITHUB_OUTPUT"
+      - name: Demander la publication GitHub Pages
+        if: steps.publier.outputs.pousse == 'oui'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Demande refusée : la publication automatique de Pages reste le repli."
