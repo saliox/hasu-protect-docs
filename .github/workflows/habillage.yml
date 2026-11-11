@@ -49,4 +49,5 @@ jobs:
         if: steps.publier.outputs.pousse == 'oui'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Demande refusée : la publication automatique de Pages reste le repli."
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Demande refusée, la publication automatique de Pages reste le repli."
