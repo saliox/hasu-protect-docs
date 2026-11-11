@@ -27,6 +27,13 @@ new MutationObserver(function(){if(document.documentElement.hasAttribute('data-t
   move('#gpanel','hp-guardian-slot');move('#gnext','hp-guardian-slot');
   move('.main .changelog','hp-news-slot');
   move('#faq','hp-faq-slot');
+  // Le script d'origine masque, pendant une recherche, toute <section> sans fiche de commande visible — et ne la
+  // ré-affiche jamais. La FAQ (#faq) en est une : après une seule recherche, elle restait vide pour de bon.
+  // Toute <section> sans .cmd devient donc un <div> (mêmes attributs, mêmes enfants, même place).
+  [].slice.call(document.querySelectorAll('section')).forEach(function(sec){
+    if(sec.querySelector('.cmd'))return;
+    var d=document.createElement('div');[].slice.call(sec.attributes).forEach(function(a){d.setAttribute(a.name,a.value);});
+    while(sec.firstChild)d.appendChild(sec.firstChild);sec.parentNode.replaceChild(d,sec);});
   var s=$('search');
   if(s){var bar=document.createElement('div');bar.className='hp-toolbar';s.parentNode.insertBefore(bar,s);
     ['search','rescount','catnav','accnav'].forEach(function(id){var e=$(id);if(e)bar.appendChild(e);});
