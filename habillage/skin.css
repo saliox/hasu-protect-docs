@@ -507,3 +507,17 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 .hp-gtip[hidden]{display:none}
 @keyframes hp-tipin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.hp-gtip{animation:none}}
+/* le lien « À propos » du haut ne s'affiche que s'il reste vraiment de la place (sinon : menu ☰ et pied de page) */
+@media(max-width:1499px){.hp-links a.l.wide{display:none}}
+.hp-top .bstat{max-width:150px}
+.hp-top .bstat #bstxt{overflow:hidden;text-overflow:ellipsis}
+/* flèche de repli : centrée SANS transform — la règle d'origine « button:hover{transform:translateY(-1px)} »
+   remplaçait le translateX(-50%) et la flèche sautait de 17 px vers la droite au survol */
+.hp-tbtog{left:calc(50% - 17px);transform:none}
+.hp-tbtog:hover,.hp-tbtog:focus-visible{transform:none}
+/* barre du haut : plus aucun débordement — liens dans le menu ☰ sous 1180 px, pastille d'état sous 1380 px,
+   « À propos » seulement dans le menu ☰ et le pied de page */
+.hp-links a.l.wide{display:none!important}
+@media(max-width:1380px){.hp-top .bstat{display:none!important}}
+@media(max-width:1180px){.hp-links a.l{display:none}.hp-burger{display:flex}.hp-top .topbtns{margin-left:0!important}}
+@media(min-width:981px) and (max-width:1180px){.hp-drop:not([hidden]){display:grid!important}}

@@ -177,7 +177,7 @@ function topBar(){var y=scrollY;topEl.classList.toggle('solid',y>30);
   if(burg)burg.addEventListener('click',function(e){e.stopPropagation();setDrop(drop.hidden);});
   document.addEventListener('click',function(e){if(drop&&!drop.hidden&&!drop.contains(e.target))setDrop(false);});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&drop&&!drop.hidden){setDrop(false);burg.focus();}});
-  addEventListener('resize',function(){if(innerWidth>980)setDrop(false);});
+  addEventListener('resize',function(){if(innerWidth>1180)setDrop(false);});
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented||e.ctrlKey||e.metaKey||e.shiftKey)return;
     if(!a.closest('#hp-top')&&!a.closest('#hp-hero')&&!a.closest('.hp-foot'))return;
