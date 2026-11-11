@@ -1,0 +1,86 @@
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="hp-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B95FF"/><stop offset="1" stop-color="#5865F2"/></linearGradient></defs></svg>
+<div class="hp-loader" id="hp-loader" aria-hidden="true"><div class="in"><div class="hp-logo">[+]</div><div class="count" id="hp-count">00</div><div class="bar"><i id="hp-bar"></i></div><div class="hp-mono" style="color:var(--hp-mut)"><span data-lang="fr">Vérification du serveur</span><span data-lang="en">Checking the server</span></div></div></div>
+<div class="hp-under" aria-hidden="true"></div>
+<canvas id="hp-gl" aria-hidden="true"></canvas>
+
+<div class="hp-top" id="hp-top">
+  <div class="bar">
+    <a class="hp-brand" href="#hp-hero"><span class="hp-logo">[+]</span><span class="t">Hasu Protect</span></a>
+    <nav class="hp-links" id="hp-links" aria-label="Sections">
+      <a class="l" href="#hp-docs" data-spy="hp-docs"><span data-lang="fr">Commandes</span><span data-lang="en">Commands</span></a>
+      <a class="l" href="#hp-guardian" data-spy="hp-guardian">Guardian AI</a>
+      <a class="l" href="#hp-news" data-spy="hp-news"><span data-lang="fr">Nouveautés</span><span data-lang="en">What's new</span></a>
+      <a class="l" href="#hp-faq" data-spy="hp-faq">FAQ</a>
+      <a class="hp-btn" href="#hp-invite"><span data-lang="fr">Ajouter le bot</span><span data-lang="en">Add the bot</span></a>
+    </nav>
+  </div>
+</div>
+
+<section id="hp-hero">
+  <div class="hp-wrap">
+    <div>
+      <span class="hp-eyebrow hp-mono hp-fade"><i></i><span data-lang="fr">Bot Discord · sécurité &amp; modération</span><span data-lang="en">Discord bot · security &amp; moderation</span></span>
+      <p class="hp-title" data-lang="fr"><span class="w"><span>Ton</span></span> <span class="w"><span>serveur</span></span> <span class="w"><span>Discord,</span></span> <span class="w"><span><em>sous</em></span></span> <span class="w"><span><em>bonne</em></span></span> <span class="w"><span><em>garde.</em></span></span></p>
+      <p class="hp-title" data-lang="en"><span class="w"><span>Your</span></span> <span class="w"><span>Discord</span></span> <span class="w"><span>server,</span></span> <span class="w"><span><em>safely</em></span></span> <span class="w"><span><em>guarded.</em></span></span></p>
+      <p class="hp-lede hp-fade" data-lang="fr">Anti-raid, anti-nuke, modération complète et Guardian AI, une IA qui s'entraîne chaque jour sur des attaques simulées. Toutes les commandes sont expliquées ici, avec une simulation pour chacune.</p>
+      <p class="hp-lede hp-fade" data-lang="en">Anti-raid, anti-nuke, full moderation and Guardian AI, an AI that trains every day on simulated attacks. Every command is explained here, each with a simulation.</p>
+      <div class="hp-ctas hp-fade">
+        <a class="hp-btn" href="#hp-invite"><span class="dot"></span><span data-lang="fr">Ajouter le bot</span><span data-lang="en">Add the bot</span></a>
+        <a class="hp-btn ghost" href="#hp-docs"><span data-lang="fr">Voir les commandes</span><span data-lang="en">Browse commands</span></a>
+      </div>
+    </div>
+    <div></div>
+  </div>
+  <div class="hp-scrollcue hp-mono" aria-hidden="true"><span data-lang="fr">Défiler</span><span data-lang="en">Scroll</span><i></i></div>
+</section>
+
+<section class="hp-sec" id="hp-stats">
+  <div class="hp-wrap">
+    <div class="hp-head hp-reveal">
+      <div><span class="hp-kicker hp-mono"><span data-lang="fr">En chiffres</span><span data-lang="en">By the numbers</span></span><h2 class="hp-h2"><span data-lang="fr">Ce que Hasu protège aujourd'hui.</span><span data-lang="en">What Hasu protects today.</span></h2></div>
+      <p><span data-lang="fr">Chiffres relevés en direct par le bot et mis à jour sur cette page.</span><span data-lang="en">Figures reported live by the bot and refreshed on this page.</span></p>
+    </div>
+    <div class="hp-stats">
+      <div class="hp-tile big hp-reveal" style="--glow:rgba(88,101,242,.25)">
+        <span class="lab hp-mono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg><span data-lang="fr">Serveurs protégés</span><span data-lang="en">Protected servers</span></span>
+        <div class="hp-num" data-src="bServers">20</div>
+        <span class="sub"><span data-lang="fr">sous la surveillance de l'anti-raid</span><span data-lang="en">watched by the anti-raid</span></span>
+      </div>
+      <div class="hp-tile big hp-reveal" style="--glow:rgba(225,38,45,.2);--ic:#FF6B6B">
+        <span class="lab hp-mono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.6.1 4.6 1.8 5.5 4.9"/></svg><span data-lang="fr">Membres protégés</span><span data-lang="en">Protected members</span></span>
+        <div class="hp-num" data-src="bMembers">4 340</div>
+        <span class="sub"><span data-lang="fr">sur l'ensemble des serveurs</span><span data-lang="en">across all servers</span></span>
+      </div>
+      <div class="hp-tile hp-reveal">
+        <span class="lab hp-mono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg><span data-lang="fr">Commandes</span><span data-lang="en">Commands</span></span>
+        <div class="hp-num"><span data-src="bCmds">262</span><small data-lang="fr">dans <span data-src="bCats">7</span> catégories</small><small data-lang="en">in <span data-src="bCats">7</span> categories</small></div>
+      </div>
+      <div class="hp-tile status unk hp-reveal" id="hp-status" role="button" tabindex="0" style="--glow:rgba(87,242,135,.14)">
+        <span class="lab hp-mono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><span data-lang="fr">État du bot</span><span data-lang="en">Bot status</span></span>
+        <div class="st"><i></i><span id="hp-status-txt">…</span></div>
+        <span class="sub"><span data-lang="fr">Clique pour la disponibilité sur 7 jours</span><span data-lang="en">Click for 7-day uptime</span></span>
+      </div>
+      <div class="hp-tile hp-reveal" style="--glow:rgba(139,149,255,.22)">
+        <span class="lab hp-mono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Guardian AI</span>
+        <div class="hp-ring"><svg viewBox="0 0 100 100"><circle class="bgc" cx="50" cy="50" r="42"/><circle class="fg" id="hp-ring" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9"/></svg><div><div class="hp-num" id="hp-mastery" style="margin:0">81%</div><span class="sub"><span data-lang="fr">de maîtrise globale</span><span data-lang="en">overall mastery</span></span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hp-sec" id="hp-start">
+  <div class="hp-wrap">
+    <div class="hp-head hp-reveal">
+      <div><span class="hp-kicker hp-mono"><span data-lang="fr">Premiers pas</span><span data-lang="en">Getting started</span></span><h2 class="hp-h2"><span data-lang="fr">Protégé en cinq commandes.</span><span data-lang="en">Protected in five commands.</span></h2></div>
+      <p><span data-lang="fr">Clique sur une commande pour voir sa simulation.</span><span data-lang="en">Click a command to see its simulation.</span></p>
+    </div>
+    <div id="hp-start-slot" class="hp-reveal"></div>
+  </div>
+</section>
+
+<div class="hp-wrap" id="hp-docs">
+  <div class="hp-head hp-reveal" style="margin-top:clamp(60px,10vh,110px)">
+    <div><span class="hp-kicker hp-mono"><span data-lang="fr">Documentation</span><span data-lang="en">Documentation</span></span><h2 class="hp-h2"><span data-lang="fr">Toutes les commandes.</span><span data-lang="en">Every command.</span></h2></div>
+    <p><span data-lang="fr">Recherche par nom ou description, filtre par catégorie et par niveau d'accès. Raccourci : touche /.</span><span data-lang="en">Search by name or description, filter by category and access level. Shortcut: the / key.</span></p>
+  </div>
+</div>

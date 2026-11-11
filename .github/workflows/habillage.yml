@@ -1,0 +1,44 @@
+# Réapplique l'habillage du site (habillage/) chaque fois que index.html est republié sans lui.
+#
+# Le bot régénère index.html depuis son template local à chaque « maj site » : sans ce job, la page
+# habillée serait remplacée par la page brute au premier déploiement du bot. Le job habille la page,
+# repasse les gardes statiques (CSP, tests unitaires, sentinelle) et ne pousse QUE s'ils sont verts.
+# En cas d'échec, la page brute du bot reste en ligne : le site ne casse jamais à cause de l'habillage.
+#
+# Le commit est poussé avec GITHUB_TOKEN : il ne relance aucun workflow (pas de boucle), mais GitHub
+# Pages le publie normalement.
+name: Habillage du site
+on:
+  push:
+    branches: [main]
+    paths: ['index.html', 'habillage/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: habillage
+  cancel-in-progress: false
+jobs:
+  habiller:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Habiller index.html
+        run: node habillage/habiller.js
+      - name: Gardes statiques sur la page habillée
+        run: |
+          node .github/check-csp.js
+          node .github/unit-tests.js
+          node .github/sentinel.js
+      - name: Publier si la page a changé
+        run: |
+          if git diff --quiet -- index.html; then echo "Déjà habillée, rien à publier."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "chore: réapplique l'habillage du site"
+          git pull --rebase origin main
+          git push origin HEAD:main
