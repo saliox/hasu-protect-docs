@@ -293,7 +293,8 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   // pendant son décompte 0 → 20 donnait « 9 serveurs protégés ».
   function num(id){var e=$(id);return e?parseNum(e.textContent):null;}
   function upd(){var sv=num('bServers');if(sv!=null)s.textContent=fmt(sv);
-    var cm=num('bCmds');c.textContent=fmt(cm!=null?cm:document.querySelectorAll('.cmd[data-n]').length);}
+    var cm=num('bCmds');c.textContent=fmt(cm!=null?cm:document.querySelectorAll('.cmd[data-n]').length);
+    [].slice.call(document.querySelectorAll('.hp-ncmd')).forEach(function(e){e.textContent=c.textContent;});}
   upd();setInterval(upd,3000);
 })();
 
