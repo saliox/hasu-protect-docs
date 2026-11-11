@@ -33,6 +33,9 @@ new MutationObserver(function(){if(document.documentElement.hasAttribute('data-t
   [].slice.call(document.querySelectorAll('section')).forEach(function(sec){
     if(sec.querySelector('.cmd'))return;
     var d=document.createElement('div');[].slice.call(sec.attributes).forEach(function(a){d.setAttribute(a.name,a.value);});
+    // si la page s'ouvre avec une recherche ou un filtre dans l'adresse (?q=, ?cat=, ?acc=), le script d'origine
+    // a DÉJÀ masqué la section avant ce code : on ne recopie pas ce display:none
+    d.style.removeProperty('display');if(!d.getAttribute('style'))d.removeAttribute('style');
     while(sec.firstChild)d.appendChild(sec.firstChild);sec.parentNode.replaceChild(d,sec);});
   var s=$('search');
   if(s){var bar=document.createElement('div');bar.className='hp-toolbar';s.parentNode.insertBefore(bar,s);
