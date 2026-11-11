@@ -334,7 +334,7 @@ var CH=(function(){ // chaîne : acier brossé dans le sens du fil, micro-piqûr
 /* ── cadenas doré au centre, devant un halo céleste (rayons, cercle runique des serveurs, emblème, nuages, drapé rouge) ── */
 var group=new THREE.Group();scene.add(group);
 // cadenas
-var lock=new THREE.Group();group.add(lock);
+var lock=new THREE.Group();   // cadenas retiré de la scène (demande)
 var gold=new THREE.MeshPhysicalMaterial({color:0xF4C24A,normalMap:PL.norm,normalScale:new THREE.Vector2(.12,.12),metalness:.6,roughness:.34,clearcoat:.7,clearcoatRoughness:.1,envMapIntensity:1.6,emissive:0x2a1800,emissiveIntensity:.3});
 gold.toneMapped=false;   // or franc : le rendu tonal le désaturait en kaki
 [PL.col,PL.rough,PL.norm].forEach(function(t){t.repeat.set(1.4,1.4);});
