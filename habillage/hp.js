@@ -362,7 +362,7 @@ var shackle=new THREE.Mesh(shackleG,chrome);pivot.add(shackle);
 lock.position.set(0,-.2,.1);
 var lockLight=new THREE.PointLight(0xfff1d6,2.2,9,2);lockLight.position.set(1.2,1.4,3.2);group.add(lockLight);   // lumière chaude face au cadenas : l'or brille même sur fond noir
 /* halo céleste : tout est peint une fois sur des canvas, puis posé sur des plans face caméra */
-var GOLD='#F4C24A',halo=new THREE.Group();scene.add(halo);
+var GOLD='#F4C24A',halo=new THREE.Group();   // halo, ruban et emblème retirés de la scène (demande)
 function glow(g,col,blur){g.strokeStyle=col;g.fillStyle=col;g.shadowColor='rgba(255,176,48,.85)';g.shadowBlur=blur;}
 function stex(c){var t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;t.anisotropy=ANISO;return t;}
 function hplane(w,h,t,x,y,z,ro,add,o){var m=new THREE.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,toneMapped:false,opacity:o||1,side:THREE.DoubleSide,blending:add?THREE.AdditiveBlending:THREE.NormalBlending});
