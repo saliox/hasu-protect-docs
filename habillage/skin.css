@@ -563,3 +563,11 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 #hp-invite .hp-perks{margin:14px auto 0;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--hp-mut)}
 /* fin de page : halo central aux couleurs du site (bleu-violet), discret */
 #hp-invite{background:radial-gradient(55% 50% at 50% 38%,rgba(88,101,242,.07),rgba(139,92,246,.03) 45%,transparent 72%)}
+/* top.gg rejoint les liens du créateur (vote + widget), à côté de GitHub : la fin de page s'étale moins */
+.hp-social.topgg{background:#1f1a24;border:1px solid rgba(255,51,102,.45);box-shadow:0 14px 30px -16px rgba(255,51,102,.55)}
+.hp-social.topgg svg{color:#FF3366}
+.hp-maker .links{align-items:center}
+.hp-maker #hp-topgg:empty{display:none}
+.hp-maker #hp-topgg .topgg-badge{margin:0!important;text-align:left!important}
+.hp-maker #hp-topgg img{display:block;height:58px;width:auto;border-radius:10px}
+@media(max-width:620px){.hp-maker #hp-topgg{width:100%;display:flex;justify-content:center}}
