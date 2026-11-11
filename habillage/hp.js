@@ -229,6 +229,26 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   });
 })();
 
+/* ── accueil : simulation d'un raid bloqué (les messages arrivent un à un, puis la boucle recommence) ── */
+(function(){
+  var card=$('hp-live');if(!card)return;
+  var items=[].slice.call(card.querySelectorAll('.feed li')),clock=$('hp-live-t'),n=0,t0=0,timer=null,visible=true,running=false;
+  function fmt(ms){var s=(ms/1000).toFixed(1);return ((document.documentElement.lang||'').slice(0,2)==='en'?s:s.replace('.',','))+' s';}
+  if(reduce){items.forEach(function(li){li.classList.add('in');});card.classList.add('done');if(clock)clock.textContent=fmt(2400);return;}
+  function reset(){items.forEach(function(li){li.classList.remove('in','now');});card.classList.remove('done');n=0;t0=performance.now();}
+  function step(){timer=null;if(!visible||document.hidden){running=false;return;}
+    if(n<items.length){items.forEach(function(li){li.classList.remove('now');});items[n].classList.add('in','now');n++;
+      if(n===items.length){card.classList.add('done');if(clock)clock.textContent=fmt(performance.now()-t0);timer=setTimeout(step,4200);}
+      else timer=setTimeout(step,n===1?1100:900);}
+    else{items.forEach(function(li){li.style.transitionDelay='';li.classList.remove('in','now');});timer=setTimeout(function(){reset();step();},700);}}
+  function tick(){if(running&&!card.classList.contains('done')&&clock)clock.textContent=fmt(performance.now()-t0);if(running)requestAnimationFrame(tick);}
+  function start(){if(running||!visible||document.hidden)return;running=true;reset();requestAnimationFrame(tick);if(timer)clearTimeout(timer);timer=setTimeout(step,500);}
+  function stop(){running=false;if(timer){clearTimeout(timer);timer=null;}}
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){visible=es[0].isIntersecting;if(visible)start();else stop();}).observe(card);
+  document.addEventListener('visibilitychange',function(){if(document.hidden)stop();else start();});
+  start();
+})();
+
 /* ── fiches : inclinaison + halo qui suit la souris ── */
 (function(){
   if(reduce||!fine)return;var cur=null;
