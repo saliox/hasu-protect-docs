@@ -271,8 +271,9 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
 (function(){
   var box=$('hp-mods');if(!box)return;
   box.querySelectorAll('[data-count]').forEach(function(b){var n=document.querySelectorAll('[data-n][data-cat="'+b.getAttribute('data-count')+'"]').length;if(n)b.textContent=n;});
-  function mastery(){var m=$('hp-mastery'),b=box.querySelector('[data-mastery]');if(m&&b&&/\d/.test(m.textContent))b.textContent=m.textContent.replace(/\s*%/,' %');}
-  mastery();setTimeout(mastery,2500);setTimeout(mastery,8000);
+  // source = la valeur rendue par le bot dans le panneau Guardian (#gpanel .gbig .n), pas la tuile animée #hp-mastery
+  function mastery(){var b=box.querySelector('[data-mastery]'),g=Q('#gpanel .gbig .n'),v=g?parseNum(g.textContent):null;if(b&&v!=null)b.textContent=v+' %';}
+  mastery();setInterval(mastery,3000);
   box.querySelectorAll('.hp-mod[data-cat]').forEach(function(a){a.addEventListener('click',function(e){
     var chip=document.querySelector('.navf[data-cat="'+a.getAttribute('data-cat')+'"]'),s=$('search');if(!chip||!s)return;
     e.preventDefault();if(!chip.classList.contains('active'))chip.click();
@@ -288,9 +289,12 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   var v=$('hp-afig-v'),c=$('hp-afig-c'),s=$('hp-afig-s');if(!v)return;
   var mb=document.querySelector('#hp-news .more[data-count],#moreBtn[data-count]'),n=mb?parseInt(mb.getAttribute('data-count'),10):NaN;
   if(n>0)v.textContent=n+1;   // l'historique + la version en cours
-  var k=document.querySelectorAll('.cmd[data-n],[data-n][data-cat]').length;if(k)c.textContent=k;
-  function srv(){var e=document.querySelector('[data-src="bServers"]');if(e&&/\d/.test(e.textContent))s.textContent=e.textContent.trim();}
-  srv();setTimeout(srv,3000);setTimeout(srv,9000);
+  // Les chiffres viennent des SOURCES du bot (#bServers, #bCmds), jamais des tuiles animées : lire une tuile
+  // pendant son décompte 0 → 20 donnait « 9 serveurs protégés ».
+  function num(id){var e=$(id);return e?parseNum(e.textContent):null;}
+  function upd(){var sv=num('bServers');if(sv!=null)s.textContent=fmt(sv);
+    var cm=num('bCmds');c.textContent=fmt(cm!=null?cm:document.querySelectorAll('.cmd[data-n]').length);}
+  upd();setInterval(upd,3000);
 })();
 
 /* ── Guardian AI : un descriptif de chaque statistique au survol (et au clavier, et au toucher) ── */
