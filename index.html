@@ -767,6 +767,16 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
 .hp-gcards p{font-size:.92rem}
 @media(max-width:900px){.hp-guide{grid-template-columns:1fr}.hp-gtabs{position:static;flex-direction:row;overflow-x:auto;scrollbar-width:none}.hp-gtabs button{flex:none}}
 @media(max-width:620px){.hp-gcols,.hp-gcards{grid-template-columns:1fr}.hp-gtable>div{grid-template-columns:1fr 1fr}.hp-gtable>div>span:last-child{grid-column:1/-1;color:var(--hp-mut)}.hp-steps>li{padding-left:44px}}
+/* recherche dans la barre du haut (toujours visible) */
+.hp-tsearch{flex:1 1 auto;max-width:300px;min-width:0;display:flex;align-items:center;gap:8px;margin:0 auto 0 18px;padding:7px 10px;border-radius:10px;border:1px solid var(--hp-line2);background:rgba(255,255,255,.03);color:var(--hp-mut);cursor:text;transition:border-color .3s,background-color .3s}
+.hp-tsearch:hover{border-color:rgba(255,255,255,.18)}
+.hp-tsearch:focus-within{border-color:rgba(88,101,242,.75);background:rgba(88,101,242,.08);color:var(--hp-txt)}
+.hp-tsearch svg{width:15px;height:15px;flex:none}
+.hp-tsearch input{all:unset;flex:1;min-width:0;font-family:inherit;font-size:.85rem;color:var(--hp-txt)}
+.hp-tsearch input::placeholder{color:var(--hp-mut);opacity:1}
+.hp-tsearch input::-webkit-search-cancel-button{-webkit-appearance:none}
+.hp-tsearch kbd{font-family:var(--hp-mono);font-size:.68rem;line-height:1;padding:3px 6px;border:1px solid var(--hp-line2);border-radius:5px;color:var(--hp-mut)}
+@media(max-width:720px){.hp-top .hp-brand .t{display:none}.hp-tsearch{margin-left:10px}.hp-tsearch kbd{display:none}}
 
 </style><!--/hp:head-->
 </head><body>
@@ -780,6 +790,7 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
 <div class="hp-top" id="hp-top">
   <div class="bar">
     <a class="hp-brand" href="#hp-hero"><span class="hp-logo">[+]</span><span class="t">Hasu Protect</span></a>
+    <label class="hp-tsearch" for="hp-tsearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="hp-tsearch" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Rechercher une commande" aria-label="Rechercher une commande"><kbd>/</kbd></label>
     <nav class="hp-links" id="hp-links" aria-label="Sections">
       <a class="l" href="#hp-hero" data-spy="hp-hero"><span data-lang="fr">Accueil</span><span data-lang="en">Home</span></a>
       <a class="l" href="#hp-guide" data-spy="hp-guide">Guide</a>

@@ -149,7 +149,6 @@ function paintBg(){var pos=scrollY+innerHeight*.55,c=STOPS[0][3].slice();
 var topEl=$('hp-top'),lastY=scrollY,spy=[].slice.call(document.querySelectorAll('[data-spy]')),prog=$('hp-prog');
 function topBar(){var y=scrollY;topEl.classList.toggle('solid',y>30);
   if(prog){var mx=document.documentElement.scrollHeight-innerHeight;prog.style.setProperty('--p',mx>0?clamp(y/mx).toFixed(4):'0');}
-  if(Math.abs(y-lastY)>6){topEl.classList.toggle('away',y>lastY&&y>innerHeight*.7&&!Q('.ov.open')&&!$('uppop'));lastY=y;}
   var cur=null;spy.forEach(function(a){var s=$(a.getAttribute('data-spy'));if(s&&s.getBoundingClientRect().top<innerHeight*.4)cur=a;});spy.forEach(function(a){a.classList.toggle('on',a===cur);});}
 addEventListener('scroll',function(){paintBg();topBar();},{passive:true});
 addEventListener('resize',function(){measure();paintBg();});
@@ -174,9 +173,24 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   addEventListener('keydown',function(){run=false;});addEventListener('pointerdown',function(){run=false;});
 })();
 
-/* ── taper n'importe où écrit directement dans la recherche ── */
+/* ── recherche de la barre du haut : toujours visible, synchronisée avec celle de la documentation ── */
 (function(){
-  var s=$('search');if(!s)return;
+  var s=$('search'),ts=$('hp-tsearch');if(!ts)return;
+  if(!s){ts.parentNode.style.display='none';return;}
+  var syncing=false,html=document.documentElement;
+  function ph(){var en=(html.lang||'').slice(0,2)==='en';ts.placeholder=en?'Search a command':'Rechercher une commande';ts.setAttribute('aria-label',ts.placeholder);}
+  ph();new MutationObserver(ph).observe(html,{attributes:true,attributeFilter:['lang']});
+  function showResults(){var d=$('hp-docs'),bar=$('hp-top');if(!d)return;var r=s.getBoundingClientRect(),h=bar?bar.getBoundingClientRect().bottom:0;
+    if(r.top<h||r.bottom>innerHeight*.5)window.scrollTo({top:d.getBoundingClientRect().top+scrollY-h-4,behavior:reduce?'auto':'smooth'});}
+  ts.addEventListener('input',function(){if(syncing)return;syncing=true;s.value=ts.value;s.dispatchEvent(new Event('input',{bubbles:true}));syncing=false;if(ts.value)showResults();});
+  s.addEventListener('input',function(){if(!syncing&&ts.value!==s.value)ts.value=s.value;});
+  ts.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();showResults();}else if(e.key==='Escape'&&ts.value){e.preventDefault();ts.value='';ts.dispatchEvent(new Event('input',{bubbles:true}));}});
+  if(s.value)ts.value=s.value;
+})();
+
+/* ── taper n'importe où écrit directement dans la recherche (celle de la barre du haut si elle existe) ── */
+(function(){
+  var s=$('hp-tsearch')||$('search');if(!s||!$('search'))return;
   function editable(el){return el&&(/^(input|textarea|select)$/i.test(el.tagName)||el.isContentEditable);}
   function overlayOpen(){
     if(Q('.ov.open')||$('uppop'))return true;
@@ -193,8 +207,8 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
     s.focus({preventScroll:true});
     var v=s.value+k;s.value=v;s.setSelectionRange(v.length,v.length);
     s.dispatchEvent(new Event('input',{bubbles:true}));
-    var r=s.getBoundingClientRect();
-    if(r.top<0||r.bottom>innerHeight){var d=$('hp-docs');if(d)window.scrollTo({top:d.getBoundingClientRect().top+scrollY-10,behavior:reduce?'auto':'smooth'});}
+    if(s.id==='search'){var r=s.getBoundingClientRect();
+      if(r.top<0||r.bottom>innerHeight){var d=$('hp-docs');if(d)window.scrollTo({top:d.getBoundingClientRect().top+scrollY-10,behavior:reduce?'auto':'smooth'});}}
   });
 })();
 
