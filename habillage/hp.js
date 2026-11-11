@@ -344,9 +344,9 @@ sphMat.onBeforeCompile=function(sh){for(var k in rimUni)sh.uniforms[k]=rimUni[k]
   sh.fragmentShader='uniform float uRim;\nuniform vec3 uRimA;\nuniform vec3 uRimB;\nuniform float uMix;\n'+sh.fragmentShader
     .replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n float hpFr=pow(1.0-clamp(abs(dot(normalize(normal),normalize(vViewPosition))),0.0,1.0),3.0);\n totalEmissiveRadiance+=mix(uRimA,uRimB,uMix)*hpFr*uRim;');};
 sphMat.customProgramCacheKey=function(){return 'hp-sph2';};
-var sphere=new THREE.Mesh(new THREE.SphereGeometry(R,96,64),sphMat);group.add(sphere);
+var sphere=new THREE.Mesh(new THREE.SphereGeometry(R,96,64),sphMat);   // sphère retirée de la scène (demande)
 // cadenas 2D gris, toujours face à l'écran, posé devant la sphère
-var lock=new THREE.Group();   // cadenas retiré de la scène (demande) : construit mais jamais affiché
+var lock=new THREE.Group();scene.add(lock);
 function flat(c){return new THREE.MeshBasicMaterial({color:c,toneMapped:false});}
 function rrect(w,h,r){var s=new THREE.Shape(),x=-w/2,y=-h/2;s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
   s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);return s;}
@@ -471,8 +471,8 @@ function frame(now){
   group.scale.multiplyScalar(Math.max(.0001,(1-out)*(.6+.4*appear)*(1-end)));
   // le cadenas suit la sphère mais reste à plat, face à l'écran, juste devant elle
   var gs=group.scale.x;camDir.copy(camera.position).sub(group.position).normalize();
-  lock.position.copy(group.position).addScaledVector(camDir,R*gs*1.03);lock.quaternion.copy(camera.quaternion);
-  lock.rotateZ(Math.sin(time*.7)*.04);lock.scale.setScalar(gs*(1+.05*Math.sin(lockO*Math.PI)));lock.visible=gs>.001;
+  lock.position.copy(group.position).addScaledVector(camDir,.3*gs);lock.quaternion.copy(camera.quaternion);
+  lock.rotateZ(Math.sin(time*.7)*.04);lock.scale.setScalar(gs*1.6*(1+.05*Math.sin(lockO*Math.PI)));lock.visible=gs>.001;
   P.phase=time*.45;P.amp=.9-gMix*.3;P.tilt=.32*(1-ss(.6,1.4,y/vh))+.06;P.y=(1-ease(chainIn))*10-end*12+(narrow?.8:0);P.depth=1.2+gMix*.6;
   chain.visible=false;
   chainMat.color.copy(silver).lerp(blueTint,gMix*.6);
