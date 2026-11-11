@@ -55,7 +55,7 @@ h = h.slice(0, foot) + '<!--hp:end-->\n' + end + '\n<!--/hp:end-->\n' + h.slice(
 // 4. Scripts externes, différés, en fin de page (aucun nouveau script inline). S'ils ne chargent pas,
 //    la page reste complète : l'écran de chargement s'efface seul en CSS (voir skin.css, .hp-loader).
 must(/<\/body>\s*<\/html>\s*$/.test(h), '</body></html>');
-h = h.replace(/\s*<\/body>\s*<\/html>\s*$/, () => '\n<!--hp:js--><script src="habillage/vendor/three.min.js" defer></script>\n<script src="habillage/hp.js" defer></script><!--/hp:js-->\n</body></html>\n');
+h = h.replace(/\s*<\/body>\s*<\/html>\s*$/, () => '\n<!--hp:js--><script src="habillage/hp.js" defer></script><!--/hp:js-->\n</body></html>\n');
 
 fs.writeFileSync(out, h);
 console.log((redo ? 'Habillage mis à jour -> ' : 'Habillage appliqué -> ') + out, (h.length / 1024).toFixed(0) + ' Ko');

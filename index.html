@@ -852,6 +852,20 @@ html{scroll-padding-top:92px}
 .hp-tsearch{min-width:170px}
 @media(max-width:1180px){.hp-top .bstat{display:none!important}.hp-tsearch{min-width:150px}}
 @media(max-width:720px){.hp-tsearch{min-width:0}}
+/* à propos : chiffres et parcours */
+.hp-afig{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin-top:22px;border-radius:18px;overflow:hidden;border:1px solid var(--hp-line);background:var(--hp-line)}
+.hp-afig>div{display:flex;flex-direction:column;gap:4px;padding:20px 22px;background:#0b0b0f}
+.hp-afig b{font-family:var(--hp-display);font-size:clamp(1.5rem,2.6vw,2.1rem);font-weight:700;letter-spacing:-.02em;color:var(--hp-txt);line-height:1.1}
+.hp-afig>div>span{color:var(--hp-mut);font-size:.84rem}
+.hp-time{margin-top:34px}
+.hp-time h3{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--hp-gold);margin:0 0 18px;font-weight:600}
+.hp-time ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;position:relative}
+.hp-time ol::before{content:"";position:absolute;left:6px;right:6px;top:6px;height:1px;background:linear-gradient(90deg,var(--hp-line2),rgba(255,255,255,.04))}
+.hp-time li{position:relative;padding-top:26px}
+.hp-time li::before{content:"";position:absolute;left:0;top:0;width:13px;height:13px;border-radius:50%;background:#0b0b0f;border:2px solid var(--tc);box-shadow:0 0 14px color-mix(in srgb,var(--tc) 55%,transparent)}
+.hp-time time{display:block;font-family:var(--hp-mono);font-size:.76rem;color:var(--tc);margin-bottom:6px}
+.hp-time p{margin:0;color:#B4B4C6;font-size:.88rem;line-height:1.55}
+@media(max-width:1000px){.hp-afig{grid-template-columns:1fr 1fr}.hp-time ol{grid-template-columns:1fr;gap:18px;padding-left:26px}.hp-time ol::before{left:6px;right:auto;top:6px;bottom:6px;width:1px;height:auto;background:linear-gradient(var(--hp-line2),rgba(255,255,255,.04))}.hp-time li{padding-top:0}.hp-time li::before{left:-26px;top:2px}}
 
 </style><!--/hp:head-->
 </head><body>
@@ -2546,6 +2560,22 @@ html{scroll-padding-top:92px}
         <p><span data-lang="fr">Ce site n'affiche que des totaux. Aucun nom de serveur ni aucun identifiant n'y est publié.</span><span data-lang="en">This site only shows totals. No server name or ID is ever published here.</span></p>
       </article>
     </div>
+    <div class="hp-afig hp-reveal">
+      <div><b id="hp-afig-v">64</b><span data-lang="fr">versions publiées</span><span data-lang="en">versions released</span></div>
+      <div><b id="hp-afig-c">262</b><span data-lang="fr">commandes documentées</span><span data-lang="en">documented commands</span></div>
+      <div><b id="hp-afig-s">20</b><span data-lang="fr">serveurs protégés</span><span data-lang="en">protected servers</span></div>
+      <div><b><span data-lang="fr">juin 2026</span><span data-lang="en">June 2026</span></b><span data-lang="fr">première version publique</span><span data-lang="en">first public release</span></div>
+    </div>
+    <div class="hp-time hp-reveal">
+      <h3 class="hp-mono"><span data-lang="fr">Le parcours</span><span data-lang="en">The journey</span></h3>
+      <ol>
+        <li style="--tc:#8B95FF"><time><span data-lang="fr">26 juin 2026</span><span data-lang="en">26 June 2026</span></time><p><span data-lang="fr">Guardian AI en bêta, la documentation en ligne, et un changelog transparent dès le premier jour.</span><span data-lang="en">Guardian AI in beta, the online documentation, and a transparent changelog from day one.</span></p></li>
+        <li style="--tc:#F1C40F"><time><span data-lang="fr">27 juin 2026</span><span data-lang="en">27 June 2026</span></time><p><span data-lang="fr">Bouclier de raid adaptatif, réseau anti-menaces entre serveurs, et récupération après un raid avec +undo.</span><span data-lang="en">Adaptive raid shield, cross-server threat network, and post-raid recovery with +undo.</span></p></li>
+        <li style="--tc:#57F287"><time><span data-lang="fr">Juillet 2026</span><span data-lang="en">July 2026</span></time><p><span data-lang="fr">La vie de communauté arrive : jeux, expéditions coopératives, badges, quiz entre serveurs.</span><span data-lang="en">Community life arrives: games, co-op expeditions, badges, cross-server quiz.</span></p></li>
+        <li style="--tc:#FF6B6B"><time><span data-lang="fr">Août 2026</span><span data-lang="en">August 2026</span></time><p><span data-lang="fr">Protections et journaux repris en profondeur, puis 31 demandes d'utilisateurs intégrées d'un coup.</span><span data-lang="en">Protections and logs reworked in depth, then 31 user requests shipped at once.</span></p></li>
+        <li style="--tc:#8B95FF"><time><span data-lang="fr">2 sept. 2026</span><span data-lang="en">2 Sept 2026</span></time><p><span data-lang="fr">Un salon supprimé n'éteint plus six fonctions en silence : la version en cours.</span><span data-lang="en">A deleted channel no longer silently switches off six features: the current version.</span></p></li>
+      </ol>
+    </div>
   </div>
 </section>
 
@@ -3769,6 +3799,5 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
  h=h.toLowerCase();if(!h)return;
  var card=cards().filter(function(c){return c.dataset.n&&c.dataset.n.toLowerCase()===h;})[0];
  if(card)openSim(card);}catch(e){}})();</script>
-<!--hp:js--><script src="habillage/vendor/three.min.js" defer></script>
-<script src="habillage/hp.js" defer></script><!--/hp:js-->
+<!--hp:js--><script src="habillage/hp.js" defer></script><!--/hp:js-->
 </body></html>

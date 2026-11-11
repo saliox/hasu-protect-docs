@@ -276,6 +276,16 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   box.querySelectorAll('.hp-mod').forEach(function(a){a.addEventListener('pointermove',function(e){var r=a.getBoundingClientRect();a.style.setProperty('--mx',(e.clientX-r.left)+'px');a.style.setProperty('--my',(e.clientY-r.top)+'px');});});
 })();
 
+/* ── à propos : chiffres tirés de la page (versions du changelog, fiches de commandes, compteur de serveurs) ── */
+(function(){
+  var v=$('hp-afig-v'),c=$('hp-afig-c'),s=$('hp-afig-s');if(!v)return;
+  var mb=document.querySelector('#hp-news .more[data-count],#moreBtn[data-count]'),n=mb?parseInt(mb.getAttribute('data-count'),10):NaN;
+  if(n>0)v.textContent=n+1;   // l'historique + la version en cours
+  var k=document.querySelectorAll('.cmd[data-n],[data-n][data-cat]').length;if(k)c.textContent=k;
+  function srv(){var e=document.querySelector('[data-src="bServers"]');if(e&&/\d/.test(e.textContent))s.textContent=e.textContent.trim();}
+  srv();setTimeout(srv,3000);setTimeout(srv,9000);
+})();
+
 /* ── fiches : inclinaison + halo qui suit la souris ── */
 (function(){
   if(reduce||!fine)return;var cur=null;
@@ -334,7 +344,7 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
 /* ── WebGL : sphère de verre + cadenas + chaîne ── */
 var THREE=window.THREE,canvas=$('hp-gl'),giant=$('hp-giant');
 // « réduire les animations » : pas de scène 3D du tout (elle bouge avec le défilement et la souris) ; la page reste complète
-if(!THREE||!canvas||reduce){if(canvas&&reduce)canvas.remove();return;}
+if(!THREE||!canvas||reduce){if(canvas)canvas.remove();return;}   // three.js n'est plus chargé (plus de visuel 3D) : on s'arrête ici
 var renderer;
 try{renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true,powerPreference:'high-performance'});}catch(e){canvas.remove();return;}
 // Pas d'accélération graphique (rendu logiciel : SwiftShader, llvmpipe…) : la scène gèlerait la page entière.
