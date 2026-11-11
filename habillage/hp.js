@@ -29,7 +29,24 @@ new MutationObserver(function(){if(document.documentElement.hasAttribute('data-t
   move('#faq','hp-faq-slot');
   var s=$('search');
   if(s){var bar=document.createElement('div');bar.className='hp-toolbar';s.parentNode.insertBefore(bar,s);
-    ['search','rescount','catnav','accnav'].forEach(function(id){var e=$(id);if(e)bar.appendChild(e);});}
+    ['search','rescount','catnav','accnav'].forEach(function(id){var e=$(id);if(e)bar.appendChild(e);});
+    // petite flèche pour replier la recherche et les filtres (choix mémorisé dans ce navigateur)
+    var lbl=document.createElement('button');lbl.type='button';lbl.className='hp-tbmin';
+    lbl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span class="t"></span><em></em>';
+    var tog=document.createElement('button');tog.type='button';tog.className='hp-tbtog';
+    tog.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>';
+    bar.insertBefore(lbl,bar.firstChild);bar.appendChild(tog);
+    function setMin(on,save){bar.classList.toggle('min',on);tog.setAttribute('aria-expanded',on?'false':'true');
+      var en=(document.documentElement.lang||'').slice(0,2)==='en';tog.setAttribute('aria-label',on?(en?'Show search and filters':'Afficher la recherche et les filtres'):(en?'Hide search and filters':'Masquer la recherche et les filtres'));tog.title=tog.getAttribute('aria-label');lbl.querySelector('.t').textContent=en?'Search and filters':'Recherche et filtres';
+      lbl.querySelector('em').textContent=s.value?'« '+s.value+' »':'';
+      if(save)try{localStorage.setItem('hp-tb-min',on?'1':'0');}catch(e){}}
+    var start=false;try{start=localStorage.getItem('hp-tb-min')==='1';}catch(e){}
+    setMin(start,false);
+    new MutationObserver(function(){setMin(bar.classList.contains('min'),false);}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+    tog.addEventListener('click',function(){setMin(!bar.classList.contains('min'),true);});
+    lbl.addEventListener('click',function(){setMin(false,true);s.focus({preventScroll:true});});
+    s.addEventListener('focus',function(){if(bar.classList.contains('min'))setMin(false,true);});
+    s.addEventListener('input',function(){if(bar.classList.contains('min'))lbl.querySelector('em').textContent=s.value?'« '+s.value+' »':'';});}
 })();
 
 /* couleurs des simulations alignées sur les repères */
