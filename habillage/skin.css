@@ -419,3 +419,21 @@ html{scroll-padding-top:92px}
 #hp-news .hist{padding:0 8px 12px 0;margin-top:10px}
 #hp-news .hist .histsearch{position:sticky;top:0;z-index:2;background:#0c0c10!important;box-shadow:0 10px 18px -8px #0c0c10}
 #hp-news .cl-toggle,#hp-news .more{transition:border-color .25s,color .25s,background-color .25s}
+/* menu : jamais de lien sur deux lignes ; « À propos » seulement quand il y a la place */
+.hp-links a.l{white-space:nowrap}
+@media(max-width:1279px){.hp-links a.l.wide{display:none}}
+@media(max-width:1180px){.hp-tsearch{max-width:200px}.hp-tsearch kbd{display:none}}
+/* à propos de nous */
+.hp-about{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.hp-val{position:relative;padding:24px 22px 22px;border-radius:18px;border:1px solid var(--hp-line);background:linear-gradient(180deg,rgba(22,22,30,.7),rgba(10,10,14,.85));overflow:hidden;transition:transform .5s var(--hp-ease),border-color .4s}
+.hp-val::before{content:"";position:absolute;left:22px;right:22px;top:0;height:2px;background:linear-gradient(90deg,var(--vc),transparent);opacity:.8}
+.hp-val:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--vc) 40%,transparent)}
+.hp-val .n{font-size:.72rem;color:var(--vc);letter-spacing:.08em}
+.hp-val h3{font-family:var(--hp-display);font-size:1.08rem;margin:12px 0 8px;letter-spacing:-.01em;color:var(--hp-txt)}
+.hp-val p{margin:0;color:#B4B4C6;font-size:.9rem;line-height:1.6}
+@media(max-width:1000px){.hp-about{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.hp-about{grid-template-columns:1fr}}
+/* la recherche du haut garde une largeur utile ; la pastille d'état cède la place quand ça serre */
+.hp-tsearch{min-width:170px}
+@media(max-width:1180px){.hp-top .bstat{display:none!important}.hp-tsearch{min-width:150px}}
+@media(max-width:720px){.hp-tsearch{min-width:0}}

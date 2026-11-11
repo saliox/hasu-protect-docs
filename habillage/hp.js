@@ -226,7 +226,7 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   var s=$('search'),ts=$('hp-tsearch');if(!ts)return;
   if(!s){ts.parentNode.style.display='none';return;}
   var syncing=false,html=document.documentElement;
-  function ph(){var en=(html.lang||'').slice(0,2)==='en';ts.placeholder=en?'Search a command':'Rechercher une commande';ts.setAttribute('aria-label',ts.placeholder);}
+  function ph(){var en=(html.lang||'').slice(0,2)==='en';ts.placeholder=en?'Search…':'Rechercher…';ts.setAttribute('aria-label',en?'Search a command':'Rechercher une commande');}
   ph();new MutationObserver(ph).observe(html,{attributes:true,attributeFilter:['lang']});
   function showResults(){var d=$('hp-docs'),bar=$('hp-top');if(!d)return;var r=s.getBoundingClientRect(),h=bar?bar.getBoundingClientRect().bottom:0;
     if(r.top<h||r.bottom>innerHeight*.5)window.scrollTo({top:d.getBoundingClientRect().top+scrollY-h-4,behavior:reduce?'auto':'smooth'});}
