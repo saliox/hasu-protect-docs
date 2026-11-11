@@ -419,7 +419,7 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
    puis à la braise rouge de l'invitation. Palette : nuit Hasu, blurple, rouge alerte, or réservé aux chiffres. */
 :root{
   --hp-night:#040405; --hp-panel:#0C0C0F; --hp-panel2:#131317; --hp-line:rgba(236,236,242,.07); --hp-line2:rgba(236,236,242,.13);
-  --hp-txt:#ECECF2; --hp-mut:#9A9AB0; --hp-blurple:#5865F2; --hp-blurple-l:#8B95FF; --hp-red:#E1262D; --hp-gold:#F1C40F; --hp-ice:#E4EBF6; --hp-ice2:#A7B7D2; --hp-frost:rgba(214,226,245,.10); --hp-green:#57F287; --hp-steel:#A9ADB8;
+  --hp-txt:#ECECF2; --hp-mut:#9A9AB0; --hp-blurple:#5865F2; --hp-blurple-l:#8B95FF; --hp-red:#E1262D; --hp-gold:#F1C40F; --hp-green:#57F287; --hp-steel:#A9ADB8;
   --hp-display:'Sora','Segoe UI',system-ui,sans-serif;
   --hp-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
   --hp-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
@@ -503,7 +503,7 @@ header{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rec
 .hp-title{font-family:var(--hp-display);font-weight:700;font-size:clamp(2.2rem,4.8vw,4.6rem);line-height:1.02;letter-spacing:-.035em;margin:0;text-wrap:balance}
 .hp-title .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}
 .hp-title .w>span{display:inline-block;transition:transform 1.2s var(--hp-ease)}
-.hp-title em{font-style:normal;color:var(--hp-ice2)}
+.hp-title em{font-style:normal;color:var(--hp-gold)}
 .hp-js body:not(.hp-ready) .hp-title .w>span{transform:translateY(110%)}
 .hp-lede{margin:24px 0 0;color:#B9B9CC;font-size:1.08rem;max-width:34rem;line-height:1.65}
 .hp-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
@@ -517,8 +517,8 @@ header{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rec
 /* chapitres */
 .hp-sec{padding-block:clamp(80px,12vh,140px)}
 .hp-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:28px;align-items:end;margin-bottom:clamp(32px,6vh,56px)}
-.hp-kicker{display:inline-flex;align-items:center;gap:10px;color:var(--hp-ice2);margin-bottom:16px}
-.hp-kicker::before{content:"//////";font-family:var(--hp-mono);letter-spacing:-.05em;opacity:.55}
+.hp-kicker{display:inline-flex;align-items:center;gap:10px;color:var(--hp-gold);margin-bottom:16px}
+.hp-kicker::before{content:"";width:18px;height:1.5px;background:currentColor}
 .hp-h2{font-family:var(--hp-display);font-weight:700;font-size:clamp(1.8rem,3.6vw,3.2rem);line-height:1.04;letter-spacing:-.035em;margin:0;text-wrap:balance}
 .hp-head p{margin:0;color:var(--hp-mut);max-width:30rem;justify-self:end;line-height:1.6}
 @media(max-width:800px){.hp-head{grid-template-columns:1fr}.hp-head p{justify-self:start}}
@@ -694,8 +694,8 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
 .hp-loader.out{clip-path:inset(0 0 100% 0)}
 .hp-loader .in{display:flex;flex-direction:column;align-items:center;gap:16px}
 .hp-loader .hp-logo{width:58px;height:58px;border-radius:16px;font-size:1.2rem;animation:hp-breathe 1.6s ease-in-out infinite}
-.hp-loader .count{font-family:var(--hp-mono);font-size:1rem;letter-spacing:.12em;color:var(--hp-ice);white-space:pre}
-.hp-loader .bar{display:none;width:160px;height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.hp-loader .count{font-family:var(--hp-display);font-size:1.3rem;font-variant-numeric:tabular-nums}
+.hp-loader .bar{width:160px;height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
 .hp-loader .bar i{display:block;height:100%;width:100%;background:var(--hp-blurple);transform-origin:left;transform:scaleX(var(--k,0))}
 @keyframes hp-breathe{50%{box-shadow:0 0 40px rgba(88,101,242,.9)}}
 
@@ -768,48 +768,14 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
 @media(max-width:900px){.hp-guide{grid-template-columns:1fr}.hp-gtabs{position:static;flex-direction:row;overflow-x:auto;scrollbar-width:none}.hp-gtabs button{flex:none}}
 @media(max-width:620px){.hp-gcols,.hp-gcards{grid-template-columns:1fr}.hp-gtable>div{grid-template-columns:1fr 1fr}.hp-gtable>div>span:last-child{grid-column:1/-1;color:var(--hp-mut)}.hp-steps>li{padding-left:44px}}
 
-
-/* ── inspiration igloo : verre dépoli glacé, repères d'angle façon interface, brume, interface reliée à la 3D ── */
-.hp-tile,#hp-start .quickstart li,.hp-gpanel,#hp-guardian .gstat,#hp-guardian .gbig,.fq,.hp-gcards>div,.hp-gcols>div,#hp-news .changelog{background:linear-gradient(180deg,rgba(214,226,245,.045),rgba(214,226,245,.012))!important;border-color:var(--hp-frost)!important;backdrop-filter:blur(10px) saturate(120%);-webkit-backdrop-filter:blur(10px) saturate(120%)}
-.hp-tile::before,#hp-start .quickstart li::before,.hp-gpanel::before{content:"";position:absolute;inset:8px;pointer-events:none;opacity:.55;
-  background:linear-gradient(var(--hp-ice2),var(--hp-ice2)) left top/10px 1px no-repeat,linear-gradient(var(--hp-ice2),var(--hp-ice2)) left top/1px 10px no-repeat,
-  linear-gradient(var(--hp-ice2),var(--hp-ice2)) right top/10px 1px no-repeat,linear-gradient(var(--hp-ice2),var(--hp-ice2)) right top/1px 10px no-repeat,
-  linear-gradient(var(--hp-ice2),var(--hp-ice2)) left bottom/10px 1px no-repeat,linear-gradient(var(--hp-ice2),var(--hp-ice2)) left bottom/1px 10px no-repeat,
-  linear-gradient(var(--hp-ice2),var(--hp-ice2)) right bottom/10px 1px no-repeat,linear-gradient(var(--hp-ice2),var(--hp-ice2)) right bottom/1px 10px no-repeat}
-.hp-gpanel{position:relative}
-.hp-tile::after{background:radial-gradient(closest-side,rgba(214,226,245,.08),transparent)!important}
-.hp-num,.hp-h2,.hp-title{text-shadow:0 0 28px rgba(214,226,245,.08)}
-/* brume basse + flocons (les flocons sont dans la scène 3D) */
-.hp-bg .fog{position:absolute;inset:auto -10% -20% -10%;height:70%;background:radial-gradient(60% 60% at 50% 100%,rgba(200,214,240,.07),transparent 70%);animation:hp-fog 26s ease-in-out infinite alternate}
-@keyframes hp-fog{to{transform:translate3d(4%,-3%,0) scale(1.05)}}
-@media (prefers-reduced-motion:reduce){.hp-bg .fog{animation:none}}
-/* interface reliée au cadenas : étiquettes, traits fins, constellation numérotée */
-.hp-hud{position:fixed;inset:0;z-index:2;pointer-events:none;font-family:var(--hp-mono);color:var(--hp-ice);transition:opacity .4s}
-.hp-hud svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.hp-hud line,.hp-hud polyline{stroke:rgba(214,226,245,.55);stroke-width:1;fill:none}
-.hp-hud circle{fill:var(--hp-ice)}
-.hp-hud .lbl{position:absolute;left:0;top:0;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;line-height:1.45;white-space:nowrap;padding-bottom:6px;border-bottom:1px solid rgba(214,226,245,.55);will-change:transform}
-.hp-hud .lbl b{font-weight:500;color:#fff}
-.hp-hud .lbl i{font-style:normal;color:var(--hp-ice2)}
-.hp-hud .num{position:absolute;left:0;top:0;font-size:.62rem;color:var(--hp-ice);will-change:transform}
-.hp-hud .mani{position:absolute;right:max(16px,calc((100vw - 1320px)/2 + 18px));top:96px;width:min(260px,30vw);font-size:.7rem;line-height:1.55;text-transform:uppercase;letter-spacing:.04em;text-align:right;color:var(--hp-ice)}
-.hp-hud .mani b{display:block;margin-bottom:10px;color:#fff;font-weight:500}
-@media(max-width:900px){.hp-hud .lbl,.hp-hud .mani{display:none}}
-
 </style><!--/hp:head-->
 </head><body>
 <!--hp:top-->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="hp-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B95FF"/><stop offset="1" stop-color="#5865F2"/></linearGradient></defs></svg>
 <div class="hp-loader" id="hp-loader" aria-hidden="true"><div class="in"><div class="hp-logo">[+]</div><div class="count" id="hp-count">00</div><div class="bar"><i id="hp-bar"></i></div><div class="hp-mono" style="color:var(--hp-mut)"><span data-lang="fr">Vérification du serveur</span><span data-lang="en">Checking the server</span></div></div></div>
-<div class="hp-bg" id="hp-bg" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><div class="grid"></div><div class="fog"></div><div class="vig"></div></div>
+<div class="hp-bg" id="hp-bg" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><div class="grid"></div><div class="vig"></div></div>
 <div class="hp-under" aria-hidden="true"></div>
 <canvas id="hp-gl" aria-hidden="true"></canvas>
-<div class="hp-hud" id="hp-hud" aria-hidden="true" hidden>
-  <svg><line id="hp-l1"/><line id="hp-l2"/><polyline id="hp-con"/><g id="hp-dots"></g></svg>
-  <div class="lbl" id="hp-lab1"><b>PROTECT_01</b><br><i data-lang="fr">// état : </i><i data-lang="en">// status: </i><span id="hp-state" data-scr>VERROUILLÉ</span></div>
-  <div class="lbl" id="hp-lab2"><b data-lang="fr">SERVEURS</b><b data-lang="en">SERVERS</b> <span id="hp-hs">20</span><br><i data-lang="fr">MEMBRES</i><i data-lang="en">MEMBERS</i> <span id="hp-hm">4 181</span></div>
-  <div class="mani" id="hp-mani"><b>////// <span data-lang="fr">Manifeste</span><span data-lang="en">Manifesto</span></b><span data-lang="fr">Notre mission : qu'aucun raid, aucun nuke, aucun compte compromis ne fasse tomber un serveur Discord. Surveillance 24 h/24, réaction en millisecondes.</span><span data-lang="en">Our mission: no raid, no nuke, no compromised account should ever take a Discord server down. Watching 24/7, reacting in milliseconds.</span></div>
-</div>
 
 <div class="hp-top" id="hp-top">
   <div class="bar">
