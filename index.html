@@ -411,7 +411,7 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 @keyframes rvpulse{0%,100%{box-shadow:0 4px 18px rgba(255,51,102,.35)}50%{box-shadow:0 0 0 9px rgba(255,51,102,0),0 4px 22px rgba(255,51,102,.65)}}
 @media (prefers-reduced-motion:reduce){.cta-vote.revote-on{animation:none}}
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<!--hp:head--><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <style id="hp-skin">
 /* ═══ Habillage Hasu Protect ═══
    Layout: page sombre en chapitres (accueil → chiffres → premiers pas → commandes → Guardian → nouveautés → FAQ → invitation).
@@ -623,26 +623,14 @@ h2.cat span[style]{font-family:var(--hp-mono);font-size:.78rem!important;color:v
 .fq[open]{border-color:rgba(88,101,242,.4)!important}
 .fq summary{font-family:var(--hp-display);font-weight:600;font-size:1rem}
 
-/* invitation : badge suspendu */
-#hp-invite{overflow:hidden;background:radial-gradient(60% 55% at 75% 35%,rgba(88,101,242,.22),transparent 70%)}
-#hp-invite .hp-wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:32px;align-items:center}
+/* invitation */
+#hp-invite{overflow:hidden;background:radial-gradient(60% 55% at 50% 35%,rgba(88,101,242,.22),transparent 70%)}
+#hp-invite .hp-wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
+#hp-invite .hp-wrap>div{display:flex;flex-direction:column;align-items:center;max-width:46rem}
+#hp-invite .hp-ctas{justify-content:center}
 #hp-invite .hp-h2{font-size:clamp(2.2rem,5vw,4.4rem)}
-#hp-invite p{color:#B9B9CC;max-width:32rem;line-height:1.65;margin:22px 0 0}
-#hp-invite .topgg-badge{margin-top:24px;text-align:left!important}
-.hp-yard{position:relative;height:600px;display:flex;justify-content:center;margin-top:calc(-1 * clamp(80px,12vh,140px))}
-.hp-lanyard{transform-origin:50% 0;display:flex;flex-direction:column;align-items:center;will-change:transform}
-.hp-strap{width:26px;height:200px}
-.hp-clip{width:46px;height:24px;border-radius:8px 8px 4px 4px;background:linear-gradient(#d4d7de,#6f737b);border:1px solid #2a2b2f;margin-top:-4px}
-.hp-badge{width:250px;max-width:70vw;margin-top:-6px;border-radius:22px;padding:14px;background:#0C0C12;border:1px solid #2C2D3A;box-shadow:0 0 0 1px rgba(88,101,242,.35),0 0 40px rgba(88,101,242,.3),0 30px 60px rgba(0,0,0,.6);cursor:grab;user-select:none;touch-action:none}
-.hp-badge:active{cursor:grabbing}
-.hp-badge .slot{width:54px;height:8px;border-radius:6px;background:#22232E;margin:0 auto 12px}
-.hp-badge .face{position:relative;aspect-ratio:1;max-width:100%;border-radius:14px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#7380FF,#5865F2 45%,#2C3399)}
-.hp-badge .face b{font-family:var(--hp-mono);font-weight:700;font-size:3.6rem;color:#fff;letter-spacing:-.04em}
-.hp-badge .face .side{position:absolute;left:-4px;top:44%;width:8px;height:34px;border-radius:4px;background:var(--hp-red)}
-.hp-badge .face::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 48%,transparent 60%);transform:translateX(var(--sheen,-60%));transition:transform .2s linear}
-.hp-badge .name{font-family:var(--hp-display);font-weight:700;font-size:1.25rem;letter-spacing:-.02em;margin-top:12px;text-align:center}
-.hp-badge .role{display:flex;justify-content:space-between;color:var(--hp-mut);margin-top:6px}
-@media(max-width:860px){#hp-invite .hp-wrap{grid-template-columns:1fr}.hp-yard{margin-top:0;height:540px}}
+#hp-invite p{color:#B9B9CC;max-width:34rem;line-height:1.65;margin:22px 0 0}
+#hp-invite .topgg-badge{margin-top:24px;text-align:center!important}
 
 footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!important;font-family:var(--hp-mono);font-size:.74rem;color:var(--hp-mut)!important;padding:26px var(--hp-gr) 34px var(--hp-gl)!important}
 .totop{border-radius:12px!important;background:var(--hp-panel2)!important;border:1px solid var(--hp-line2)!important}
@@ -666,7 +654,9 @@ footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!
   body:not(.hp-ready) .hp-title .w>span,body:not(.hp-ready) .hp-fade{transform:none;opacity:1}
 }
 
-</style></head><body>
+</style><!--/hp:head-->
+</head><body>
+<!--hp:top-->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="hp-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B95FF"/><stop offset="1" stop-color="#5865F2"/></linearGradient></defs></svg>
 <div class="hp-loader" id="hp-loader" aria-hidden="true"><div class="in"><div class="hp-logo">[+]</div><div class="count" id="hp-count">00</div><div class="bar"><i id="hp-bar"></i></div><div class="hp-mono" style="color:var(--hp-mut)"><span data-lang="fr">Vérification du serveur</span><span data-lang="en">Checking the server</span></div></div></div>
 <div class="hp-under" aria-hidden="true"></div>
@@ -754,6 +744,7 @@ footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!
   </div>
 </div>
 
+<!--/hp:top-->
 <header>
   <!-- role="button" et non role="status" : cet élément a un clic, un tabindex et une touche Entrée/Espace
        qui ouvrent le panneau de disponibilité — c'était un bouton déguisé en région live, annoncé comme un
@@ -2110,6 +2101,7 @@ footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!
 </div>
 <div class="ov" id="ov"><div class="modal" id="mc" role="dialog" aria-modal="true" aria-label="Simulation de commande"></div></div>
 <button id="toTop" class="totop" aria-label="Remonter en haut">↑</button>
+<!--hp:end-->
 <section class="hp-sec" id="hp-guardian">
   <div class="hp-wrap">
     <div class="hp-head hp-reveal">
@@ -2152,21 +2144,10 @@ footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!
       </div>
       <div id="hp-topgg"></div>
     </div>
-    <div class="hp-yard" aria-hidden="true">
-      <div class="hp-lanyard" id="hp-lanyard">
-        <svg class="hp-strap" id="hp-strap" viewBox="0 0 26 200"></svg>
-        <div class="hp-clip"></div>
-        <div class="hp-badge" id="hp-badge">
-          <div class="slot"></div>
-          <div class="face"><span class="side"></span><b>[+]</b></div>
-          <div class="name">Hasu Protect</div>
-          <div class="role hp-mono"><span data-lang="fr">Accès admin</span><span data-lang="en">Admin access</span><span>Anti-raid</span></div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
+<!--/hp:end-->
 <footer>[+] Hasu Protect 🛡️ · <span id="dt"></span><span id="visits" hidden></span></footer>
 <script>if(self!==top){try{top.location=self.location.href;}catch(e){document.documentElement.style.display='none';}}
 // nrm() : minuscules SANS diacritiques, en préservant la LONGUEUR (é → e, un caractère pour un
@@ -3336,6 +3317,6 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
  h=h.toLowerCase();if(!h)return;
  var card=cards().filter(function(c){return c.dataset.n&&c.dataset.n.toLowerCase()===h;})[0];
  if(card)openSim(card);}catch(e){}})();</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="habillage/hp.js"></script>
+<!--hp:js--><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="habillage/hp.js"></script><!--/hp:js-->
 </body></html>

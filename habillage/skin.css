@@ -208,26 +208,14 @@ h2.cat span[style]{font-family:var(--hp-mono);font-size:.78rem!important;color:v
 .fq[open]{border-color:rgba(88,101,242,.4)!important}
 .fq summary{font-family:var(--hp-display);font-weight:600;font-size:1rem}
 
-/* invitation : badge suspendu */
-#hp-invite{overflow:hidden;background:radial-gradient(60% 55% at 75% 35%,rgba(88,101,242,.22),transparent 70%)}
-#hp-invite .hp-wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:32px;align-items:center}
+/* invitation */
+#hp-invite{overflow:hidden;background:radial-gradient(60% 55% at 50% 35%,rgba(88,101,242,.22),transparent 70%)}
+#hp-invite .hp-wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
+#hp-invite .hp-wrap>div{display:flex;flex-direction:column;align-items:center;max-width:46rem}
+#hp-invite .hp-ctas{justify-content:center}
 #hp-invite .hp-h2{font-size:clamp(2.2rem,5vw,4.4rem)}
-#hp-invite p{color:#B9B9CC;max-width:32rem;line-height:1.65;margin:22px 0 0}
-#hp-invite .topgg-badge{margin-top:24px;text-align:left!important}
-.hp-yard{position:relative;height:600px;display:flex;justify-content:center;margin-top:calc(-1 * clamp(80px,12vh,140px))}
-.hp-lanyard{transform-origin:50% 0;display:flex;flex-direction:column;align-items:center;will-change:transform}
-.hp-strap{width:26px;height:200px}
-.hp-clip{width:46px;height:24px;border-radius:8px 8px 4px 4px;background:linear-gradient(#d4d7de,#6f737b);border:1px solid #2a2b2f;margin-top:-4px}
-.hp-badge{width:250px;max-width:70vw;margin-top:-6px;border-radius:22px;padding:14px;background:#0C0C12;border:1px solid #2C2D3A;box-shadow:0 0 0 1px rgba(88,101,242,.35),0 0 40px rgba(88,101,242,.3),0 30px 60px rgba(0,0,0,.6);cursor:grab;user-select:none;touch-action:none}
-.hp-badge:active{cursor:grabbing}
-.hp-badge .slot{width:54px;height:8px;border-radius:6px;background:#22232E;margin:0 auto 12px}
-.hp-badge .face{position:relative;aspect-ratio:1;max-width:100%;border-radius:14px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#7380FF,#5865F2 45%,#2C3399)}
-.hp-badge .face b{font-family:var(--hp-mono);font-weight:700;font-size:3.6rem;color:#fff;letter-spacing:-.04em}
-.hp-badge .face .side{position:absolute;left:-4px;top:44%;width:8px;height:34px;border-radius:4px;background:var(--hp-red)}
-.hp-badge .face::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 48%,transparent 60%);transform:translateX(var(--sheen,-60%));transition:transform .2s linear}
-.hp-badge .name{font-family:var(--hp-display);font-weight:700;font-size:1.25rem;letter-spacing:-.02em;margin-top:12px;text-align:center}
-.hp-badge .role{display:flex;justify-content:space-between;color:var(--hp-mut);margin-top:6px}
-@media(max-width:860px){#hp-invite .hp-wrap{grid-template-columns:1fr}.hp-yard{margin-top:0;height:540px}}
+#hp-invite p{color:#B9B9CC;max-width:34rem;line-height:1.65;margin:22px 0 0}
+#hp-invite .topgg-badge{margin-top:24px;text-align:center!important}
 
 footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!important;font-family:var(--hp-mono);font-size:.74rem;color:var(--hp-mut)!important;padding:26px var(--hp-gr) 34px var(--hp-gl)!important}
 .totop{border-radius:12px!important;background:var(--hp-panel2)!important;border:1px solid var(--hp-line2)!important}
