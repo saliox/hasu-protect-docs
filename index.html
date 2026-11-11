@@ -638,7 +638,7 @@ footer{border-top:1px solid var(--hp-line)!important;background:var(--hp-night)!
 .modal{border-radius:18px!important;border:1px solid var(--hp-line2)!important}
 
 /* chargement */
-.hp-loader{position:fixed;inset:0;z-index:95;background:var(--hp-night);display:grid;place-items:center;transition:clip-path 1s cubic-bezier(.76,0,.24,1);clip-path:inset(0 0 0 0)}
+.hp-loader{position:fixed;inset:0;z-index:95;pointer-events:none;background:var(--hp-night);display:grid;place-items:center;transition:clip-path 1s cubic-bezier(.76,0,.24,1);clip-path:inset(0 0 0 0)}
 .hp-loader.out{clip-path:inset(0 0 100% 0)}
 .hp-loader .in{display:flex;flex-direction:column;align-items:center;gap:16px}
 .hp-loader .hp-logo{width:58px;height:58px;border-radius:16px;font-size:1.2rem;animation:hp-breathe 1.6s ease-in-out infinite}

@@ -177,7 +177,13 @@ var THREE=window.THREE,canvas=$('hp-gl'),giant=$('hp-giant');
 if(!THREE||!canvas)return;
 var renderer;
 try{renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true,powerPreference:'high-performance'});}catch(e){canvas.remove();return;}
-renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.outputEncoding=THREE.sRGBEncoding;
+// Pas d'accélération graphique (rendu logiciel : SwiftShader, llvmpipe…) : la scène gèlerait la page entière.
+// On s'abstient, la page reste complète et fluide sans la 3D.
+(function(){try{var gl=renderer.getContext(),ext=gl.getExtension('WEBGL_debug_renderer_info'),name=ext?String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)):'';
+  if(/swiftshader|llvmpipe|softpipe|software|basic render/i.test(name)){renderer.dispose();canvas.remove();renderer=null;}}catch(e){}})();
+if(!renderer)return;
+var DPR_MAX=Math.min(devicePixelRatio||1,2),dpr=DPR_MAX;
+renderer.setPixelRatio(dpr);renderer.outputEncoding=THREE.sRGBEncoding;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;   // contrastes « caméra » sur le métal
 var ANISO=renderer.capabilities.getMaxAnisotropy();
 var scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(35,1,.1,100);camera.position.set(0,0,14);
@@ -362,8 +368,17 @@ function resize(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=i
 addEventListener('resize',resize);resize();
 var silver=new THREE.Color(0xc4c8d6),blueTint=new THREE.Color(0x8f9bff),redTint=new THREE.Color(0xffb0b0);
 var pos=new THREE.Vector3(),q=new THREE.Quaternion(),last=performance.now(),time=0,rotY=0,sy=scrollY;
+// Qualité adaptative : si les images arrivent trop lentement, on baisse la résolution du rendu par paliers.
+var perf={sum:0,n:0};
+function adapt(raw){
+  if(document.hidden||raw>250)return;perf.sum+=raw;perf.n++;
+  if(perf.n<90)return;var avg=perf.sum/perf.n;perf.sum=0;perf.n=0;
+  if(avg>28&&dpr>1){dpr=Math.max(1,dpr-.5);renderer.setPixelRatio(dpr);resize();}
+  else if(avg>45&&dpr<=1&&dpr>.6){dpr=.6;renderer.setPixelRatio(dpr);resize();}
+}
 function frame(now){
-  var dt=Math.min(.05,(now-last)/1000);last=now;if(!reduce)time+=dt;
+  var raw=now-last;adapt(raw);
+  var dt=Math.min(.05,raw/1000);last=now;if(!reduce)time+=dt;
   sy+=(scrollY-sy)*Math.min(1,dt*8);   // la scène suit le défilement avec un léger amorti
   var y=sy,vh=geo.vh||innerHeight,narrow=camera.aspect<.9;
   var intro=introStart===null?0:ease(clamp((now-introStart)/1800));
