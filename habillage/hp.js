@@ -65,11 +65,24 @@ setInterval(function(){syncCounters(false);},3000);
   sync();new MutationObserver(sync).observe(src,{attributes:true,childList:true,subtree:true,characterData:true});
   // Le clic d'origine ne doit pas remonter jusqu'à la page : la doc y referme le panneau dès qu'un clic
   // tombe hors du panneau et hors de son badge — la tuile ouvrait donc le panneau puis le refermait aussitôt.
-  function open(e){if(e){e.stopPropagation();e.preventDefault();}src.click();}
+  var anchor=src;   // élément qui a ouvert le panneau : la tuile ou le statut de la barre du haut
+  // La doc donne le focus au panneau tant qu'il est encore dans l'en-tête masqué : le navigateur
+  // sauterait jusqu'à la documentation. On retient la position et on la rétablit.
+  var keepY=null;
+  function open(e){if(e){e.stopPropagation();e.preventDefault();}anchor=tile;keepY=scrollY;src.click();
+    if(keepY!==null){window.scrollTo({top:keepY,behavior:'instant'});keepY=null;}}
   tile.addEventListener('click',open);tile.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){open(e);}});
+  src.addEventListener('click',function(e){if(e.isTrusted){anchor=src;var y=scrollY;setTimeout(function(){if(Math.abs(scrollY-y)>2)window.scrollTo({top:y,behavior:'instant'});},0);}},true);
+  // Le panneau s'ouvre juste sous l'élément cliqué (et défile avec la page), centré sur lui sans sortir de l'écran.
+  function place(){var p=$('uppop');if(!p)return;var r=anchor.getBoundingClientRect(),w=p.offsetWidth||330,
+      left=Math.max(12,Math.min(innerWidth-w-12,r.left+r.width/2-w/2));
+    var fixedBar=anchor===src;   // la barre du haut est fixe : le panneau la suit ; la tuile défile avec la page
+    p.style.setProperty('position',fixedBar?'fixed':'absolute','important');
+    p.style.setProperty('top',(r.bottom+(fixedBar?0:scrollY)+10)+'px','important');p.style.setProperty('left',(left+(fixedBar?0:scrollX))+'px','important');}
   // La doc accroche le panneau à son <header>, masqué ici : on le sort dans <body> pour qu'il soit visible.
   var head=Q('header');
-  if(head)new MutationObserver(function(){var p=$('uppop');if(p&&p.parentNode===head)document.body.appendChild(p);}).observe(head,{childList:true});
+  if(head)new MutationObserver(function(){var p=$('uppop');if(p&&p.parentNode===head){document.body.appendChild(p);place();try{p.focus({preventScroll:true});}catch(e){}}}).observe(head,{childList:true});
+  addEventListener('resize',place);
 })();
 
 /* Guardian : anneau de maîtrise + barres de progression, ré-appliqués quand la doc rafraîchit le panneau */

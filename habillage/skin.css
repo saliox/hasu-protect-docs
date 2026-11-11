@@ -65,7 +65,7 @@ header{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rec
 .hp-top .bstat{position:static!important;margin:0!important;padding:6px 11px!important;font-size:.72rem!important;font-family:var(--hp-mono);background:rgba(255,255,255,.03)!important}
 .hp-top .topbtns{position:static!important;margin:0!important;display:flex!important}
 .hp-top .langbtn{font-family:var(--hp-mono);font-size:.72rem!important;padding:6px 10px!important;border-radius:8px!important;color:var(--hp-txt)!important;border-color:var(--hp-line2)!important;background:rgba(255,255,255,.03)!important;box-shadow:none!important}
-.uppop{position:fixed!important;top:74px!important;right:max(16px,calc((100vw - 1320px)/2 + 12px))!important;left:auto!important;transform:none!important;border-radius:14px!important;z-index:70!important}
+.uppop{right:auto!important;transform:none!important;border-radius:14px!important;z-index:70!important;max-width:calc(100vw - 24px)!important}
 @media(max-width:980px){.hp-links a.l{display:none}}
 @media(max-width:560px){.hp-top .bstat{display:none!important}.hp-brand .t{display:none}}
 
