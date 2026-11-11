@@ -24,7 +24,7 @@ must(!h.includes('id="hp-skin"'), 'page habillée sans marqueurs (ancienne versi
 const redo = h !== before;
 
 const read = f => fs.readFileSync(path.join(here, f), 'utf8');
-const css = read('skin.css'), top = read('top.html'), end = read('end.html');
+const css = read('skin.css'), top = read('top.html') + '\n' + read('guide.html'), end = read('end.html');
 // three.js et les polices sont servis par le site lui-même (habillage/vendor, habillage/fonts) :
 // aucun CDN autorisé dans la CSP, aucune adresse IP de visiteur envoyée à Google.
 

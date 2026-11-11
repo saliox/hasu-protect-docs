@@ -212,6 +212,24 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
 
 
 
+/* ── guide : onglets + puces de commande qui ouvrent la simulation ── */
+(function(){
+  var g=Q('.hp-guide');if(!g)return;
+  var tabs=[].slice.call(g.querySelectorAll('.hp-gtabs [data-g]')),panels=[].slice.call(g.querySelectorAll('.hp-gpanel'));
+  function show(id,focus){tabs.forEach(function(t){var on=t.getAttribute('data-g')===id;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;if(on&&focus)t.focus();});
+    panels.forEach(function(p){var on=p.getAttribute('data-g')===id;p.hidden=!on;p.classList.toggle('on',on);});}
+  tabs.forEach(function(t,i){t.addEventListener('click',function(){show(t.getAttribute('data-g'));});
+    t.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'||e.key==='ArrowDown'?1:e.key==='ArrowLeft'||e.key==='ArrowUp'?-1:0;if(!d)return;e.preventDefault();show(tabs[(i+d+tabs.length)%tabs.length].getAttribute('data-g'),true);});});
+  show('install');
+  g.addEventListener('click',function(e){var c=e.target.closest&&e.target.closest('[data-cmd]');if(!c)return;
+    var card=Q('.cmd[data-n="'+String(c.getAttribute('data-cmd')).replace(/[^a-z0-9_-]/gi,'')+'"]');if(card){e.preventDefault();card.click();}});
+  g.querySelectorAll('[data-cmd]').forEach(function(c){if(Q('.cmd[data-n="'+String(c.getAttribute('data-cmd')).replace(/[^a-z0-9_-]/gi,'')+'"]')){c.tabIndex=0;c.setAttribute('role','button');
+    c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click();}});}else c.classList.add('nolink');});
+})();
+
+/* ── FAQ : questions ajoutées par le guide (permissions, tickets, installation) ── */
+(function(){var extra=$('hp-faq-extra'),faq=$('faq');if(!extra||!faq)return;[].slice.call(extra.children).forEach(function(d){faq.appendChild(d);});extra.remove();})();
+
 /* ── FAQ : recherche dans les questions + tout déplier / replier ── */
 (function(){
   var slot=$('hp-faq-slot'),faq=$('faq');if(!slot||!faq)return;
