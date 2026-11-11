@@ -346,7 +346,7 @@ sphMat.onBeforeCompile=function(sh){for(var k in rimUni)sh.uniforms[k]=rimUni[k]
 sphMat.customProgramCacheKey=function(){return 'hp-sph2';};
 var sphere=new THREE.Mesh(new THREE.SphereGeometry(R,96,64),sphMat);group.add(sphere);
 // cadenas 2D gris, toujours face à l'écran, posé devant la sphère
-var lock=new THREE.Group();scene.add(lock);
+var lock=new THREE.Group();   // cadenas retiré de la scène (demande) : construit mais jamais affiché
 function flat(c){return new THREE.MeshBasicMaterial({color:c,toneMapped:false});}
 function rrect(w,h,r){var s=new THREE.Shape(),x=-w/2,y=-h/2;s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
   s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);return s;}
@@ -412,7 +412,7 @@ var linkG=(function(){
 })();
 var i,L=64,PITCH=LINK_A+2*(LINK_RC-LINK_W)+.02;
 var chainMat=new THREE.MeshStandardMaterial({color:0xE8B53C,map:CH.col,metalness:1,roughness:1,roughnessMap:CH.rough,normalMap:CH.norm,normalScale:new THREE.Vector2(.7,.7),envMapIntensity:1.2});
-var chain=new THREE.InstancedMesh(linkG,chainMat,L);scene.add(chain);
+var chain=new THREE.InstancedMesh(linkG,chainMat,L);   // chaîne retirée de la scène (demande)
 var S=240,cum=new Float32Array(S),pts=[];for(i=0;i<S;i++)pts.push(new THREE.Vector3());
 var P={amp:.9,phase:0,tilt:.3,y:0,depth:1.2};
 function curvePt(t,o){var x=-15+30*t;o.set(x,P.amp*Math.sin(t*5+P.phase)+P.tilt*x+P.y,P.depth*Math.cos(t*4+P.phase*.7)-1.4);}
@@ -474,7 +474,7 @@ function frame(now){
   lock.position.copy(group.position).addScaledVector(camDir,R*gs*1.03);lock.quaternion.copy(camera.quaternion);
   lock.rotateZ(Math.sin(time*.7)*.04);lock.scale.setScalar(gs*(1+.05*Math.sin(lockO*Math.PI)));lock.visible=gs>.001;
   P.phase=time*.45;P.amp=.9-gMix*.3;P.tilt=.32*(1-ss(.6,1.4,y/vh))+.06;P.y=(1-ease(chainIn))*10-end*12+(narrow?.8:0);P.depth=1.2+gMix*.6;
-  chain.visible=chainIn>0&&end<1;if(chain.visible)layoutChain(y*.006+time*.35);
+  chain.visible=false;
   chainMat.color.copy(silver).lerp(blueTint,gMix*.6);
   blue.intensity=1.6+gMix*1.6;
   renderer.render(scene,camera);requestAnimationFrame(frame);
