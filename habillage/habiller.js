@@ -54,8 +54,12 @@ h = h.slice(0, foot) + '<!--hp:end-->\n' + end + '\n<!--/hp:end-->\n' + h.slice(
 
 // 4. Scripts externes, différés, en fin de page (aucun nouveau script inline). S'ils ne chargent pas,
 //    la page reste complète : l'écran de chargement s'efface seul en CSS (voir skin.css, .hp-loader).
+//    hp.js porte une empreinte de son contenu (?v=…) : le service worker sert les fichiers statiques
+//    « cache d'abord », et sans elle un visiteur déjà venu recevait la NOUVELLE page avec l'ANCIEN script
+//    (FAQ, recherche… cassées jusqu'au rechargement suivant). Nouvelle empreinte = nouvelle adresse = réseau.
 must(/<\/body>\s*<\/html>\s*$/.test(h), '</body></html>');
-h = h.replace(/\s*<\/body>\s*<\/html>\s*$/, () => '\n<!--hp:js--><script src="habillage/hp.js" defer></script><!--/hp:js-->\n</body></html>\n');
+const jsv = require('crypto').createHash('sha256').update(fs.readFileSync(path.join(here, 'hp.js'))).digest('hex').slice(0, 10);
+h = h.replace(/\s*<\/body>\s*<\/html>\s*$/, () => '\n<!--hp:js--><script src="habillage/hp.js?v=' + jsv + '" defer></script><!--/hp:js-->\n</body></html>\n');
 
 fs.writeFileSync(out, h);
 console.log((redo ? 'Habillage mis à jour -> ' : 'Habillage appliqué -> ') + out, (h.length / 1024).toFixed(0) + ' Ko');
