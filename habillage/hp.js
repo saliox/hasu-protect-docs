@@ -238,8 +238,27 @@ meshes[0].instanceColor.needsUpdate=true;
 var core=new THREE.Mesh(new THREE.SphereGeometry(2.05,48,32),new THREE.MeshStandardMaterial({color:0x07081a,emissive:0x3a45d8,emissiveIntensity:.55,roughness:.7}));
 group.add(core);
 
-var L=64,PITCH=1.0,linkG=new THREE.TorusGeometry(.42,.12,20,56);linkG.scale(1.55,1,1);
-var chainMat=new THREE.MeshStandardMaterial({color:0xd9dbe2,metalness:1,roughness:.18,envMapIntensity:1.2});
+/* chaîne : vrais maillons ovales (fil d'épaisseur constante) en acier brossé */
+var LINK_A=.5,LINK_RC=.3,LINK_W=.1;                       // partie droite, rayon des arrondis, rayon du fil
+var linkG=(function(){
+  var per=2*LINK_A+2*Math.PI*LINK_RC;
+  class Stadium extends THREE.Curve{
+    getPoint(t,o){o=o||new THREE.Vector3();var s=t*per,h=LINK_A/2;
+      if(s<LINK_A)return o.set(-h+s,LINK_RC,0);s-=LINK_A;
+      if(s<Math.PI*LINK_RC){var a=s/LINK_RC;return o.set(h+Math.sin(a)*LINK_RC,Math.cos(a)*LINK_RC,0);}s-=Math.PI*LINK_RC;
+      if(s<LINK_A)return o.set(h-s,-LINK_RC,0);s-=LINK_A;
+      var b=s/LINK_RC;return o.set(-h-Math.sin(b)*LINK_RC,-Math.cos(b)*LINK_RC,0);}
+  }
+  return new THREE.TubeGeometry(new Stadium(),160,LINK_W,20,true);
+})();
+var brushed=(function(){ // stries fines dans le sens du fil : reflets d'acier brossé
+  var c=document.createElement('canvas');c.width=512;c.height=64;var g=c.getContext('2d');
+  g.fillStyle='#7a7a7a';g.fillRect(0,0,512,64);
+  for(var i=0;i<900;i++){var y=Math.random()*64,v=90+Math.random()*90|0;g.fillStyle='rgba('+v+','+v+','+v+','+(.25+Math.random()*.35)+')';g.fillRect(Math.random()*512,y,30+Math.random()*160,.6+Math.random()*.8);}
+  var t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(3,1);t.anisotropy=renderer.capabilities.getMaxAnisotropy();return t;
+})();
+var L=64,PITCH=LINK_A+2*(LINK_RC-LINK_W)+.02;
+var chainMat=new THREE.MeshStandardMaterial({color:0xa4a9ba,metalness:1,roughness:.38,roughnessMap:brushed,envMapIntensity:1.15});
 var chain=new THREE.InstancedMesh(linkG,chainMat,L);scene.add(chain);
 var S=240,cum=new Float32Array(S),pts=[];for(i=0;i<S;i++)pts.push(new THREE.Vector3());
 var P={amp:.9,phase:0,tilt:.3,y:0,depth:1.2};
@@ -261,7 +280,7 @@ var mouse={x:0,y:0,tx:0,ty:0};
 addEventListener('pointermove',function(e){mouse.tx=e.clientX/innerWidth*2-1;mouse.ty=-(e.clientY/innerHeight*2-1);},{passive:true});
 function resize(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}
 addEventListener('resize',resize);resize();
-var silver=new THREE.Color(0xd9dbe2),blueTint=new THREE.Color(0xaab2ff),redTint=new THREE.Color(0xffb0b0);
+var silver=new THREE.Color(0xa4a9ba),blueTint=new THREE.Color(0x8f9bff),redTint=new THREE.Color(0xffb0b0);
 var pos=new THREE.Vector3(),q=new THREE.Quaternion(),last=performance.now(),time=0,rotY=0,sy=scrollY;
 function frame(now){
   var dt=Math.min(.05,(now-last)/1000);last=now;if(!reduce)time+=dt;
@@ -280,7 +299,7 @@ function frame(now){
   for(var i=0;i<N;i++){
     var kk=clamp(k*1.1-(i%7)*.015);pos.lerpVectors(home[i],scat[i],kk);if(kk>0)pos.y+=Math.sin(time*.6+i)*.25*kk;
     q.copy(qh[i]).slerp(qs[i],kk);dummy.position.copy(pos);dummy.quaternion.copy(q);if(kk>0)dummy.rotateX(time*.3*kk*((i%3)-1));
-    dummy.scale.setScalar(Math.max(.0001,(1+.6*kk)*(1-end)*(i%3===0?1:1-thin)));dummy.updateMatrix();meshes[type[i]].setMatrixAt(loc[i],dummy.matrix);
+    dummy.scale.setScalar(Math.max(.0001,(1+.2*kk)*(1-end)*(i%3===0?1:1-thin)));dummy.updateMatrix();meshes[type[i]].setMatrixAt(loc[i],dummy.matrix);
   }
   meshes.forEach(function(m){m.instanceMatrix.needsUpdate=true;});
   var pulse=.5+.5*Math.sin(time*1.6);matBlue.emissiveIntensity=.42+.28*pulse;matRed.emissiveIntensity=.38+.22*(1-pulse);
