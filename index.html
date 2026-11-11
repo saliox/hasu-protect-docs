@@ -988,6 +988,30 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 @media(max-width:620px){.hp-maker #hp-topgg{width:100%;display:flex;justify-content:center}}
 /* carte top.gg à sa taille réelle (image 300 × 140) : réduite, elle devenait illisible */
 .hp-maker #hp-topgg img{width:300px;max-width:100%;height:auto;border-radius:12px;box-shadow:0 14px 30px -18px rgba(0,0,0,.9)}
+/* ── lueurs bleues adoucies : moins saturées (plus de bleu Discord vif), moins fortes ── */
+/* fond du site */
+.hp-bg .b1{background:radial-gradient(circle,rgba(92,104,190,.08),rgba(92,104,190,.025) 40%,transparent 68%)}
+.hp-bg .b2{background:radial-gradient(circle,rgba(120,100,190,.055),rgba(120,100,190,.02) 42%,transparent 68%)}
+.hp-bg .b3{background:radial-gradient(circle,rgba(90,140,190,.035),rgba(90,140,190,.012) 42%,transparent 68%)}
+.hp-under{background:radial-gradient(50% 50% at 72% 42%,rgba(92,104,190,.07),transparent 70%)}
+/* lueurs qui suivent le curseur */
+.cmd::after{background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%),rgba(170,178,220,.06),transparent 60%)}
+.cmd:hover{border-color:rgba(150,158,210,.3)!important}
+.hp-mod{background:radial-gradient(260px circle at var(--mx) var(--my),color-mix(in srgb,var(--mc) 6%,transparent),transparent 70%),linear-gradient(180deg,rgba(22,22,30,.78),rgba(10,10,14,.88))}
+.hp-mod:hover,.hp-mod:focus-visible{box-shadow:0 18px 36px -24px rgba(0,0,0,.9)}
+/* boutons, tuiles, carte du créateur */
+.hp-btn,.cta{box-shadow:0 8px 20px -12px rgba(30,34,80,.7)!important}
+.hp-btn:hover{box-shadow:0 12px 26px -14px rgba(30,34,80,.85)!important}
+.hp-tile::after{opacity:.45}
+.hp-maker{background:radial-gradient(420px circle at 0 0,rgba(92,104,190,.07),transparent 70%),linear-gradient(180deg,rgba(22,22,30,.75),rgba(10,10,14,.9))}
+.hp-maker .pp{box-shadow:0 0 0 5px rgba(92,104,190,.1),0 14px 30px -20px rgba(0,0,0,.9)}
+.hp-social.discord,.hp-social.discord:hover{box-shadow:0 12px 24px -16px rgba(30,34,80,.9)}
+.hp-social.topgg{box-shadow:0 12px 24px -16px rgba(0,0,0,.9)}
+@keyframes hp-breathe{50%{box-shadow:0 0 22px rgba(92,104,190,.35)}}
+/* contours de mise en avant plus discrets (visite guidée, champ de recherche actif) */
+.tourhl{outline:1.5px solid rgba(150,158,210,.55)!important;outline-offset:3px}
+.hp-toolbar #search:focus{border-color:rgba(150,158,210,.6)!important;box-shadow:0 0 0 3px rgba(150,158,210,.1)!important}
+.hp-tsearch:focus-within{border-color:rgba(150,158,210,.55);background:rgba(150,158,210,.06)}
 
 </style><!--/hp:head-->
 </head><body>
