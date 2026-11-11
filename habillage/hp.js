@@ -275,33 +275,59 @@ var counts=[0,0,0];
 for(var i=0;i<N;i++){var p=rnd(),t=p<.12?1:p<.155?2:0;type.push(t);loc.push(counts[t]++);}
 /* noms des serveurs protégés imprimés sur la face avant des dalles : un atlas de noms + (index, intensité) par dalle */
 var labelUni={uAtlas:{value:new THREE.CanvasTexture(canvas2(4,4))},uGrid:{value:new THREE.Vector2(1,1)}};
-function withLabels(mat,textCol,glow){
+/* matériau des dalles : nom du serveur, liseré lumineux sur le chanfrein, opacité par dalle et bords de sphère estompés */
+function withLabels(mat,textCol,glow,edgeCol,edge){
+  mat.transparent=true;mat.depthWrite=true;
   mat.onBeforeCompile=function(sh){
     sh.uniforms.uAtlas=labelUni.uAtlas;sh.uniforms.uGrid=labelUni.uGrid;sh.uniforms.uTextCol={value:new THREE.Color(textCol)};sh.uniforms.uGlow={value:glow};
-    sh.vertexShader='attribute vec2 aLabel;\nvarying vec2 vLabel;\nvarying float vFront;\nvarying vec2 vLuv;\n'+sh.vertexShader
+    sh.uniforms.uEdgeCol={value:new THREE.Color(edgeCol)};sh.uniforms.uEdge={value:edge};
+    sh.vertexShader='attribute vec2 aLabel;\nattribute vec2 aExtra;\nvarying vec2 vLabel;\nvarying float vFront;\nvarying vec2 vLuv;\nvarying float vAlpha;\n'+sh.vertexShader
       .replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\n vFront=objectNormal.z;')
-      .replace('#include <uv_vertex>','#include <uv_vertex>\n vLuv=uv; vLabel=aLabel;');
-    sh.fragmentShader='uniform sampler2D uAtlas;\nuniform vec2 uGrid;\nuniform vec3 uTextCol;\nuniform float uGlow;\nvarying vec2 vLabel;\nvarying float vFront;\nvarying vec2 vLuv;\n'+sh.fragmentShader
+      .replace('#include <uv_vertex>','#include <uv_vertex>\n vLuv=uv; vLabel=aLabel; vAlpha=aExtra.x;');
+    sh.fragmentShader='uniform sampler2D uAtlas;\nuniform vec2 uGrid;\nuniform vec3 uTextCol;\nuniform float uGlow;\nuniform vec3 uEdgeCol;\nuniform float uEdge;\nvarying vec2 vLabel;\nvarying float vFront;\nvarying vec2 vLuv;\nvarying float vAlpha;\n'+sh.fragmentShader
       .replace('#include <map_fragment>','#include <map_fragment>\n float hpL=0.0;\n if(vLabel.x>=0.0&&vFront>0.7){ vec2 l=clamp(vLuv,0.0,1.0); float cl=mod(vLabel.x,uGrid.x); float rw=floor(vLabel.x/uGrid.x);'+
         ' vec2 a=vec2((cl+l.x)/uGrid.x,1.0-(rw+1.0-l.y)/uGrid.y); hpL=texture2D(uAtlas,a).r*(0.45+0.55*vLabel.y); }\n diffuseColor.rgb=mix(diffuseColor.rgb,uTextCol,hpL);')
-      .replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n totalEmissiveRadiance+=uTextCol*hpL*uGlow*(0.35+0.65*vLabel.y);');
+      .replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n totalEmissiveRadiance+=uTextCol*hpL*uGlow*(0.35+0.65*vLabel.y);'+
+        '\n float hpE=smoothstep(0.31,0.40,length(vLuv-0.5))*step(0.7,vFront); totalEmissiveRadiance+=uEdgeCol*uEdge*hpE;')
+      ;
+    var fade='float hpF=clamp(abs(dot(normalize(normal),normalize(vViewPosition))),0.0,1.0);\n diffuseColor.a*=vAlpha*mix(0.12,1.0,smoothstep(0.04,0.5,hpF));\n';
+    var outA='gl_FragColor = vec4( outgoingLight, diffuseColor.a );';
+    if(sh.fragmentShader.indexOf('#include <output_fragment>')>=0)sh.fragmentShader=sh.fragmentShader.replace('#include <output_fragment>',fade+'#include <output_fragment>');
+    else if(sh.fragmentShader.indexOf(outA)>=0)sh.fragmentShader=sh.fragmentShader.replace(outA,fade+outA);
   };
-  mat.customProgramCacheKey=function(){return 'hp-label';};
+  mat.customProgramCacheKey=function(){return 'hp-label2';};
 }
-withLabels(matPlate,'#e6e9ff',.55);withLabels(matBlue,'#ffffff',.9);withLabels(matRed,'#ffffff',.9);
-var meshes=[0,1,2].map(function(t){var g=hexG.clone();g.setAttribute('aLabel',new THREE.InstancedBufferAttribute(new Float32Array(Math.max(1,counts[t])*2).fill(-1),2));
-  return new THREE.InstancedMesh(g,[matPlate,matBlue,matRed][t],counts[t]);});
+withLabels(matPlate,'#e6e9ff',.55,'#5865F2',.35);withLabels(matBlue,'#ffffff',.9,'#9aa6ff',1.1);withLabels(matRed,'#ffffff',.9,'#ff8a8a',1);
+var meshes=[0,1,2].map(function(t){var g=hexG.clone(),n=Math.max(1,counts[t]);
+  g.setAttribute('aLabel',new THREE.InstancedBufferAttribute(new Float32Array(n*2).fill(-1),2));
+  g.setAttribute('aExtra',new THREE.InstancedBufferAttribute(new Float32Array(n*2).fill(1),2));
+  var m=new THREE.InstancedMesh(g,[matPlate,matBlue,matRed][t],counts[t]);if(t===0)m.setColorAt(0,new THREE.Color());return m;});
 meshes.forEach(function(m){group.add(m);});
-var cDark=new THREE.Color('#262836'),cDark2=new THREE.Color('#3a3d50'),tmpC=new THREE.Color();
+// données par dalle (index global) — recopiées chaque image dans l'ordre arrière → avant
+var LAB=new Float32Array(N*2).fill(-1),ALPHA=new Float32Array(N),COL=new Float32Array(N*3),MAT=new Float32Array(N*16),DIST=new Float32Array(N);
+var byType=[[],[],[]];
+var cDark=new THREE.Color('#262836'),cDark2=new THREE.Color('#3a3d50'),cGlass=new THREE.Color('#8790d6'),tmpC=new THREE.Color();
 for(i=0;i<N;i++){
   var yy=1-(i+.5)/N*2,rr=Math.sqrt(1-yy*yy),th=i*2.399963,d=new THREE.Vector3(Math.cos(th)*rr,yy,Math.sin(th)*rr);
-  home.push(d.clone().multiplyScalar(R));
+  home.push(d.clone().multiplyScalar(R+rnd()*.07));                       // hauteurs variées : relief d'armure
   scat.push(d.clone().multiplyScalar(4+rnd()*8).add(new THREE.Vector3(rnd()-.5,rnd()-.5,rnd()-.5).multiplyScalar(5)));
   tmpM.lookAt(home[i],O,UP);qh.push(new THREE.Quaternion().setFromRotationMatrix(tmpM));   // dalles à l'endroit : les noms restent lisibles
   qs.push(new THREE.Quaternion().setFromEuler(new THREE.Euler(rnd()*6,rnd()*6,rnd()*6)));
-  if(type[i]===0)meshes[0].setColorAt(loc[i],tmpC.copy(cDark).lerp(cDark2,rnd()));
+  byType[type[i]].push(i);
+  if(type[i]===0){var glass=rnd()<.22;tmpC.copy(glass?cGlass:cDark);if(!glass)tmpC.lerp(cDark2,rnd());ALPHA[i]=glass?.28+rnd()*.17:.82+rnd()*.18;}
+  else{tmpC.setRGB(1,1,1);ALPHA[i]=.92;}
+  COL[i*3]=tmpC.r;COL[i*3+1]=tmpC.g;COL[i*3+2]=tmpC.b;
 }
-meshes[0].instanceColor.needsUpdate=true;
+var wp=new THREE.Vector3();
+function writeSorted(){   // tri arrière → avant : on voit l'autre face de la sphère à travers le verre et les interstices
+  meshes.forEach(function(m,t){var ids=byType[t];if(!ids.length)return;
+    ids.sort(function(a,b){return DIST[b]-DIST[a];});
+    var lab=m.geometry.attributes.aLabel,ex=m.geometry.attributes.aExtra,arr=m.instanceMatrix.array,ic=m.instanceColor;
+    for(var k=0;k<ids.length;k++){var g=ids[k];for(var e=0;e<16;e++)arr[k*16+e]=MAT[g*16+e];
+      lab.array[k*2]=LAB[g*2];lab.array[k*2+1]=LAB[g*2+1];ex.array[k*2]=ALPHA[g];
+      if(ic){ic.array[k*3]=COL[g*3];ic.array[k*3+1]=COL[g*3+1];ic.array[k*3+2]=COL[g*3+2];}}
+    m.instanceMatrix.needsUpdate=true;lab.needsUpdate=true;ex.needsUpdate=true;if(ic)ic.needsUpdate=true;});
+}
 
 /* répartition : plus un serveur a de membres, plus il occupe de dalles et plus son nom brille */
 function drawName(g,s,cx,cy,cell,word){
@@ -334,8 +360,7 @@ function applyGuilds(list){
   var pool=[];cnt.forEach(function(k,j){for(var q=0;q<k;q++)pool.push(j);});
   var r=prng(99);for(i=pool.length-1;i>0;i--){var j=Math.floor(r()*(i+1)),tmp=pool[i];pool[i]=pool[j];pool[j]=tmp;}
   var mMax=Math.max.apply(null,list.map(function(s){return s.m||1;}));
-  for(i=0;i<N;i++){var gi=pool[i];meshes[type[i]].geometry.attributes.aLabel.setXY(loc[i],gi,Math.sqrt((list[gi].m||1)/mMax));}
-  meshes.forEach(function(m){m.geometry.attributes.aLabel.needsUpdate=true;});
+  for(i=0;i<N;i++){var gi=pool[i];LAB[i*2]=gi;LAB[i*2+1]=Math.sqrt((list[gi].m||1)/mMax);}
 }
 function loadGuilds(){
   var u=location.protocol==='http:'?'/heartbeat.json':'https://rapid-sound-6a32.teamfunnysgames.workers.dev/heartbeat.json';
@@ -345,8 +370,6 @@ function loadGuilds(){
 }
 loadGuilds();setInterval(loadGuilds,5*60*1000);
 var langBtn=$('lang');if(langBtn)langBtn.addEventListener('click',function(){setTimeout(function(){lastGuilds='';loadGuilds();},300);});
-var core=new THREE.Mesh(new THREE.SphereGeometry(2.05,48,32),new THREE.MeshStandardMaterial({color:0x05060f,emissive:0x2f3bd6,emissiveIntensity:.55,roughness:.7}));
-group.add(core);
 
 /* chaîne : vrais maillons ovales (fil d'épaisseur constante) en acier brossé */
 var LINK_A=.5,LINK_RC=.3,LINK_W=.1;                       // partie droite, rayon des arrondis, rayon du fil
@@ -409,14 +432,15 @@ function frame(now){
   var hx=narrow?0:2.9,hy=narrow?1.7:.1;
   group.position.set(hx*(1-k*.6),hy+k*.4+end*6,-k*6);group.scale.setScalar(narrow?.6:1);
   rotY+=dt*(.22+k*.1);group.rotation.y=rotY+mouse.x*.5;group.rotation.x=-mouse.y*.3+.15;
+  group.updateMatrixWorld();
   for(var i=0;i<N;i++){
     var kk=clamp(k*1.1-(i%7)*.015);pos.lerpVectors(home[i],scat[i],kk);if(kk>0)pos.y+=Math.sin(time*.6+i)*.25*kk;
     q.copy(qh[i]).slerp(qs[i],kk);dummy.position.copy(pos);dummy.quaternion.copy(q);if(kk>0)dummy.rotateX(time*.3*kk*((i%3)-1));
-    dummy.scale.setScalar(Math.max(.0001,(1+.2*kk)*(1-end)*(i%3===0?1:1-thin)));dummy.updateMatrix();meshes[type[i]].setMatrixAt(loc[i],dummy.matrix);
+    dummy.scale.setScalar(Math.max(.0001,(1+.2*kk)*(1-end)*(i%3===0?1:1-thin)));dummy.updateMatrix();dummy.matrix.toArray(MAT,i*16);
+    DIST[i]=wp.copy(pos).applyMatrix4(group.matrixWorld).distanceToSquared(camera.position);
   }
-  meshes.forEach(function(m){m.instanceMatrix.needsUpdate=true;});
+  writeSorted();
   var pulse=.5+.5*Math.sin(time*1.6);matBlue.emissiveIntensity=.24+.16*pulse;matRed.emissiveIntensity=.34+.2*(1-pulse);
-  core.scale.setScalar(Math.max(.0001,(1-ss(0,.5,k))*(1-end)));core.material.emissiveIntensity=.18+.08*pulse;
   P.phase=time*.45;P.amp=.9-gMix*.3;P.tilt=.32*(1-ss(.6,1.4,y/vh))+.06;P.y=(1-ease(chainIn))*10-end*12+(narrow?.8:0);P.depth=1.2+gMix*.6;
   chain.visible=chainIn>0&&end<1;if(chain.visible)layoutChain(y*.006+time*.35);
   chainMat.color.copy(silver).lerp(blueTint,gMix*.6);
