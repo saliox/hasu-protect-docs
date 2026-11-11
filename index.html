@@ -957,6 +957,17 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 .hp-social.discord:hover{box-shadow:0 18px 36px -14px rgba(88,101,242,1)}
 .hp-social:focus-visible{outline:2px solid #fff;outline-offset:3px}
 @media(max-width:620px){.hp-maker{flex-direction:column;align-items:center;text-align:center;padding:24px 18px}.hp-maker p.ai{flex-direction:column;align-items:center;gap:6px}.hp-maker .links{justify-content:center}.hp-social{width:100%;justify-content:center}}
+/* retour en haut : rond, anneau qui suit la progression de lecture, chevron dessiné en CSS */
+.totop{--p:0;width:50px!important;height:50px!important;border-radius:50%!important;font-size:0!important;color:transparent!important;background:radial-gradient(circle at 50% 30%,rgba(40,40,58,.95),rgba(12,12,18,.95))!important;border:0!important;box-shadow:0 14px 34px -12px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.06),0 10px 30px -12px rgba(88,101,242,.55)!important;overflow:visible;transition:transform .45s var(--hp-ease),opacity .35s,box-shadow .35s!important}
+.totop::after{content:"";position:absolute;inset:-3px;border-radius:50%;pointer-events:none;background:conic-gradient(from 0deg,#8B95FF 0,#5865F2 calc(var(--p) * 300deg),#F1C40F calc(var(--p) * 360deg),rgba(255,255,255,.09) calc(var(--p) * 360deg));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
+.totop::before{content:"";width:11px;height:11px;border-left:2.4px solid #fff;border-top:2.4px solid #fff;border-radius:2px 0 0 0;transform:translateY(3px) rotate(45deg);transition:transform .45s var(--hp-ease)}
+.totop:hover,.totop:focus-visible{transform:translateY(-4px)!important;box-shadow:0 20px 40px -12px rgba(0,0,0,.9),0 0 0 1px rgba(139,149,255,.35),0 14px 36px -10px rgba(88,101,242,.9)!important}
+.totop:hover::before{transform:translateY(0) rotate(45deg)}
+.totop:not(.show){opacity:0;pointer-events:none;transform:translateY(12px)!important}
+@media(prefers-reduced-motion:reduce){.totop,.totop::before{transition:none!important}}
+.totop::before{position:absolute;left:calc(50% - 6.7px);top:calc(50% - 3.5px);transform:rotate(45deg);transition:top .45s var(--hp-ease)}
+.totop:hover::before{transform:rotate(45deg);top:calc(50% - 6.5px)}
+.totop::after{background:conic-gradient(#8B95FF 0,#5865F2 calc(var(--p) * 360deg),rgba(255,255,255,.09) calc(var(--p) * 360deg))}
 
 </style><!--/hp:head-->
 </head><body>
@@ -3905,5 +3916,5 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
  h=h.toLowerCase();if(!h)return;
  var card=cards().filter(function(c){return c.dataset.n&&c.dataset.n.toLowerCase()===h;})[0];
  if(card)openSim(card);}catch(e){}})();</script>
-<!--hp:js--><script src="habillage/hp.js?v=05a9065ce9" defer></script><!--/hp:js-->
+<!--hp:js--><script src="habillage/hp.js?v=1ff4bb2c65" defer></script><!--/hp:js-->
 </body></html>

@@ -165,7 +165,7 @@ function paintBg(){var pos=scrollY+innerHeight*.55,c=STOPS[0][3].slice();
 /* barre du haut + section active */
 var topEl=$('hp-top'),lastY=scrollY,spy=[].slice.call(document.querySelectorAll('[data-spy]')),prog=$('hp-prog');
 function topBar(){var y=scrollY;topEl.classList.toggle('solid',y>30);
-  if(prog){var mx=document.documentElement.scrollHeight-innerHeight;prog.style.setProperty('--p',mx>0?clamp(y/mx).toFixed(4):'0');}
+  if(prog){var mx=document.documentElement.scrollHeight-innerHeight;var pv=mx>0?clamp(y/mx).toFixed(4):'0';prog.style.setProperty('--p',pv);var tt=$('toTop');if(tt)tt.style.setProperty('--p',pv);}
   // section courante = la dernière (dans l'ordre de la page) dont le haut a passé 40 % de l'écran ; tout en bas, la dernière
   var best=null,bt=-Infinity,bottom=y+innerHeight>=document.documentElement.scrollHeight-4;
   spy.forEach(function(a){var s=$(a.getAttribute('data-spy'));if(!s)return;var t=s.getBoundingClientRect().top;if((t<innerHeight*.4||bottom)&&t>bt){bt=t;best=a.getAttribute('data-spy');}});
