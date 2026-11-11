@@ -33,16 +33,31 @@
         <a class="hp-btn ghost" href="#hp-docs"><span data-lang="fr">Voir les commandes</span><span data-lang="en">Browse commands</span></a>
       </div>
     </div>
-    <div class="hp-live hp-fade" id="hp-live" aria-hidden="true">
-      <div class="hd"><span class="dots"><i></i><i></i><i></i></span><span class="ch hp-mono"># <span data-lang="fr">sécurité-logs</span><span data-lang="en">security-logs</span></span><span class="tag hp-mono">Simulation</span></div>
-      <ol class="feed">
-        <li class="warn"><b class="av">[+]</b><div><p class="who">Hasu Protect <em>BOT</em></p><p><span data-lang="fr">Afflux suspect : <strong>14 comptes</strong> ont rejoint en 6 secondes.</span><span data-lang="en">Suspicious surge: <strong>14 accounts</strong> joined in 6 seconds.</span></p></div></li>
-        <li class="red"><b class="av">[+]</b><div><p class="who">Hasu Protect <em>BOT</em></p><p><span data-lang="fr">Anti-raid déclenché : les nouvelles arrivées sont bloquées.</span><span data-lang="en">Anti-raid triggered: new joins are blocked.</span></p></div></li>
-        <li class="red"><b class="av">[+]</b><div><p class="who">Hasu Protect <em>BOT</em></p><p><span data-lang="fr"><strong>12 comptes</strong> placés en quarantaine.</span><span data-lang="en"><strong>12 accounts</strong> quarantined.</span></p></div></li>
-        <li class="ai"><b class="av">AI</b><div><p class="who">Guardian AI</p><p><span data-lang="fr">Schéma de raid reconnu, réponse ajustée.</span><span data-lang="en">Raid pattern recognised, response adjusted.</span></p></div></li>
-        <li class="ok"><b class="av">[+]</b><div><p class="who">Hasu Protect <em>BOT</em></p><p><span data-lang="fr">Serveur sécurisé. Rapport envoyé dans les logs.</span><span data-lang="en">Server secured. Report sent to the logs.</span></p></div></li>
-      </ol>
-      <div class="ft hp-mono"><span class="st"><i></i><span class="a"><span data-lang="fr">Raid en cours</span><span data-lang="en">Raid in progress</span></span><span class="b"><span data-lang="fr">Raid bloqué</span><span data-lang="en">Raid blocked</span></span></span><span class="clock" id="hp-live-t">0,0 s</span></div>
+    <div class="hp-mods hp-fade" id="hp-mods">
+      <a class="hp-mod" href="#hp-docs" data-cat="0" style="--mc:#F1C40F">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span>
+        <span class="t">Anti-raid</span>
+        <span class="d"><span data-lang="fr">Repère les arrivées suspectes en rafale et coupe le raid avant qu'il n'agisse.</span><span data-lang="en">Spots bursts of suspicious joins and stops the raid before it acts.</span></span>
+        <span class="f hp-mono"><b data-count="0">66</b> <span data-lang="fr">commandes</span><span data-lang="en">commands</span><i>→</i></span>
+      </a>
+      <a class="hp-mod" href="#hp-docs" data-cat="0" data-q="nuke" style="--mc:#E1262D">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c1.5 3 4.5 4.5 4.5 8.5a4.5 4.5 0 0 1-9 0c0-2 1-3.2 2-4.2.3 1.6 1 2.4 2 2.7C11 7.5 11 5.5 12 3z"/><path d="M5 21h14"/></svg></span>
+        <span class="t">Anti-nuke</span>
+        <span class="d"><span data-lang="fr">23 protections contre les suppressions en rafale de salons, de rôles et de webhooks.</span><span data-lang="en">23 safeguards against mass deletion of channels, roles and webhooks.</span></span>
+        <span class="f hp-mono"><span data-lang="fr">voir +nuke</span><span data-lang="en">see +nuke</span><i>→</i></span>
+      </a>
+      <a class="hp-mod" href="#hp-docs" data-cat="1" style="--mc:#8B95FF">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m14 4 6 6"/><path d="m11 7 6 6"/><path d="m12.5 5.5-8 8 3 3 8-8"/><path d="M5 19h7"/></svg></span>
+        <span class="t"><span data-lang="fr">Modération</span><span data-lang="en">Moderation</span></span>
+        <span class="d"><span data-lang="fr">Ban, kick, avertissements et nettoyage des messages, en une commande.</span><span data-lang="en">Ban, kick, warnings and message clean-up, in one command.</span></span>
+        <span class="f hp-mono"><b data-count="1">35</b> <span data-lang="fr">commandes</span><span data-lang="en">commands</span><i>→</i></span>
+      </a>
+      <a class="hp-mod" href="#hp-guardian" style="--mc:#57F287">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span>
+        <span class="t">Guardian AI</span>
+        <span class="d"><span data-lang="fr">Une IA qui s'entraîne chaque jour sur des attaques simulées.</span><span data-lang="en">An AI that trains every day on simulated attacks.</span></span>
+        <span class="f hp-mono"><b data-mastery>81 %</b> <span data-lang="fr">de maîtrise</span><span data-lang="en">mastery</span><i>→</i></span>
+      </a>
     </div>
   </div>
   <div class="hp-scrollcue hp-mono" aria-hidden="true"><span data-lang="fr">Défiler</span><span data-lang="en">Scroll</span><i></i></div>

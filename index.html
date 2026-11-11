@@ -790,33 +790,23 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
 .hp-toolbar.min{padding:8px 14px 12px;gap:6px}
 .hp-toolbar.min .hp-tbmin{display:flex}
 .hp-toolbar.min #search,.hp-toolbar.min .nav{display:none!important}
-/* accueil : carte « raid bloqué » (simulation animée des logs du bot) */
-.hp-live{align-self:center;justify-self:end;width:100%;max-width:470px;border-radius:18px;border:1px solid var(--hp-line2);background:linear-gradient(180deg,rgba(22,22,30,.82),rgba(10,10,14,.9));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 40px 90px -40px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.02) inset,0 30px 80px -50px rgba(88,101,242,.55);overflow:hidden;font-size:.9rem}
-.hp-live .hd{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--hp-line)}
-.hp-live .dots{display:flex;gap:6px}.hp-live .dots i{width:9px;height:9px;border-radius:50%;background:#2a2a35}
-.hp-live .ch{color:var(--hp-txt);font-size:.78rem}
-.hp-live .tag{margin-left:auto;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--hp-mut);padding:3px 8px;border-radius:999px;border:1px solid var(--hp-line2)}
-.hp-live .feed{list-style:none;margin:0;padding:10px 10px 4px;display:grid;gap:4px;min-height:318px;align-content:start}
-.hp-live li{display:flex;gap:11px;padding:9px 10px;border-radius:12px;border-left:2px solid transparent;opacity:0;transform:translateY(10px);transition:opacity .5s var(--hp-ease),transform .6s var(--hp-ease),background-color .6s}
-.hp-live li.in{opacity:1;transform:none}
-.hp-live li.in.now{background:rgba(255,255,255,.035)}
-.hp-live li.warn{border-left-color:var(--hp-gold)}.hp-live li.red{border-left-color:var(--hp-red)}.hp-live li.ai{border-left-color:var(--hp-blurple-l)}.hp-live li.ok{border-left-color:var(--hp-green)}
-.hp-live .av{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-family:var(--hp-mono);font-size:.62rem;color:#fff;background:var(--hp-blurple)}
-.hp-live li.ai .av{background:linear-gradient(135deg,#8B95FF,#5865F2)}
-.hp-live li p{margin:0;color:#C9C9D8;line-height:1.45}
-.hp-live li strong{color:var(--hp-txt);font-weight:600}
-.hp-live .who{font-weight:600;color:var(--hp-txt)!important;font-size:.84rem;margin-bottom:2px!important}
-.hp-live .who em{font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.04em;padding:1px 5px;margin-left:5px;border-radius:4px;background:var(--hp-blurple);color:#fff;vertical-align:1px}
-.hp-live .ft{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-top:1px solid var(--hp-line);font-size:.74rem;color:var(--hp-mut)}
-.hp-live .st{display:flex;align-items:center;gap:8px}
-.hp-live .st i{width:8px;height:8px;border-radius:50%;background:var(--hp-red);box-shadow:0 0 12px var(--hp-red);animation:hp-blink 1s steps(2) infinite}
-.hp-live .st .b{display:none;color:var(--hp-green)}
-.hp-live.done .st i{background:var(--hp-green);box-shadow:0 0 12px var(--hp-green);animation:none}
-.hp-live.done .st .a{display:none}.hp-live.done .st .b{display:inline}
-.hp-live .clock{color:var(--hp-txt)}
-@keyframes hp-blink{50%{opacity:.35}}
-@media(max-width:900px){#hp-hero .hp-wrap{padding-top:110px}.hp-live{justify-self:start;margin-top:12px}.hp-live .feed{min-height:0}}
-@media(prefers-reduced-motion:reduce){.hp-live li{opacity:1;transform:none;transition:none}.hp-live .st i{animation:none}}
+/* accueil : mosaïque des modules */
+.hp-mods{align-self:center;justify-self:end;width:100%;max-width:520px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hp-mod{--mx:50%;--my:0%;position:relative;display:flex;flex-direction:column;gap:8px;min-height:190px;padding:20px 20px 16px;border-radius:18px;border:1px solid var(--hp-line);background:radial-gradient(260px circle at var(--mx) var(--my),color-mix(in srgb,var(--mc) 14%,transparent),transparent 70%),linear-gradient(180deg,rgba(22,22,30,.78),rgba(10,10,14,.88));color:var(--hp-txt)!important;text-decoration:none!important;overflow:hidden;transition:transform .5s var(--hp-ease),border-color .4s,box-shadow .5s}
+.hp-mod::before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,var(--mc),transparent);opacity:.55;transition:opacity .4s}
+.hp-mod:hover,.hp-mod:focus-visible{transform:translateY(-4px);border-color:color-mix(in srgb,var(--mc) 45%,transparent);box-shadow:0 24px 50px -28px color-mix(in srgb,var(--mc) 70%,transparent)}
+.hp-mod:hover::before{opacity:1}
+.hp-mod .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:var(--mc);background:color-mix(in srgb,var(--mc) 12%,transparent);border:1px solid color-mix(in srgb,var(--mc) 28%,transparent)}
+.hp-mod .ic svg{width:20px;height:20px}
+.hp-mod .t{font-family:var(--hp-display);font-weight:700;font-size:1.08rem;letter-spacing:-.01em;margin-top:4px}
+.hp-mod .d{color:#B4B4C6;font-size:.86rem;line-height:1.5}
+.hp-mod .f{margin-top:auto;padding-top:6px;display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--hp-mut)}
+.hp-mod .f b{color:var(--mc);font-weight:600}
+.hp-mod .f i{font-style:normal;margin-left:auto;transition:transform .4s var(--hp-ease)}
+.hp-mod:hover .f i{transform:translateX(4px);color:var(--hp-txt)}
+.hp-mods .hp-mod:nth-child(2){transition-delay:0s}
+@media(max-width:900px){#hp-hero .hp-wrap{padding-top:110px}.hp-mods{justify-self:start;max-width:none;margin-top:8px}}
+@media(max-width:480px){.hp-mod{min-height:0;padding:16px}.hp-mod .d{font-size:.82rem}}
 
 </style><!--/hp:head-->
 </head><body>
@@ -856,16 +846,31 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
         <a class="hp-btn ghost" href="#hp-docs"><span data-lang="fr">Voir les commandes</span><span data-lang="en">Browse commands</span></a>
       </div>
     </div>
-    <div class="hp-live hp-fade" id="hp-live" aria-hidden="true">
-      <div class="hd"><span class="dots"><i></i><i></i><i></i></span><span class="ch hp-mono"># <span data-lang="fr">sécurité-logs</span><span data-lang="en">security-logs</span></span><span class="tag hp-mono">Simulation</span></div>
-      <ol class="feed">
-        <li class="warn"><b class="av">[+]</b><div><p class="who">Hasu Protect <em>BOT</em></p><p><span data-lang="fr">Afflux suspect : <strong>14 comptes</strong> ont rejoint en 6 secondes.</span><span data-lang="en">Suspicious surge: <strong>14 accounts</strong> joined in 6 seconds.</span></p></div></li>
-        <li class="red"><b class="av">[+]</b><div><p class="who">Hasu Protect <em>BOT</em></p><p><span data-lang="fr">Anti-raid déclenché : les nouvelles arrivées sont bloquées.</span><span data-lang="en">Anti-raid triggered: new joins are blocked.</span></p></div></li>
-        <li class="red"><b class="av">[+]</b><div><p class="who">Hasu Protect <em>BOT</em></p><p><span data-lang="fr"><strong>12 comptes</strong> placés en quarantaine.</span><span data-lang="en"><strong>12 accounts</strong> quarantined.</span></p></div></li>
-        <li class="ai"><b class="av">AI</b><div><p class="who">Guardian AI</p><p><span data-lang="fr">Schéma de raid reconnu, réponse ajustée.</span><span data-lang="en">Raid pattern recognised, response adjusted.</span></p></div></li>
-        <li class="ok"><b class="av">[+]</b><div><p class="who">Hasu Protect <em>BOT</em></p><p><span data-lang="fr">Serveur sécurisé. Rapport envoyé dans les logs.</span><span data-lang="en">Server secured. Report sent to the logs.</span></p></div></li>
-      </ol>
-      <div class="ft hp-mono"><span class="st"><i></i><span class="a"><span data-lang="fr">Raid en cours</span><span data-lang="en">Raid in progress</span></span><span class="b"><span data-lang="fr">Raid bloqué</span><span data-lang="en">Raid blocked</span></span></span><span class="clock" id="hp-live-t">0,0 s</span></div>
+    <div class="hp-mods hp-fade" id="hp-mods">
+      <a class="hp-mod" href="#hp-docs" data-cat="0" style="--mc:#F1C40F">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span>
+        <span class="t">Anti-raid</span>
+        <span class="d"><span data-lang="fr">Repère les arrivées suspectes en rafale et coupe le raid avant qu'il n'agisse.</span><span data-lang="en">Spots bursts of suspicious joins and stops the raid before it acts.</span></span>
+        <span class="f hp-mono"><b data-count="0">66</b> <span data-lang="fr">commandes</span><span data-lang="en">commands</span><i>→</i></span>
+      </a>
+      <a class="hp-mod" href="#hp-docs" data-cat="0" data-q="nuke" style="--mc:#E1262D">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c1.5 3 4.5 4.5 4.5 8.5a4.5 4.5 0 0 1-9 0c0-2 1-3.2 2-4.2.3 1.6 1 2.4 2 2.7C11 7.5 11 5.5 12 3z"/><path d="M5 21h14"/></svg></span>
+        <span class="t">Anti-nuke</span>
+        <span class="d"><span data-lang="fr">23 protections contre les suppressions en rafale de salons, de rôles et de webhooks.</span><span data-lang="en">23 safeguards against mass deletion of channels, roles and webhooks.</span></span>
+        <span class="f hp-mono"><span data-lang="fr">voir +nuke</span><span data-lang="en">see +nuke</span><i>→</i></span>
+      </a>
+      <a class="hp-mod" href="#hp-docs" data-cat="1" style="--mc:#8B95FF">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m14 4 6 6"/><path d="m11 7 6 6"/><path d="m12.5 5.5-8 8 3 3 8-8"/><path d="M5 19h7"/></svg></span>
+        <span class="t"><span data-lang="fr">Modération</span><span data-lang="en">Moderation</span></span>
+        <span class="d"><span data-lang="fr">Ban, kick, avertissements et nettoyage des messages, en une commande.</span><span data-lang="en">Ban, kick, warnings and message clean-up, in one command.</span></span>
+        <span class="f hp-mono"><b data-count="1">35</b> <span data-lang="fr">commandes</span><span data-lang="en">commands</span><i>→</i></span>
+      </a>
+      <a class="hp-mod" href="#hp-guardian" style="--mc:#57F287">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span>
+        <span class="t">Guardian AI</span>
+        <span class="d"><span data-lang="fr">Une IA qui s'entraîne chaque jour sur des attaques simulées.</span><span data-lang="en">An AI that trains every day on simulated attacks.</span></span>
+        <span class="f hp-mono"><b data-mastery>81 %</b> <span data-lang="fr">de maîtrise</span><span data-lang="en">mastery</span><i>→</i></span>
+      </a>
     </div>
   </div>
   <div class="hp-scrollcue hp-mono" aria-hidden="true"><span data-lang="fr">Défiler</span><span data-lang="en">Scroll</span><i></i></div>
