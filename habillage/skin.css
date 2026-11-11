@@ -561,3 +561,5 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 /* invitation : commande en ligne et petite ligne d'atouts */
 #hp-invite p code{font-family:var(--hp-mono);font-size:.88em;padding:2px 7px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--hp-line2);color:var(--hp-txt)}
 #hp-invite .hp-perks{margin:14px auto 0;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--hp-mut)}
+/* fin de page : halo central aux couleurs du site (bleu-violet), discret */
+#hp-invite{background:radial-gradient(55% 50% at 50% 38%,rgba(88,101,242,.07),rgba(139,92,246,.03) 45%,transparent 72%)}

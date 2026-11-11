@@ -152,7 +152,7 @@ var STOPS=[
   ['hp-guardian','#07081A',[1,1,.7,.2]],
   ['hp-news','#06050C',[.5,1,.4,.3]],
   ['hp-faq','#040507',[.4,.5,.9,.2]],
-  ['hp-invite','#0A0906',[1,.9,.6,.9]]];
+  ['hp-invite','#06060B',[.45,.4,.35,.1]]];
 STOPS.forEach(function(s){s[3]=[parseInt(s[1].slice(1,3),16),parseInt(s[1].slice(3,5),16),parseInt(s[1].slice(5,7),16)].concat(s[2]);});
 var bgBlobs=[].slice.call(document.querySelectorAll('#hp-bg i')),bgGrid=Q('#hp-bg .grid');
 var geo={tops:[]};
@@ -165,7 +165,7 @@ function paintBg(){var pos=scrollY+innerHeight*.55,c=STOPS[0][3].slice();
   var col='rgb('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+')';if(col!==lastCol){lastCol=col;document.body.style.backgroundColor=col;}
   // nappes : intensité du chapitre + légère parallaxe (propriété « translate », qui se compose avec la dérive animée)
   // jamais sous 55 % : le fond ne « s'éteint » plus ; parallaxe seulement si l'utilisateur accepte les animations
-  var y=scrollY;bgBlobs.forEach(function(b,k){b.style.setProperty('--o',Math.max(.55,c[3+k]).toFixed(3));
+  var y=scrollY;bgBlobs.forEach(function(b,k){b.style.setProperty('--o',Math.max(.4,c[3+k]).toFixed(3));
     if(!reduce)b.style.translate=(Math.cos(y/1700+k*1.7)*40).toFixed(1)+'px '+(Math.sin(y/1300+k*2.1)*70).toFixed(1)+'px';});
   if(bgGrid&&!reduce)bgGrid.style.transform='translate3d(0,'+(-(y*.12)%28).toFixed(1)+'px,0)';
   if(bgGrid)bgGrid.style.opacity=(1-ss(innerHeight*.6,innerHeight*1.8,y)*.65).toFixed(3);}
