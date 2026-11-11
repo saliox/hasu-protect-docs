@@ -249,19 +249,78 @@ var home=[],scat=[],qh=[],qs=[],type=[],loc=[],tmpM=new THREE.Matrix4(),O=new TH
 var seed=7;function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
 var counts=[0,0,0];
 for(var i=0;i<N;i++){var p=rnd(),t=p<.12?1:p<.155?2:0;type.push(t);loc.push(counts[t]++);}
-var meshes=[new THREE.InstancedMesh(hexG,matPlate,counts[0]),new THREE.InstancedMesh(hexG,matBlue,counts[1]),new THREE.InstancedMesh(hexG,matRed,counts[2])];
+/* noms des serveurs protégés imprimés sur la face avant des dalles : un atlas de noms + (index, intensité) par dalle */
+var labelUni={uAtlas:{value:new THREE.CanvasTexture(canvas2(4,4))},uGrid:{value:new THREE.Vector2(1,1)}};
+function withLabels(mat,textCol,glow){
+  mat.onBeforeCompile=function(sh){
+    sh.uniforms.uAtlas=labelUni.uAtlas;sh.uniforms.uGrid=labelUni.uGrid;sh.uniforms.uTextCol={value:new THREE.Color(textCol)};sh.uniforms.uGlow={value:glow};
+    sh.vertexShader='attribute vec2 aLabel;\nvarying vec2 vLabel;\nvarying float vFront;\nvarying vec2 vLuv;\n'+sh.vertexShader
+      .replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\n vFront=objectNormal.z;')
+      .replace('#include <uv_vertex>','#include <uv_vertex>\n vLuv=uv; vLabel=aLabel;');
+    sh.fragmentShader='uniform sampler2D uAtlas;\nuniform vec2 uGrid;\nuniform vec3 uTextCol;\nuniform float uGlow;\nvarying vec2 vLabel;\nvarying float vFront;\nvarying vec2 vLuv;\n'+sh.fragmentShader
+      .replace('#include <map_fragment>','#include <map_fragment>\n float hpL=0.0;\n if(vLabel.x>=0.0&&vFront>0.7){ vec2 l=clamp(vLuv,0.0,1.0); float cl=mod(vLabel.x,uGrid.x); float rw=floor(vLabel.x/uGrid.x);'+
+        ' vec2 a=vec2((cl+l.x)/uGrid.x,1.0-(rw+1.0-l.y)/uGrid.y); hpL=texture2D(uAtlas,a).r*(0.45+0.55*vLabel.y); }\n diffuseColor.rgb=mix(diffuseColor.rgb,uTextCol,hpL);')
+      .replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n totalEmissiveRadiance+=uTextCol*hpL*uGlow*(0.35+0.65*vLabel.y);');
+  };
+  mat.customProgramCacheKey=function(){return 'hp-label';};
+}
+withLabels(matPlate,'#e6e9ff',.55);withLabels(matBlue,'#ffffff',.9);withLabels(matRed,'#ffffff',.9);
+var meshes=[0,1,2].map(function(t){var g=hexG.clone();g.setAttribute('aLabel',new THREE.InstancedBufferAttribute(new Float32Array(Math.max(1,counts[t])*2).fill(-1),2));
+  return new THREE.InstancedMesh(g,[matPlate,matBlue,matRed][t],counts[t]);});
 meshes.forEach(function(m){group.add(m);});
 var cDark=new THREE.Color('#262836'),cDark2=new THREE.Color('#3a3d50'),tmpC=new THREE.Color();
 for(i=0;i<N;i++){
   var yy=1-(i+.5)/N*2,rr=Math.sqrt(1-yy*yy),th=i*2.399963,d=new THREE.Vector3(Math.cos(th)*rr,yy,Math.sin(th)*rr);
   home.push(d.clone().multiplyScalar(R));
   scat.push(d.clone().multiplyScalar(4+rnd()*8).add(new THREE.Vector3(rnd()-.5,rnd()-.5,rnd()-.5).multiplyScalar(5)));
-  tmpM.lookAt(home[i],O,UP);var qq=new THREE.Quaternion().setFromRotationMatrix(tmpM);
-  qq.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,1),th));qh.push(qq);
+  tmpM.lookAt(home[i],O,UP);qh.push(new THREE.Quaternion().setFromRotationMatrix(tmpM));   // dalles à l'endroit : les noms restent lisibles
   qs.push(new THREE.Quaternion().setFromEuler(new THREE.Euler(rnd()*6,rnd()*6,rnd()*6)));
   if(type[i]===0)meshes[0].setColorAt(loc[i],tmpC.copy(cDark).lerp(cDark2,rnd()));
 }
 meshes[0].instanceColor.needsUpdate=true;
+
+/* répartition : plus un serveur a de membres, plus il occupe de dalles et plus son nom brille */
+function drawName(g,s,cx,cy,cell,word){
+  var name=String(s.n||'').trim(),max=cell-36,lines=[name],fs=64;
+  for(;fs>=24;fs-=4){g.font='700 '+fs+'px Sora, Inter, sans-serif';
+    if(g.measureText(name).width<=max){lines=[name];break;}
+    var w=name.split(/\s+/),a='',b='',k;for(k=0;k<w.length;k++){var t=a?a+' '+w[k]:w[k];if(g.measureText(t).width<=max)a=t;else break;}
+    b=w.slice(k).join(' ');if(a&&g.measureText(b).width<=max){lines=[a,b];break;}}
+  if(fs<24){g.font='700 24px Sora, Inter, sans-serif';lines=[name];while(lines[0].length>3&&g.measureText(lines[0]+'…').width>max)lines[0]=lines[0].slice(0,-1);lines[0]+='…';fs=24;}
+  var lh=fs*1.08,top=cy-(lines.length*lh)/2-14;
+  g.fillStyle='#fff';lines.forEach(function(l,i){g.fillText(l,cx,top+lh*(i+.5));});
+  g.font='500 22px "JetBrains Mono", monospace';g.fillStyle='rgba(255,255,255,.7)';
+  g.fillText(fmt(s.m||0)+' '+word,cx,top+lh*lines.length+22);
+}
+var lastGuilds='';
+function applyGuilds(list){
+  list=(list||[]).filter(function(g){return g&&g.n;}).slice(0,64);if(!list.length)return;
+  var key=JSON.stringify(list)+lang();if(key===lastGuilds)return;lastGuilds=key;
+  var n=list.length,grid=Math.ceil(Math.sqrt(n)),CELL=256,c=canvas2(grid*CELL,grid*CELL),g=c.getContext('2d');
+  g.fillStyle='#000';g.fillRect(0,0,c.width,c.height);g.textAlign='center';g.textBaseline='middle';
+  var word=lang()==='en'?'members':'membres';
+  list.forEach(function(s,i){drawName(g,s,(i%grid)*CELL+CELL/2,Math.floor(i/grid)*CELL+CELL/2,CELL,word);});
+  var t=new THREE.CanvasTexture(c);t.anisotropy=ANISO;t.minFilter=THREE.LinearMipmapLinearFilter;
+  var old=labelUni.uAtlas.value;labelUni.uAtlas.value=t;labelUni.uGrid.value.set(grid,grid);if(old)old.dispose();
+  var tot=0,i;for(i=0;i<n;i++)tot+=Math.max(1,list[i].m||0);
+  var exact=list.map(function(s){return N*Math.max(1,s.m||0)/tot;}),cnt=exact.map(function(x){return Math.max(1,Math.floor(x));});
+  var sum=cnt.reduce(function(a,b){return a+b;},0),rest=exact.map(function(x,j){return [x-Math.floor(x),j];}).sort(function(a,b){return b[0]-a[0];});
+  for(i=0;sum<N;i++){cnt[rest[i%n][1]]++;sum++;}
+  while(sum>N){var big=cnt.indexOf(Math.max.apply(null,cnt));cnt[big]--;sum--;}
+  var pool=[];cnt.forEach(function(k,j){for(var q=0;q<k;q++)pool.push(j);});
+  var r=prng(99);for(i=pool.length-1;i>0;i--){var j=Math.floor(r()*(i+1)),tmp=pool[i];pool[i]=pool[j];pool[j]=tmp;}
+  var mMax=Math.max.apply(null,list.map(function(s){return s.m||1;}));
+  for(i=0;i<N;i++){var gi=pool[i];meshes[type[i]].geometry.attributes.aLabel.setXY(loc[i],gi,Math.sqrt((list[gi].m||1)/mMax));}
+  meshes.forEach(function(m){m.geometry.attributes.aLabel.needsUpdate=true;});
+}
+function loadGuilds(){
+  var u=location.protocol==='http:'?'/heartbeat.json':'https://rapid-sound-6a32.teamfunnysgames.workers.dev/heartbeat.json';
+  fetch(u,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(d&&Array.isArray(d.guilds))(document.fonts?document.fonts.ready:Promise.resolve()).then(function(){applyGuilds(d.guilds);});
+  }).catch(function(){});
+}
+loadGuilds();setInterval(loadGuilds,5*60*1000);
+var langBtn=$('lang');if(langBtn)langBtn.addEventListener('click',function(){setTimeout(function(){lastGuilds='';loadGuilds();},300);});
 var core=new THREE.Mesh(new THREE.SphereGeometry(2.05,48,32),new THREE.MeshStandardMaterial({color:0x05060f,emissive:0x2f3bd6,emissiveIntensity:.55,roughness:.7}));
 group.add(core);
 
