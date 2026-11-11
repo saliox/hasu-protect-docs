@@ -206,36 +206,37 @@ var scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(35,1,.1,100);came
   var t=new THREE.CanvasTexture(c);t.mapping=THREE.EquirectangularReflectionMapping;t.encoding=THREE.sRGBEncoding;
   var pm=new THREE.PMREMGenerator(renderer);scene.environment=pm.fromEquirectangular(t).texture;t.dispose();pm.dispose();
 })();
-var key=new THREE.DirectionalLight(0xffffff,1.1);key.position.set(5,7,8);scene.add(key);
-scene.add(new THREE.HemisphereLight(0xc9ceff,0x101018,.35));
-var blue=new THREE.PointLight(0x5865F2,1.6,40);blue.position.set(6,3,5);scene.add(blue);
-var red=new THREE.PointLight(0xE1262D,.6,40);red.position.set(-7,-3,5);scene.add(red);
+var key=new THREE.DirectionalLight(0xffffff,1.0);key.position.set(5,7,8);scene.add(key);
+scene.add(new THREE.HemisphereLight(0xb8c0ff,0x05050a,.18));
+var blue=new THREE.PointLight(0x5865F2,.8,40);blue.position.set(6,3,5);scene.add(blue);
+var red=new THREE.PointLight(0xE1262D,.4,40);red.position.set(-7,-3,5);scene.add(red);
 
+/* bouclier : plaques hexagonales en métal sombre, quelques plaques lumineuses, cœur d'énergie au centre */
 var group=new THREE.Group();scene.add(group);
-var N=300,R=2.35;
-function roundedBox(){var g=new THREE.BoxGeometry(1,1,1,4,4,4),p=g.attributes.position,v=new THREE.Vector3();
-  for(var i=0;i<p.count;i++){v.fromBufferAttribute(p,i);var c=v.clone().clampScalar(-.38,.38);v.sub(c);if(v.length()>0)v.setLength(.12);v.add(c);p.setXYZ(i,v.x,v.y,v.z);}
-  g.computeVertexNormals();return g;}
-var cubes=new THREE.InstancedMesh(roundedBox(),new THREE.MeshStandardMaterial({roughness:.28,metalness:.35,envMapIntensity:1.1}),N);group.add(cubes);
-var home=[],scat=[],qh=[],qs=[],size=[],tmpM=new THREE.Matrix4(),O=new THREE.Vector3(),UP=new THREE.Vector3(0,1,0);
-var cB=new THREE.Color('#5865F2'),cK=new THREE.Color('#16161F'),cR=new THREE.Color('#E1262D'),cW=new THREE.Color('#DADCEA');
+var N=420,R=2.35;
+var hexG=new THREE.CylinderGeometry(.215,.19,.08,6,1);hexG.rotateX(Math.PI/2);   // face de la plaque tournée vers l'extérieur
+var matPlate=new THREE.MeshStandardMaterial({metalness:.85,roughness:.42,envMapIntensity:.7});
+var matBlue=new THREE.MeshStandardMaterial({color:0x1d2690,emissive:0x5865F2,emissiveIntensity:.5,metalness:.2,roughness:.5,envMapIntensity:.3});
+var matRed=new THREE.MeshStandardMaterial({color:0x6e0f13,emissive:0xE1262D,emissiveIntensity:.45,metalness:.2,roughness:.5,envMapIntensity:.3});
+var home=[],scat=[],qh=[],qs=[],type=[],loc=[],tmpM=new THREE.Matrix4(),O=new THREE.Vector3(),UP=new THREE.Vector3(0,1,0);
 var seed=7;function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
-for(var i=0;i<N;i++){
+var counts=[0,0,0];
+for(var i=0;i<N;i++){var p=rnd(),t=p<.12?1:p<.155?2:0;type.push(t);loc.push(counts[t]++);}
+var meshes=[new THREE.InstancedMesh(hexG,matPlate,counts[0]),new THREE.InstancedMesh(hexG,matBlue,counts[1]),new THREE.InstancedMesh(hexG,matRed,counts[2])];
+meshes.forEach(function(m){group.add(m);});
+var cDark=new THREE.Color('#1b1c27'),cDark2=new THREE.Color('#2a2c3d'),tmpC=new THREE.Color();
+for(i=0;i<N;i++){
   var yy=1-(i+.5)/N*2,rr=Math.sqrt(1-yy*yy),th=i*2.399963,d=new THREE.Vector3(Math.cos(th)*rr,yy,Math.sin(th)*rr);
   home.push(d.clone().multiplyScalar(R));
   scat.push(d.clone().multiplyScalar(4+rnd()*8).add(new THREE.Vector3(rnd()-.5,rnd()-.5,rnd()-.5).multiplyScalar(5)));
-  tmpM.lookAt(home[i],O,UP);qh.push(new THREE.Quaternion().setFromRotationMatrix(tmpM));
+  tmpM.lookAt(home[i],O,UP);var qq=new THREE.Quaternion().setFromRotationMatrix(tmpM);
+  qq.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,1),th));qh.push(qq);
   qs.push(new THREE.Quaternion().setFromEuler(new THREE.Euler(rnd()*6,rnd()*6,rnd()*6)));
-  size.push(.36+rnd()*.1);var p=rnd();cubes.setColorAt(i,p<.4?cB:p<.78?cK:p<.88?cR:cW);
+  if(type[i]===0)meshes[0].setColorAt(loc[i],tmpC.copy(cDark).lerp(cDark2,rnd()));
 }
-cubes.instanceColor.needsUpdate=true;
-var core=new THREE.Group();group.add(core);
-var steel=new THREE.MeshStandardMaterial({color:0x22232c,metalness:.95,roughness:.2});
-core.add(new THREE.Mesh(new THREE.IcosahedronGeometry(.62,1),steel));
-var coneG=new THREE.ConeGeometry(.15,1.5,16);coneG.translate(0,.75,0);
-var redTip=new THREE.MeshStandardMaterial({color:0xE1262D,metalness:.5,roughness:.3,emissive:0x3a0507});
-for(i=0;i<20;i++){var y2=1-(i+.5)/20*2,r2=Math.sqrt(1-y2*y2),t2=i*2.399963,d2=new THREE.Vector3(Math.cos(t2)*r2,y2,Math.sin(t2)*r2);
-  var m=new THREE.Mesh(coneG,i%5===0?redTip:steel);m.quaternion.setFromUnitVectors(UP,d2);m.position.copy(d2).multiplyScalar(.38);core.add(m);}
+meshes[0].instanceColor.needsUpdate=true;
+var core=new THREE.Mesh(new THREE.SphereGeometry(2.05,48,32),new THREE.MeshStandardMaterial({color:0x07081a,emissive:0x3a45d8,emissiveIntensity:.55,roughness:.7}));
+group.add(core);
 
 var L=64,PITCH=1.0,linkG=new THREE.TorusGeometry(.42,.12,20,56);linkG.scale(1.55,1,1);
 var chainMat=new THREE.MeshStandardMaterial({color:0xd9dbe2,metalness:1,roughness:.18,envMapIntensity:1.2});
@@ -279,10 +280,11 @@ function frame(now){
   for(var i=0;i<N;i++){
     var kk=clamp(k*1.1-(i%7)*.015);pos.lerpVectors(home[i],scat[i],kk);if(kk>0)pos.y+=Math.sin(time*.6+i)*.25*kk;
     q.copy(qh[i]).slerp(qs[i],kk);dummy.position.copy(pos);dummy.quaternion.copy(q);if(kk>0)dummy.rotateX(time*.3*kk*((i%3)-1));
-    dummy.scale.setScalar(size[i]*(1-.25*kk)*(1-end)*(i%3===0?1:1-thin));dummy.updateMatrix();cubes.setMatrixAt(i,dummy.matrix);
+    dummy.scale.setScalar(Math.max(.0001,(1+.6*kk)*(1-end)*(i%3===0?1:1-thin)));dummy.updateMatrix();meshes[type[i]].setMatrixAt(loc[i],dummy.matrix);
   }
-  cubes.instanceMatrix.needsUpdate=true;
-  core.rotation.y=-time*.5;core.rotation.z=time*.2;core.scale.setScalar(Math.max(.0001,(1-thin)*(1-end)));
+  meshes.forEach(function(m){m.instanceMatrix.needsUpdate=true;});
+  var pulse=.5+.5*Math.sin(time*1.6);matBlue.emissiveIntensity=.42+.28*pulse;matRed.emissiveIntensity=.38+.22*(1-pulse);
+  core.scale.setScalar(Math.max(.0001,(1-ss(0,.5,k))*(1-end)));core.material.emissiveIntensity=.45+.2*pulse;
   P.phase=time*.45;P.amp=.9-gMix*.3;P.tilt=.32*(1-ss(.6,1.4,y/vh))+.06;P.y=(1-ease(chainIn))*10-end*12+(narrow?.8:0);P.depth=1.2+gMix*.6;
   chain.visible=chainIn>0&&end<1;if(chain.visible)layoutChain(y*.006+time*.35);
   chainMat.color.copy(silver).lerp(blueTint,gMix*.6);
