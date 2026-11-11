@@ -63,8 +63,13 @@ setInterval(function(){syncCounters(false);},3000);
   var src=$('botstatus'),tile=$('hp-status'),txt=$('hp-status-txt');if(!src||!tile)return;
   function sync(){['on','off','upd','unk'].forEach(function(c){tile.classList.toggle(c,src.classList.contains(c));});var t=$('bstxt');if(t)txt.textContent=t.textContent.trim();}
   sync();new MutationObserver(sync).observe(src,{attributes:true,childList:true,subtree:true,characterData:true});
-  function open(){src.click();}
-  tile.addEventListener('click',open);tile.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+  // Le clic d'origine ne doit pas remonter jusqu'à la page : la doc y referme le panneau dès qu'un clic
+  // tombe hors du panneau et hors de son badge — la tuile ouvrait donc le panneau puis le refermait aussitôt.
+  function open(e){if(e){e.stopPropagation();e.preventDefault();}src.click();}
+  tile.addEventListener('click',open);tile.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){open(e);}});
+  // La doc accroche le panneau à son <header>, masqué ici : on le sort dans <body> pour qu'il soit visible.
+  var head=Q('header');
+  if(head)new MutationObserver(function(){var p=$('uppop');if(p&&p.parentNode===head)document.body.appendChild(p);}).observe(head,{childList:true});
 })();
 
 /* Guardian : anneau de maîtrise + barres de progression, ré-appliqués quand la doc rafraîchit le panneau */
@@ -96,17 +101,30 @@ enhanceGuardian();
   setInterval(function(){targets.forEach(function(t){if(!t.classList.contains('in')){var r=t.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)show(t);}});},1200);
 })();
 
-/* ── fond continu (nuit → bleu Guardian → braise) ── */
-var STOPS=[['hp-hero','#0B0B12'],['hp-docs','#0D0D16'],['hp-guardian','#10122E'],['hp-news','#0C0C14'],['hp-faq','#0B0B12'],['hp-invite','#0B0B12']];
-STOPS.forEach(function(s){s[2]=[parseInt(s[1].slice(1,3),16),parseInt(s[1].slice(3,5),16),parseInt(s[1].slice(5,7),16)];});
+/* ── fond continu : une teinte par chapitre + intensité des nappes de lumière (blurple, violet, bleu, rouge) ── */
+var STOPS=[
+  ['hp-hero','#0A0A14',[1,.8,.6,.8]],
+  ['hp-stats','#0C0B1A',[.7,1,.5,.4]],
+  ['hp-start','#0A0D1A',[.5,.6,1,.3]],
+  ['hp-docs','#0B0C15',[.35,.35,.45,.15]],
+  ['hp-guardian','#10123A',[1,1,.7,.2]],
+  ['hp-news','#0E0B1E',[.5,1,.4,.3]],
+  ['hp-faq','#0A0D18',[.4,.5,.9,.2]],
+  ['hp-invite','#0E0F2E',[1,.9,.6,.9]]];
+STOPS.forEach(function(s){s[3]=[parseInt(s[1].slice(1,3),16),parseInt(s[1].slice(3,5),16),parseInt(s[1].slice(5,7),16)].concat(s[2]);});
+var bgBlobs=[].slice.call(document.querySelectorAll('#hp-bg i')),bgGrid=Q('#hp-bg .grid');
 var geo={tops:[]};
 function measure(){geo.vh=innerHeight;var h=$('hp-hero');geo.hero=h?h.offsetHeight:innerHeight;
   geo.tops=STOPS.map(function(s){var el=$(s[0]);return el?el.getBoundingClientRect().top+scrollY:null;});
   var g=$('hp-guardian'),iv=$('hp-invite');geo.gTop=g?g.getBoundingClientRect().top+scrollY:1e9;geo.gBot=g?geo.gTop+g.offsetHeight:1e9;geo.end=iv?iv.getBoundingClientRect().top+scrollY:1e9;}
 var lastCol='';
-function paintBg(){var pos=scrollY+innerHeight*.55,c=STOPS[0][2].slice();
-  for(var i=1;i<STOPS.length;i++){var tp=geo.tops[i];if(tp==null)continue;var t=ss(tp-innerHeight*.45,tp+innerHeight*.15,pos);if(t>0)for(var j=0;j<3;j++)c[j]+=(STOPS[i][2][j]-c[j])*t;}
-  var col='rgb('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+')';if(col!==lastCol){lastCol=col;document.body.style.backgroundColor=col;}}
+function paintBg(){var pos=scrollY+innerHeight*.55,c=STOPS[0][3].slice();
+  for(var i=1;i<STOPS.length;i++){var tp=geo.tops[i];if(tp==null)continue;var t=ss(tp-innerHeight*.45,tp+innerHeight*.15,pos);if(t>0)for(var j=0;j<c.length;j++)c[j]+=(STOPS[i][3][j]-c[j])*t;}
+  var col='rgb('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+')';if(col!==lastCol){lastCol=col;document.body.style.backgroundColor=col;}
+  // nappes : intensité du chapitre + légère parallaxe (propriété « translate », qui se compose avec la dérive animée)
+  var y=scrollY;bgBlobs.forEach(function(b,k){b.style.setProperty('--o',c[3+k].toFixed(3));b.style.translate=(Math.cos(y/1700+k*1.7)*40).toFixed(1)+'px '+(Math.sin(y/1300+k*2.1)*70).toFixed(1)+'px';});
+  if(bgGrid)bgGrid.style.transform='translate3d(0,'+(-(y*.12)%28).toFixed(1)+'px,0)';
+  if(bgGrid)bgGrid.style.opacity=(1-ss(innerHeight*.6,innerHeight*1.8,y)*.65).toFixed(3);}
 /* barre du haut + section active */
 var topEl=$('hp-top'),lastY=scrollY,spy=[].slice.call(document.querySelectorAll('[data-spy]'));
 function topBar(){var y=scrollY;topEl.classList.toggle('solid',y>30);

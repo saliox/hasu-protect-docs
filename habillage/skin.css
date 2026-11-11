@@ -32,6 +32,20 @@ body{font-family:var(--hp-body);background:var(--hp-night);color:var(--hp-txt);o
 
 /* calques */
 #hp-gl{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;display:block}
+/* fond vivant : nappes de lumière qui dérivent, trame de points, vignette — tout en dégradés CSS (aucune image) */
+.hp-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.hp-bg i{position:absolute;border-radius:50%;will-change:transform;opacity:var(--o,1);transition:opacity 1.2s ease}
+.hp-bg .b1{width:70vmax;height:70vmax;left:-22vmax;top:-26vmax;background:radial-gradient(circle,rgba(88,101,242,.30),rgba(88,101,242,.08) 40%,transparent 68%);animation:hp-d1 32s ease-in-out infinite alternate}
+.hp-bg .b2{width:60vmax;height:60vmax;right:-24vmax;top:18vh;background:radial-gradient(circle,rgba(139,92,246,.22),rgba(139,92,246,.06) 42%,transparent 68%);animation:hp-d2 38s ease-in-out infinite alternate}
+.hp-bg .b3{width:55vmax;height:55vmax;left:18vw;bottom:-30vmax;background:radial-gradient(circle,rgba(56,189,248,.13),rgba(56,189,248,.04) 42%,transparent 68%);animation:hp-d3 44s ease-in-out infinite alternate}
+.hp-bg .b4{width:34vmax;height:34vmax;left:52vw;top:-12vmax;background:radial-gradient(circle,rgba(225,38,45,.08),transparent 66%);animation:hp-d2 50s ease-in-out infinite alternate-reverse}
+.hp-bg .grid{position:absolute;inset:-40px 0;background-image:radial-gradient(rgba(236,236,242,.075) 1px,transparent 1.6px);background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 30%,#000,transparent 75%);mask-image:radial-gradient(ellipse 70% 55% at 50% 30%,#000,transparent 75%);will-change:transform}
+.hp-bg .vig{position:absolute;inset:0;background:radial-gradient(ellipse 120% 90% at 50% 40%,transparent 55%,rgba(5,5,10,.55))}
+@keyframes hp-d1{to{transform:translate3d(14vw,10vh,0) scale(1.12)}}
+@keyframes hp-d2{to{transform:translate3d(-12vw,-8vh,0) scale(.9)}}
+@keyframes hp-d3{to{transform:translate3d(10vw,-14vh,0) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.hp-bg i{animation:none}}
 .hp-under{position:absolute;top:0;left:0;right:0;height:100svh;min-height:640px;z-index:0;overflow:hidden;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;
   background:radial-gradient(60% 55% at 72% 42%,rgba(88,101,242,.28),transparent 70%)}
 main,.hp-sec,#hp-hero,.layout,footer{position:relative;z-index:2}
@@ -71,7 +85,7 @@ header{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rec
 #hp-hero .hp-wrap{width:100%;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:32px;padding-top:120px;padding-bottom:90px}
 .hp-eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--hp-blurple-l);padding:7px 12px;border-radius:999px;border:1px solid rgba(88,101,242,.35);background:rgba(88,101,242,.08)}
 .hp-eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--hp-green);box-shadow:0 0 10px var(--hp-green)}
-.hp-title{font-family:var(--hp-display);font-weight:700;font-size:clamp(2.2rem,4.8vw,4.6rem);line-height:1.02;letter-spacing:-.035em;margin:22px 0 0;text-wrap:balance}
+.hp-title{font-family:var(--hp-display);font-weight:700;font-size:clamp(2.2rem,4.8vw,4.6rem);line-height:1.02;letter-spacing:-.035em;margin:0;text-wrap:balance}
 .hp-title .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}
 .hp-title .w>span{display:inline-block;transition:transform 1.2s var(--hp-ease)}
 .hp-title em{font-style:normal;color:var(--hp-blurple-l)}
