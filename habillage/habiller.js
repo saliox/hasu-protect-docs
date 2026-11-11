@@ -58,7 +58,8 @@ h = h.slice(0, foot) + '<!--hp:end-->\n' + end + '\n<!--/hp:end-->\n' + h.slice(
 //    « cache d'abord », et sans elle un visiteur déjà venu recevait la NOUVELLE page avec l'ANCIEN script
 //    (FAQ, recherche… cassées jusqu'au rechargement suivant). Nouvelle empreinte = nouvelle adresse = réseau.
 must(/<\/body>\s*<\/html>\s*$/.test(h), '</body></html>');
-const jsv = require('crypto').createHash('sha256').update(fs.readFileSync(path.join(here, 'hp.js'))).digest('hex').slice(0, 10);
+// fins de ligne normalisées : le même script donne la même empreinte sous Windows (CRLF) et en CI (LF)
+const jsv = require('crypto').createHash('sha256').update(fs.readFileSync(path.join(here, 'hp.js'), 'utf8').replace(/\r\n/g, '\n')).digest('hex').slice(0, 10);
 h = h.replace(/\s*<\/body>\s*<\/html>\s*$/, () => '\n<!--hp:js--><script src="habillage/hp.js?v=' + jsv + '" defer></script><!--/hp:js-->\n</body></html>\n');
 
 fs.writeFileSync(out, h);
