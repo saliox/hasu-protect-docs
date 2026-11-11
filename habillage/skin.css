@@ -392,3 +392,30 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
 .hp-mods .hp-mod:nth-child(2){transition-delay:0s}
 @media(max-width:900px){#hp-hero .hp-wrap{padding-top:110px}.hp-mods{justify-self:start;max-width:none;margin-top:8px}}
 @media(max-width:480px){.hp-mod{min-height:0;padding:16px}.hp-mod .d{font-size:.82rem}}
+/* ancres : la section arrive sous la barre fixe, pas dessous */
+html{scroll-padding-top:92px}
+.hp-links a.l{position:relative;padding:6px 2px}
+.hp-links a.l::after{content:"";position:absolute;left:2px;right:2px;bottom:-2px;height:2px;border-radius:2px;background:var(--hp-blurple-l);transform:scaleX(0);transition:transform .45s var(--hp-ease)}
+.hp-links a.l.on::after{transform:scaleX(1)}
+.hp-links a.l:focus-visible{outline:2px solid var(--hp-blurple-l);outline-offset:4px;border-radius:4px}
+/* menu déroulant (petits écrans) */
+.hp-burger{display:none;flex:none;width:38px;height:36px;border-radius:10px;border:1px solid var(--hp-line2);background:rgba(255,255,255,.03);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0}
+.hp-burger i{display:block;width:16px;height:1.6px;border-radius:2px;background:var(--hp-txt);transition:transform .35s var(--hp-ease),opacity .25s}
+.hp-top.menu .hp-burger i:nth-child(1){transform:translateY(5.6px) rotate(45deg)}
+.hp-top.menu .hp-burger i:nth-child(2){opacity:0}
+.hp-top.menu .hp-burger i:nth-child(3){transform:translateY(-5.6px) rotate(-45deg)}
+.hp-drop{max-width:1320px;width:calc(100% - 2 * clamp(12px,3vw,40px));margin:8px auto 0;padding:8px;border-radius:14px;border:1px solid var(--hp-line);background:rgba(8,8,11,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:grid;gap:2px;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.hp-drop[hidden]{display:none}
+.hp-drop a{padding:12px 14px;border-radius:10px;color:var(--hp-mut)!important;font-size:.95rem;text-decoration:none!important}
+.hp-drop a:hover,.hp-drop a.on{color:var(--hp-txt)!important;background:rgba(255,255,255,.04)}
+.hp-drop a.on{box-shadow:inset 2px 0 0 var(--hp-blurple-l)}
+.hp-drop .hp-btn{margin-top:6px;justify-content:center;color:#fff!important}
+@media(max-width:980px){.hp-burger{display:flex}}
+@media(min-width:981px){.hp-drop{display:none!important}}
+@media(max-width:560px){.hp-links .hp-btn{display:none}}
+/* nouveautés : listes dépliées et historique dans un cadre défilant (sinon la page s'allongeait de dizaines de milliers de pixels) */
+#hp-news .cl-list.open,#hp-news .hist{max-height:min(72vh,780px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent;border-radius:12px}
+#hp-news .cl-list.open{padding-right:8px;-webkit-mask-image:linear-gradient(#000 calc(100% - 28px),transparent);mask-image:linear-gradient(#000 calc(100% - 28px),transparent);padding-bottom:28px}
+#hp-news .hist{padding:0 8px 12px 0;margin-top:10px}
+#hp-news .hist .histsearch{position:sticky;top:0;z-index:2;background:#0c0c10!important;box-shadow:0 10px 18px -8px #0c0c10}
+#hp-news .cl-toggle,#hp-news .more{transition:border-color .25s,color .25s,background-color .25s}

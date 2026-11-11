@@ -24,7 +24,10 @@ must(!h.includes('id="hp-skin"'), 'page habillée sans marqueurs (ancienne versi
 const redo = h !== before;
 
 const read = f => fs.readFileSync(path.join(here, f), 'utf8');
-const css = read('skin.css'), top = read('top.html') + '\n' + read('guide.html'), end = read('end.html');
+// le guide se place AVANT l'en-tête « Toutes les commandes » : sinon il s'intercale entre ce titre et la liste
+const topRaw = read('top.html'), guide = read('guide.html'), docsAt = topRaw.indexOf('<div class="hp-wrap" id="hp-docs"');
+const css = read('skin.css'), end = read('end.html');
+const top = docsAt >= 0 ? topRaw.slice(0, docsAt) + guide + '\n' + topRaw.slice(docsAt) : topRaw + '\n' + guide;
 // three.js et les polices sont servis par le site lui-même (habillage/vendor, habillage/fonts) :
 // aucun CDN autorisé dans la CSP, aucune adresse IP de visiteur envoyée à Google.
 

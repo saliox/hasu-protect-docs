@@ -807,6 +807,33 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
 .hp-mods .hp-mod:nth-child(2){transition-delay:0s}
 @media(max-width:900px){#hp-hero .hp-wrap{padding-top:110px}.hp-mods{justify-self:start;max-width:none;margin-top:8px}}
 @media(max-width:480px){.hp-mod{min-height:0;padding:16px}.hp-mod .d{font-size:.82rem}}
+/* ancres : la section arrive sous la barre fixe, pas dessous */
+html{scroll-padding-top:92px}
+.hp-links a.l{position:relative;padding:6px 2px}
+.hp-links a.l::after{content:"";position:absolute;left:2px;right:2px;bottom:-2px;height:2px;border-radius:2px;background:var(--hp-blurple-l);transform:scaleX(0);transition:transform .45s var(--hp-ease)}
+.hp-links a.l.on::after{transform:scaleX(1)}
+.hp-links a.l:focus-visible{outline:2px solid var(--hp-blurple-l);outline-offset:4px;border-radius:4px}
+/* menu déroulant (petits écrans) */
+.hp-burger{display:none;flex:none;width:38px;height:36px;border-radius:10px;border:1px solid var(--hp-line2);background:rgba(255,255,255,.03);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0}
+.hp-burger i{display:block;width:16px;height:1.6px;border-radius:2px;background:var(--hp-txt);transition:transform .35s var(--hp-ease),opacity .25s}
+.hp-top.menu .hp-burger i:nth-child(1){transform:translateY(5.6px) rotate(45deg)}
+.hp-top.menu .hp-burger i:nth-child(2){opacity:0}
+.hp-top.menu .hp-burger i:nth-child(3){transform:translateY(-5.6px) rotate(-45deg)}
+.hp-drop{max-width:1320px;width:calc(100% - 2 * clamp(12px,3vw,40px));margin:8px auto 0;padding:8px;border-radius:14px;border:1px solid var(--hp-line);background:rgba(8,8,11,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:grid;gap:2px;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.hp-drop[hidden]{display:none}
+.hp-drop a{padding:12px 14px;border-radius:10px;color:var(--hp-mut)!important;font-size:.95rem;text-decoration:none!important}
+.hp-drop a:hover,.hp-drop a.on{color:var(--hp-txt)!important;background:rgba(255,255,255,.04)}
+.hp-drop a.on{box-shadow:inset 2px 0 0 var(--hp-blurple-l)}
+.hp-drop .hp-btn{margin-top:6px;justify-content:center;color:#fff!important}
+@media(max-width:980px){.hp-burger{display:flex}}
+@media(min-width:981px){.hp-drop{display:none!important}}
+@media(max-width:560px){.hp-links .hp-btn{display:none}}
+/* nouveautés : listes dépliées et historique dans un cadre défilant (sinon la page s'allongeait de dizaines de milliers de pixels) */
+#hp-news .cl-list.open,#hp-news .hist{max-height:min(72vh,780px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent;border-radius:12px}
+#hp-news .cl-list.open{padding-right:8px;-webkit-mask-image:linear-gradient(#000 calc(100% - 28px),transparent);mask-image:linear-gradient(#000 calc(100% - 28px),transparent);padding-bottom:28px}
+#hp-news .hist{padding:0 8px 12px 0;margin-top:10px}
+#hp-news .hist .histsearch{position:sticky;top:0;z-index:2;background:#0c0c10!important;box-shadow:0 10px 18px -8px #0c0c10}
+#hp-news .cl-toggle,#hp-news .more{transition:border-color .25s,color .25s,background-color .25s}
 
 </style><!--/hp:head-->
 </head><body>
@@ -830,7 +857,17 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
       <a class="l" href="#hp-faq" data-spy="hp-faq">FAQ</a>
       <a class="hp-btn" href="#hp-invite"><span data-lang="fr">Ajouter le bot</span><span data-lang="en">Add the bot</span></a>
     </nav>
+    <button type="button" class="hp-burger" id="hp-burger" aria-controls="hp-drop" aria-expanded="false" aria-label="Menu"><i></i><i></i><i></i></button>
     <i class="hp-prog" id="hp-prog" aria-hidden="true"></i>
+  </div>
+  <div class="hp-drop" id="hp-drop" hidden>
+    <a href="#hp-hero" data-spy="hp-hero"><span data-lang="fr">Accueil</span><span data-lang="en">Home</span></a>
+    <a href="#hp-guide" data-spy="hp-guide">Guide</a>
+    <a href="#hp-docs" data-spy="hp-docs"><span data-lang="fr">Commandes</span><span data-lang="en">Commands</span></a>
+    <a href="#hp-guardian" data-spy="hp-guardian">Guardian AI</a>
+    <a href="#hp-news" data-spy="hp-news"><span data-lang="fr">Nouveautés</span><span data-lang="en">What's new</span></a>
+    <a href="#hp-faq" data-spy="hp-faq">FAQ</a>
+    <a class="hp-btn" href="#hp-invite"><span data-lang="fr">Ajouter le bot</span><span data-lang="en">Add the bot</span></a>
   </div>
 </div>
 
@@ -919,13 +956,6 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
     <div id="hp-start-slot" class="hp-reveal"></div>
   </div>
 </section>
-
-<div class="hp-wrap" id="hp-docs">
-  <div class="hp-head hp-reveal" style="margin-top:clamp(60px,10vh,110px)">
-    <div><span class="hp-kicker hp-mono"><span data-lang="fr">Documentation</span><span data-lang="en">Documentation</span></span><h2 class="hp-h2"><span data-lang="fr">Toutes les commandes.</span><span data-lang="en">Every command.</span></h2></div>
-    <p><span data-lang="fr">Recherche par nom ou description, filtre par catégorie et par niveau d'accès. Raccourci : touche /.</span><span data-lang="en">Search by name or description, filter by category and access level. Shortcut: the / key.</span></p>
-  </div>
-</div>
 
 <section class="hp-sec" id="hp-guide">
   <div class="hp-wrap">
@@ -1072,6 +1102,13 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
   <details class="fq"><summary><span data-lang="fr">L'antiraid a sanctionné un membre par erreur, que faire ?</span><span data-lang="en">The antiraid punished a member by mistake, what now?</span></summary><div class="fqa"><span data-lang="fr"><code>+rerank @membre</code> lui rend les rôles retirés par le bot. Pour éviter que ça recommence, ajoute-le à la whitelist avec <code>+wl @membre</code>.</span><span data-lang="en"><code>+rerank @member</code> gives back the roles the bot removed. To stop it from happening again, whitelist them with <code>+wl @member</code>.</span></div></details>
   <details class="fq"><summary><span data-lang="fr">Y a-t-il des commandes slash ? Comment changer le préfixe ?</span><span data-lang="en">Are there slash commands? How do I change the prefix?</span></summary><div class="fqa"><span data-lang="fr">Non, le bot fonctionne avec un préfixe, <code>+</code> par défaut. Change-le avec <code>+prefix !</code> (3 caractères maximum), et reviens au défaut avec <code>+prefix reset</code>. Mentionner le bot affiche l'aide.</span><span data-lang="en">No, the bot uses a prefix, <code>+</code> by default. Change it with <code>+prefix !</code> (3 characters max), and go back to the default with <code>+prefix reset</code>. Mentioning the bot shows the help.</span></div></details>
   <details class="fq"><summary><span data-lang="fr">Comment revenir en arrière après avoir changé les permissions ?</span><span data-lang="en">How do I undo permission changes?</span></summary><div class="fqa"><span data-lang="fr">Avant un gros changement, enregistre l'état avec <code>+permpreset save &lt;nom&gt;</code> (5 jeux au maximum). <code>+permpreset load &lt;nom&gt;</code> le recharge, en sauvegardant d'abord l'état actuel sous « avant-chargement ». Les autorisations par salon de <code>+permsalon</code> ne font pas partie de ces jeux.</span><span data-lang="en">Before a big change, save the current state with <code>+permpreset save &lt;name&gt;</code> (5 sets max). <code>+permpreset load &lt;name&gt;</code> restores it, first saving the current state as "avant-chargement". Per-channel grants from <code>+permsalon</code> aren't part of these sets.</span></div></details>
+</div>
+
+<div class="hp-wrap" id="hp-docs">
+  <div class="hp-head hp-reveal" style="margin-top:clamp(60px,10vh,110px)">
+    <div><span class="hp-kicker hp-mono"><span data-lang="fr">Documentation</span><span data-lang="en">Documentation</span></span><h2 class="hp-h2"><span data-lang="fr">Toutes les commandes.</span><span data-lang="en">Every command.</span></h2></div>
+    <p><span data-lang="fr">Recherche par nom ou description, filtre par catégorie et par niveau d'accès. Raccourci : touche /.</span><span data-lang="en">Search by name or description, filter by category and access level. Shortcut: the / key.</span></p>
+  </div>
 </div>
 
 <!--/hp:top-->
@@ -2445,7 +2482,7 @@ footer{border-top:1px solid var(--hp-line)!important;background:transparent!impo
 <section class="hp-sec" id="hp-news">
   <div class="hp-wrap">
     <div class="hp-head hp-reveal">
-      <div><span class="hp-kicker hp-mono"><span data-lang="fr">Nouveautés</span><span data-lang="en">What's new</span></span><h2 class="hp-h2"><span data-lang="fr">Dernière mise à jour.</span><span data-lang="en">Latest update.</span></h2></div>
+      <div><span class="hp-kicker hp-mono"><span data-lang="fr">Nouveautés</span><span data-lang="en">What's new</span></span><h2 class="hp-h2"><span data-lang="fr">Ce qui a changé.</span><span data-lang="en">What changed.</span></h2></div>
       <p><span data-lang="fr">Le détail de chaque correction, et tout l'historique juste en dessous.</span><span data-lang="en">Every fix in detail, with the full history right below.</span></p>
     </div>
     <div id="hp-news-slot" class="hp-reveal"></div>
