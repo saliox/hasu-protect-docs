@@ -61,7 +61,9 @@ new MutationObserver(function(){if(document.documentElement.hasAttribute('data-t
       tog.setAttribute('aria-expanded',open?'true':'false');tog.setAttribute('aria-label',open?(en?'Hide search and filters':'Masquer la recherche et les filtres'):(en?'Show search and filters':'Afficher la recherche et les filtres'));tog.title=tog.getAttribute('aria-label');}
     // La barre flottante sort du flux (position fixe) et le repère garde sa place exacte : la liste ne saute pas.
     var TOP=0;
-    function geom(){var r=mark.getBoundingClientRect();bar.style.setProperty('--tb-left',r.left+'px');bar.style.setProperty('--tb-width',r.width+'px');}
+    // --tb-hang : la flèche rangée s'accroche juste sous la barre du haut (languette), quelle que soit sa hauteur
+    function geom(){var r=mark.getBoundingClientRect(),tb=Q('#hp-top .bar'),tbb=tb?tb.getBoundingClientRect().bottom:TOP;
+      bar.style.setProperty('--tb-left',r.left+'px');bar.style.setProperty('--tb-width',r.width+'px');bar.style.setProperty('--tb-hang',(tbb-TOP-1)+'px');}
     function stuck(){if(!bar.classList.contains('hp-tb-float'))TOP=parseFloat(getComputedStyle(bar).top)||0;
       var host=bar.parentNode.getBoundingClientRect(),on=mark.getBoundingClientRect().top<TOP-4&&host.bottom>TOP+80;
       if(on===bar.classList.contains('hp-tb-float')){if(on)geom();return;}

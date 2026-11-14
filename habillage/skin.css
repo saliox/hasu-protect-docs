@@ -636,3 +636,5 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 .hp-toolbar.hp-tb-float.hp-tb-peek .nav{display:flex!important}
 .hp-toolbar.hp-tb-float.hp-tb-peek{box-shadow:0 24px 50px -20px rgba(0,0,0,.95)!important}
 .hp-tb-mark,.hp-toolbar{overflow-anchor:none}
+/* flèche rangée : languette accrochée sous la barre du haut */
+.hp-toolbar.hp-tb-float:not(.hp-tb-peek) .hp-tbtog{top:var(--tb-hang,0px);width:46px;height:24px;left:calc(50% - 23px);border-radius:0 0 12px 12px;border-top-color:transparent;background:rgba(10,10,14,.92)}
