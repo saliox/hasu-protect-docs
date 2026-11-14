@@ -31,7 +31,7 @@ body{font-family:var(--hp-body);background:var(--hp-night);color:var(--hp-txt);o
 #c6,.navf[data-cat="6"],.cmd[data-cat="6"]{--cc:#A47BF0!important}
 
 /* calques */
-#hp-gl{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;display:block}
+
 /* fond vivant : nappes de lumière qui dérivent, trame de points, vignette — tout en dégradés CSS (aucune image) */
 .hp-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .hp-bg i{position:absolute;border-radius:50%;will-change:transform;opacity:var(--o,1);transition:opacity 1.2s ease}

@@ -28,10 +28,10 @@ const read = f => fs.readFileSync(path.join(here, f), 'utf8');
 const topRaw = read('top.html'), guide = read('guide.html'), docsAt = topRaw.indexOf('<div class="hp-wrap" id="hp-docs"');
 const css = read('skin.css'), end = read('end.html');
 const top = docsAt >= 0 ? topRaw.slice(0, docsAt) + guide + '\n' + topRaw.slice(docsAt) : topRaw + '\n' + guide;
-// three.js et les polices sont servis par le site lui-même (habillage/vendor, habillage/fonts) :
+// les polices sont servies par le site lui-même (habillage/fonts) :
 // aucun CDN autorisé dans la CSP, aucune adresse IP de visiteur envoyée à Google.
 
-// 1. CSP : seulement 'self' en plus (habillage/hp.js, three.js) ; on retire les hôtes d'anciennes versions
+// 1. CSP : seulement 'self' en plus (habillage/hp.js) ; on retire les hôtes d'anciennes versions
 const cspRe = /(<meta http-equiv="Content-Security-Policy" content=")([^"]*)(")/;
 must(cspRe.test(h), 'meta Content-Security-Policy');
 const OLD = ['https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
@@ -43,7 +43,10 @@ h = h.replace(cspRe, (m, a, c, z) => a + c
 
 // 2. Polices + feuille d'habillage juste avant </head>
 must(/<\/head>/.test(h), '</head>');
-h = h.replace(/\s*<\/head>/, () => '\n<!--hp:head--><link rel="stylesheet" href="habillage/fonts.css">\n<style id="hp-skin">\n' + css + '\n</style><!--/hp:head-->\n</head>');
+// préchargement des deux polices latines vues dès l'accueil (Inter : texte, Sora : titres) : moins de saut de police
+const pre = '<link rel="preload" href="habillage/fonts/f2-f11d729b.woff2" as="font" type="font/woff2" crossorigin>'
+  + '<link rel="preload" href="habillage/fonts/f6-779e9507.woff2" as="font" type="font/woff2" crossorigin>';
+h = h.replace(/\s*<\/head>/, () => '\n<!--hp:head-->' + pre + '<link rel="stylesheet" href="habillage/fonts.css">\n<style id="hp-skin">\n' + css + '\n</style><!--/hp:head-->\n</head>');
 
 // 3. Chapitres d'ouverture avant l'en-tête, chapitres de fin avant le pied de page
 must(/<body>\s*<header>/.test(h), '<body><header>');

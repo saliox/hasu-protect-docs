@@ -411,7 +411,7 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 @keyframes rvpulse{0%,100%{box-shadow:0 4px 18px rgba(255,51,102,.35)}50%{box-shadow:0 0 0 9px rgba(255,51,102,0),0 4px 22px rgba(255,51,102,.65)}}
 @media (prefers-reduced-motion:reduce){.cta-vote.revote-on{animation:none}}
 </style>
-<!--hp:head--><link rel="stylesheet" href="habillage/fonts.css">
+<!--hp:head--><link rel="preload" href="habillage/fonts/f2-f11d729b.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="habillage/fonts/f6-779e9507.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="habillage/fonts.css">
 <style id="hp-skin">
 /* ═══ Habillage Hasu Protect ═══
    Layout: page sombre en chapitres (accueil → chiffres → premiers pas → commandes → Guardian → nouveautés → FAQ → invitation).
@@ -446,7 +446,7 @@ body{font-family:var(--hp-body);background:var(--hp-night);color:var(--hp-txt);o
 #c6,.navf[data-cat="6"],.cmd[data-cat="6"]{--cc:#A47BF0!important}
 
 /* calques */
-#hp-gl{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;display:block}
+
 /* fond vivant : nappes de lumière qui dérivent, trame de points, vignette — tout en dégradés CSS (aucune image) */
 .hp-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .hp-bg i{position:absolute;border-radius:50%;will-change:transform;opacity:var(--o,1);transition:opacity 1.2s ease}
@@ -1044,7 +1044,6 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 <div class="hp-loader" id="hp-loader" aria-hidden="true"><div class="in"><div class="hp-logo">[+]</div><div class="count" id="hp-count">00</div><div class="bar"><i id="hp-bar"></i></div><div class="hp-mono" style="color:var(--hp-mut)"><span data-lang="fr">Vérification du serveur</span><span data-lang="en">Checking the server</span></div></div></div>
 <div class="hp-bg" id="hp-bg" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><div class="grid"></div><div class="vig"></div></div>
 <div class="hp-under" aria-hidden="true"></div>
-<canvas id="hp-gl" aria-hidden="true"></canvas>
 
 <div class="hp-top" id="hp-top">
   <div class="bar">
@@ -3970,5 +3969,5 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
  h=h.toLowerCase();if(!h)return;
  var card=cards().filter(function(c){return c.dataset.n&&c.dataset.n.toLowerCase()===h;})[0];
  if(card)openSim(card);}catch(e){}})();</script>
-<!--hp:js--><script src="habillage/hp.js?v=b8fedbbd03" defer></script><!--/hp:js-->
+<!--hp:js--><script src="habillage/hp.js?v=713cb79ccd" defer></script><!--/hp:js-->
 </body></html>
