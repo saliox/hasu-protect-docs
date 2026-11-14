@@ -53,9 +53,28 @@ new MutationObserver(function(){if(document.documentElement.hasAttribute('data-t
     var start=false;try{start=localStorage.getItem('hp-tb-min')==='1';}catch(e){}
     setMin(start,false);
     new MutationObserver(function(){setMin(bar.classList.contains('min'),false);}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
-    tog.addEventListener('click',function(){setMin(!bar.classList.contains('min'),true);});
+    // En défilant (barre collée en haut), la barre de filtres se range : seule la petite flèche reste ;
+    // un clic la déplie par-dessus la liste, un autre la range. De retour en haut de la liste, elle reprend sa place.
+    var mark=document.createElement('div');mark.className='hp-tb-mark';bar.parentNode.insertBefore(mark,bar);
+    function floatLabel(){if(!bar.classList.contains('hp-tb-float'))return setMin(bar.classList.contains('min'),false);
+      var en=(document.documentElement.lang||'').slice(0,2)==='en',open=bar.classList.contains('hp-tb-peek');
+      tog.setAttribute('aria-expanded',open?'true':'false');tog.setAttribute('aria-label',open?(en?'Hide search and filters':'Masquer la recherche et les filtres'):(en?'Show search and filters':'Afficher la recherche et les filtres'));tog.title=tog.getAttribute('aria-label');}
+    // La barre flottante sort du flux (position fixe) et le repère garde sa place exacte : la liste ne saute pas.
+    var TOP=0;
+    function geom(){var r=mark.getBoundingClientRect();bar.style.setProperty('--tb-left',r.left+'px');bar.style.setProperty('--tb-width',r.width+'px');}
+    function stuck(){if(!bar.classList.contains('hp-tb-float'))TOP=parseFloat(getComputedStyle(bar).top)||0;
+      var host=bar.parentNode.getBoundingClientRect(),on=mark.getBoundingClientRect().top<TOP-4&&host.bottom>TOP+80;
+      if(on===bar.classList.contains('hp-tb-float')){if(on)geom();return;}
+      // toutes les LECTURES d'abord, puis les écritures d'un bloc : une lecture entre deux écritures laissait le
+      // navigateur « ancrer » le défilement sur l'état intermédiaire, et la liste sautait de la hauteur de la barre
+      if(on){var cs=getComputedStyle(bar),hh=bar.offsetHeight+parseFloat(cs.marginTop||0)+parseFloat(cs.marginBottom||0);geom();
+        mark.style.height=hh+'px';bar.style.setProperty('--tb-top',TOP+'px');bar.classList.add('hp-tb-float');}
+      else{bar.classList.remove('hp-tb-float','hp-tb-peek');mark.style.height='0';}
+      floatLabel();}
+    addEventListener('scroll',stuck,{passive:true});addEventListener('resize',stuck);stuck();
+    tog.addEventListener('click',function(){if(bar.classList.contains('hp-tb-float')){bar.classList.toggle('hp-tb-peek');floatLabel();return;}setMin(!bar.classList.contains('min'),true);});
     lbl.addEventListener('click',function(){setMin(false,true);s.focus({preventScroll:true});});
-    s.addEventListener('focus',function(){if(bar.classList.contains('min'))setMin(false,true);});
+    s.addEventListener('focus',function(){if(bar.classList.contains('hp-tb-float')&&!bar.classList.contains('hp-tb-peek')){bar.classList.add('hp-tb-peek');floatLabel();}else if(bar.classList.contains('min'))setMin(false,true);});
     s.addEventListener('input',function(){if(bar.classList.contains('min'))lbl.querySelector('em').textContent=s.value?'« '+s.value+' »':'';});}
 })();
 

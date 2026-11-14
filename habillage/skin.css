@@ -621,3 +621,18 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 .hp-up-note{margin:10px 0 0;font-size:.74rem;line-height:1.5;color:var(--hp-mut)}
 @media(max-width:420px){.hp-up-grid .row{grid-template-columns:40px 1fr 30px;gap:6px}.hp-up-grid i{height:10px}.hp-up-axis{margin:6px 36px 0 46px}}
 .hp-up-axis span{white-space:nowrap}.hp-up-axis span:last-child{transform:translateX(-80%)}
+/* en défilant : la barre de filtres se range, seule la petite flèche reste (clic = la déplier par-dessus la liste).
+   La barre passe en position fixe ; son repère (.hp-tb-mark) garde la place dans la page, la liste ne bouge pas. */
+.hp-tb-mark{height:0}
+.hp-toolbar.hp-tb-float{position:fixed!important;top:var(--tb-top,78px)!important;left:var(--tb-left,0)!important;width:var(--tb-width,100%)!important;margin:0!important;z-index:30}
+.hp-toolbar.hp-tb-float:not(.hp-tb-peek){background:transparent!important;border-color:transparent!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important;height:0;pointer-events:none}
+.hp-toolbar.hp-tb-float:not(.hp-tb-peek)>*:not(.hp-tbtog){display:none!important}
+.hp-toolbar.hp-tb-float .hp-tbtog{pointer-events:auto;box-shadow:0 8px 20px -10px rgba(0,0,0,.9)}
+.hp-toolbar.hp-tb-float:not(.hp-tb-peek) .hp-tbtog{top:2px;bottom:auto;width:44px;height:28px;left:calc(50% - 22px)}
+.hp-toolbar.hp-tb-float:not(.hp-tb-peek) .hp-tbtog svg{transform:rotate(180deg)}
+.hp-toolbar.hp-tb-float.hp-tb-peek .hp-tbtog svg{transform:none}
+.hp-toolbar.hp-tb-float.hp-tb-peek .hp-tbmin{display:none!important}
+.hp-toolbar.hp-tb-float.hp-tb-peek #search{display:block!important}
+.hp-toolbar.hp-tb-float.hp-tb-peek .nav{display:flex!important}
+.hp-toolbar.hp-tb-float.hp-tb-peek{box-shadow:0 24px 50px -20px rgba(0,0,0,.95)!important}
+.hp-tb-mark,.hp-toolbar{overflow-anchor:none}
