@@ -117,6 +117,53 @@ setInterval(function(){syncCounters(false);},3000);
   addEventListener('resize',place);
 })();
 
+/* ── Disponibilité 7 jours : grille lisible (jours en lignes, heures en colonnes) et taux honnête.
+   Le relevé horaire dépend de GitHub, qui ne le lance pas toutes les heures : sur 168 heures, une partie
+   seulement est mesurée. On le dit, et le taux porte sur les heures MESURÉES. Données : uptime.json. ── */
+(function(){
+  var SRC='https://raw.githubusercontent.com/saliox/hasu-protect-docs/uptime/uptime.json',cache=null,cacheAt=0;
+  function get(){if(cache&&Date.now()-cacheAt<5*60*1000)return Promise.resolve(cache);
+    return fetch(SRC,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){if(j&&Array.isArray(j.hours)){cache=j;cacheAt=Date.now();}return cache;}).catch(function(){return cache;});}
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+  function build(pop,j){
+    if(!pop.isConnected||pop.querySelector('.hp-up'))return;
+    var en=lang()==='en',loc=en?'en-GB':'fr-FR',hours=j.hours.filter(function(h){return Array.isArray(h)&&typeof h[0]==='number';}).slice(-24*8);
+    if(!hours.length)return;
+    var days=[],byKey={};
+    hours.forEach(function(h){var d=new Date(h[0]),k=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
+      if(!byKey[k]){byKey[k]={date:d,slots:new Array(24).fill(undefined)};days.push(byKey[k]);}
+      var v=h[1];byKey[k].slots[d.getHours()]=v==null?null:(+v>0?1:0);});
+    days=days.slice(-7);
+    var obs=0,up=0;days.forEach(function(d){d.slots.forEach(function(v){if(v===0||v===1){obs++;if(v===1)up++;}});});
+    var box=el('div','hp-up');
+    var head=el('div','hp-up-head');
+    if(obs){var pct=Math.round(up/obs*1000)/10;head.appendChild(el('b','pct',(en?String(pct):String(pct).replace('.',','))+' %'));
+      head.appendChild(el('span','what',en?('online across '+obs+' hourly reading'+(obs>1?'s':'')):('en ligne sur '+obs+' relevé'+(obs>1?'s':'')+' horaire'+(obs>1?'s':''))));}
+    else head.appendChild(el('span','what',en?'No reading in the last 7 days':'Aucun relevé ces 7 derniers jours'));
+    box.appendChild(head);
+    var grid=el('div','hp-up-grid');
+    days.forEach(function(d){var row=el('div','row'),o=0,u=0;
+      row.appendChild(el('span','day',d.date.toLocaleDateString(loc,{weekday:'short',day:'numeric'})));
+      var cells=el('div','cells');
+      d.slots.forEach(function(v,h){var c=el('i',v===1?'on':v===0?'off':v===null?'none':'out');
+        if(v!==undefined){var lbl=d.date.toLocaleDateString(loc,{weekday:'long',day:'numeric',month:'short'})+(en?', ':', ')+h+(en?':00':' h')+' — '+(v===1?(en?'online':'en ligne'):v===0?(en?'offline':'hors ligne'):(en?'no reading':'pas de relevé'));c.title=lbl;}
+        if(v===0||v===1){o++;if(v===1)u++;}cells.appendChild(c);});
+      row.appendChild(cells);row.appendChild(el('span','sum hp-mono',o?(u+'/'+o):'—'));grid.appendChild(row);});
+    box.appendChild(grid);
+    var axis=el('div','hp-up-axis hp-mono');['0','6','12','18','23'].forEach(function(h){var s=el('span',null,h+(en?'':' h'));s.style.setProperty('--h',h);axis.appendChild(s);});box.appendChild(axis);
+    var lg=el('div','hp-up-legend');[['on',en?'online':'en ligne'],['off',en?'offline':'hors ligne'],['none',en?'no reading':'pas de relevé']].forEach(function(x){var s=el('span');s.appendChild(el('i',x[0]));s.appendChild(document.createTextNode(x[1]));lg.appendChild(s);});box.appendChild(lg);
+    box.appendChild(el('p','hp-up-note',en?'The bot is checked once an hour when GitHub runs the check; hours without a reading are not counted.':'Le bot est relevé une fois par heure quand GitHub lance le relevé ; les heures sans relevé ne sont pas comptées.'));
+    var h3=pop.querySelector('h3');if(h3&&h3.nextSibling)pop.insertBefore(box,h3.nextSibling);else pop.appendChild(box);
+    pop.classList.add('hp-up-on');
+    try{window.dispatchEvent(new Event('resize'));}catch(e){}   // replace le panneau à sa nouvelle largeur
+  }
+  function enhance(){var pop=$('uppop');if(!pop)return;
+    // la doc re-dessine le panneau (changement de langue, nouveau relevé) : on surveille le panneau lui-même
+    if(!pop.__hpWatch){pop.__hpWatch=true;new MutationObserver(function(){if(!pop.querySelector('.hp-up'))enhance();}).observe(pop,{childList:true});}
+    if(pop.querySelector('.hp-up'))return;get().then(function(j){if(j)build(pop,j);});}
+  new MutationObserver(function(){enhance();}).observe(document.body,{childList:true});
+})();
+
 /* Guardian : anneau de maîtrise + barres de progression, ré-appliqués quand la doc rafraîchit le panneau */
 var RING=263.9;
 function masteryVal(){var n=Q('#gpanel .gbig .n');return n?parseNum(n.textContent):null;}

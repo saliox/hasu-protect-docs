@@ -1012,6 +1012,30 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 .tourhl{outline:1.5px solid rgba(150,158,210,.55)!important;outline-offset:3px}
 .hp-toolbar #search:focus{border-color:rgba(150,158,210,.6)!important;box-shadow:0 0 0 3px rgba(150,158,210,.1)!important}
 .hp-tsearch:focus-within{border-color:rgba(150,158,210,.55);background:rgba(150,158,210,.06)}
+/* disponibilité 7 jours : grille lisible (jours × heures), taux sur les heures mesurées */
+.uppop.hp-up-on{width:min(470px,calc(100vw - 24px))!important;padding:18px 18px 16px!important}
+.uppop.hp-up-on>.upsub,.uppop.hp-up-on>.upgrid,.uppop.hp-up-on>.uplegend{display:none!important}
+.hp-up-head{display:flex;align-items:baseline;gap:10px;margin:6px 0 14px}
+.hp-up-head .pct{font-family:var(--hp-display);font-size:1.9rem;letter-spacing:-.02em;color:#7CF5A6;line-height:1}
+.hp-up-head .what{color:var(--hp-mut);font-size:.86rem}
+.hp-up-grid{display:grid;gap:5px}
+.hp-up-grid .row{display:grid;grid-template-columns:52px 1fr 34px;align-items:center;gap:8px}
+.hp-up-grid .day{font-size:.74rem;color:var(--hp-mut);text-transform:capitalize;white-space:nowrap}
+.hp-up-grid .cells{display:grid;grid-template-columns:repeat(24,1fr);gap:2px}
+.hp-up-grid i,.hp-up-legend i{display:block;height:12px;border-radius:3px}
+.hp-up-grid i.on,.hp-up-legend i.on{background:#57F287}
+.hp-up-grid i.off,.hp-up-legend i.off{background:#ED4245}
+.hp-up-grid i.none,.hp-up-legend i.none{background:transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.hp-up-grid i.out{background:transparent}
+.hp-up-grid .sum{font-size:.7rem;color:var(--hp-txt);text-align:right}
+.hp-up-axis{position:relative;height:16px;margin:6px 42px 0 60px;font-size:.62rem;color:var(--hp-mut)}
+.hp-up-axis span{position:absolute;left:calc(var(--h) / 23 * 100%);transform:translateX(-50%)}
+.hp-up-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:.78rem;color:var(--hp-mut)}
+.hp-up-legend span{display:inline-flex;align-items:center;gap:7px}
+.hp-up-legend i{width:12px;height:12px}
+.hp-up-note{margin:10px 0 0;font-size:.74rem;line-height:1.5;color:var(--hp-mut)}
+@media(max-width:420px){.hp-up-grid .row{grid-template-columns:40px 1fr 30px;gap:6px}.hp-up-grid i{height:10px}.hp-up-axis{margin:6px 36px 0 46px}}
+.hp-up-axis span{white-space:nowrap}.hp-up-axis span:last-child{transform:translateX(-80%)}
 
 </style><!--/hp:head-->
 </head><body>
@@ -3946,5 +3970,5 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
  h=h.toLowerCase();if(!h)return;
  var card=cards().filter(function(c){return c.dataset.n&&c.dataset.n.toLowerCase()===h;})[0];
  if(card)openSim(card);}catch(e){}})();</script>
-<!--hp:js--><script src="habillage/hp.js?v=a43c595156" defer></script><!--/hp:js-->
+<!--hp:js--><script src="habillage/hp.js?v=b8fedbbd03" defer></script><!--/hp:js-->
 </body></html>
