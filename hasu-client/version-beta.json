@@ -1,7 +1,7 @@
 {
-    "sha256":  "97edf36425d2f67bb40b214040f88b733e5b8400ea9716b67729b1ae150a053e",
-    "url":  "https://github.com/saliox/hasu-client/releases/download/v1.75.0/HasuLauncher-Setup.exe",
-    "version":  "1.75.0",
-    "signature":  "Xi/hXAERgijL1ekSR2MHvZEY0Gpt/DHwV3oRJ+iNvYOenJRwndU1Es2RCwfQQGdbsgTniBxIOoqu2Ug5rvSaOw==",
-    "notes":  "Securite : les mises a jour sont desormais signees ; le launcher refuse toute mise a jour sans signature valide. Installeur verifie juste avant installation et execute depuis un dossier reserve aux administrateurs."
+    "sha256":  "7bf8df44e8235ee741b60167849e46b96f22605805c20d6015a666718155fc74",
+    "url":  "https://github.com/saliox/hasu-client/releases/download/v1.76.0/HasuLauncher-Setup.exe",
+    "version":  "1.76.0",
+    "signature":  "lV8usx/ICVVYGH8KX9+TYc0YuY5aNcjCbl3jdwjnGc1FNQr6n/ZgTRosYdbxCIjV8WflMs6yjdD10NMWnM6AFg==",
+    "notes":  "Le code de l\u0027application est desormais protege contre la lecture (obfuscation) ; aucun changement de fonctionnement."
 }
