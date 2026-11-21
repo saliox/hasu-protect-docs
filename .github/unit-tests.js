@@ -736,6 +736,9 @@ function swEnv(netFn) {
   const store = new Map(); // clé = URL COMPLÈTE, comme un vrai Cache (donc sensible aux ?paramètres)
   const cacheObj = {
     put(req, res) { store.set(typeof req === 'string' ? new URL(req, ORIGIN + '/hasu-protect-docs/').href : req.url, res); return Promise.resolve(); },
+    // comme un vrai Cache : keys() rend des Request, delete() accepte une Request ou une URL
+    keys() { return Promise.resolve([...store.keys()].map((u) => ({ url: u }))); },
+    delete(req) { return Promise.resolve(store.delete(typeof req === 'string' ? req : req.url)); },
     addAll(list) { list.forEach((u) => store.set(new URL(u, ORIGIN + '/hasu-protect-docs/').href, swRes('static'))); return Promise.resolve(); },
     match(req, opts) {
       const url = typeof req === 'string' ? new URL(req, ORIGIN + '/hasu-protect-docs/').href : req.url;
@@ -761,7 +764,8 @@ function swEnv(netFn) {
 }
 function swFire(env, req) {
   let captured = null, called = false;
-  env.handlers.fetch({ request: req, respondWith(p) { called = true; captured = p; } });
+  // comme un vrai FetchEvent : waitUntil() existe (le service worker y accroche la mise à jour du cache)
+  env.handlers.fetch({ request: req, respondWith(p) { called = true; captured = p; }, waitUntil(p) { if (p && p.catch) p.catch(() => { }); } });
   return called ? Promise.resolve(captured) : Promise.resolve('PASSTHROUGH');
 }
 const swTick = () => new Promise((r) => setTimeout(r, 5));
@@ -838,6 +842,21 @@ function swSuite() {
         swFire(env, swReq(PAGE + 'stats.json')),
         swFire(env, swReq('https://raw.githubusercontent.com/saliox/x/heartbeat.json')),
       ]).then((rs) => rs.forEach((r) => assert.strictEqual(r, 'PASSTHROUGH', 'une requête live a été interceptée')));
+    }))
+    // v4 — le cache ne grossit plus : une page est rangée sans ses ?paramètres, un fichier versionné remplace l'ancien
+    .then(() => ta('sw — une page avec ?q=…&lang=… est rangée UNE fois, sous son adresse sans paramètres', () => {
+      const env = swEnv(() => Promise.resolve(swRes('PAGE')));
+      return swFire(env, swReq(PAGE + '?q=ban&lang=en', 'navigate')).then(swTick).then(() => swFire(env, swReq(PAGE + '?q=kick', 'navigate'))).then(swTick).then(() => {
+        const pages = [...env.store.keys()].filter((k) => k.split('?')[0] === PAGE);
+        assert.deepStrictEqual(pages, [PAGE], 'clés de page : ' + pages.join(', '));
+      });
+    }))
+    .then(() => ta('sw — hp.js?v=NOUVEAU remplace hp.js?v=ANCIEN au lieu de s’y ajouter', () => {
+      const env = swEnv(() => Promise.resolve(swRes('JS')));
+      return swFire(env, swReq(PAGE + 'habillage/hp.js?v=aaa')).then(swTick).then(() => swFire(env, swReq(PAGE + 'habillage/hp.js?v=bbb'))).then(swTick).then(() => {
+        const js = [...env.store.keys()].filter((k) => k.includes('/habillage/hp.js'));
+        assert.deepStrictEqual(js, [PAGE + 'habillage/hp.js?v=bbb'], 'entrées hp.js : ' + js.join(', '));
+      });
     }));
 }
 

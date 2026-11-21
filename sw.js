@@ -18,7 +18,7 @@
 //  4. La branche cache-d'abord n'avait ni expiration ni revalidation. → stale-while-revalidate : le
 //     cache répond tout de suite, une requête de fond rafraîchit l'entrée pour la visite suivante.
 // Le nom du cache passe à v3 : `activate` purge v2, qui peut contenir des réponses non-OK empoisonnées.
-const CACHE = 'hasu-docs-v3';
+const CACHE = 'hasu-docs-v4';
 const STATIC = ['assets/icon-192.png', 'assets/icon-512.png', 'favicon.svg', 'manifest.webmanifest'];
 
 // Page de secours si le visiteur arrive hors-ligne sans RIEN en cache (jamais venu, ou cache purgé).
@@ -37,10 +37,19 @@ function offlineResponse() {
 
 // Mise en cache DÉFENSIVE : seulement les réponses réellement bonnes, et jamais de rejet non rattrapé
 // (quota dépassé, mode navigation privée → put() rejette).
+// v4 — le cache ne grossit plus sans fin :
+//  • une page est rangée sous son adresse SANS paramètres (?q=…, ?lang=…, liens partagés) : une seule entrée ;
+//  • un fichier versionné (hp.js?v=…) remplace sa version précédente au lieu de s'y ajouter.
 function cachePut(req, res) {
-  if (!res || !res.ok) return; // ← défaut 3 : un 404/500 ne doit jamais entrer dans le cache
-  const copy = res.clone();
-  caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => { });
+  if (!res || !res.ok) return Promise.resolve(); // ← défaut 3 : un 404/500 ne doit jamais entrer dans le cache
+  const copy = res.clone(), url = new URL(req.url), page = req.mode === 'navigate' || /index\.html$|\/$|history\.html$/.test(url.pathname);
+  const key = page ? url.origin + url.pathname : req;
+  return caches.open(CACHE).then((c) => {
+    const prune = !page && url.search ? c.keys().then((ks) => Promise.all(ks.filter((k) => {
+      const u = new URL(k.url); return u.pathname === url.pathname && u.search !== url.search;
+    }).map((k) => c.delete(k)))) : Promise.resolve();
+    return prune.then(() => c.put(key, copy));
+  }).catch(() => { });
 }
 
 self.addEventListener('install', (e) => {
@@ -69,16 +78,15 @@ self.addEventListener('fetch', (e) => {
   if (isPage) {
     // réseau d'abord, cache en secours (mode hors-ligne)
     e.respondWith(fetch(e.request, { cache: 'no-store' }).then((r) => {
-      cachePut(e.request, r);
+      e.waitUntil(cachePut(e.request, r));
       return r;
     }).catch(() => pageFallback(e.request)));
   } else {
     // statique : cache d'abord + revalidation en arrière-plan (stale-while-revalidate, défaut 4).
     // Le cache répond immédiatement ; le réseau rafraîchit l'entrée pour la visite suivante.
-    e.respondWith(caches.match(e.request).then((hit) => {
-      const net = fetch(e.request).then((r) => { cachePut(e.request, r); return r; });
-      if (hit) { net.catch(() => { }); return hit; }
-      return net;
-    }));
+    // e.waitUntil : le navigateur garde le service worker en vie jusqu'à la fin de la mise à jour du cache
+    const net = fetch(e.request).then((r) => cachePut(e.request, r).then(() => r));
+    e.waitUntil(net.catch(() => { }));
+    e.respondWith(caches.match(e.request).then((hit) => hit || net));
   }
 });

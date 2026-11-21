@@ -14,6 +14,8 @@ on:
     paths: [index.html, history.html, sw.js, stats.json, README.md, .github/check-csp.js, .github/unit-tests.js, .github/html-scripts.js, .github/build-uptime.js, .github/workflows/check-csp.yml, .github/workflows/uptime.yml, .github/workflows/votes.yml]
   pull_request:
     paths: [index.html, history.html, sw.js, stats.json, README.md, .github/check-csp.js, .github/unit-tests.js, .github/html-scripts.js, .github/build-uptime.js, .github/workflows/check-csp.yml, .github/workflows/uptime.yml, .github/workflows/votes.yml]
+permissions:
+  contents: read
 jobs:
   check:
     runs-on: ubuntu-latest

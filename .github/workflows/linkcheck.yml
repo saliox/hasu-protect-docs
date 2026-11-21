@@ -19,15 +19,15 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
-          LINKS=$(grep -o 'href="https://[^"]*"' index.html | sed 's/href="//;s/"$//' | sort -u)
+          LINKS=$(grep -o 'href="https://[^"]*"' index.html | sed 's/href="//;s/"$//;s/&amp;/\&/g' | sort -u)
           echo "Liens à tester :"; echo "$LINKS"
           FAILS=""
           for u in $LINKS; do
-            code=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 25 -A "Mozilla/5.0 (linkcheck hasu-protect-docs)" "$u" || echo 000)
+            code=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 25 -A "Mozilla/5.0 (linkcheck hasu-protect-docs)" "$u" || true); code="${code:0:3}"; [ -z "$code" ] && code=000
             # 2e essai pour les ratés transitoires
             if [ "$code" -ge 400 ] || [ "$code" = 000 ]; then
               sleep 3
-              code=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 25 -A "Mozilla/5.0 (linkcheck hasu-protect-docs)" "$u" || echo 000)
+              code=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 25 -A "Mozilla/5.0 (linkcheck hasu-protect-docs)" "$u" || true); code="${code:0:3}"; [ -z "$code" ] && code=000
             fi
             echo "$code  $u"
             if [ "$code" -ge 400 ] || [ "$code" = 000 ]; then FAILS="$FAILS- \`$u\` → HTTP $code"$'\n'; fi

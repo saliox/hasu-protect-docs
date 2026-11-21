@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://rapid-sound-6a32.teamfunnysgames.workers.dev" crossorigin><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-mDS8xuIGwwi/j7TKbTc/n4hc0SZ0qAjFgn6Jk/kITPQ=' 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://rapid-sound-6a32.teamfunnysgames.workers.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-c73PPPv7+26UuM+Aa8Rnv9e00Jqi+hcsW8S5sJ78pBI=' 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://rapid-sound-6a32.teamfunnysgames.workers.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 262 commandes — documentation complète et interactive.">
@@ -411,7 +411,7 @@ code.qsc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 @keyframes rvpulse{0%,100%{box-shadow:0 4px 18px rgba(255,51,102,.35)}50%{box-shadow:0 0 0 9px rgba(255,51,102,0),0 4px 22px rgba(255,51,102,.65)}}
 @media (prefers-reduced-motion:reduce){.cta-vote.revote-on{animation:none}}
 </style>
-<!--hp:head--><link rel="preload" href="habillage/fonts/f2-f11d729b.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="habillage/fonts/f6-779e9507.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="habillage/fonts.css">
+<!--hp:head--><meta property="og:locale" content="fr_FR"><meta property="og:locale:alternate" content="en_GB"><link rel="preload" href="habillage/fonts/f2-f11d729b.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="habillage/fonts/f6-779e9507.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="habillage/fonts.css">
 <style id="hp-skin">
 /* ═══ Habillage Hasu Protect ═══
    Layout: page sombre en chapitres (accueil → chiffres → premiers pas → commandes → Guardian → nouveautés → FAQ → invitation).
@@ -2824,7 +2824,7 @@ html[lang^="en"] .hp-top .langbtn::before{background:linear-gradient(90deg,#0055
 
 <!--/hp:end-->
 <footer>[+] Hasu Protect 🛡️ · <span id="dt"></span><span id="visits" hidden></span></footer>
-<script>if(self!==top){try{top.location=self.location.href;}catch(e){document.documentElement.style.display='none';}}
+<script>if(self!==top){document.documentElement.style.display='none';try{top.location=self.location.href;}catch(e){}}
 // nrm() : minuscules SANS diacritiques, en préservant la LONGUEUR (é → e, un caractère pour un
 // caractère). C'est ce qui permet de chercher sur le texte normalisé et de surligner sur le texte
 // d'origine avec les MÊMES index : « moderation » trouve ET surligne « modération ». Un caractère qui
@@ -3047,7 +3047,7 @@ function renderG(d){var p=document.getElementById('gpanel');if(!p||!d||d.mastery
   if(d.offline.gain!=null)h+=st('📈 Gain vs base initiale','+'+escH(d.offline.gain)+' pts');
   if(d.offline.fp!=null)h+=st('Fausses alertes',escH(d.offline.fp)+(d.offline.samples?' / '+nf(d.offline.samples):''));
   if(d.offline.fn!=null)h+=st('Menaces ratées',escH(d.offline.fn)+(d.offline.samples?' / '+nf(d.offline.samples):''));}
- if(d.protections&&d.protections.length){h+=sec('Axes d\'entraînement')+d.protections.map(function(p){return '<div class="gprot" data-en="🎯 '+escH(trGuardian(p))+'">🎯 '+escH(p)+'</div>';}).join('');}
+ if(Array.isArray(d.protections)&&d.protections.length){h+=sec('Axes d\'entraînement')+d.protections.map(function(p){return '<div class="gprot" data-en="🎯 '+escH(trGuardian(p))+'">🎯 '+escH(p)+'</div>';}).join('');}
  var fams=gFams(d.errorTypes);
  if(fams.length){var mx=Math.max.apply(null,fams.map(function(x){return x.count;}))||1;h+=sec('Types d\'erreurs corrigées')+fams.map(function(x){return '<div class="gtype"><div class="row"><span data-en="'+escH(trGuardian(x.label))+'">'+escH(x.label)+'</span><span>'+escH(x.count)+'</span></div><div class="gbar"><i style="width:'+Math.round(x.count/mx*100)+'%"></i></div></div>';}).join('');}
  p.innerHTML=h;
@@ -3275,7 +3275,7 @@ var __rawURL=location.protocol==='http:'?'/heartbeat.json':'https://rapid-sound-
 var __hbSeen=0,__lastC=''; // __hbSeen = date de la derniere LECTURE REUSSIE de la source vivante (0 = injoignable : on ne SAIT pas, on ne conclut pas)
 // Math.max : un timestamp de battement ne peut qu'avancer — une copie CDN périmée resservie après une
 // lecture API fraîche ne doit pas faire reculer l'horloge (faux « Hors ligne » sinon).
-function applyHB(j){if(!j)return;
+function applyHB(j){if(!j)return;if(j.at!=null&&(typeof j.at!=='number'||!isFinite(j.at)||j.at>Date.now()+300000))j.at=0;
  // Un battement PLUS ANCIEN que le meilleur déjà appliqué ne repeint RIEN. Sans ce garde, une coupure
  // de l'hébergeur faisait basculer pollHB sur le repli API (branche `status`, figée au 26/08) et les
  // badges RECULAIENT de quatre jours — 20 serveurs redevenaient 19 sous les yeux du visiteur.
@@ -3810,8 +3810,8 @@ function syncURL(){try{var u=new URL(location.href),q=curQ();
  history.replaceState(null,'',u);}catch(e){}}
 (function(){var f0=filt;filt=function(q){f0(q);if(typeof updateChips==='function')updateChips();syncURL();};})();
 (function(){try{var u=new URL(location.href);var q=u.searchParams.get('q'),c=u.searchParams.get('cat'),a=u.searchParams.get('acc');
- if(a&&document.querySelector('#accnav .accf[data-acc="'+a+'"]'))setAcc(a);
- if(c&&document.querySelector('#catnav .navf[data-cat="'+c+'"]'))setCat(c);
+ if(a&&/^[\w-]{1,32}$/.test(a)&&document.querySelector('#accnav .accf[data-acc="'+a+'"]'))setAcc(a);
+ if(c&&/^[\w-]{1,32}$/.test(c)&&document.querySelector('#catnav .navf[data-cat="'+c+'"]'))setCat(c);
  if(q){var s=document.getElementById('search');if(s){s.value=q;filt(q);}}}catch(e){}})();
 // ═══ 🎮 « OUVRIR DISCORD » : copie la commande puis bascule vers l'appli. Ajouté à la rangée de boutons
 // de la modale (le wrapper openSim des favoris/votes tourne déjà — on chaîne un 2e wrapper).
@@ -3893,7 +3893,7 @@ function renderNet(){var aside=document.querySelector('.side');if(!aside)return;
    h+='<div class="netchart"><div class="nl"><span>'+cfg[1]+'</span><span><b>'+sp.last.toLocaleString(curLang()==='en'?'en-GB':'fr-FR')+'</b> ('+ds+')</span></div>'
     +'<svg viewBox="0 0 '+sp.W+' '+sp.H+'" preserveAspectRatio="none"><path d="'+sp.d+'" fill="none" stroke="#57F287" stroke-width="2"/></svg></div>';});
  } else h+='<div class="gsub">'+tr('netWait')+'</div>';
- var V=(__netV&&__netV.votes)||{};var keys=Object.keys(V).filter(function(k){return V[k][0]+V[k][1]>=3;});
+ var V=(__netV&&__netV.votes)||{};var keys=Object.keys(V).filter(function(k){return Array.isArray(V[k])&&(+V[k][0]||0)+(+V[k][1]||0)>=3;});
  if(keys.length){
   var byTop=keys.slice().sort(function(a,b){return (V[b][0]/(V[b][0]+V[b][1]))-(V[a][0]/(V[a][0]+V[a][1]))||V[b][0]-V[a][0];}).slice(0,3);
   var byFlop=keys.slice().sort(function(a,b){return (V[b][1]/(V[b][0]+V[b][1]))-(V[a][1]/(V[a][0]+V[a][1]))||V[b][1]-V[a][1];}).filter(function(k){return V[k][1]>0;}).slice(0,3);
@@ -3992,5 +3992,5 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
  h=h.toLowerCase();if(!h)return;
  var card=cards().filter(function(c){return c.dataset.n&&c.dataset.n.toLowerCase()===h;})[0];
  if(card)openSim(card);}catch(e){}})();</script>
-<!--hp:js--><script src="habillage/hp.js?v=c354a247f7" defer></script><!--/hp:js-->
+<!--hp:js--><script src="habillage/hp.js?v=a52f4ebf22" defer></script><!--/hp:js-->
 </body></html>

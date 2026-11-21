@@ -11,6 +11,8 @@ function outExpo(t){return t>=1?1:1-Math.pow(2,-10*t);}
 function lang(){var b=$('lang');return (b&&b.textContent.trim()==='FR')?'en':'fr';}
 
 document.documentElement.classList.add('hp-js');   // les états « avant animation » ne s'appliquent que si ce script tourne
+// filet de sécurité : si une partie plus bas plante avant ready(), le titre et le texte d'accueil ne restent pas invisibles
+setTimeout(function(){if(document.body&&!document.body.classList.contains('hp-ready'))document.body.classList.add('hp-ready');},4000);
 
 /* ── thème : toujours sombre (celui de Hasu) ── */
 document.documentElement.removeAttribute('data-theme');
@@ -53,7 +55,10 @@ new MutationObserver(function(){if(document.documentElement.hasAttribute('data-t
       if(save)try{localStorage.setItem('hp-tb-min',on?'1':'0');}catch(e){}}
     var start=false;try{start=localStorage.getItem('hp-tb-min')==='1';}catch(e){}
     setMin(start,false);
-    new MutationObserver(function(){setMin(bar.classList.contains('min'),false);}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+    // changement de langue : libellés repeints selon l'état RÉEL (barre rangée en défilant comprise)
+    new MutationObserver(function(){setMin(bar.classList.contains('min'),false);floatLabel();}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+    // Échap referme la barre dépliée par-dessus la liste
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&bar.classList.contains('hp-tb-peek')){bar.classList.remove('hp-tb-peek');floatLabel();tog.focus({preventScroll:true});}});
     // En défilant (barre collée en haut), la barre de filtres se range : seule la petite flèche reste ;
     // un clic la déplie par-dessus la liste, un autre la range. De retour en haut de la liste, elle reprend sa place.
     var mark=document.createElement('div');mark.className='hp-tb-mark';bar.parentNode.insertBefore(mark,bar);
@@ -144,8 +149,13 @@ setInterval(function(){syncCounters(false);},3000);
    seulement est mesurée. On le dit, et le taux porte sur les heures MESURÉES. Données : uptime.json. ── */
 (function(){
   var SRC='https://raw.githubusercontent.com/saliox/hasu-protect-docs/uptime/uptime.json',cache=null,cacheAt=0;
+  // une seule requête à la fois, et après un échec on attend 30 s avant de réessayer (le panneau se redessine souvent)
+  var pending=null,failAt=0;
   function get(){if(cache&&Date.now()-cacheAt<5*60*1000)return Promise.resolve(cache);
-    return fetch(SRC,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){if(j&&Array.isArray(j.hours)){cache=j;cacheAt=Date.now();}return cache;}).catch(function(){return cache;});}
+    if(pending)return pending;if(!cache&&Date.now()-failAt<30000)return Promise.resolve(null);
+    pending=fetch(SRC,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){if(j&&Array.isArray(j.hours)){cache=j;cacheAt=Date.now();}else failAt=Date.now();return cache;})
+      .catch(function(){failAt=Date.now();return cache;}).then(function(v){pending=null;return v;});
+    return pending;}
   function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
   function build(pop,j){
     if(!pop.isConnected||pop.querySelector('.hp-up'))return;
@@ -237,7 +247,8 @@ function paintBg(){var pos=scrollY+innerHeight*.55,c=STOPS[0][3].slice();
   var col='rgb('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+')';if(col!==lastCol){lastCol=col;document.body.style.backgroundColor=col;}
   // nappes : intensité du chapitre + légère parallaxe (propriété « translate », qui se compose avec la dérive animée)
   // jamais sous 55 % : le fond ne « s'éteint » plus ; parallaxe seulement si l'utilisateur accepte les animations
-  var y=scrollY;bgBlobs.forEach(function(b,k){b.style.setProperty('--o',Math.max(.4,c[3+k]).toFixed(3));
+  // --o n'est réécrit que s'il change (évite un recalcul de style à chaque défilement)
+  var y=scrollY;bgBlobs.forEach(function(b,k){var o=Math.max(.4,c[3+k]).toFixed(3);if(b.__o!==o){b.__o=o;b.style.setProperty('--o',o);}
     if(!reduce)b.style.translate=(Math.cos(y/1700+k*1.7)*40).toFixed(1)+'px '+(Math.sin(y/1300+k*2.1)*70).toFixed(1)+'px';});
   if(bgGrid&&!reduce)bgGrid.style.transform='translate3d(0,'+(-(y*.12)%28).toFixed(1)+'px,0)';
   if(bgGrid)bgGrid.style.opacity=(1-ss(innerHeight*.6,innerHeight*1.8,y)*.65).toFixed(3);}
@@ -277,11 +288,12 @@ function topBar(){var y=scrollY;topEl.classList.toggle('solid',y>30);
       else{var n=0;(function settle(){if(a.stop)return;var w=want(el);if(Math.abs(scrollY-w)>2)window.scrollTo(0,w);if(++n<20)requestAnimationFrame(settle);else{anim=null;removeEventListener('wheel',cancel);removeEventListener('touchstart',cancel);}})();}
     })(t0);}
 })();
-addEventListener('scroll',function(){paintBg();topBar();},{passive:true});
+// au plus une mise à jour par image affichée, même si le navigateur envoie plusieurs « scroll » entre deux images
+var bgRaf=0;addEventListener('scroll',function(){if(bgRaf)return;bgRaf=requestAnimationFrame(function(){bgRaf=0;paintBg();topBar();});},{passive:true});
 addEventListener('resize',function(){measure();paintBg();});
 document.addEventListener('click',function(){setTimeout(function(){measure();paintBg();},150);});
 document.addEventListener('input',function(){setTimeout(function(){measure();paintBg();},250);});
-measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure);addEventListener('load',measure);setInterval(measure,2500);
+measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure);addEventListener('load',measure);setInterval(function(){if(!document.hidden)measure();},2500);
 
 /* ── défilement amorti (molette ; clavier, ancres et tactile restent natifs) ── */
 (function(){
@@ -327,6 +339,9 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
     if(e.defaultPrevented||e.isComposing||e.ctrlKey||e.metaKey||e.altKey)return;
     var k=e.key;if(!k||k.length!==1||k==='/'||k==='?')return;          // « / » et « ? » gardent leur rôle d'origine
     var t=e.target;if(editable(t))return;
+    // dans un groupe d'onglets ou le menu déroulant, les touches appartiennent à ces composants (accessibilité clavier)
+    if(t&&t.closest&&t.closest('[role="tablist"],#hp-drop,[role="menu"],[role="dialog"]'))return;
+    var dp=$('hp-drop');if(dp&&!dp.hidden)return;   // menu mobile ouvert : on ne détourne pas la frappe
     // Espace : garde son rôle (défiler la page, activer l'élément ciblé) ; elle n'entre dans la recherche que pour séparer deux mots
     if(k===' '&&(!s.value||(t&&t.closest&&t.closest('a,button,[role="button"],.cmd,summary'))))return;
     if(overlayOpen())return;
@@ -409,7 +424,7 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   function clean(s){return String(s).replace(/^[^A-Za-zÀ-ÿ]+/,'').trim();}
   var tip=document.createElement('div');tip.className='hp-gtip';tip.id='hp-gtip';tip.setAttribute('role','tooltip');tip.hidden=true;document.body.appendChild(tip);
   var cur=null,shownAt=0;
-  function show(el){var t=el.getAttribute('data-tip');if(!t)return;if(cur!==el)shownAt=Date.now();cur=el;tip.textContent=t;tip.hidden=false;el.setAttribute('aria-describedby','hp-gtip');
+  function show(el){var t=el.getAttribute('data-tip');if(!t)return;if(cur!==el){shownAt=Date.now();tipY=scrollY;}cur=el;tip.textContent=t;tip.hidden=false;el.setAttribute('aria-describedby','hp-gtip');
     var r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight,x=Math.max(10,Math.min(innerWidth-w-10,r.left+r.width/2-w/2)),y=r.top-h-10,below=y<70;
     if(below)y=r.bottom+10;tip.classList.toggle('below',below);tip.style.left=x+'px';tip.style.top=y+'px';
     tip.style.setProperty('--ax',Math.max(14,Math.min(w-14,r.left+r.width/2-x))+'px');}
@@ -419,8 +434,8 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
       if(el.classList.contains('gsec')){var t=el.getAttribute('data-en')||el.textContent;sec=/adverse|Adversarial/i.test(t+el.textContent)?'adv':/hors-ligne|Offline/i.test(t+el.textContent)?'off':'';return;}
       var lab=el.classList.contains('gbig')?el.querySelector('.l'):el.querySelector('.k');if(!lab)return;
       var k=clean(lab.textContent);k=EN2FR[k.toLowerCase()]||k;
-      var d=D[sec+'|'+k]||D[k];if(!d){el.removeAttribute('data-tip');return;}
-      el.setAttribute('data-tip',d[en?1:0]);el.classList.add('hp-tipped');if(!el.hasAttribute('tabindex'))el.tabIndex=0;});}
+      var d=D[sec+'|'+k]||D[k];if(!d){el.removeAttribute('data-tip');el.classList.remove('hp-tipped');if(el.__hpTab){el.removeAttribute('tabindex');el.__hpTab=false;}return;}
+      el.setAttribute('data-tip',d[en?1:0]);el.classList.add('hp-tipped');if(!el.hasAttribute('tabindex')){el.tabIndex=0;el.__hpTab=true;}});}
   panel.addEventListener('mouseover',function(e){var el=e.target.closest&&e.target.closest('.hp-tipped');if(el&&el!==cur)show(el);});
   panel.addEventListener('mouseleave',hide);
   panel.addEventListener('mouseout',function(e){var el=e.target.closest&&e.target.closest('.hp-tipped');if(el&&!el.contains(e.relatedTarget))hide();});
@@ -429,7 +444,8 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   // au toucher, le navigateur envoie un survol PUIS un clic : on n'efface pas ce qui vient de s'ouvrir
   panel.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('.hp-tipped');if(!el)return;if(cur===el&&Date.now()-shownAt>400)hide();else show(el);});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&cur)hide();});
-  addEventListener('scroll',function(){if(cur)hide();},{passive:true});
+  // on ferme la bulle quand la page défile VRAIMENT (pas pour le petit défilement qui amène une case au clavier)
+  var tipY=0;addEventListener('scroll',function(){if(!cur)return;if(Date.now()-shownAt<250){tipY=scrollY;return;}if(Math.abs(scrollY-tipY)>40)hide();},{passive:true});
   annotate();new MutationObserver(function(){annotate();}).observe(panel,{childList:true,subtree:true});
   new MutationObserver(function(){annotate();if(cur)show(cur);}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
 })();
@@ -454,8 +470,12 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
   var tabs=[].slice.call(g.querySelectorAll('.hp-gtabs [data-g]')),panels=[].slice.call(g.querySelectorAll('.hp-gpanel'));
   function show(id,focus){tabs.forEach(function(t){var on=t.getAttribute('data-g')===id;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;if(on&&focus)t.focus();});
     panels.forEach(function(p){var on=p.getAttribute('data-g')===id;p.hidden=!on;p.classList.toggle('on',on);});}
+  // liaison onglet ↔ panneau pour les lecteurs d'écran (aria-controls / aria-labelledby)
+  tabs.forEach(function(t){var id=t.getAttribute('data-g'),p=panels.filter(function(x){return x.getAttribute('data-g')===id;})[0];
+    t.id='hp-gtab-'+id;if(p){p.id='hp-gpanel-'+id;t.setAttribute('aria-controls',p.id);p.setAttribute('aria-labelledby',t.id);}});
   tabs.forEach(function(t,i){t.addEventListener('click',function(){show(t.getAttribute('data-g'));});
-    t.addEventListener('keydown',function(e){var d=e.key==='ArrowRight'||e.key==='ArrowDown'?1:e.key==='ArrowLeft'||e.key==='ArrowUp'?-1:0;if(!d)return;e.preventDefault();show(tabs[(i+d+tabs.length)%tabs.length].getAttribute('data-g'),true);});});
+    t.addEventListener('keydown',function(e){var n=e.key==='Home'?0:e.key==='End'?tabs.length-1:null,d=e.key==='ArrowRight'||e.key==='ArrowDown'?1:e.key==='ArrowLeft'||e.key==='ArrowUp'?-1:0;
+      if(n===null&&!d)return;e.preventDefault();show(tabs[n!==null?n:(i+d+tabs.length)%tabs.length].getAttribute('data-g'),true);});});
   show('install');
   g.addEventListener('click',function(e){var c=e.target.closest&&e.target.closest('[data-cmd]');if(!c)return;
     var card=Q('.cmd[data-n="'+String(c.getAttribute('data-cmd')).replace(/[^a-z0-9_-]/gi,'')+'"]');if(card){e.preventDefault();card.click();}});
@@ -481,7 +501,13 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
     none.textContent=en()?'No question matches.':'Aucune question ne correspond.';}
   function norm(s){return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
   q.addEventListener('input',function(){var t=norm(q.value.trim()),n=0;
-    items.forEach(function(d){var hit=!t||norm(d.textContent).indexOf(t)>=0;d.hidden=!hit;if(hit)n++;if(t&&hit)d.open=true;});
+    // texte de la langue affichée seulement (les deux langues sont dans la page) ; à l'effacement, chaque question retrouve son état d'avant
+    var L=lang();items.forEach(function(d){
+      var txt=[].slice.call(d.childNodes).map(function(c){return c.nodeType===1?(function txtOf(e){if(e.hasAttribute&&e.hasAttribute('data-lang')&&e.getAttribute('data-lang')!==L)return '';return e.nodeType===3?e.nodeValue:[].map.call(e.childNodes,txtOf).join(' ');})(c):c.nodeValue;}).join(' ');
+      var hit=!t||norm(txt).indexOf(t)>=0;
+      if(t&&d.__wasOpen===undefined)d.__wasOpen=d.open;
+      d.hidden=!hit;if(hit)n++;if(t&&hit)d.open=true;
+      if(!t&&d.__wasOpen!==undefined){d.open=d.__wasOpen;d.__wasOpen=undefined;}});
     none.hidden=n>0;labels();});
   all.addEventListener('click',function(){var open=!items.every(function(d){return d.hidden||d.open;});items.forEach(function(d){if(!d.hidden)d.open=open;});labels();});
   items.forEach(function(d){d.addEventListener('toggle',labels);});

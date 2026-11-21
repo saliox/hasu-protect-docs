@@ -47,7 +47,7 @@ h = h.replace(/(<meta name="theme-color" content=")[^"]*(")/, '$1#07070A$2');
 // 2. Polices + feuille d'habillage juste avant </head>
 must(/<\/head>/.test(h), '</head>');
 // préchargement des deux polices latines vues dès l'accueil (Inter : texte, Sora : titres) : moins de saut de police
-const pre = '<link rel="preload" href="habillage/fonts/f2-f11d729b.woff2" as="font" type="font/woff2" crossorigin>'
+const pre = '<meta property="og:locale" content="fr_FR"><meta property="og:locale:alternate" content="en_GB">' + '<link rel="preload" href="habillage/fonts/f2-f11d729b.woff2" as="font" type="font/woff2" crossorigin>'
   + '<link rel="preload" href="habillage/fonts/f6-779e9507.woff2" as="font" type="font/woff2" crossorigin>';
 h = h.replace(/\s*<\/head>/, () => '\n<!--hp:head-->' + pre + '<link rel="stylesheet" href="habillage/fonts.css">\n<style id="hp-skin">\n' + css + '\n</style><!--/hp:head-->\n</head>');
 
