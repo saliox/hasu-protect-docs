@@ -21,7 +21,8 @@ new MutationObserver(function(){if(document.documentElement.hasAttribute('data-t
 (function(){
   function move(sel,slotId,before){var el=typeof sel==='string'?Q(sel):sel,slot=$(slotId);if(el&&slot){if(before)slot.insertBefore(el,slot.firstChild);else slot.appendChild(el);}}
   var links=$('hp-links');
-  if(links){var tb=Q('header .topbtns'),st=$('botstatus');if(tb)links.insertBefore(tb,links.firstChild);if(st)links.insertBefore(st,links.firstChild);}
+  // état + langue placés APRÈS les liens dans le DOM (et plus seulement à l'écran) : la touche Tab suit l'ordre visible
+  if(links){var tb=Q('header .topbtns'),st=$('botstatus'),add=links.querySelector('.hp-btn');if(st)links.insertBefore(st,add);if(tb)links.insertBefore(tb,add);}
   move('header .topgg-badge','hp-topgg');
   move('.main .quickstart','hp-start-slot');
   move('#gpanel','hp-guardian-slot');move('#gnext','hp-guardian-slot');
@@ -353,6 +354,18 @@ measure();paintBg();topBar();if(document.fonts)document.fonts.ready.then(measure
     if(d)window.scrollTo({top:d.getBoundingClientRect().top+scrollY-h-4,behavior:reduce?'auto':'smooth'});});});
   if(!fine||reduce)return;
   box.querySelectorAll('.hp-mod').forEach(function(a){a.addEventListener('pointermove',function(e){var r=a.getBoundingClientRect();a.style.setProperty('--mx',(e.clientX-r.left)+'px');a.style.setProperty('--my',(e.clientY-r.top)+'px');});});
+})();
+
+/* ── « Le parcours » : la dernière étape suit la version en cours du changelog (titre + date), au lieu d'un texte figé ── */
+(function(){
+  var li=$('hp-time-now'),cl=Q('#hp-news .changelog');if(!li||!cl)return;
+  function clean(t){return String(t||'').replace(/[\uD800-\uDFFF☀-➿️]+/g,'').replace(/\s+/g,' ').trim().replace(/[.:]$/,'');}
+  ['fr','en'].forEach(function(L){
+    var t=cl.querySelector('h2 [data-lang="'+L+'"]'),v=cl.querySelector('.ver [data-lang="'+L+'"]');if(!t||!v)return;
+    var title=clean(t.textContent),m=L==='fr'?/le (\d{1,2} \S+ \d{4})/.exec(v.textContent):/published (\d{1,2} \S+ \d{4})/.exec(v.textContent);
+    if(!title||!m)return;
+    var tm=li.querySelector('time [data-lang="'+L+'"]'),p=li.querySelector('p [data-lang="'+L+'"]');
+    if(tm)tm.textContent=m[1];if(p)p.textContent=L==='fr'?('Version en cours : « '+title+' ».'):('Current version: "'+title+'".');});
 })();
 
 /* ── à propos : chiffres tirés de la page (versions du changelog, fiches de commandes, compteur de serveurs) ── */

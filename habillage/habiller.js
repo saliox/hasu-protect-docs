@@ -41,6 +41,9 @@ h = h.replace(cspRe, (m, a, c, z) => a + c
   .replace(/style-src ([^;]*)/, (mm, v) => 'style-src ' + add(v, []))
   .replace(/font-src ([^;]*)/, (mm, v) => 'font-src ' + add(v, [])) + z);
 
+// 1 bis. Couleur de la barre du navigateur (mobile) : le noir du site, plus le bleu Discord de la page d'origine
+h = h.replace(/(<meta name="theme-color" content=")[^"]*(")/, '$1#07070A$2');
+
 // 2. Polices + feuille d'habillage juste avant </head>
 must(/<\/head>/.test(h), '</head>');
 // préchargement des deux polices latines vues dès l'accueil (Inter : texte, Sora : titres) : moins de saut de police
