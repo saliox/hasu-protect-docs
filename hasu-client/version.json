@@ -1,7 +1,7 @@
 {
-  "sha256": "d36381c5dd1d675ea84084df4bc0fc08a1e8d85b8038ae99f0ed3b8613671db9",
-  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.5/HasuLauncher-Setup.exe",
-  "version": "1.76.5",
-  "signature": "2LkbpjpHqC6ya2yT0BpVz7mH91mfgms5NuO0i63bAN/JHCmltIkDgh3rHw+pDjbd1H0CnXXexEJFd/wXlSTa5A==",
-  "notes": "Protection des mondes lors du changement de version et verification des installeurs avant publication."
+  "sha256": "9c0f8a43616bafc9a8414b2156eccd2bea72955e995a3a60382e01216fe9a438",
+  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.6/HasuLauncher-Setup.exe",
+  "version": "1.76.6",
+  "signature": "9U2Z6NludfrfbVTDVgfQxdxd49FGgaKOxVKepTqyn/7mHi/eavNDVw7BuTYa4DreGpCxQyheOXgI8iguHCz5Aw==",
+  "notes": "Menus plus lisibles sur huit versions ; cape Hasu prioritaire sur la cape Mojang du joueur local."
 }
