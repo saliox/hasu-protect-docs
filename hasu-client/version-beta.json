@@ -1,7 +1,7 @@
 {
-  "sha256": "51292e820fb52770660fbc8245d90b41c181c3508475bc3c4da0af5ec93520f0",
-  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.11/HasuLauncher-Setup.exe",
-  "version": "1.76.11",
-  "signature": "40TWS5PCvvgDUlLqlbOAA9TkZWQU+PbASDunlhs505lEOxKmKs750uBvKDF3/XXQVk2DnqMebyuu8icXeCzRwQ==",
-  "notes": "Editeur HUD ameliore sur huit versions : apercus visibles et rangement 1.8.9, graphe et inventaire deplacables sur les ports classiques, nouvel editeur 1.20.1."
+  "version": "1.76.12",
+  "sha256": "bd47a2726d9ac19b4c3e1cca6bb28f903500617e16107c91c288d12bdd43962d",
+  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.12/HasuLauncher-Setup.exe",
+  "signature": "zwPHQwhY6as0gzdeST8Ws9L0IbFtB2cBYRiKlxvWqd0Lj2szhmVUqBSgau90hre3zk9g+HsG+HVEy7sGFLHzHg==",
+  "notes": "Cosmétiques et menus améliorés sur huit versions, capes animées plus fluides, préréglages de qualité et import, amis plus clairs."
 }
