@@ -1,7 +1,7 @@
 {
-  "sha256": "3321014b4d3962c1f836f0b291a04ad14bdad8693527ce2e4d27a061878f3d05",
-  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.10/HasuLauncher-Setup.exe",
-  "version": "1.76.10",
-  "signature": "3dDu+Wt28OfbdgKwSiTeCoClqk9Af6Gf+0lfUaerJVWFtbWSgEW7eqkaXpbuJ93JUssHgTa14w28gyEhDYN7oA==",
-  "notes": "Menus Mods lisibles sur les huit versions : panneaux visibles, etats ACTIF/INACTIF, reglages reorganises."
+  "sha256": "51292e820fb52770660fbc8245d90b41c181c3508475bc3c4da0af5ec93520f0",
+  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.11/HasuLauncher-Setup.exe",
+  "version": "1.76.11",
+  "signature": "40TWS5PCvvgDUlLqlbOAA9TkZWQU+PbASDunlhs505lEOxKmKs750uBvKDF3/XXQVk2DnqMebyuu8icXeCzRwQ==",
+  "notes": "Editeur HUD ameliore sur huit versions : apercus visibles et rangement 1.8.9, graphe et inventaire deplacables sur les ports classiques, nouvel editeur 1.20.1."
 }
