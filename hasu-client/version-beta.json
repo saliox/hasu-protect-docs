@@ -1,7 +1,7 @@
 {
-    "sha256":  "7bf8df44e8235ee741b60167849e46b96f22605805c20d6015a666718155fc74",
-    "url":  "https://github.com/saliox/hasu-client/releases/download/v1.76.0/HasuLauncher-Setup.exe",
-    "version":  "1.76.0",
-    "signature":  "lV8usx/ICVVYGH8KX9+TYc0YuY5aNcjCbl3jdwjnGc1FNQr6n/ZgTRosYdbxCIjV8WflMs6yjdD10NMWnM6AFg==",
-    "notes":  "Le code de l\u0027application est desormais protege contre la lecture (obfuscation) ; aucun changement de fonctionnement."
+  "sha256": "302f077db26b0cf3e877fc4a8dc249bd8b7b6d086a5dc1511a833a1c31c899c7",
+  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.1/HasuLauncher-Setup.exe",
+  "version": "1.76.1",
+  "signature": "a1jumzLU6onwLGq3iBKUUqwMS6N7ubsWMBsBEd/WsXHmwlZcGmFjokMD9DdtbNjcv/TMkbT6rBTHpUHqGXiBIQ==",
+  "notes": "Corrige le lancement de Minecraft 1.8.9 sur les PC contenant un projet de developpement ForgeGradle."
 }
