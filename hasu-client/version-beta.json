@@ -1,7 +1,7 @@
 {
-  "sha256": "9c0f8a43616bafc9a8414b2156eccd2bea72955e995a3a60382e01216fe9a438",
-  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.6/HasuLauncher-Setup.exe",
-  "version": "1.76.6",
-  "signature": "9U2Z6NludfrfbVTDVgfQxdxd49FGgaKOxVKepTqyn/7mHi/eavNDVw7BuTYa4DreGpCxQyheOXgI8iguHCz5Aw==",
-  "notes": "Menus plus lisibles sur huit versions ; cape Hasu prioritaire sur la cape Mojang du joueur local."
+  "sha256": "878e732987ad79c30f8493a1fc59da589083edf259c9ff48785af021a5fcae37",
+  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.7/HasuLauncher-Setup.exe",
+  "version": "1.76.7",
+  "signature": "W0wo1p8Hu3/zar8ThHptWAtY14E7TtUDdO2hFtp15r13gJRhMd0DlxklwN+eXNJUozfF3lzzcmLHBgFyIQAC/A==",
+  "notes": "Correction des textes en blocs colores apres certains menus du jeu ; police lisse isolee de l etat OpenGL sur sept versions."
 }
