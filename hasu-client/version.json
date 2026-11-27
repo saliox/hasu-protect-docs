@@ -1,7 +1,7 @@
 {
-  "sha256": "878e732987ad79c30f8493a1fc59da589083edf259c9ff48785af021a5fcae37",
-  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.7/HasuLauncher-Setup.exe",
-  "version": "1.76.7",
-  "signature": "W0wo1p8Hu3/zar8ThHptWAtY14E7TtUDdO2hFtp15r13gJRhMd0DlxklwN+eXNJUozfF3lzzcmLHBgFyIQAC/A==",
-  "notes": "Correction des textes en blocs colores apres certains menus du jeu ; police lisse isolee de l etat OpenGL sur sept versions."
+  "sha256": "fb3aefbcd525ddc05365a0472411dbaa4165465b6bd39135222b9b96e194aa59",
+  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.8/HasuLauncher-Setup.exe",
+  "version": "1.76.8",
+  "signature": "oxgRbGWvzpi7ICLDyhy4F9ZzqJ97dDSvsKawWlbtLpvv996RtiIYYeFWaijfa5XlHLzdVnyrSU9QyUG2aM/0Bg==",
+  "notes": "Textes du monde, du chat et des serveurs rendus par la police native de Minecraft pour eviter les blocs colores apres un menu. Menus Hasu conserves ; police lisse partout desactivee par defaut sur les versions classiques."
 }
