@@ -1,10 +1,10 @@
 {
   "_lisezMoi": "Manifeste ATTESTÉ des commandes du bot Hasu Protect. Produit UNIQUEMENT par « node .github/check-commands.js --bot <racine du bot> --write », qui lit réellement commands/ et croise son compte avec tools/docs-build.js. Ne le retouche pas à la main : le contrôle .github/check-commands.js compare `commandes.length` à `attestation.nombre` et à stats.json, et une retouche se voit.",
   "attestation": {
-    "attesteLe": "2026-11-27T21:05:00.287Z",
+    "attesteLe": "2026-11-27T23:54:25.704Z",
     "source": "commands/*.js + i18n/fr.json du dépôt du bot, règles d'extraction de tools/docs-build.js",
-    "compteConfirmeParLeGenerateur": 275,
-    "changelogDuSite": "6 notes · publiées le 27 novembre 2026 à 21:506 notes · published 27 November 2026, 21:50",
+    "compteConfirmeParLeGenerateur": 276,
+    "changelogDuSite": "8 notes · publiées le 28 novembre 2026 à 00:458 notes · published 28 November 2026, 00:45",
     "ordreCategories": [
       "🛡️ Sécurité & Antiraid",
       "🔨 Modération",
@@ -20,7 +20,7 @@
       "dm": 5,
       "close": 5
     },
-    "nombre": 275
+    "nombre": 276
   },
   "commandes": [
     "add",
@@ -297,6 +297,7 @@
     "wl",
     "xpbonus",
     "xpdecay",
+    "xphours",
     "xpnight"
   ],
   "acces": {
@@ -574,6 +575,7 @@
     "wl": "owner",
     "xpbonus": "owner",
     "xpdecay": "owner",
+    "xphours": "owner",
     "xpnight": "owner"
   },
   "categories": {
@@ -775,6 +777,7 @@
     "xpdecay": 4,
     "xpnight": 4,
     "xpbonus": 4,
+    "xphours": 4,
     "claimtop": 4,
     "stafftickets": 4,
     "transfert": 4,
