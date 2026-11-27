@@ -1,7 +1,7 @@
 {
-  "sha256": "302f077db26b0cf3e877fc4a8dc249bd8b7b6d086a5dc1511a833a1c31c899c7",
-  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.1/HasuLauncher-Setup.exe",
-  "version": "1.76.1",
-  "signature": "a1jumzLU6onwLGq3iBKUUqwMS6N7ubsWMBsBEd/WsXHmwlZcGmFjokMD9DdtbNjcv/TMkbT6rBTHpUHqGXiBIQ==",
-  "notes": "Corrige le lancement de Minecraft 1.8.9 sur les PC contenant un projet de developpement ForgeGradle."
+  "sha256": "d36381c5dd1d675ea84084df4bc0fc08a1e8d85b8038ae99f0ed3b8613671db9",
+  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.5/HasuLauncher-Setup.exe",
+  "version": "1.76.5",
+  "signature": "2LkbpjpHqC6ya2yT0BpVz7mH91mfgms5NuO0i63bAN/JHCmltIkDgh3rHw+pDjbd1H0CnXXexEJFd/wXlSTa5A==",
+  "notes": "Protection des mondes lors du changement de version et verification des installeurs avant publication."
 }
