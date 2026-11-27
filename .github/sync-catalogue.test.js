@@ -66,6 +66,15 @@ test('only catalogue counts change in public statistics; no heartbeat or Guardia
   assert.equal(f.stats.commands, 4, 'input statistics are not mutated');
 });
 
+test('skin category counters keep their category count while the total and footer follow the catalogue', () => {
+  const f = fixture();
+  f.html = f.html.replace('<header', '<b data-count="0">99</b> <span data-lang="fr">commandes</span><b id="hp-afig-c">4</b><header');
+  const r = sync(f);
+  assert(r.html.includes('<b data-count="0">2</b>'));
+  assert(r.html.includes('<b id="hp-afig-c">3</b>'));
+  assert.equal(sync({ ...f, html: r.html, stats: r.stats }).html, r.html);
+});
+
 test('the same catalogue can be synchronized twice without changing HTML or statistics', () => {
   const f = fixture(), first = sync(f), second = sync({ ...f, html: first.html, stats: first.stats });
   assert.equal(second.html, first.html);

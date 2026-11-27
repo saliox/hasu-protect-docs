@@ -57,12 +57,16 @@ function replaceRegions(html, regions) {
   return html;
 }
 function counters(html, count, categories) {
+  const cards = [...maskComments(html).matchAll(/<div\b[^>]*\bclass="cmd"[^>]*>/g)]
+    .map(match => (match[0].match(/\bdata-cat="(\d+)"/) || [])[1]);
   return html
     .replace(/(<b\b[^>]*\bid="bCmds"[^>]*>)\d+(<\/b>)/g, `$1${count}$2`)
     .replace(/(<b\b[^>]*\bid="bCats"[^>]*>)\d+(<\/b>)/g, `$1${categories}$2`)
     .replace(/(<span\b[^>]*\bdata-src="bCmds"[^>]*>)\d+(<\/span>)/g, `$1${count}$2`)
     .replace(/(<span\b[^>]*\bdata-src="bCats"[^>]*>)\d+(<\/span>)/g, `$1${categories}$2`)
-    .replace(/(<b data-count="0">)\d+(<\/b>\s*<span data-lang="fr">commandes<\/span>)/g, `$1${count}$2`);
+    .replace(/(<b\b[^>]*\bid="hp-afig-c"[^>]*>)\d+(<\/b>)/g, `$1${count}$2`)
+    .replace(/(<b data-count="(\d+)">)\d+(<\/b>)/g, (_, tag, category, close) =>
+      tag + (count === '#' ? '#' : cards.filter(value => value === category).length) + close);
 }
 function countPromises(html, value) {
   let zone = checker.zoneProse(html);

@@ -11,7 +11,7 @@ name: Habillage du site
 on:
   push:
     branches: [main]
-    paths: ['index.html', 'habillage/**']
+    paths: ['index.html', 'habillage/**', '.github/habillage-counts.test.js', '.github/workflows/habillage.yml']
   workflow_dispatch:
 permissions:
   contents: write
@@ -30,11 +30,14 @@ jobs:
           node-version: 20
       - name: Habiller index.html
         run: node habillage/habiller.js
+      - name: Les compteurs survivent-ils à la réapplication ?
+        run: node --test .github/habillage-counts.test.js
       - name: Gardes statiques sur la page habillée
         run: |
           node .github/check-csp.js
           node .github/unit-tests.js
           node .github/sentinel.js
+          node .github/check-commands.js
       - name: Publier si la page a changé
         id: publier
         run: |

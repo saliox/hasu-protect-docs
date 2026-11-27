@@ -25,8 +25,16 @@ const redo = h !== before;
 
 const read = f => fs.readFileSync(path.join(here, f), 'utf8');
 // le guide se place AVANT l'en-tête « Toutes les commandes » : sinon il s'intercale entre ce titre et la liste
-const topRaw = read('top.html'), guide = read('guide.html'), docsAt = topRaw.indexOf('<div class="hp-wrap" id="hp-docs"');
-const css = read('skin.css'), end = read('end.html');
+const cards = require('../.github/check-commands').cartesDe(h);
+must(cards.noms.length > 0 && new Set(cards.noms).size === cards.noms.length, 'catalogue unique et non vide');
+const categories = new Set(cards.detail.map(card => card.cat)).size;
+const counts = template => template
+  .replace(/(data-src="bCmds">)\d+/g, (_, tag) => tag + cards.noms.length)
+  .replace(/(data-src="bCats">)\d+/g, (_, tag) => tag + categories)
+  .replace(/(id="hp-afig-c">)\d+/g, (_, tag) => tag + cards.noms.length)
+  .replace(/(data-count="(\d+)">)\d+(<\/b>)/g, (_, tag, category, close) => tag + cards.detail.filter(card => card.cat === category).length + close);
+const topRaw = counts(read('top.html')), guide = read('guide.html'), docsAt = topRaw.indexOf('<div class="hp-wrap" id="hp-docs"');
+const css = read('skin.css'), end = counts(read('end.html'));
 const top = docsAt >= 0 ? topRaw.slice(0, docsAt) + guide + '\n' + topRaw.slice(docsAt) : topRaw + '\n' + guide;
 // les polices sont servies par le site lui-même (habillage/fonts) :
 // aucun CDN autorisé dans la CSP, aucune adresse IP de visiteur envoyée à Google.
