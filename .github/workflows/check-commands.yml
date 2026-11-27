@@ -23,6 +23,8 @@ on:
       - .github/commands.manifest.json
       - .github/mutants-commands.js
       - .github/html-scripts.js
+      - .github/sync-catalogue.js
+      - .github/sync-catalogue.test.js
       - .github/workflows/check-commands.yml
   pull_request:
     paths:
@@ -32,6 +34,8 @@ on:
       - .github/commands.manifest.json
       - .github/mutants-commands.js
       - .github/html-scripts.js
+      - .github/sync-catalogue.js
+      - .github/sync-catalogue.test.js
       - .github/workflows/check-commands.yml
   schedule:
     - cron: '0 7 * * 1'
@@ -43,6 +47,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: La synchronisation préserve-t-elle le site ?
+        run: node --test .github/sync-catalogue.test.js
       # D'abord la preuve que le garde mord : un garde qui ne trouve jamais rien est indiscernable
       # d'un garde cassé. La campagne joue un témoin sain (qui DOIT passer) puis toutes les mutations
       # déclarées (noms, accès, catégorie, MOVES) — et un auto-contrôle qui refuse qu'un cas soit sauté.

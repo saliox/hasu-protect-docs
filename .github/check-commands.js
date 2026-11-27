@@ -57,14 +57,14 @@
 //
 //   LA PORTE RÉELLE, telle qu'elle est désormais attestée (mode `--bot`) :
 //     ownerOnly du fichier de commande            → owner   (le répartiteur refuse avant `canUse`)
-//     branche spéciale du répartiteur (index.js)  → owner   (`nuke`/`addrole`/`delrole` : owner du
-//                                                            serveur ou liste `nuke_allowed`)
+//     porte centrale `estCommandeOwnerOnly`       → owner   (ownerOnly, Administrator, modules antiraid)
+//     branche `addrole`/`delrole` du répartiteur   → owner   (délégation historique `nuke_allowed`)
 //     sinon `commandLevel(nom)` de permissions.js → 3 owner · 2 admin · 1 staff · 0 all
 //   Ces valeurs ne sont pas RECOPIÉES : `systems/permissions.js` du dépôt du bot est exécuté tel
 //   quel (base et owners stubés, aucune écriture, aucune ouverture de base), donc `PUBLIC`,
 //   `JEUX_PUBLICS`, `COMMAND_PERMS` et `LEVEL_OVERRIDE` sont lus à la source. La seule règle
-//   recopiée est la branche `nuke/addrole/delrole` du répartiteur : elle est donc ASSERTÉE dans
-//   index.js à chaque attestation, et son absence est un échec nommé, pas un silence.
+//   `nuke` est ownerOnly STRICT et passe par la porte centrale. Seule la branche déléguée
+//   `addrole`/`delrole` du répartiteur est vérifiée séparément. Son absence est un échec nommé.
 //
 //   Le niveau attesté est comparé en CI à DEUX choses par carte, qui doivent s'accorder entre elles :
 //   l'attribut `data-acc` (celui que lisent les puces de filtre) et le badge VISIBLE `.accb`
@@ -137,12 +137,11 @@
 //     Retoucher un SEUL des trois reste vu (contradiction interne), et une carte SANS entrée MOVES est
 //     jugée sur son `data-cat` comme avant. Fermer ce dernier trou demanderait d'attester l'origine du
 //     déplacement (`{nom: {de, vers}}`) : coût réel, pour un défaut invisible au visiteur.
-//   • Le niveau d'accès EFFECTIF sur un serveur donné : `+customperm` peut surcharger le palier
-//     serveur par serveur, et un Administrateur Discord passe partout (`canUse` court-circuite sur
-//     `Administrator`). Le badge annonce le palier PAR DÉFAUT du bot, pas l'état d'un serveur — et
-//     pour les quatre commandes `LEVEL_OVERRIDE = 3` sans `ownerOnly` (`antiraid`, `backup`,
-//     `lockdown`, `punish`) il est donc CONSERVATEUR : il annonce owner alors qu'un Administrateur
-//     Discord passerait. Se tromper dans ce sens ne promet pas un levier qu'on n'a pas.
+//   • Le niveau d'accès EFFECTIF sur un serveur donné : `+customperm` peut surcharger certains
+//     paliers serveur par serveur. Le badge annonce la porte PAR DÉFAUT du bot, pas l'état d'un
+//     serveur. Une commande seulement au palier 3 peut encore passer par le raccourci Administrateur
+//     de `canUse` ; une commande `ownerOnly`, Administrateur stricte ou module antiraid passe au
+//     contraire par `estCommandeOwnerOnly` AVANT `canUse` et reste réellement réservée aux owners.
 //   • history.html et le site de doc secondaire : seul index.html est examiné.
 //   • Les commandes délibérément non documentées sont listées par NOM ET PAR RAISON dans le
 //     manifeste (`nonDocumentees`), et le mode `--bot` vérifie que chacune existe TOUJOURS et est
@@ -328,19 +327,29 @@ function promessesChiffrees(zone) {
 // LA PORTE RÉELLE D'UNE COMMANDE — exécutée, pas recopiée.
 //
 // `systems/permissions.js` du bot est évalué TEL QUEL dans un bac à sable : ses quatre tables
-// (`PUBLIC`, `JEUX_PUBLICS`, `COMMAND_PERMS`, `LEVEL_OVERRIDE`) et sa fonction `commandLevel` sont
-// donc lues à la source. Recopier ces tables ici, c'est exactement le défaut qu'on répare :
+// (`PUBLIC`, `JEUX_PUBLICS`, `COMMAND_PERMS`, `LEVEL_OVERRIDE`) et ses fonctions `commandLevel` et
+// `estCommandeOwnerOnly` sont donc lues à la source. Recopier ces tables ici, c'est le défaut :
 // docs-build.js avait recopié la moitié d'une règle et publiait un badge faux depuis des mois.
 //
 // `./database` et `./owners` sont stubés : le premier ouvrirait la base SQLite du bot (ce garde ne
 // doit RIEN toucher dans le dépôt du bot), le second n'intervient qu'à l'exécution d'une commande.
+// `./gamehub` et `./raidcatalog` sont des feuilles réelles, lues dans le même bac à sable sans require.
 // Tout autre `require` inattendu LÈVE : si permissions.js change de dépendances, on l'apprend par un
 // échec nommé, jamais par un badge silencieusement faux.
 const RANG_ACCES = { all: 0, staff: 1, admin: 2, owner: 3 };
 const TIER_PAR_NIVEAU = { 3: 'owner', 2: 'admin', 1: 'staff', 0: 'all' };
-// Seule règle RECOPIÉE depuis le répartiteur — donc assertée mot pour mot dans index.js ci-dessous.
-const MOTIF_PORTE_OWNER = "commandName === 'nuke' || commandName === 'addrole' || commandName === 'delrole'";
-const PORTE_OWNER_REPARTITEUR = ['nuke', 'addrole', 'delrole'];
+const PORTE_ROLE_DELEGUEE = "commandName === 'addrole' || commandName === 'delrole'";
+
+function lireFeuilleDuBot(racineBot, nom) {
+  const fichier = path.resolve(racineBot, 'systems', nom + '.js');
+  if (!fs.existsSync(fichier)) throw new Error('systems/' + nom + '.js introuvable — impossible de lire la porte réelle du bot.');
+  const mod = { exports: {} };
+  vm.runInNewContext(fs.readFileSync(fichier, 'utf8'), {
+    module: mod, exports: mod.exports,
+    require: (id) => { throw new Error('systems/' + nom + '.js require désormais « ' + id + ' » : cette feuille doit être réévaluée avant attestation.'); },
+  }, { filename: fichier });
+  return mod.exports;
+}
 
 function paliersDuBot(racineBot) {
   // `path.resolve` et non `path.join` : createRequire exige un chemin ABSOLU, et `--bot ..` en donne
@@ -351,19 +360,31 @@ function paliersDuBot(racineBot) {
   const faux = (id) => {
     if (id === './database') return { getJSON: () => ({}) };          // jamais de base ouverte
     if (id === './owners') return { isBotOwner: () => false, isGuildOwner: () => false };
-    if (id === 'discord.js' || id === './gamehub') return req(id);     // vrais modules, sans effet de bord
+    if (id === 'discord.js') return req(id);
+    if (id === './gamehub' || id === './raidcatalog') return lireFeuilleDuBot(racineBot, id.slice(2));
     throw new Error('systems/permissions.js require désormais « ' + id + ' » : ce bac à sable ne le connaît pas. Complète-le avant d\'attester.');
   };
   const mod = { exports: {} };
   vm.runInNewContext(fs.readFileSync(fichier, 'utf8'), { require: faux, module: mod, exports: mod.exports, console, process });
-  if (typeof mod.exports.commandLevel !== 'function') throw new Error('systems/permissions.js n\'exporte plus `commandLevel` — la règle du badge a changé de forme, adapte ce garde.');
+  if (typeof mod.exports.commandLevel !== 'function' || typeof mod.exports.estCommandeOwnerOnly !== 'function') {
+    throw new Error('systems/permissions.js n\'exporte plus `commandLevel` ou `estCommandeOwnerOnly` — la porte réelle a changé de forme, adapte ce garde.');
+  }
 
   const idx = path.join(racineBot, 'index.js');
   if (!fs.existsSync(idx)) throw new Error('index.js introuvable dans le dépôt du bot — la branche owner du répartiteur ne peut pas être vérifiée.');
-  if (!fs.readFileSync(idx, 'utf8').includes(MOTIF_PORTE_OWNER)) {
-    throw new Error('la branche « ' + MOTIF_PORTE_OWNER + ' » a disparu d\'index.js : +nuke/+addrole/+delrole n\'ont peut-être plus la porte owner que les cartes annoncent. Relis le répartiteur et corrige PORTE_OWNER_REPARTITEUR avant d\'attester.');
+  const repartiteur = fs.readFileSync(idx, 'utf8');
+  const delegation = repartiteur.indexOf('} else if (' + PORTE_ROLE_DELEGUEE + ') {');
+  const controleDelegation = repartiteur.indexOf('nukeAutorise(message.author.id, message.guild)', delegation);
+  const controleOwner = repartiteur.indexOf('} else if (estCommandeOwnerOnly(commandName, command)) {', delegation);
+  const decisionOwner = repartiteur.indexOf('ownerOnlyAutorise(message.author.id, message.guild, commandName)', controleOwner);
+  const controlePalier = repartiteur.indexOf('} else if (!canUse(message.member, commandName)', controleOwner);
+  if (delegation < 0 || controleDelegation < delegation || controleOwner < controleDelegation
+    || decisionOwner < controleOwner || controlePalier < decisionOwner) {
+    throw new Error('la porte owner centrale ou la délégation +addrole/+delrole a changé dans index.js — relis le répartiteur avant d\'attester.');
   }
-  return mod.exports.commandLevel;
+  const commandLevel = mod.exports.commandLevel;
+  commandLevel.estCommandeOwnerOnly = mod.exports.estCommandeOwnerOnly;
+  return commandLevel;
 }
 
 // LA CATÉGORIE D'UNE COMMANDE — lue à la source, et son INDEX recalculé par la règle du générateur.
@@ -462,11 +483,12 @@ function commandesDuBot(racineBot) {
 
   // ── LE NIVEAU D'ACCÈS RÉEL, commande par commande.
   const commandLevel = paliersDuBot(racineBot);
+  if (!ownerOnly.has('nuke')) throw new Error('+nuke n\'est plus ownerOnly strict dans commands/nuke.js — sa délégation historique est interdite.');
   const acces = {};
   for (const n of vivantes) {
-    let tier = ownerOnly.has(n) ? 'owner' : (TIER_PAR_NIVEAU[commandLevel(n)] || null);
+    let tier = n === 'addrole' || n === 'delrole' || commandLevel.estCommandeOwnerOnly(n, { ownerOnly: ownerOnly.has(n) })
+      ? 'owner' : (TIER_PAR_NIVEAU[commandLevel(n)] || null);
     if (!tier) throw new Error('commandLevel(\'' + n + '\') a rendu une valeur hors des paliers 0/1/2/3 — la règle du bot a changé, adapte ce garde avant d\'attester.');
-    if (PORTE_OWNER_REPARTITEUR.includes(n) && RANG_ACCES[tier] < RANG_ACCES.owner) tier = 'owner';
     acces[n] = tier;
   }
   // `help` est posé à la main par docs-build (il décrit les autres) : il n'a pas de fichier, donc pas

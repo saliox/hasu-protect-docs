@@ -35,3 +35,36 @@ ces blocs les efface — c'est arrivé les 23/07 et 07/08.
 
 `translations.json` (jamais chargé par le site) et les captures inutilisées
 (seule `assets/capture-securite.png` sert, pour le JSON-LD).
+
+## 4. Synchroniser le catalogue sans remplacer le site
+
+Depuis ce dépôt, avec la copie du bot à jour dans le dossier parent :
+
+```text
+node --test .github/check-commands-bot.test.js .github/sync-catalogue.test.js
+node .github/sync-catalogue.js --bot ..
+node .github/sync-catalogue.js --bot .. --write
+node .github/check-commands.js --bot .. --write
+node .github/check-commands.js --bot ..
+node .github/check-commands.js
+node .github/mutants-commands.js
+node .github/check-csp.js
+node .github/unit-tests.js
+node .github/sentinel.js
+```
+
+La première synchronisation est une simulation. `--write` remplace uniquement
+les zones du catalogue, les promesses de nombre de commandes et les compteurs
+`commands`/`categories` de `stats.json`. Les badges viennent des permissions
+centrales du bot ; le thème, les scripts, le changelog et les autres statistiques
+restent conservés. L'attestation est une étape séparée, à faire après le gel du
+bot livré. Si le changelog doit aussi changer, le synchroniser avant le catalogue.
+
+Ne pas lancer le générateur complet du bot sur ce dépôt : le synchroniseur
+utilise son rendu en mémoire. En cas de structure ou de déplacement de catégorie
+incompatible, corriger la cause signalée avant publication. Ne pas mélanger les
+manifestes locaux de Hasu Client à ce commit.
+
+Les tests `check-commands-bot.test.js` exigent le vrai dépôt du bot et se lancent
+localement avant attestation. La CI publique lance les tests purs de synchronisation
+et vérifie l'attestation, car elle ne possède pas le dépôt du bot.
