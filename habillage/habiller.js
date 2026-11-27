@@ -78,5 +78,21 @@ must(/<\/body>\s*<\/html>\s*$/.test(h), '</body></html>');
 const jsv = require('crypto').createHash('sha256').update(fs.readFileSync(path.join(here, 'hp.js'), 'utf8').replace(/\r\n/g, '\n')).digest('hex').slice(0, 10);
 h = h.replace(/\s*<\/body>\s*<\/html>\s*$/, () => '\n<!--hp:js--><script src="habillage/hp.js?v=' + jsv + '" defer></script><!--/hp:js-->\n</body></html>\n');
 
+// Signes autonomes du changelog : même style code que les exemples, sans toucher les autres résumés.
+// Cette passe appartient au site et survit aux greffes du générateur privé du bot.
+const changelogStart = h.indexOf('<div class="changelog">');
+must(changelogStart >= 0, 'bloc changelog');
+const divs = /<div\b|<\/div>/g;
+divs.lastIndex = changelogStart;
+let changelogDepth = 0, changelogEnd = -1, changelogDiv;
+while ((changelogDiv = divs.exec(h))) {
+  changelogDepth += changelogDiv[0] === '</div>' ? -1 : 1;
+  if (!changelogDepth) { changelogEnd = divs.lastIndex; break; }
+}
+must(changelogEnd > changelogStart, 'fin du bloc changelog');
+const changelog = h.slice(changelogStart, changelogEnd)
+  .replace(/(<summary>)([+-]) (?=<strong>)/g, '$1<code>$2</code> ');
+h = h.slice(0, changelogStart) + changelog + h.slice(changelogEnd);
+
 fs.writeFileSync(out, h);
 console.log((redo ? 'Habillage mis à jour -> ' : 'Habillage appliqué -> ') + out, (h.length / 1024).toFixed(0) + ' Ko');
