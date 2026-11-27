@@ -1,7 +1,7 @@
 {
-  "sha256": "fb3aefbcd525ddc05365a0472411dbaa4165465b6bd39135222b9b96e194aa59",
-  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.8/HasuLauncher-Setup.exe",
-  "version": "1.76.8",
-  "signature": "oxgRbGWvzpi7ICLDyhy4F9ZzqJ97dDSvsKawWlbtLpvv996RtiIYYeFWaijfa5XlHLzdVnyrSU9QyUG2aM/0Bg==",
-  "notes": "Textes du monde, du chat et des serveurs rendus par la police native de Minecraft pour eviter les blocs colores apres un menu. Menus Hasu conserves ; police lisse partout desactivee par defaut sur les versions classiques."
+  "sha256": "b193bbb0ae27e8870a74042eeb636de983bdd5f91af1b42f7242d1591da603d8",
+  "url": "https://github.com/saliox/hasu-client/releases/download/v1.76.9/HasuLauncher-Setup.exe",
+  "version": "1.76.9",
+  "signature": "TxsNEQnb1qhaa7nQXDoZEZTumaH9HcNjPW2GCbajEsbPzoopp+0CXzHrAMdhMflVqxeA47UR1scK1RiXv5S/Nw==",
+  "notes": "Correction de l etat de transparence des boutons dans les menus Minecraft 1.8.9 ; les widgets suivants retrouvent le rendu attendu."
 }
