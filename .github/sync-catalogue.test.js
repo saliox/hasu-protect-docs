@@ -144,3 +144,36 @@ test('global count updates never rewrite a number inside a command description',
   assert(r.html.includes('Runs 4 commands in one workflow.'));
   assert(r.html.includes('content="3 commands"'));
 });
+
+
+for (const language of ['fr','en']) test('all typed usage alternatives use the displayed prefix in '+language, () => {
+  const f=fixture();
+  const usage='+gamma list | !gamma add &lt;'+(language==='fr'?'salon':'channel')+'&gt; · !g clear';
+  const expected=usage.replace('!gamma','+gamma').replace('!g','+g');
+  f.generated=f.generated.replace('data-n="gamma"','data-n="gamma" data-u="'+usage+'" data-u-en="'+usage+'"')
+    .replace('<div class="usage">+gamma</div>','<span class="al">+g</span><div class="usage">'+usage+'</div>');
+  const r=sync(f), gamma=r.html.slice(r.html.indexOf('data-n="gamma"'),r.html.indexOf('data-n="gamma"')+1800);
+  assert(gamma.includes('data-u="'+expected+'"'), 'FR simulation metadata is normalized');
+  assert(gamma.includes('data-u-en="'+expected+'"'), 'EN simulation metadata is normalized');
+  assert(gamma.includes('data-en="'+expected+'"'), 'EN rendered usage is normalized');
+  assert(gamma.includes('>'+expected+'</div>'), 'FR rendered usage is normalized');
+  assert.equal(sync({...f,html:r.html,stats:r.stats}).html,r.html, 'reapplication is idempotent');
+});
+test('usage normalization preserves literal punctuation, foreign commands, URLs and descriptions',()=>{
+  const f=fixture(), usage='+gamma say !literal https://example.invalid/!gamma !greeting | !foreign x | !gamma list';
+  f.generated=f.generated.replace('data-n="gamma"','data-n="gamma" data-u="'+usage+'" data-u-en="'+usage+'"')
+    .replace('<div class="usage">+gamma</div>','<div class="usage">'+usage+'</div>')
+    .replace('Current gamma','Description with !gamma is not a typed usage');
+  const r=sync(f), expected=usage.replace('| !gamma list','| +gamma list');
+  assert(r.html.includes('>'+expected+'</div>'));
+  assert(r.html.includes('Description with !gamma is not a typed usage'));
+});
+
+
+test('literal canonical bang arguments and commented examples stay untouched',()=>{
+ const f=fixture(), usage='+gamma say !gamma | !gamma list', expected='+gamma say !gamma | +gamma list';
+ f.generated=f.generated.replace('<div class="usage">+gamma</div>','<!-- <div class="usage">+gamma | !gamma test</div> --><div class="usage">'+usage+'</div>');
+ const r=sync(f);
+ assert(r.html.includes('>'+expected+'</div>'));
+ assert(r.html.includes('<!-- <div class="usage">+gamma | !gamma test</div> -->'));
+});

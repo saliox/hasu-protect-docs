@@ -84,6 +84,24 @@ function maskedCatalogue(html) {
   html = replaceRegions(html, [...sections.map(s => ({ ...s, value: `<section id="c${s.index}">CATALOGUE</section>` })), { ...nav, value: '<div id="catnav">CATEGORIES</div>' }]);
   return countPromises(counters(html, '#', '#'), '#');
 }
+
+function normalizeCardUsage(html, name) {
+  const aliasText=(maskComments(html).match(/<span class="al">([^<]*)<\/span>/)||[])[1]||'';
+  const names=[name,...[...aliasText.matchAll(/\+([a-z0-9_-]+)/gi)].map(m=>m[1])];
+  if(names.some(n=>!/^[a-z0-9_-]+$/i.test(n))) throw Error('Nom de commande source invalide.');
+  const alternatives=new RegExp('(^|(?:[|·•]|&(?:middot|bull);)\\s*)!('+names.sort((a,b)=>b.length-a.length).join('|')+')(?=\\s|$)','gi');
+  const normalize=value=>value.replace(alternatives,(_,boundary,command)=>boundary+'+'+command);
+  // A prefix is syntax only at the beginning of a typed alternative, never inside an argument/URL.
+  html=html.replace(/^<div\b[^>]*>/,tag=>tag.replace(/\b(data-u(?:-en)?)="([^"]*)"/g,(_,key,value)=>key+'="'+normalize(value)+'"'));
+  const usages=[...maskComments(html).matchAll(/(<div\b[^>]*\bclass="usage"[^>]*>)([^<]*)(<\/div>)/g)];
+  return replaceRegions(html,usages.map(match=>{
+    const raw=html.slice(match.index,match.index+match[0].length);
+    const pieces=/(<div\b[^>]*>)([^<]*)(<\/div>)/.exec(raw);
+    return {start:match.index,end:match.index+raw.length,value:
+      pieces[1].replace(/\bdata-en="([^"]*)"/g,(_,value)=>'data-en="'+normalize(value)+'"')+normalize(pieces[2])+pieces[3]};
+  }));
+}
+
 function cardWithAccess(card, category, color, tier, labels) {
   if (!Object.hasOwn(BADGE_KEYS, tier) || typeof labels[tier] !== 'string') throw Error('Palier d’accès inconnu pour ' + card.name);
   const opening = /^<div\b[^>]*>/.exec(card.html);
@@ -114,7 +132,7 @@ function cardWithAccess(card, category, color, tier, labels) {
     const usage = usages[0], tag = usage[0].replace(/\sdata-en="[^"]*"/g, '').replace(/>$/, ` data-en="${usageEn}">`);
     html = html.slice(0, usage.index) + tag + html.slice(usage.index + usage[0].length);
   }
-  return html;
+  return normalizeCardUsage(html, card.name);
 }
 
 function syncCatalogue({ html, generated, model, stats }) {

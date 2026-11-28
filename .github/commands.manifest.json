@@ -1,10 +1,10 @@
 {
   "_lisezMoi": "Manifeste ATTESTÉ des commandes du bot Hasu Protect. Produit UNIQUEMENT par « node .github/check-commands.js --bot <racine du bot> --write », qui lit réellement commands/ et croise son compte avec tools/docs-build.js. Ne le retouche pas à la main : le contrôle .github/check-commands.js compare `commandes.length` à `attestation.nombre` et à stats.json, et une retouche se voit.",
   "attestation": {
-    "attesteLe": "2026-11-27T23:54:25.704Z",
+    "attesteLe": "2026-11-28T02:28:13.887Z",
     "source": "commands/*.js + i18n/fr.json du dépôt du bot, règles d'extraction de tools/docs-build.js",
     "compteConfirmeParLeGenerateur": 276,
-    "changelogDuSite": "8 notes · publiées le 28 novembre 2026 à 00:458 notes · published 28 November 2026, 00:45",
+    "changelogDuSite": "6 notes · publiées le 28 novembre 2026 à 03:216 notes · published 28 November 2026, 03:21",
     "ordreCategories": [
       "🛡️ Sécurité & Antiraid",
       "🔨 Modération",
