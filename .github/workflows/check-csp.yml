@@ -11,9 +11,9 @@ name: Vérifier les hash CSP
 # unit-tests.js vérifie qu'ils publient le même jeu de fichiers sur la branche uptime.
 on:
   push:
-    paths: [index.html, history.html, sw.js, stats.json, README.md, .github/check-csp.js, .github/unit-tests.js, .github/html-scripts.js, .github/build-uptime.js, .github/workflows/check-csp.yml, .github/workflows/uptime.yml, .github/workflows/votes.yml, habillage/habiller.js, habillage/simulation-contracts.cjs, .github/simulation-contracts.test.cjs]
+    paths: [index.html, history.html, sw.js, stats.json, README.md, .github/check-csp.js, .github/unit-tests.js, .github/html-scripts.js, .github/build-uptime.js, .github/workflows/check-csp.yml, .github/workflows/uptime.yml, .github/workflows/votes.yml, habillage/habiller.js, habillage/simulation-contracts.cjs, .github/simulation-contracts.test.cjs, habillage/shortcuts-accessibility.cjs, .github/shortcuts-accessibility.test.cjs]
   pull_request:
-    paths: [index.html, history.html, sw.js, stats.json, README.md, .github/check-csp.js, .github/unit-tests.js, .github/html-scripts.js, .github/build-uptime.js, .github/workflows/check-csp.yml, .github/workflows/uptime.yml, .github/workflows/votes.yml, habillage/habiller.js, habillage/simulation-contracts.cjs, .github/simulation-contracts.test.cjs]
+    paths: [index.html, history.html, sw.js, stats.json, README.md, .github/check-csp.js, .github/unit-tests.js, .github/html-scripts.js, .github/build-uptime.js, .github/workflows/check-csp.yml, .github/workflows/uptime.yml, .github/workflows/votes.yml, habillage/habiller.js, habillage/simulation-contracts.cjs, .github/simulation-contracts.test.cjs, habillage/shortcuts-accessibility.cjs, .github/shortcuts-accessibility.test.cjs]
 permissions:
   contents: read
 jobs:
@@ -28,3 +28,6 @@ jobs:
 
       - name: Contrats des exemples et simulations FR/EN
         run: node --test .github/simulation-contracts.test.cjs
+
+      - name: Accessibilité du panneau clavier
+        run: node --test .github/shortcuts-accessibility.test.cjs

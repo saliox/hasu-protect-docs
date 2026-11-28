@@ -53,6 +53,36 @@ const ok = (c, l) => { console.log((c ? 'ok - ' : 'NOT OK - ') + l); if (!c) fai
   ok((await page.locator('#ov.open .m-name').count()) === 1, 'la modale de commande s\'ouvre');
   await page.keyboard.press('Escape');
 
+  // Le panneau ? doit rester utilisable au clavier dans les deux langues, y compris
+  // depuis le bouton fixe dont offsetParent vaut null dans un vrai navigateur.
+  for (const lang of ['fr', 'en']) {
+    await page.goto('http://127.0.0.1:8901/index.html?lang=' + lang, { waitUntil: 'load' });
+    await page.focus('#moreBtn');
+    await page.keyboard.press('?');
+    const close = page.locator('.kbbox button');
+    ok(await close.textContent() === (lang === 'en' ? 'Close' : 'Fermer'), lang + ' : bouton Fermer traduit');
+    ok(await close.evaluate(node => node === document.activeElement), lang + ' : focus initial dans le dialogue');
+    await page.keyboard.press('Tab');
+    ok(await close.evaluate(node => node === document.activeElement), lang + ' : Tab reste dans le dialogue');
+    await page.keyboard.press('Shift+Tab');
+    ok(await close.evaluate(node => node === document.activeElement), lang + ' : Shift+Tab reste dans le dialogue');
+    await page.keyboard.press('Escape');
+    ok(await page.evaluate(() => document.activeElement.id === 'moreBtn'), lang + ' : Échap restaure le déclencheur');
+    await page.keyboard.press('?');
+    await page.locator('.kbbox button').click();
+    ok(await page.evaluate(() => document.activeElement.id === 'moreBtn'), lang + ' : Fermer restaure le déclencheur');
+    await page.keyboard.press('?');
+    await page.locator('.kbov').click({ position: { x: 4, y: 4 } });
+    ok(await page.evaluate(() => document.activeElement.id === 'moreBtn'), lang + ' : clic extérieur restaure le déclencheur');
+    await page.evaluate(() => window.scrollTo(0, 1000));
+    await page.waitForTimeout(100);
+    await page.focus('#toTop');
+    ok(await page.evaluate(() => { const node = document.getElementById('toTop'); return getComputedStyle(node).position === 'fixed' && node.offsetParent === null && node.getClientRects().length > 0; }), lang + ' : déclencheur fixe visible sans offsetParent');
+    await page.keyboard.press('?');
+    await page.keyboard.press('Escape');
+    ok(await page.evaluate(() => document.activeElement.id === 'toTop'), lang + ' : focus rendu au bouton fixe');
+  }
+
   await page.click('#moreBtn');
   await page.waitForTimeout(800);
   ok((await page.locator('.hentry').count()) > 10, 'l\'historique se charge à la demande');

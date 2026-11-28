@@ -12,7 +12,7 @@
   ═══════════════════════════════════════════════════════════════════════════════════════════════
 --><meta charset="utf-8"><link rel="preconnect" href="https://rapid-sound-6a32.teamfunnysgames.workers.dev" crossorigin><link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin><link rel="preconnect" href="https://abacus.jasoncameron.dev" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-LXRV4Zck+YA3qVbLhbUhE16V1vGTskWjY7TQsXjYFEU=' 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://rapid-sound-6a32.teamfunnysgames.workers.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-FMRtKZBj4jP1qH/5yE6sSorY5qcVKbQDU0E+8GmwK78=' 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://top.gg; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com https://abacus.jasoncameron.dev https://rapid-sound-6a32.teamfunnysgames.workers.dev; object-src 'none'; worker-src 'self'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
 <meta name="description" content="Bot Discord de modération et sécurité : antiraid, anti-nuke, Guardian AI et 276 commandes — documentation complète et interactive.">
@@ -4061,22 +4061,44 @@ document.querySelectorAll('.quickstart [data-cmd]').forEach(function(ch){ch.addE
 // Réutilise l'overlay/les styles du simulateur. Timers annulés au replay et neutralisés à la fermeture
 // (jeton de run + test de l'overlay), donc aucune fuite si on ferme en plein milieu.
 // ═══ ⌨️ PANNEAU RACCOURCIS (discret : aucune UI permanente — « ? » l'ouvre, Échap/clic ferme).
-(function(){var ov2=null;
- function close(){if(ov2){ov2.remove();ov2=null;}}
- function open(){if(ov2)return;var EN=curLang()==='en';
+/* hp:shortcuts-accessibility:v2 */
+(function(){var ov2=null,back=null,closeButton=null;
+ function focusable(node){
+  if(!node||typeof node.focus!=='function'||node.isConnected===false||node.disabled)return false;
+  try{var style=getComputedStyle(node);
+   if(style.display==='none'||style.visibility==='hidden'||style.visibility==='collapse'||Number(style.opacity)===0)return false;
+   return [].some.call(node.getClientRects(),function(rect){return rect.width>0&&rect.height>0;});
+  }catch(e){return false;}
+ }
+ function close(){if(!ov2)return;var target=back;back=null;ov2.remove();ov2=null;closeButton=null;
+  if(!focusable(target))target=document.getElementById('search');
+  if(focusable(target))try{target.focus({preventScroll:true});}catch(e){}
+ }
+ function open(){if(ov2)return;back=document.activeElement;var EN=curLang()==='en';
   ov2=el('div','kbov');var box=el('div','kbbox');box.setAttribute('role','dialog');box.setAttribute('aria-modal','true');box.setAttribute('aria-label',EN?'Keyboard shortcuts':'Raccourcis clavier');
   box.appendChild(el('div','kbt',EN?'⌨️ Keyboard shortcuts':'⌨️ Raccourcis clavier'));
-  [[('/'),EN?'focus the search':'aller à la recherche'],
+  [['/',EN?'focus the search':'aller à la recherche'],
    ['Ctrl+K',EN?'quick command palette':'palette de commandes rapide'],
-   ['Échap'+(EN?' / Esc':''),EN?'close panels · clear the search':'fermer les panneaux · vider la recherche'],
-   ['Entrée',EN?'open the focused card':'ouvrir la carte sélectionnée'],
-   ['?',EN?'this panel':'ce panneau']].forEach(function(r){
-   var l=el('div','kbrow');l.appendChild(el('kbd',null,r[0]));l.appendChild(el('span',null,r[1]));box.appendChild(l);});
-  ov2.appendChild(box);ov2.addEventListener('click',function(e){if(e.target===ov2)close();});
-  document.body.appendChild(ov2);box.tabIndex=-1;box.focus();}
- document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'){close();return;}
-  if(e.key==='?'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!/^(input|textarea|select)$/i.test((e.target&&e.target.tagName)||'')&&!document.getElementById('ov').classList.contains('open')){e.preventDefault();open();}});})();
+   [EN?'Esc':'Échap',EN?'close panels · clear the search':'fermer les panneaux · vider la recherche'],
+   [EN?'Enter':'Entrée',EN?'open the focused card':'ouvrir la carte sélectionnée'],
+   ['?',EN?'this panel':'ce panneau']].forEach(function(row){
+    var line=el('div','kbrow');line.appendChild(el('kbd',null,row[0]));line.appendChild(el('span',null,row[1]));box.appendChild(line);
+   });
+  closeButton=el('button','langbtn kbclose',EN?'Close':'Fermer');closeButton.type='button';closeButton.addEventListener('click',close);box.appendChild(closeButton);
+  ov2.appendChild(box);ov2.addEventListener('click',function(event){if(event.target===ov2)close();});
+  document.body.appendChild(ov2);closeButton.focus({preventScroll:true});
+ }
+ document.addEventListener('keydown',function(event){
+  if(ov2){
+   event.stopImmediatePropagation();
+   if(event.key==='Escape'){event.preventDefault();close();}
+   else if(event.key==='Tab'){event.preventDefault();closeButton.focus({preventScroll:true});}
+   return;
+  }
+  var sim=document.getElementById('ov');
+  if(event.key==='?'&&!event.ctrlKey&&!event.metaKey&&!event.altKey&&!/^(input|textarea|select)$/i.test((event.target&&event.target.tagName)||'')&&!(sim&&sim.classList.contains('open'))){event.preventDefault();event.stopImmediatePropagation();open();}
+ },true);
+})();
 // Lien profond : #nomcommande ouvre la fiche correspondante.
 // decodeURIComponent lève une URIError sur une séquence % invalide (…/#%, …/#%zz — un lien tronqué par
 // un client de chat suffit). L'exception n'était pas rattrapée : elle remontait telle quelle dans la
