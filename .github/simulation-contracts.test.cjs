@@ -1,0 +1,16 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const H=require('./html-scripts'),{apply}=require('../habillage/simulation-contracts.cjs'),original=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
+function context(html=apply(original),lang='fr'){const script=H.theInlineScript(html),ctx={},names=['exFor','hintFor','splitTop','splitForms','parseParams','botReply'];let code='function curLang(){return '+JSON.stringify(lang)+';}\n'+H.extractVar(script,'FLAG')+'\n';for(const name of names)code+=H.extractFunction(script,name)+'\n';new Function('ctx',code+names.map(n=>'ctx.'+n+'='+n+';').join(''))(ctx);return ctx;}
+for(const lang of ['fr','en']){const c=context(undefined,lang),p=s=>c.parseParams(s),reply=(n,s)=>c.botReply(n,'',s?p(s):[])[2];
+ for(const sep of ['·','•','|'])test(lang+' separate forms '+sep,()=>assert.equal(p('+shop '+sep+' !shop addrole <nom> <prix>').length,0));
+ test(lang+' slash choice and literal URL',()=>{assert.equal(p('+voicexp on/off')[0].ex,'on');assert.equal(p('+safe https://example.com')[0].ex,'https://example.com');});
+ test(lang+' English parameter vocabulary',()=>{assert.equal(c.exFor('duration'),'10m');assert.equal(c.exFor('number'),'5');assert.equal(c.exFor('reason'),lang==='fr'?'spam répété':'repeated spam');assert.equal(c.exFor('full'),'full');assert.equal(c.exFor('days'),'14');});
+ test(lang+' prose is not copied',()=>assert.equal(p('+safe <lien ou texte>  (ou réponds à un message avec +safe)').length,1));
+ test(lang+' quarantine consultation and partial outcome',()=>{assert.match(reply('quarantine'),lang==='fr'?/liste/:/list/);assert.doesNotMatch(reply('quarantine'),/tous ses rôles|all their roles/);assert.match(reply('quarantine','+quarantine @membre [raison]'),lang==='fr'?/partiel/:/partial/);});
+ test(lang+' backup scopes and menu',()=>{assert.match(reply('backup'),/menu/);assert.match(reply('backup','+backup roles create'),lang==='fr'?/sans.*réglages/:/without.*settings/);});
+ test(lang+' voice settings and Aura catalogue',()=>{assert.match(reply('voicexp','+voicexp on'),lang==='fr'?/XP vocal/:/Voice XP/);assert.match(reply('shop'),/Aura/);assert.doesNotMatch(reply('shop'),/Achat confirmé|Purchase confirmed|320 XP/);});
+ test(lang+' diagnostic and find are inspections',()=>{assert.match(reply('diag','+diag [full]'),lang==='fr'?/contrôle/:/check/);assert.match(reply('find','+find @membre'),lang==='fr'?/accès/:/access/);});}
+test('idempotent, no out-of-script changes except the matching CSP hash',()=>{const changed=apply(original);assert.equal(apply(changed),changed);const mask=html=>html.replace(/(<script\b[^>]*>)([\s\S]*?)(<\/script\s*>)/gi,(all,start,body,end)=>H.normalize(body)===H.theInlineScript(html)?start+'SCRIPT'+end:all).replace(/'sha256-[A-Za-z0-9+/=]+'/g,"'HASH'");assert.equal(mask(changed),mask(original));const hash=crypto.createHash('sha256').update(H.theInlineScript(changed)).digest('base64');assert.ok(changed.includes("'sha256-"+hash+"'"));assert.doesNotMatch(changed,/script-src[^;]*(?:unsafe-inline|unsafe-eval)/);});
+
+test('the deployed page already contains the durable repair',()=>assert.equal(apply(original),original));

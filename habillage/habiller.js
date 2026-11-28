@@ -94,5 +94,6 @@ const changelog = h.slice(changelogStart, changelogEnd)
   .replace(/(<summary>)([+-]) (?=<strong>)/g, '$1<code>$2</code> ');
 h = h.slice(0, changelogStart) + changelog + h.slice(changelogEnd);
 
+h = require('./simulation-contracts.cjs').apply(h);
 fs.writeFileSync(out, h);
 console.log((redo ? 'Habillage mis à jour -> ' : 'Habillage appliqué -> ') + out, (h.length / 1024).toFixed(0) + ' Ko');
